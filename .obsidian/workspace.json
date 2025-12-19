@@ -11,10 +11,15 @@
             "id": "2cd0ef5d8b9ce047",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "새 탭"
+              "type": "split-diff-view",
+              "state": {
+                "aFile": ".obsidian/appearance.json",
+                "bFile": ".obsidian/appearance.json",
+                "aRef": "HEAD",
+                "bRef": ""
+              },
+              "icon": "diff",
+              "title": "Diff: appearance.json"
             }
           }
         ]
@@ -191,11 +196,11 @@
   },
   "active": "2cd0ef5d8b9ce047",
   "lastOpenFiles": [
-    "README.md",
-    "TIL.md",
-    "Untitled.base",
-    "무제.base",
     "Welcome.md",
+    "Untitled.base",
+    "TIL.md",
+    "README.md",
+    "무제.base",
     "desktop.ini"
   ]
 }
