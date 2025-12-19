@@ -1,0 +1,201 @@
+{
+  "main": {
+    "id": "de9faa05eba1036e",
+    "type": "split",
+    "children": [
+      {
+        "id": "3527fd93cdfb701a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2cd0ef5d8b9ce047",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "새 탭"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "bc285bf9f1c266b4",
+    "type": "split",
+    "children": [
+      {
+        "id": "0b5ae467102cd5b2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d604f3c0d4d3959b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "파일 탐색기"
+            }
+          },
+          {
+            "id": "3017ed75b60a20a1",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "검색"
+            }
+          },
+          {
+            "id": "f202e716f0ef210f",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "1d69c6d153ea3b19",
+    "type": "split",
+    "children": [
+      {
+        "id": "a7f6407235b3c936",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "25cb8f003b90b0dd",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "TIL.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for TIL"
+            }
+          },
+          {
+            "id": "b57c999823bd4f8b",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "TIL.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from TIL"
+            }
+          },
+          {
+            "id": "42cbc02aae3d07c0",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "cdc845dd20154236",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "0fe4faad625490db",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "개요"
+            }
+          },
+          {
+            "id": "300028cdad878e4c",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ],
+        "currentTab": 5
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:빠른 전환기 열기": false,
+      "graph:그래프 뷰 열기": false,
+      "canvas:새 캔버스 만들기": false,
+      "daily-notes:오늘의 일일 노트 열기": false,
+      "templates:템플릿 삽입": false,
+      "command-palette:명령어 팔레트 열기": false,
+      "bases:새 베이스 생성하기": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "2cd0ef5d8b9ce047",
+  "lastOpenFiles": [
+    "README.md",
+    "TIL.md",
+    "Untitled.base",
+    "무제.base",
+    "Welcome.md",
+    "desktop.ini"
+  ]
+}
