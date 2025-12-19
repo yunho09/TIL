@@ -1,2 +1,2 @@
 # TIL
-TIL 작성하는ddd
+TIL 작성하는 곳
