@@ -13,25 +13,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "언어/JavaScript/기본개념/얕은복사 깊은복사.md",
+                "file": "웹 개념/SPA.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "얕은복사 깊은복사"
+              "title": "SPA"
             }
           },
           {
             "id": "24487ab842726202",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "웹 개념/SPA.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "새 탭"
+              "title": "SPA"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -203,9 +208,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "71708e22620a977a",
+  "active": "24487ab842726202",
   "lastOpenFiles": [
+    "웹 개념/CORS.md",
+    "웹 개념/CSR SSR.md",
+    "웹 개념/SPA.md",
+    "S.md",
     "언어/JavaScript/기본개념/얕은복사 깊은복사.md",
+    "웹 개념",
     "README.md",
     "언어/JavaScript/기본개념/브라우저 렌더링.md",
     "언어/JavaScript/기본개념/동기 비동기.md",
@@ -213,12 +223,10 @@
     "언어/Python",
     "언어/JavaScript/라이브러리/React/기본개념/컴포넌트.md",
     "언어/JavaScript/라이브러리/React/기본개념",
-    "무제.md",
     "언어/JavaScript/ES6/desktop.ini",
     "TIL/2025-12-19.md",
     "언어/JavaScript/ES6",
     "언어/JavaScript/기본개념",
-    "무제",
     "언어/JavaScript/라이브러리/React",
     "언어/JavaScript/라이브러리",
     "언어/TypeScript",
