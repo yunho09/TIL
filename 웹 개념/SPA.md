@@ -27,3 +27,7 @@ SPA(Single Page Application)란 **단일 페이지 모던 웹 애플리케이�
 5. 화면 갱신
    - DOM 일부만 교체되므로 전체 페이지 새로고침 없이 빠른 전환 가능.
    - 사용자는 여러 페이지를 이동하는 것처럼 느끼지만 실제로는 **같은 HTML 문서 안에서 동작**.
+
+## 참고
+---
+https://docs.tosspayments.com/resources/glossary/spa

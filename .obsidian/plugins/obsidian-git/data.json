@@ -1,6 +1,6 @@
 {
-  "commitMessage": "ADD daily Note: {{date}}",
-  "autoCommitMessage": "ADD daily Note: {{date}}",
+  "commitMessage": "{{date}}",
+  "autoCommitMessage": "{{date}}",
   "commitMessageScript": "",
   "commitDateFormat": "YYYY-MM-DD HH:mm:ss",
   "autoSaveInterval": 10,
