@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "언어/JavaScript/기본개념/브라우저 렌더링.md",
+                "file": "언어/JavaScript/기본개념/얕은복사 깊은복사.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "브라우저 렌더링"
+              "title": "얕은복사 깊은복사"
             }
           }
         ],
@@ -210,8 +210,8 @@
   },
   "active": "71708e22620a977a",
   "lastOpenFiles": [
-    "언어/JavaScript/기본개념/동기 비동기.md",
     "언어/JavaScript/기본개념/브라우저 렌더링.md",
+    "언어/JavaScript/기본개념/동기 비동기.md",
     "언어/JavaScript/기본개념/얕은복사 깊은복사.md",
     "언어/JavaScript/기본개념/이벤트 루프.md",
     "언어/Python",
