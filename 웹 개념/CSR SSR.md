@@ -41,3 +41,7 @@
 - **단점**
     - 초기 로딩 속도가 느림 (JS 실행 후 화면 표시)
     - SEO에 불리함 (검색엔진이 JS 실행을 잘 못할 수 있음)
+
+### 참고
+---
+https://velog.io/@jhyun_k/%EC%84%9C%EB%B2%84%EC%82%AC%EC%9D%B4%EB%93%9C%EB%A0%8C%EB%8D%94%EB%A7%81-vs-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-%EC%82%AC%EC%9D%B4%EB%93%9C%EB%A0%8C%EB%8D%94%EB%A7%81-SSR%EA%B3%BC-CSR
