@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "웹 개념/CSR SSR.md",
+                "file": "웹 개념/웹 동작 원리/HTTP.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CSR SSR"
+              "title": "HTTP"
             }
           },
           {
@@ -205,14 +205,19 @@
   },
   "active": "71708e22620a977a",
   "lastOpenFiles": [
+    "웹 개념/렌더링 방식/CSR SSR.md",
+    "웹 개념/웹 동작 원리/HTTP.md",
+    "웹 개념/패키지 관리",
+    "웹 개념/최적화 전략",
+    "웹 개념/렌더링 방식",
+    "웹 개념/웹 동작 원리",
     "언어/JavaScript/기본개념/얕은복사 깊은복사.md",
     "언어/JavaScript/기본개념/동기 비동기.md",
     "언어/JavaScript/기본개념/브라우저 렌더링.md",
     "언어/JavaScript/라이브러리/React/기본개념/컴포넌트.md",
-    "웹 개념/CORS.md",
-    "웹 개념/CSR SSR.md",
-    "웹 개념/SEO.md",
-    "웹 개념/SPA.md",
+    "웹 개념/웹 동작 원리/CORS.md",
+    "웹 개념/최적화 전략/SEO.md",
+    "웹 개념/렌더링 방식/SPA.md",
     "언어/JavaScript/기본개념/이벤트 루프.md",
     "S.md",
     "웹 개념",
@@ -223,10 +228,6 @@
     "TIL/2025-12-19.md",
     "언어/JavaScript/ES6",
     "언어/JavaScript/기본개념",
-    "언어/JavaScript/라이브러리/React",
-    "언어/JavaScript/라이브러리",
-    "언어/TypeScript",
-    "언어/JavaScript",
     "Welcome.md"
   ]
 }
