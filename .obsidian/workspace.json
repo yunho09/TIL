@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "웹 개념/웹 동작 원리/HTTPS.md",
+                "file": "언어/TypeScript/기본개념/Any vs Unknown.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "HTTPS"
+              "title": "Any vs Unknown"
             }
           },
           {
@@ -205,8 +205,11 @@
   },
   "active": "71708e22620a977a",
   "lastOpenFiles": [
-    "웹 개념/웹 동작 원리/HTTP.md",
     "웹 개념/웹 동작 원리/HTTPS.md",
+    "언어/TypeScript/기본개념/Any vs Unknown.md",
+    "언어/TypeScript/기본개념",
+    "언어/TypeScript/무제.canvas",
+    "웹 개념/웹 동작 원리/HTTP.md",
     "웹 개념/웹 동작 원리/CORS.md",
     "웹 개념/렌더링 방식/SPA.md",
     "웹 개념/렌더링 방식/CSR SSR.md",
@@ -228,7 +231,6 @@
     "언어/JavaScript/ES6/desktop.ini",
     "TIL/2025-12-19.md",
     "언어/JavaScript/ES6",
-    "언어/JavaScript/기본개념",
     "Welcome.md"
   ]
 }
