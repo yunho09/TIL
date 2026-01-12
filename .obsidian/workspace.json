@@ -203,8 +203,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "71708e22620a977a",
+  "active": "d604f3c0d4d3959b",
   "lastOpenFiles": [
+    "Architecture 1/Repository Strategy/Tools/Nx.md",
+    "Architecture 1/Repository Strategy/Tools/Turborepo.md",
+    "Architecture 1/Repository Strategy/Tools",
+    "Architecture 1/Repository Strategy/Monorepo.md",
+    "Architecture 1/Repository Strategy",
+    "Architecture 1",
     "Architecture/Repository Strategy/Tools/Nx.md",
     "Architecture/Repository Strategy/Tools/Turborepo.md",
     "Architecture/Repository Strategy/Monorepo.md",
@@ -231,10 +237,7 @@
     "웹 개념/최적화 전략/SEO.md",
     "웹 개념/패키지 관리",
     "웹 개념/최적화 전략",
-    "웹 개념/렌더링 방식",
-    "웹 개념/웹 동작 원리",
     "S.md",
-    "웹 개념",
     "README.md",
     "TIL/2025-12-19.md",
     "Welcome.md"
