@@ -20,16 +20,6 @@
               "icon": "lucide-file",
               "title": "Turborepo"
             }
-          },
-          {
-            "id": "38dbc3f927100893",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "새 탭"
-            }
           }
         ]
       }
@@ -203,7 +193,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "d604f3c0d4d3959b",
+  "active": "300028cdad878e4c",
   "lastOpenFiles": [
     "Architecture 1/Repository Strategy/Tools/Nx.md",
     "Architecture 1/Repository Strategy/Tools/Turborepo.md",
