@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Architecture/Repository Strategy/Monorepo.md",
+                "file": "Architecture/Repository Strategy/Tools/Nx.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Monorepo"
+              "title": "Nx"
             }
           },
           {
@@ -205,8 +205,8 @@
   },
   "active": "71708e22620a977a",
   "lastOpenFiles": [
-    "Architecture/Repository Strategy/Tools/Nx.md",
     "Architecture/Repository Strategy/Monorepo.md",
+    "Architecture/Repository Strategy/Tools/Nx.md",
     "Architecture/Repository Strategy/Tools",
     "언어/JavaScript/라이브러리/React/동작 원리/Virtual DOM.md",
     "Architecture/Repository Strategy",
