@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Architecture/Repository Strategy/Tools/Turborepo.md",
+                "file": "웹 개념/렌더링 방식/CSR SSR.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Turborepo"
+              "title": "CSR SSR"
             }
           }
         ]
@@ -195,9 +195,10 @@
   },
   "active": "71708e22620a977a",
   "lastOpenFiles": [
+    "웹 개념/최적화 전략/SEO.md",
+    "Architecture/Repository Strategy/Tools/Turborepo.md",
     "Architecture/Repository Strategy/Tools/Nx.md",
     "언어/TypeScript/기본개념/Any vs Unknown.md",
-    "Architecture/Repository Strategy/Tools/Turborepo.md",
     "Architecture/Repository Strategy/Tools",
     "Architecture/Repository Strategy/Monorepo.md",
     "Architecture/Repository Strategy",
@@ -225,7 +226,6 @@
     "언어/JavaScript/기본개념/얕은복사 깊은복사.md",
     "언어/JavaScript/기본개념/동기 비동기.md",
     "언어/JavaScript/기본개념/브라우저 렌더링.md",
-    "웹 개념/최적화 전략/SEO.md",
     "웹 개념/패키지 관리",
     "S.md",
     "README.md",
