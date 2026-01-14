@@ -20,21 +20,8 @@
               "icon": "lucide-file",
               "title": "CSR SSR"
             }
-          },
-          {
-            "id": "b87011afbe7b5acb",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.11.4"
-              },
-              "icon": "lucide-book-up",
-              "title": "릴리즈 노트 1.11.4"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -206,7 +193,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b87011afbe7b5acb",
+  "active": "71708e22620a977a",
   "lastOpenFiles": [
     "웹 개념/최적화 전략/SEO.md",
     "Architecture/Repository Strategy/Tools/Turborepo.md",
