@@ -197,6 +197,7 @@
   "lastOpenFiles": [
     "웹 개념/렌더링 방식/CSR SSR.md",
     "웹 개념/렌더링 방식/ISR.md",
+    "웹 개념/렌더링 방식/SPA.md",
     "웹 개념/최적화 전략/SEO.md",
     "Architecture/Repository Strategy/Tools/Turborepo.md",
     "Architecture/Repository Strategy/Tools/Nx.md",
@@ -222,7 +223,6 @@
     "언어/TypeScript/무제.canvas",
     "웹 개념/웹 동작 원리/HTTP.md",
     "웹 개념/웹 동작 원리/CORS.md",
-    "웹 개념/렌더링 방식/SPA.md",
     "언어/JavaScript/기본개념/이벤트 루프.md",
     "언어/JavaScript/기본개념/얕은복사 깊은복사.md",
     "언어/JavaScript/기본개념/동기 비동기.md",
