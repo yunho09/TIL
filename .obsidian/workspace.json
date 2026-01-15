@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "웹 개념/렌더링 방식/ISR.md",
+                "file": "웹 개념/최적화 전략/SEO.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ISR"
+              "title": "SEO"
             }
           }
         ]
@@ -195,8 +195,8 @@
   },
   "active": "71708e22620a977a",
   "lastOpenFiles": [
-    "웹 개념/렌더링 방식/CSR SSR.md",
     "웹 개념/렌더링 방식/ISR.md",
+    "웹 개념/렌더링 방식/CSR SSR.md",
     "웹 개념/렌더링 방식/SPA.md",
     "웹 개념/최적화 전략/SEO.md",
     "Architecture/Repository Strategy/Tools/Turborepo.md",
