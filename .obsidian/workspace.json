@@ -208,10 +208,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "d604f3c0d4d3959b",
+  "active": "b0ee666e78b7fdf3",
   "lastOpenFiles": [
-    "웹 개념/렌더링 방식/SSG.md",
+    "Architecture/Repository Strategy/Monorepo.md",
     "Network/Basics/서브넷 마스크.md",
+    "웹 개념/렌더링 방식/SSG.md",
     "Network/Basics",
     "Network",
     "웹 개념/렌더링 방식/ISR.md",
@@ -223,7 +224,6 @@
     "Architecture/Repository Strategy/Tools/Nx.md",
     "언어/TypeScript/기본개념/Any vs Unknown.md",
     "Architecture/Repository Strategy/Tools",
-    "Architecture/Repository Strategy/Monorepo.md",
     "Architecture/Repository Strategy",
     "Architecture",
     "et --hard HEAD@{1}",
