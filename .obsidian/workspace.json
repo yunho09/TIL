@@ -34,9 +34,21 @@
               "icon": "lucide-file",
               "title": "서브넷 마스크"
             }
+          },
+          {
+            "id": "f3dd7fb3dbeddc6e",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.11.7"
+              },
+              "icon": "lucide-book-up",
+              "title": "릴리즈 노트 1.11.7"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -208,7 +220,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b0ee666e78b7fdf3",
+  "active": "f3dd7fb3dbeddc6e",
   "lastOpenFiles": [
     "Tools/무제U.md",
     "Network/Basics/서브넷 마스크.md",
