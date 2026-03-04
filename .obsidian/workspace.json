@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "언어/JavaScript/기본개념/이벤트 루프.md",
+                "file": "언어/JavaScript/실행원리/this.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "이벤트 루프"
+              "title": "this"
             }
           }
         ],
@@ -224,19 +224,22 @@
   },
   "active": "5fb97be770aaf925",
   "lastOpenFiles": [
-    "언어/JavaScript/기본개념/얕은복사 깊은복사.md",
+    "언어/JavaScript/실행원리/동기 비동기.md",
+    "언어/JavaScript/실행원리/이벤트 루프.md",
     "언어/JavaScript/기본개념/브라우저 렌더링.md",
-    "언어/JavaScript/기본개념/동기 비동기.md",
+    "언어/JavaScript/실행원리/this.md",
+    "언어/JavaScript/기본개념/얕은복사 깊은복사.md",
+    "언어/JavaScript/실행원리",
+    "언어/JavaScript/문법",
+    "무제",
     "웹 개념/웹 동작 원리/HTTPS.md",
     "웹 개념/웹 동작 원리/HTTP.md",
     "언어/JavaScript/라이브러리/React/기본개념/컴포넌트.md",
     "언어/JavaScript/라이브러리/React/동작 원리/Virtual DOM.md",
-    "언어/JavaScript/기본개념/이벤트 루프.md",
     "Tools/UI-Development/Storybook.md",
     "언어/TypeScript/기본개념/Any vs Unknown.md",
     "Tools/UI-Development",
     "Network/Basics/서브넷 마스크.md",
-    "무제",
     "Tools/무제U.md",
     "Tools",
     "Architecture/Repository Strategy/Monorepo.md",
@@ -253,13 +256,10 @@
     "Architecture/Repository Strategy/Tools",
     "Architecture/Repository Strategy",
     "Architecture",
-    "et --hard HEAD@{1}",
     "Architecture 1/Repository Strategy/Tools/Nx.md",
     "Architecture 1/Repository Strategy/Tools/Turborepo.md",
-    "Architecture 1/Repository Strategy/Tools",
     "Architecture 1/Repository Strategy/Monorepo.md",
     "Architecture/무제.md",
-    "웹 개념/웹 동작 원리/쿠키 vs 세션 vs 로컬스토리지.md",
     "언어/TypeScript/무제.canvas"
   ]
 }
