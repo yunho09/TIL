@@ -57,4 +57,20 @@ const user1 = new User("jun");
 
 console.log(user1.name);
 ```
-- this는 
+- this는 새로 생성된 객체를 가리킨다.
+
+## 5. 화살표 함수
+```js
+const obj = {
+  name: "kim",
+  say: () => {
+    console.log(this.name);
+  }
+};
+
+obj.say();
+
+// 결과 undefined
+```
+- 화살표 함수는 자체적인 this를 가지지 않는다.
+- 대신 외부 스코프의 this를 그대로 사용한다.
