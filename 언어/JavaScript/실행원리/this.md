@@ -13,6 +13,7 @@ show();
 ```
 - 브라우저 환경 -> window
 - strict mode -> undefined
+
 ## 2. 암시적 바인딩
 ```javascript
 const user = {
@@ -26,4 +27,34 @@ user.say();
 ```
 - `.`앞의 객체가 this가 된다.
 - 여기서는 user
+
 ## 3. 명시적 바인딩
+```javascript
+function greet() {
+  console.log(this.name);
+}
+
+const person = { name: "kim" };
+
+greet.call(person);
+```
+- 명시적 바인딩은 개발자가 직접 this를 지정하는 것이다.
+- `call` ,`apply`, `bind`로 설정할 수 있다
+### call
+- `call`은 **this를 지정하고 함수를 즉시 실행**한다.
+### apply
+- `apply`는 **call과 동일하지만 인자를 배열로 전달**한다.
+### bind
+- `bind`는 **this가 바인딩된 새로운 함수를 반환한다.**
+
+## 4. new 바인딩
+```javascript
+function User(name) {
+  this.name = name;
+}
+
+const user1 = new User("jun");
+
+console.log(user1.name);
+```
+- this는 
