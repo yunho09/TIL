@@ -222,8 +222,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "5fb97be770aaf925",
+  "active": "d604f3c0d4d3959b",
   "lastOpenFiles": [
+    "언어/Java",
     "언어/JavaScript/실행원리/this.md",
     "언어/JavaScript/실행원리/클로저.md",
     "언어/JavaScript/실행원리/동기 비동기.md",
@@ -259,7 +260,6 @@
     "Architecture",
     "Architecture 1/Repository Strategy/Tools/Nx.md",
     "Architecture 1/Repository Strategy/Tools/Turborepo.md",
-    "Architecture 1/Repository Strategy/Monorepo.md",
     "언어/TypeScript/무제.canvas"
   ]
 }
