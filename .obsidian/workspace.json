@@ -224,6 +224,7 @@
   },
   "active": "d604f3c0d4d3959b",
   "lastOpenFiles": [
+    "언어/Java/기본",
     "언어/Java/객체지향/심화",
     "언어/Java/객체지향/기본",
     "언어/Java/객체지향/기본/생성자.md",
@@ -255,7 +256,6 @@
     "Architecture/Repository Strategy/Monorepo.md",
     "웹 개념/렌더링 방식/SSG.md",
     "Network/Basics",
-    "Network",
     "웹 개념/렌더링 방식/ISR.md",
     "웹 개념/렌더링 방식/SPA.md",
     "웹 개념/웹 동작 원리/CORS.md",
