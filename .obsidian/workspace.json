@@ -48,9 +48,21 @@
               "icon": "lucide-file",
               "title": "추상 클래스"
             }
+          },
+          {
+            "id": "1c42e1f3b7318f05",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.12.7"
+              },
+              "icon": "lucide-book-up",
+              "title": "릴리즈 노트 1.12.7"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -222,7 +234,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "5fb97be770aaf925",
+  "active": "1c42e1f3b7318f05",
   "lastOpenFiles": [
     "언어/Java/객체지향/심화/상속.md",
     "언어/Java/객체지향/심화/추상 클래스.md",
