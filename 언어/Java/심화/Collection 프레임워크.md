@@ -28,3 +28,13 @@ Set<String> set = new HashSet<>();
 Map<String, Integer> map = new HashMap<>();
 ```
 
+### 주요 메서드
+
+- add() : 데이터 추가
+- remove() : 데이터 삭제
+- get() : 데이터 조회 (List)
+- put() : 데이터 추가 (Map)
+
+---
+예외
+map은 collection이 아님
