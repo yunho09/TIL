@@ -13,6 +13,13 @@
 | Map   | key-value 구조 | HashMap               |
 | Stack | LIFO (후입선출)  | Stack, Deque          |
 | Queue | FIFO (선입선출)  | Queue, Deque          |
+## 인터페이스
+
+| 인터페이스 | 설명            |
+| ----- | ------------- |
+| List  | 순서 있는 데이터     |
+| Set   | 중복 없는 데이터     |
+| Map   | key-value 데이터 |
 ## 예제
 
 ```java
