@@ -2,7 +2,7 @@
 
 ## 정의
 
-- 날짜(Date)와 시간(Time)을 생성, 변환, 계산하기 위한 자바 표준 라이브러리
+- 날짜(Date)와 시간(Time)을 생성, 변환, 계산하기 위한 자바 표준 라이브러리에 포함된 패키지
 
 ## 날짜 / 시간 객체
 
@@ -31,3 +31,8 @@ date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 date.plusDays(1);
 date.minusMonths(1);
 ```
+
+---
+# 쓰는이유
+
+날짜랑 시간 쉽게 다루기 위해
