@@ -23,3 +23,11 @@ date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 ```
 
 ## 계산
+
+- 날짜 더하기 / 빼기
+- 날짜 차이 계산
+
+```java
+date.plusDays(1);
+date.minusMonths(1);
+```
