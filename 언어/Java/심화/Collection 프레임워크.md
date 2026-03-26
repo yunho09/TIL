@@ -13,5 +13,10 @@
 | Map   | key-value 구조 | HashMap               |
 | Stack | LIFO (후입선출)  | Stack, Deque          |
 | Queue | FIFO (선입선출)  | Queue, Deque          |
- 
+## 예제
 
+```java
+List<String> list = new ArrayList<>();
+Set<String> set = new HashSet<>();
+Map<String, Integer> map = new HashMap<>();
+```
