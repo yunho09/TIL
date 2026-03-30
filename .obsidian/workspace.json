@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "언어/Java/제네릭스.md",
+                "file": "언어/Java/람다.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "제네릭스"
+              "title": "람다"
             }
           },
           {
@@ -224,8 +224,9 @@
   },
   "active": "b0ee666e78b7fdf3",
   "lastOpenFiles": [
-    "언어/Java/심화/Collection 프레임워크.md",
     "언어/Java/제네릭스.md",
+    "언어/Java/람다.md",
+    "언어/Java/심화/Collection 프레임워크.md",
     "언어/Java/기본/DateTime.md",
     "언어/Java/심화",
     "웹 개념/렌더링 방식/SSG.md",
@@ -259,7 +260,6 @@
     "Tools/UI-Development/Storybook.md",
     "Tools/UI-Development",
     "Network/Basics/서브넷 마스크.md",
-    "Tools/무제U.md",
     "언어/TypeScript/무제.canvas"
   ]
 }
