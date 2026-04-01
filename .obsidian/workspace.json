@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "웹 개념/렌더링 방식/SPA.md",
+                "file": "언어/Java/람다.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SPA"
+              "title": "람다"
             }
           },
           {
@@ -224,9 +224,9 @@
   },
   "active": "b0ee666e78b7fdf3",
   "lastOpenFiles": [
+    "웹 개념/렌더링 방식/SPA.md",
     "웹 개념/렌더링 방식/SSG.md",
     "웹 개념/최적화 전략/SEO.md",
-    "웹 개념/렌더링 방식/SPA.md",
     "웹 개념/렌더링 방식/ISR.md",
     "웹 개념/렌더링 방식/CSR SSR.md",
     "웹 개념/웹 동작 원리/HTTP.md",
