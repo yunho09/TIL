@@ -176,7 +176,7 @@
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -194,7 +194,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "838cd4ac39e3bb01",
+  "active": "5345d25e34f91cfb",
   "lastOpenFiles": [
     "언어/Java/프레임워크",
     "무제.canvas",
