@@ -176,7 +176,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -194,7 +194,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "838cd4ac39e3bb01",
+  "active": "e23be8a3cefaa6b8",
   "lastOpenFiles": [
     "AI/Harness Engineering.md",
     "AI/Context Engineering.md",
