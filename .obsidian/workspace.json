@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AI/Harness Engineering.md",
+                "file": "웹 개념/렌더링 방식/SPA.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Harness Engineering"
+              "title": "SPA"
             }
           }
         ]
@@ -196,8 +196,8 @@
   },
   "active": "e829c2cfc409c73b",
   "lastOpenFiles": [
-    "AI/ohmyopencode.md",
     "AI/Harness Engineering.md",
+    "AI/ohmyopencode.md",
     "AI/Context Engineering.md",
     "언어/Java/프레임워크",
     "무제.canvas",
