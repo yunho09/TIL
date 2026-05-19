@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Architecture/Principles/SOLID 원칙.md",
+                "file": "AI/speckit.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SOLID 원칙"
+              "title": "speckit"
             }
           }
         ]
@@ -196,8 +196,9 @@
   },
   "active": "e829c2cfc409c73b",
   "lastOpenFiles": [
-    "언어/Java/기본/접근 제어자.md",
     "Architecture/Principles/SOLID 원칙.md",
+    "AI/speckit.md",
+    "언어/Java/기본/접근 제어자.md",
     "언어/Java/객체지향/심화/인터페이스.md",
     "Architecture/Repository Strategy/Monorepo.md",
     "AI/Harness Engineering.md",
