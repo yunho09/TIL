@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AI/speckit.md",
+                "file": "AI/Context Engineering.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "speckit"
+              "title": "Context Engineering"
             }
           }
         ]
@@ -194,8 +194,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e829c2cfc409c73b",
+  "active": "838cd4ac39e3bb01",
   "lastOpenFiles": [
+    "AI/speckit.md",
     "언어/Java/객체지향/심화/추상 클래스.md",
     "언어/Java/객체지향/심화/상속.md",
     "언어/Java/객체지향/심화/인터페이스.md",
@@ -203,7 +204,6 @@
     "언어/Java/객체지향/기본/인스턴스.md",
     "언어/Java/객체지향/기본/생성자.md",
     "언어/Java/객체지향/기본/메소드.md",
-    "AI/speckit.md",
     "Architecture/Principles/SOLID 원칙.md",
     "언어/Java/기본/접근 제어자.md",
     "Architecture/Repository Strategy/Monorepo.md",
