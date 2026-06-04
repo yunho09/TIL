@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "웹 개념/렌더링 방식/SPA.md",
+                "file": "DevOps/WSL.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SPA"
+              "title": "WSL"
             }
           }
         ]
@@ -196,8 +196,12 @@
   },
   "active": "b5597cd1f2406660",
   "lastOpenFiles": [
-    "웹 개념/렌더링 방식/SSG.md",
     "웹 개념/렌더링 방식/SPA.md",
+    "DevOps/WSL.md",
+    "무제.canvas",
+    "무제.md",
+    "DevOps",
+    "웹 개념/렌더링 방식/SSG.md",
     "웹 개념/렌더링 방식/CSR SSR.md",
     "웹 개념/렌더링 방식/ISR.md",
     "AI/speckit.md",
@@ -217,9 +221,7 @@
     "AI/Context Engineering.md",
     "AI/ohmyopencode.md",
     "언어/Java/프레임워크",
-    "무제.canvas",
     "README.md",
-    "무제.md",
     "AI"
   ]
 }
