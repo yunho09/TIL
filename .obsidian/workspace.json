@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DevOps/Linux/Linux.md",
+                "file": "DevOps/02_Linux/터미널과 쉘.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Linux"
+              "title": "터미널과 쉘"
             }
           }
         ]
@@ -194,17 +194,18 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b5597cd1f2406660",
+  "active": "838cd4ac39e3bb01",
   "lastOpenFiles": [
+    "DevOps/02_Linux/Linux.md",
+    "DevOps/02_Linux/터미널과 쉘.md",
     "DevOps/개발환경과_가상화/VM.md",
-    "DevOps/Linux/Linux.md",
-    "DevOps/개요/프론트, 백엔드, 서버.md",
-    "DevOps/Linux",
-    "DevOps/개요/로컬 환경과 서버 환경.md",
+    "DevOps/01_개요/프론트, 백엔드, 서버.md",
+    "DevOps/02_Linux",
+    "DevOps/01_개요/로컬 환경과 서버 환경.md",
     "DevOps/개요/프론트, 백엔드, 서버 관계",
-    "DevOps/개요/배포.md",
-    "DevOps/개요/DevOps.md",
-    "DevOps/개요",
+    "DevOps/01_개요/배포.md",
+    "DevOps/01_개요/DevOps.md",
+    "DevOps/01_개요",
     "DevOps/개발환경과_가상화",
     "DevOps/개발환경과_가상화/WSL.md",
     "웹 개념/렌더링 방식/SPA.md",
@@ -228,7 +229,6 @@
     "AI/Harness Engineering.md",
     "Architecture/Principles",
     "Architecture/무제.md",
-    "AI/Context Engineering.md",
     "언어/Java/프레임워크",
     "AI"
   ]
