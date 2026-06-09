@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DevOps/개발환경과_가상화/VM.md",
+                "file": "DevOps/DevOps.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "VM"
+              "title": "DevOps"
             }
           }
         ]
@@ -194,11 +194,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "838cd4ac39e3bb01",
+  "active": "b5597cd1f2406660",
   "lastOpenFiles": [
+    "DevOps/개발환경과_가상화/VM.md",
+    "DevOps/DevOps.md",
     "DevOps/개발환경과_가상화",
     "DevOps/개발환경과_가상화/WSL.md",
-    "DevOps/개발환경과_가상화/VM.md",
     "웹 개념/렌더링 방식/SPA.md",
     "무제.canvas",
     "무제.md",
