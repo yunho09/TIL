@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Network/Basics/SSH.md",
+                "file": "DevOps/기초/배포.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SSH"
+              "title": "배포"
             }
           }
         ]
@@ -196,18 +196,18 @@
   },
   "active": "b5597cd1f2406660",
   "lastOpenFiles": [
+    "DevOps/기초/로컬 환경과 서버 환경.md",
+    "DevOps/기초/배포.md",
+    "DevOps/기초/프론트, 백엔드, 서버.md",
+    "DevOps/기초/DevOps.md",
+    "DevOps/Linux/기본 명령어.md",
+    "DevOps/Linux/터미널과 쉘.md",
+    "Network/Basics/DNS.md",
+    "Network/Basics/IP.md",
+    "Network/Basics/서브넷 마스크.md",
     "Network/Basics/Port.md",
     "Network/Basics/SSH.md",
-    "Network/Basics/IP.md",
-    "Network/Basics/DNS.md",
-    "Network/Basics/서브넷 마스크.md",
     "DevOps/Linux/Linux.md",
-    "DevOps/Linux/터미널과 쉘.md",
-    "DevOps/Linux/기본 명령어.md",
-    "DevOps/기초/DevOps.md",
-    "DevOps/기초/프론트, 백엔드, 서버.md",
-    "DevOps/기초/배포.md",
-    "DevOps/기초/로컬 환경과 서버 환경.md",
     "DevOps/개발환경과_가상화/WSL.md",
     "DevOps/개발환경과_가상화/VM.md",
     "웹 개념/웹 동작 원리/HTTP.md",
