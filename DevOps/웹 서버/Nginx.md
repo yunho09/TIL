@@ -177,35 +177,9 @@ sudo tail -f /var/log/nginx/error.log
 
 권한 문제로 Nginx가 파일을 읽을 수 없을 때 발생한다.
 
-파일 권한은 다음 명령어로 확인할 수 있다.
-
-```bash
-ls -al /var/www/nginx-demo
-```
-
 ### 502 Bad Gateway
 
 Nginx가 뒤에 있는 서버로 요청을 전달하려고 했지만, 해당 서버에 연결하지 못했을 때 발생한다.
 
 예를 들어 백엔드 서버가 꺼져 있는데 Nginx가 그 서버로 요청을 넘기려고 하면 502가 발생할 수 있다.
 
----
-
-## 8. Reverse Proxy와의 관계
-
-Nginx는 정적 파일을 보여주는 웹 서버 역할도 하고, Reverse Proxy 역할도 할 수 있다.
-
-Reverse Proxy에 대한 자세한 내용은 별도 문서에서 정리한다.
-
----
-
-## 9. 핵심 정리
-
-Nginx는 사용자의 요청을 가장 먼저 받는 웹 서버이다.
-
-정적 파일 요청은 Nginx가 직접 응답할 수 있고, 설정에 따라 다른 서버로 요청을 전달할 수도 있다.
-
-```txt
-/      → 정적 파일 응답
-/api   → Reverse Proxy 문서에서 정리
-```
