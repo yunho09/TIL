@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Network/Basics/Reverse Proxy.md",
+                "file": "DevOps/웹 서버/Nginx.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Reverse Proxy"
+              "title": "Nginx"
             }
           }
         ]
@@ -196,8 +196,8 @@
   },
   "active": "8b8b6fcbc133c605",
   "lastOpenFiles": [
-    "DevOps/웹 서버/Nginx.md",
     "Network/Basics/Reverse Proxy.md",
+    "DevOps/웹 서버/Nginx.md",
     "DevOps/웹서버.md",
     "DevOps/웹 서버",
     "무제.canvas",

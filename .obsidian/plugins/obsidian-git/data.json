@@ -21,7 +21,7 @@
   "customMessageOnAutoBackup": false,
   "autoBackupAfterFileChange": false,
   "treeStructure": false,
-  "refreshSourceControl": true,
+  "refreshSourceControl": false,
   "basePath": "https://github.com/yunho09/TIL.git",
   "differentIntervalCommitAndPush": false,
   "changedFilesInStatusBar": false,
