@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "c3712e959cca3813",
+        "id": "632909cf6dd185f9",
         "type": "tabs",
         "children": [
           {
-            "id": "8b8b6fcbc133c605",
+            "id": "b5597cd1f2406660",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DevOps/웹 서버/Nginx.md",
+                "file": "Network/Basics/터널링.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Nginx"
+              "title": "터널링"
             }
           }
         ]
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "AI/Harness Engineering.md",
-                "linksCollapsed": false,
+                "file": "Network/Basics/터널링.md",
+                "linksCollapsed": true,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Harness Engineering 의 나가는 링크"
+              "title": "터널링 의 나가는 링크"
             }
           },
           {
@@ -156,17 +156,17 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "AI/Harness Engineering.md",
-                "followCursor": true,
-                "showSearch": false,
+                "file": "Network/Basics/터널링.md",
+                "followCursor": false,
+                "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Harness Engineering 의 개요"
+              "title": "터널링 의 개요"
             }
           },
           {
-            "id": "e23be8a3cefaa6b8",
+            "id": "c9aede963315c7b5",
             "type": "leaf",
             "state": {
               "type": "git-view",
@@ -194,17 +194,19 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8b8b6fcbc133c605",
+  "active": "b5597cd1f2406660",
   "lastOpenFiles": [
-    "Network/Basics/Reverse Proxy.md",
-    "DevOps/웹 서버/Nginx.md",
-    "DevOps/웹서버.md",
-    "DevOps/웹 서버",
+    "무제 1.base",
     "무제.canvas",
+    "Network/Basics/터널링.md",
     "Network/Basics/SSH.md",
+    "무제.base",
+    "Network/Basics/Reverse Proxy.md",
     "Network/Basics/Port.md",
     "Network/Basics/IP.md",
     "Network/Basics/DNS.md",
+    "DevOps/웹 서버/Nginx.md",
+    "DevOps/웹 서버",
     "DevOps/Linux/Linux.md",
     "DevOps/Linux/터미널과 쉘.md",
     "DevOps/Linux/기본 명령어.md",
@@ -228,9 +230,7 @@
     "웹 개념/렌더링 방식/ISR.md",
     "AI/speckit.md",
     "언어/Java/객체지향/심화/추상 클래스.md",
-    "언어/Java/객체지향/심화/상속.md",
     "Architecture/Principles",
-    "언어/Java/프레임워크",
-    "AI"
+    "언어/Java/프레임워크"
   ]
 }
