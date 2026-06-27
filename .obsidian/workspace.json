@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Network/Basics/IP.md",
+                "file": "Network/Basics/포트포워딩.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "IP"
+              "title": "포트포워딩"
             }
           }
         ]
@@ -196,17 +196,17 @@
   },
   "active": "b5597cd1f2406660",
   "lastOpenFiles": [
+    "Network/Basics/터널링.md",
     "Network/Basics/포트포워딩.md",
+    "Network/Basics/DNS.md",
     "Network/Basics/인바운드 아웃바운드 트래픽.md",
+    "Network/Basics/IP.md",
     "무제.base",
     "무제 1.base",
-    "Network/Basics/터널링.md",
     "무제.canvas",
     "Network/Basics/SSH.md",
     "Network/Basics/Reverse Proxy.md",
     "Network/Basics/Port.md",
-    "Network/Basics/IP.md",
-    "Network/Basics/DNS.md",
     "DevOps/웹 서버/Nginx.md",
     "DevOps/웹 서버",
     "DevOps/Linux/Linux.md",
