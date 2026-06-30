@@ -194,8 +194,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b5597cd1f2406660",
+  "active": "838cd4ac39e3bb01",
   "lastOpenFiles": [
+    "DevOps/Docker",
     "Network/Basics/터널링.md",
     "Network/Basics/포트포워딩.md",
     "Network/Basics/DNS.md",
@@ -230,7 +231,6 @@
     "웹 개념/렌더링 방식/SSG.md",
     "웹 개념/렌더링 방식/CSR SSR.md",
     "웹 개념/렌더링 방식/ISR.md",
-    "AI/speckit.md",
     "Architecture/Principles",
     "언어/Java/프레임워크"
   ]
