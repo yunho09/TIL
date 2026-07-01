@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DevOps/웹 서버/Nginx.md",
+                "file": "DevOps/Docker/Docker.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Nginx"
+              "title": "Docker"
             }
           }
         ]
@@ -196,13 +196,13 @@
   },
   "active": "8b8b6fcbc133c605",
   "lastOpenFiles": [
+    "DevOps/웹 서버/Nginx.md",
     "Network/Basics/포트포워딩.md",
     "Network/Basics/터널링.md",
     "Network/Basics/인바운드 아웃바운드 트래픽.md",
     "DevOps/Docker/Docker.md",
     "DevOps/Docker",
     "Network/Basics/Reverse Proxy.md",
-    "DevOps/웹 서버/Nginx.md",
     "DevOps/웹서버.md",
     "DevOps/웹 서버",
     "무제.canvas",
