@@ -102,3 +102,29 @@ my-app 이미지
 └─ container 3
 ```
 
+## 기본 동작 흐름
+
+Docker 기본 흐름
+
+```
+Dockerfile 작성
+→ Image 생성
+→ Container 실행
+```
+
+명령어
+
+```
+docker build -t my-app .
+docker run -p 3000:3000 my-app
+```
+
+의미는 다음과 같다.
+
+```
+docker build -t my-app .
+→ 현재 폴더의 Dockerfile을 이용해서 my-app이라는 이미지를 만든다.
+
+docker run -p 3000:3000 my-app
+→ my-app 이미지를 컨테이너로 실행한다.
+```
