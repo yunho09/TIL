@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "특강/인프랩 이동욱 CTO님 특강.md",
+                "file": "언어/Java/JVM-JDK-JRE.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "인프랩 이동욱 CTO님 특강"
+              "title": "JVM-JDK-JRE"
             }
           }
         ]
@@ -41,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "파일 탐색기"
@@ -196,9 +198,16 @@
   },
   "active": "91d53f014769336f",
   "lastOpenFiles": [
+    "Pasted image 20260825230535.png",
+    "언어/Java/제네릭스.md",
+    "언어/Java/JVM-JDK-JRE.md",
+    "언어/Java/Gradle",
+    "무제",
+    "언어/Java/스트림.md",
+    "언어/Java/람다.md",
+    "특강/인프랩 이동욱 CTO님 특강.md",
     "특강",
     "DevOps/Docker/Docker Compose.md",
-    "특강/인프랩 이동욱 CTO님 특강.md",
     "DevOps/Docker/Docker.md",
     "AI/Harness Engineering.md",
     "언어/Python",
@@ -222,16 +231,9 @@
     "DevOps/Linux/기본 명령어.md",
     "DevOps/기초/DevOps.md",
     "DevOps/기초/배포.md",
-    "DevOps/기초/로컬 환경과 서버 환경.md",
-    "DevOps/개발환경과_가상화/WSL.md",
-    "DevOps/개발환경과_가상화/VM.md",
-    "DevOps/기초/프론트, 백엔드, 서버.md",
     "DevOps/Linux",
     "DevOps/개요/프론트, 백엔드, 서버 관계",
     "DevOps/기초",
-    "DevOps/개발환경과_가상화",
-    "DevOps",
-    "Architecture/Principles",
-    "언어/Java/프레임워크"
+    "DevOps/개발환경과_가상화"
   ]
 }
