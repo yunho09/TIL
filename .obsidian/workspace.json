@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "언어/Java/JVM-JDK-JRE.md",
+                "file": "언어/Java/Gradle.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "JVM-JDK-JRE"
+              "title": "Gradle"
             }
           }
         ]
@@ -198,9 +198,10 @@
   },
   "active": "91d53f014769336f",
   "lastOpenFiles": [
+    "언어/Java/JVM-JDK-JRE.md",
+    "언어/Java/Gradle.md",
     "Pasted image 20260825230535.png",
     "언어/Java/제네릭스.md",
-    "언어/Java/JVM-JDK-JRE.md",
     "언어/Java/Gradle",
     "무제",
     "언어/Java/스트림.md",

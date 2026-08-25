@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd \\\"/home/yunho/문서/TIL\\\" && echo \\\"--- https\\\"; time (timeout 25 git ls-remote https://github.com/yunho09/TIL.git refs/heads/main 2>&1); echo \\\"--- ssh443\\\"; time (timeout 25 git ls-remot...",
+  "error": "Exit code 124\n--- https\n0fcabf3c648352958690dc956f3cb380bf28c87f\trefs/heads/main\n( timeout 25 git ls-remote https://github.com/yunho09/TIL.git refs/heads/main)  0.03s user 0.01s system 6% cpu 0.604 total\n--- ssh443\n( timeout 25 git ls-remote origin refs/heads/main 2>&1; )  0.01s user 0.01s system 0% cpu 25.027 total",
+  "timestamp": "2026-08-25T15:01:06.304Z",
+  "retry_count": 1
+}
