@@ -4,7 +4,7 @@ tags:
   - crud
   - controller
   - service
-updated: 2026-09-02
+updated: 2026-09-04
 ---
 
 # 스프링 CRUD 계층구조
@@ -92,6 +92,22 @@ public class PostService {
 
 > [!question]- Q3. 서비스의 update와 엔티티의 update는 뭐가 다른가?
 > 서비스의 update = 수정 업무 전체(찾기→바꾸기→저장). 엔티티의 update = 그중 "값 바꾸기" 한 단계. 서비스가 엔티티의 것을 호출한다.
+
+## 테스트 방법 — GET은 브라우저, 나머지는 Postman/curl
+
+GET은 주소창에 치면 끝(`localhost:8080/posts`). 본문이 필요한 POST/PUT/DELETE는 도구가 필요하다.
+
+- **Postman** — Body 탭 → `raw` → 오른쪽 드롭다운을 반드시 **JSON**으로. `Text`로 두면 `@RequestBody` 매핑이 안 되거나 415 에러가 난다.
+- **curl**:
+```bash
+curl -X POST http://localhost:8080/posts -H "Content-Type: application/json" \
+  -d '{"title":"제목","content":"내용"}'
+curl -X PUT http://localhost:8080/posts/1 -H "Content-Type: application/json" \
+  -d '{"title":"수정","content":"바뀐 내용"}'
+curl -X DELETE http://localhost:8080/posts/1
+```
+
+요청을 보낼 때마다 콘솔의 `show-sql`([[MySQL-연동]]) 출력으로 "내 요청 → 어떤 SQL"이 찍히는 걸 같이 보면 학습 효과가 크다.
 
 ## 다음에 볼 것
 
