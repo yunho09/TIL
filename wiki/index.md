@@ -17,6 +17,14 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[JPA-엔티티와-리포지토리]] — @Entity 규칙(빈 생성자, Long id, setter 대신 update()), JpaRepository가 빈 인터페이스로 동작하는 원리와 쿼리 메서드
 - [[MySQL-연동]] — datasource 설정, ddl-auto 선택지, Docker MySQL 컨테이너 명령어 모음
 
+### 프론트엔드
+- [[Figma-Dev-Mode-MCP]] — 데스크톱 앱에 파일이 열려 있어야 동작, view-only 파일에서 씬 그래프 API 실패·스크린샷 폴백과 픽셀 계측 대안
+- [[S3-Presigned-URL-업로드]] — presign 2단계 흐름, Authorization 헤더가 서명을 깨는 이유, S3 CORS 필요성, Playwright의 Blob 바디 목킹 한계
+- [[CSS-Container-shrink-to-fit]] — `max-width`는 상한일 뿐 폭을 확보 못 함, `main` shrink-to-fit 원인과 해결, 전체 배경색 우회법
+
 ### 프로젝트/spring-practice
 - [[프로젝트-현황]] — spring-practice 구조·API·DB 환경·알려진 허점 스냅샷 (2026-09-02)
 - [[학습-진행상황]] — 스프링 로드맵 진행 상태, 겪은 에러들, 다음 단계 후보
+
+### 프로젝트/JOBIS-FE-V2
+- [[JOBIS-FE-V2/프로젝트-현황]] — 퍼블리싱·커밋 컨벤션, staging DNS 오지정, `packages/api` 공용 코드 결함(presign/더블슬래시/401 이중의미), API 명세 함정 (2026-09-06)
