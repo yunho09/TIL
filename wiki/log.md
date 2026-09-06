@@ -41,3 +41,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 생성: [[GNOME-Wayland-wl-clipboard-포커스-토스트]]
 - 비고: 터미널 Claude에 이미지를 붙여넣을 때마다 뜨던 정체불명 GNOME 토스트를 진단한 세션. Mutter 50에 `zwlr_data_control`/`ext_data_control` 프로토콜이 없어 `wl-clipboard`가 숨은 `xdg_toplevel`+`xdg_activation_v1` 포커스 요청 폴백을 타는데, dconf에 남아있던 `focus-new-windows=strict`(과거 Claude Desktop 포커스 탈취 대응용이었으나 이미 `--ozone-platform=x11`로 해결되어 잔재였음) 때문에 Mutter가 요청을 거부해 GNOME Shell 토스트로 대신 뜨는 구조였다. `smart`로 복구해 해결. 겸사겸사 3일 넘게 돌던 `ws-monitor.sh` 디버깅 좀비 프로세스도 정리. wiki/환경/ 하위에 페이지 추가.
+
+## 2026-09-06 23:14 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[절전-복귀-지연-원인과-zram-도입]]
+- 비고: 절전 복귀가 가끔 9초 넘게 걸리던 문제를 진단한 세션. 커널 자체 복귀는 항상 0.2~0.8초로 빠르고, 디스크 스왑 완전 포화 상태에서 절전 중 놓친 `Persistent=true` 타이머(devlog-sync, snap firmware-updater 등)가 복귀 즉시 몰려 실행되며 메모리를 요구해 gnome-shell 페이지 재적재가 지연되는 구조였다. zram(8G/zstd/prio 100) 도입, `vm.page-cluster=0`/`vm.swappiness=100` 튜닝, firmware-updater 타이머 mask, devlog-sync에 RandomizedDelaySec 추가로 조치. 세션 종료 시점까지 재부팅 전이라 디스크 스왑 잔여분 때문에 효과는 재부팅 후 다음 복귀에서 검증 필요 — 이 미검증 상태를 페이지에 명시함.
