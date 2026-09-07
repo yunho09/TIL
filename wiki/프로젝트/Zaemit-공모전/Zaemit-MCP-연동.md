@@ -1,6 +1,6 @@
 ---
 tags: [zaemit, mcp, 공모전, oauth]
-updated: 2026-09-07
+updated: 2026-09-08
 ---
 
 # Zaemit(재밋) MCP 연동
@@ -63,6 +63,8 @@ claude mcp add --transport http zaemit https://zaemit.ai/mcp
 ## OAuth 인증 관련 이슈
 
 세션 부팅 후 등록·터미널 vs Desktop 차이·토큰 교환 실패 패턴은 재밋에 국한된 문제가 아니라 Claude Code의 일반적인 MCP 등록 동작이라 별도로 [[Claude-Code-MCP-서버-등록]]에 정리했다.
+
+**2026-09-08: 인증 완료 확인됨.** 터미널 세션에서 재시도해 `accessToken`이 753자로 정상 저장됐고, 부여된 `scope`는 `mcp pii newsite`다 — `newsite`가 포함돼 있어 사이트 생성 권한까지 확보됐다. 이로써 공모전 절대 제약 중 "재밋 MCP 연동 이력이 1회 이상 있어야 유효 출품작"은 충족됐다. 이후 3단계(멀티 페이지·이미지 업로드·CSS 조정·폼/게시판·반응형·발행 URL 실기능 테스트)는 터미널 세션으로 인계되어 이 페이지 작성 시점엔 아직 미완료.
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/home/yunho)
