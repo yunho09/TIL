@@ -22,6 +22,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 
 ### 프론트엔드
 - [[Figma-Dev-Mode-MCP]] — 데스크톱 앱에 파일이 열려 있어야 동작, view-only 파일에서 씬 그래프 API 실패·스크린샷 폴백과 픽셀 계측 대안
+- [[Figma-MCP-팀별-호출-한도]] — `claude.ai Figma` 호출 한도는 계정이 아니라 파일 소유 팀의 플랜에 걸림, `whoami`는 항상 성공, 페이지 루트 전체 덤프가 한도를 급격히 소모
 - [[S3-Presigned-URL-업로드]] — presign 2단계 흐름, Authorization 헤더가 서명을 깨는 이유, S3 CORS 필요성, Playwright의 Blob 바디 목킹 한계
 - [[CSS-Container-shrink-to-fit]] — `max-width`는 상한일 뿐 폭을 확보 못 함, `main` shrink-to-fit 원인과 해결, 전체 배경색 우회법
 
@@ -35,5 +36,9 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 프로젝트/Zaemit-공모전
 - [[Zaemit-공모전/Zaemit-MCP-연동]] — 정본 엔드포인트(`zaemit.ai/mcp`, `mcp.zaemit.ai`는 랜딩페이지 함정), 게이트웨이 3종 구조(403툴/57그룹), 게시판·문의폼 등 플러그인 설치 필요 기능, Free 플랜 한도, 공모전 제약 (2026-09-18 마감)
 
+### 프로젝트/ToyVillage-Admin-FE
+- [[ToyVillage-Admin-FE/프로젝트-현황]] — Figma 퍼블리싱 harness 구조(specs/approvals 분리, 게이트 해시 판정, ②·⑦ 사람 게이트), 구 파일 폐기 후 `yot` 기준 전환, 커밋·브랜치 컨벤션, 알려진 e2e/폰트 이슈 (2026-09-07)
+
 ### 도구
 - [[Claude-Code-MCP-서버-등록]] — MCP 서버 목록은 세션 부팅 시에만 로드됨, Desktop 내장 세션은 OAuth 브라우저 승인 불가(터미널 CLI 필요), 터미널을 도중에 닫아 토큰 교환이 빈 값으로 실패하는 패턴과 확인법
+- [[Git-브랜치명-샵-이스케이프]] — 브랜치명에 `#`이 있으면 쉘 주석으로 잘려서 `--delete` 등 뒤 인자가 사라짐, 항상 따옴표로 감싸야 함
