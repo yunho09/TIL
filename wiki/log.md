@@ -77,3 +77,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
 - 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — 이슈/브랜치/PR "각각 1개가 기본값"이라는 작업 관리 컨벤션 추가(9이슈/8PR로 쪼갰다가 정정받아 통합한 사례), `createIdMutationHook` 더블슬래시 결함을 수정 완료로 갱신, `updateParams`(kebab-case 변환)와 `getParam`/`loader`(원래 키로 읽음) 표기 불일치로 상태·기술스택 필터 둘 다 죽어있던 버그 클래스를 신규 섹션으로 추가, 백엔드 문답으로 확정된 도메인 지식 8건(모집의뢰서 status enum, acceptances DELETE=취소 의미, 근로계약 변경 API, 조회수 POST /views 필요, 공지 수정 첨부파일 미지원, 취업관리 전체조회 API 부재, banner_url 폐기와 배너 하드코딩 유지 결정, student_gcn 필드) 추가, DS 컴포넌트 로컬 vitest 불가(Playwright chromium 미설치) 인프라 이슈 추가, FileUpload 컴포넌트 신설 사실 반영
 - 비고: 어드민/스튜던트 미연동 화면 9개를 몰아서 처리한 세션. 화면별 담당자 배정, 각 이슈·PR 번호, Figma 노드 링크 탐색 과정, 디자이너·백엔드에게 보낼 문의 메시지 초안, "co-authored-by 제거" 같은 세션 한정 대화는 재사용 가치가 낮아 제외했고, 그중 실제로 다시 쓸 만한 결정(작업 관리 방식 정정)과 코드/도메인 사실(버그 원인, API 의미 확정)만 추출해 기존 프로젝트 페이지에 병합했다. 새 페이지는 만들지 않음.
+
+## 2026-09-08 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/Commonly-fe)
+- 생성: [[Commonly-FE/프로젝트-현황]], [[Vite-빌드타임-환경변수-인라인]], [[도로명주소-검색-API-신청]]
+- 비고: Commonly-fe가 이 vault에 처음 등장하는 프로젝트라 wiki/프로젝트/Commonly-FE/ 폴더와 index의 해당 섹션을 신설했다. FE 소스와 방금 fetch한 BE(`cb594fd`) 코드를 직접 대조해 얻은 FE↔BE 갭 목록(개별등록/민원인 발급이 막힌 이유, 대량등록 데이터가 `humanId=null`로 저장되어 영구히 조회·발급 불가능한 백엔드 버그, JWT에 이름/역할 클레임이 없는 문제)과 이번에 처리한 이슈·PR(#68/#70 발급결과 새로고침 복구, #69/#71 대상자 삭제, #72/#73 juso 키 문서화)을 프로젝트 페이지로 정리했다. 다른 프로젝트에도 재사용 가능한 두 개념 — Vite `VITE_*`가 빌드타임에 번들로 치환되는 메커니즘, business.juso.go.kr 도로명주소 API 신청 절차(개편된 SPA 경로 포함) — 는 wiki/프론트엔드/ 하위 별도 페이지로 분리했다. 이슈 우선순위 논의(어떤 항목부터 파고들지 고른 과정), AskUserQuestion 선택지 문구, curl 검증 원문 로그, 커밋 트레일러를 뺄지 말지 같은 세션 한정 대화는 제외했다.
