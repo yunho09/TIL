@@ -25,13 +25,15 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Figma-MCP-팀별-호출-한도]] — `claude.ai Figma` 호출 한도는 계정이 아니라 파일 소유 팀의 플랜에 걸림, `whoami`는 항상 성공, 페이지 루트 전체 덤프가 한도를 급격히 소모
 - [[S3-Presigned-URL-업로드]] — presign 2단계 흐름, Authorization 헤더가 서명을 깨는 이유, S3 CORS 필요성, Playwright의 Blob 바디 목킹 한계
 - [[CSS-Container-shrink-to-fit]] — `max-width`는 상한일 뿐 폭을 확보 못 함, `main` shrink-to-fit 원인과 해결, 전체 배경색 우회법
+- [[Vite-빌드타임-환경변수-인라인]] — `VITE_*`가 런타임이 아니라 빌드 시점에 번들에 문자열로 치환됨, 그래서 비밀값이 될 수 없고 값 변경 시 재빌드 필요
+- [[도로명주소-검색-API-신청]] — business.juso.go.kr 신청 절차(검색 API vs 팝업 API, 개발/운영 승인키 흐름 차이), `confmKey`/JSONP 사용법, 승인키가 URL 단위로 묶이는 이유
 
 ### 프로젝트/spring-practice
 - [[프로젝트-현황]] — spring-practice 구조·API·DB 환경·알려진 허점 스냅샷 (2026-09-02)
 - [[학습-진행상황]] — 스프링 로드맵 진행 상태, 겪은 에러들, 다음 단계 후보
 
 ### 프로젝트/JOBIS-FE-V2
-- [[JOBIS-FE-V2/프로젝트-현황]] — 퍼블리싱·커밋 컨벤션, staging DNS 오지정, `packages/api` 공용 코드 결함(presign/더블슬래시/401 이중의미), API 명세 함정 (2026-09-06)
+- [[JOBIS-FE-V2/프로젝트-현황]] — 퍼블리싱·커밋 컨벤션(이슈 1=브랜치 1=PR 1 기본값), `packages/api` 공용 코드 결함(presign/더블슬래시 수정완료/401 이중의미), `updateParams`↔`getParam` 키 표기 불일치로 필터 죽는 버그 클래스, 백엔드 API 확인사항(status enum, acceptances 취소 의미, 조회수, 배너) (2026-09-07)
 
 ### 프로젝트/Zaemit-공모전
 - [[Zaemit-공모전/Zaemit-MCP-연동]] — 정본 엔드포인트(`zaemit.ai/mcp`, `mcp.zaemit.ai`는 랜딩페이지 함정), 게이트웨이 3종 구조(403툴/57그룹), 게시판·문의폼 등 플러그인 설치 필요 기능, Free 플랜 한도, 공모전 제약 (2026-09-18 마감)
@@ -39,7 +41,10 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 프로젝트/ToyVillage-Admin-FE
 - [[ToyVillage-Admin-FE/프로젝트-현황]] — Figma 퍼블리싱 harness 구조(specs/approvals 분리, 게이트 해시 판정, ②·⑦ 사람 게이트, approvals 재승인 시 cp 누락 함정), 구 파일 폐기 후 `yot` 기준 전환, 업무관리 목록 완료·push / 생성·수정·상세 spec 재작성 및 게이트 승인 완료, 커밋·브랜치 컨벤션, 알려진 e2e/폰트 이슈 (2026-09-07)
 
+### 프로젝트/Commonly-FE
+- [[Commonly-FE/프로젝트-현황]] — 경력증명서 발급 프로토타입, FE↔BE 갭 목록(개별등록/민원인 발급 막힘, 대량등록 데이터 미연결 버그, JWT 클레임 부족), 진행한 이슈·PR(#68–#73), juso 주소검색 키 적용 (2026-09-08)
+
 ### 도구
-- [[Claude-Code-MCP-서버-등록]] — MCP 서버 목록은 세션 부팅 시에만 로드됨, Desktop 내장 세션은 OAuth 브라우저 승인 불가(터미널 CLI 필요), 터미널을 도중에 닫아 토큰 교환이 빈 값으로 실패하는 패턴과 확인법
+- [[Claude-Code-MCP-서버-등록]] — MCP 서버 목록은 세션 부팅 시에만 로드됨, Desktop 내장 세션은 OAuth 브라우저 승인 불가(터미널 CLI 필요), 터미널을 도중에 닫아 토큰 교환이 빈 값으로 실패하는 패턴과 확인법, 자격증명 파일 직접 읽기 우회는 auto mode가 차단
 - [[Git-브랜치명-샵-이스케이프]] — 브랜치명에 `#`이 있으면 쉘 주석으로 잘려서 `--delete` 등 뒤 인자가 사라짐, 항상 따옴표로 감싸야 함
 - [[Claude-Code-느낌표-bash-접두사-채팅전용]] — `!command`는 채팅 입력 전용 즉시실행 기능, 실제 터미널(bash-input)에 그대로 붙여넣으면 `command not found: !node`로 실패
