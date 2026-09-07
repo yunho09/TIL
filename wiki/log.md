@@ -51,3 +51,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
 - 생성: [[Ptyxis-터치패드-스크롤-속도-패치]]
 - 비고: Ptyxis(GTK4+VTE) 터치패드 스크롤이 너무 빠른 문제를 진단·해결한 세션. 원인이 세 겹으로 겹쳐 있었음 — ① GTK4가 `-Bsymbolic`으로 빌드돼 LD_PRELOAD 델타 가로채기 불가, ② `enable-fallback-scrolling=false`라 VTE가 스크롤백 이벤트에 관여하지 않고 GtkScrolledWindow가 무보정 델타로 처리(어제 세션에 만든 패치가 무효했던 이유), ③ 마우스 보고 앱 경로는 휠 노치→줄 단위 이중 양자화로 프로토콜상 부드럽게 만들 수 없음. 특히 `DBusActivatable=true`인 앱은 GNOME이 D-Bus로 `/usr/bin/ptyxis`를 직접 띄워 PATH 래퍼/.desktop Exec를 전부 우회한다는 점은 다른 GNOME 앱 커스터마이징에도 재사용 가능한 함정이라 판단해 페이지화. VTE 패치 확장(스크롤백 직접 처리) + 스크롤백/앱 배율 분리 + 마우스 보고 앱에서 터치패드만 스크롤백으로 우회시키는 bypass로 해결, 0.4/0.05로 사용자 확인 완료. 터치패드 속도 조절 자체보다 원인 진단 체인(D-Bus 활성화 우회, GTK4 심볼 인터포지션 차단, VTE 렌더링 단위)이 재사용 가치가 높아 그 부분 위주로 정리함.
+
+## 2026-09-07 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[Zaemit-공모전/Zaemit-MCP-연동]], [[Claude-Code-MCP-서버-등록]]
+- 비고: "제2회 Zaemit AI 웹사이트 공모전" 출품을 위해 재밋 MCP를 연결하던 세션. 재밋 고유 지식(정본 엔드포인트가 `zaemit.ai/mcp`이고 안내에 자주 쓰이는 `mcp.zaemit.ai`는 랜딩페이지라 핸드셰이크가 깨지는 함정, 검색형 게이트웨이 3툴 뒤에 403툴/57그룹이 숨은 구조, 게시판·문의폼이 플러그인 설치형인 점, Free 플랜 한도, 공모전 절대 제약)은 wiki/프로젝트/Zaemit-공모전/에, 다른 프로젝트에도 재사용 가능한 Claude Code 자체의 MCP 등록·인증 동작(세션 부팅 시에만 MCP 목록 로드, Desktop 내장 세션은 OAuth 브라우저 승인 불가, 터미널을 도중에 닫으면 accessToken이 빈 문자열로 저장되며 조용히 실패하는 패턴)은 wiki/도구/에 분리해 페이지화했다. index에 두 섹션(프로젝트/Zaemit-공모전, 도구) 신설. 세션은 OAuth 인증 성공과 툴 카탈로그 확보(3단계 기능 테스트 착수 직전)에서 끝났고, 실제 기능 한계 테스트 결과는 아직 없어 페이지에 미확인 항목으로 남김.
