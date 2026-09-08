@@ -77,6 +77,33 @@ C:\Users\<사용자>\anaconda3\Scripts\pyuic5.exe            # 변환기
 
 pip으로 설치한 순수 PyQt5에는 Designer가 들어 있지 않다. conda의 `qt-main` 패키지나 리눅스의 `qttools5-dev-tools`처럼 Qt 툴 패키지가 따로 있어야 한다.
 
+## pyuic5가 실제로 만드는 것
+
+Designer가 저장하는 `.ui`는 **XML 텍스트**라 파이썬이 그대로 실행할 수 없다. `pyuic5`는 이 XML을 읽어 **같은 화면을 만들어내는 파이썬 코드**로 번역한다.
+
+```xml
+<widget class="QSlider" name="sliderRed">
+  <property name="maximum"><number>255</number></property>
+  <property name="orientation"><enum>Qt::Vertical</enum></property>
+</widget>
+```
+
+위 `.ui` 조각이 아래 코드가 된다.
+
+```python
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        self.sliderRed = QtWidgets.QSlider(Dialog)
+        self.sliderRed.setMaximum(255)
+        self.sliderRed.setOrientation(QtCore.Qt.Vertical)
+```
+
+Designer에서 지정한 **`objectName`이 그대로 파이썬 속성 이름**이 된다. 이름을 바꾸지 않으면 `verticalSlider_2` 같은 자동 이름이 붙어 코드가 읽기 어려워진다.
+
+`-x` 옵션은 생성 파일 끝에 실행 블록을 붙여, `python led_gui.py`만으로 화면을 미리 볼 수 있게 한다.
+
+⚠️ **생성된 `.py`는 직접 고치지 않는다.** `.ui`를 수정하고 재변환하면 통째로 덮어써진다. 동작 코드는 항상 별도 파일에 두고 `import`해서 쓴다.
+
 ## 반복문에서 시그널을 연결할 때 — 람다 늦은 바인딩
 
 여러 위젯을 반복문으로 연결할 때 `lambda`가 루프 변수를 **참조로** 잡으면, 모든 콜백이 마지막 값 하나만 보게 된다. 기본 인자로 캡처해야 한다.

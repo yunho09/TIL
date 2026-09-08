@@ -33,20 +33,7 @@ pyuic5 -x light_gui.ui -o light_gui.py        # → Ui_Dialog 클래스 생성
 
 자세한 내용과 함정은 [[Qt-Designer-PyQt5-연결]].
 
-GPIO가 없는 PC에서도 **가짜 `gpiozero` 모듈을 끼워 넣으면 로직을 검증할 수 있다.** 위젯 연결, 시그널, 값 매핑이 맞는지 파이로 옮기기 전에 확인된다.
-
-```python
-import sys, types
-fake = types.ModuleType("gpiozero")
-class PWMLED:
-    def __init__(self, pin, **kw): self.pin, self.value = pin, 0.0
-fake.PWMLED = PWMLED
-sys.modules["gpiozero"] = fake          # 실제 모듈보다 먼저 등록
-
-import lightRun                          # 이제 GPIO 없이 import 된다
-```
-
-이때 `QT_QPA_PLATFORM=offscreen`으로 두면 창을 띄우지 않고 `widget.grab().save(...)`로 레이아웃 그림까지 뽑을 수 있다. 단 **앱 코드가 `os.environ`으로 플랫폼을 덮어쓰면 import 이후에 다시 지정해야 한다** → [[라즈베리파이-GUI-SSH-VNC-실행]]
+GPIO가 없는 PC에서도 **가짜 `gpiozero` 모듈을 끼워 넣으면 로직을 검증할 수 있다.** 위젯 연결, 시그널, 값 매핑이 맞는지 파이로 옮기기 전에 확인된다. `QT_QPA_PLATFORM=offscreen`을 함께 쓰면 창 없이 버튼까지 눌러볼 수 있다. 방법과 함정은 [[가짜-모듈로-하드웨어-없이-테스트]].
 
 ## 2. 전송 — PC에서 실행한다
 
