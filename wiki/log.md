@@ -88,3 +88,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Zaemit-공모전/Zaemit-MCP-연동]] — OAuth 인증 최종 성공 확인(accessToken 753자, scope `mcp pii newsite`)과 이에 따라 공모전 절대 제약 "연동 이력 1회 이상" 충족 사실 추가
 - 갱신: [[Claude-Code-MCP-서버-등록]] — `/mcp` 메뉴에서 커서가 새로 등록한 서버가 아닌 다른 항목에 남아 있어 그대로 Enter를 누르면 엉뚱한 서버 메뉴로 들어가는 함정 추가
 - 비고: 이전(2026-09-07, 2026-09-08 00:01) 캡처와 거의 같은 재밋 MCP 연동 세션의 재캡처. 엔드포인트 함정·게이트웨이 구조·Free 플랜 한도·세션 부팅/Desktop 제약·토큰 교환 실패 패턴은 이미 페이지화되어 중복이라 새로 반영하지 않았고, 이번 세션에서만 확인된 두 가지(OAuth 최종 성공과 그 scope, `/mcp` 커서 위치 함정)만 기존 페이지에 보강했다. 3단계 기능 테스트(멀티 페이지·이미지·CSS·폼/게시판·반응형·발행 URL)는 터미널 세션으로 인계된 채 아직 결과가 없어 반영하지 않음. Desktop vs 터미널 세션 혼동 설명, 토큰 파일 위치를 다시 훑어본 과정 등 세션 한정 진행 상태는 제외.
+
+## 2026-09-08 15:39 — ingest (Claude Code 세션)
+- 원본: Claude Code 세션 (Windows PC + Raspberry Pi 4). 수업 자료 `heartcom/Linux-Program` 2번 PPT(Rpi_GPIO_DHT11_PyQt) 실습.
+- 생성: [[Qt-Designer-PyQt5-연결]], [[라즈베리파이-PyQt5-설치-ARM64]], [[라즈베리파이-GUI-SSH-VNC-실행]], [[gpiozero-GPIO-배선-확인]]
+- 비고: Qt Designer로 `.ui`를 그려 `pyuic5`로 변환하고 라즈베리파이 GPIO에 붙여 LED를 제어하는 실습 세션. 재사용 가치가 있는 네 덩어리를 분리해 페이지화했다 — (1) Designer↔코드 연결에서 `objectName`이 유일한 연결고리이고 폼 objectName을 잘못 바꾸면 `Ui_` 클래스명이 통째로 바뀌는 함정(실제로 `<class>LED1_Button</class>`이 되어 있었다), (2) PyQt5의 ARM64 pip 휠 부재로 apt + `venv --system-site-packages`를 써야 하는 점, (3) GUI가 SSH에서 못 뜨는 이유와 코드가 import 시점에 `QT_QPA_PLATFORM`을 덮어써 셸 환경변수 우회가 통하지 않던 함정, (4) gpiozero가 LED 미연결 시에도 에러를 내지 않아 핀 스윕으로 실제 배선(자료는 GPIO13/19/26, 실제는 17/27/22)을 찾아야 했던 과정. 수업 자료가 Pi 5 기준이라 Pi 4에서 달라지는 지점(RPi.GPIO 가용 여부, LGPIOFactory 불필요, 팬 제어 오버레이 무관)도 관련 페이지에 반영했다. 파일 전송 절차, VNC 뷰어 설치 안내, PowerShell `&&` 미지원 같은 세션 한정 진행 상태와 일반 상식은 제외했다.
+- 비고: 이 세션 시작 시 로컬이 origin/main보다 21커밋 뒤처져 있었고 `.obsidian/workspace.json` 로컬 수정 때문에 pull이 막혀 있었다. 백업 후 되돌려 pull 완료. 해당 파일은 이번에 받은 커밋의 `.gitignore`에 이미 등록돼 있으나 아직 추적 중이라 재발 가능 (아래 참고).

@@ -1,0 +1,84 @@
+---
+tags: [qt, pyqt5, designer, python, gui]
+updated: 2026-09-08
+---
+
+# Qt Designer와 PyQt5 코드 연결
+
+Qt Designer로 `.ui`를 그리고 `pyuic5`로 `.py`로 변환한 뒤, 별도 파이썬 파일에서 그걸 import해 위젯에 동작을 붙이는 워크플로. **위젯의 `objectName`이 디자인과 코드를 잇는 유일한 열쇠**이고, 폼 자체의 `objectName`을 잘못 건드리면 생성되는 클래스 이름이 바뀌어 코드가 통째로 어긋난다.
+
+## 기본 흐름
+
+```bash
+pyuic5 -x led_gui.ui -o led_gui.py     # .ui → .py
+```
+
+변환된 `led_gui.py`에는 `Ui_<폼의 objectName>` 클래스가 생기고, 그 안의 `setupUi(self)`가 각 위젯을 `self.<objectName>` 속성으로 만든다.
+
+```python
+import led_gui
+
+class LedApp(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+        self.ui = led_gui.Ui_Dialog()
+        self.ui.setupUi(self)              # 여기서 self.ui.btnRed 등이 생성됨
+        self.ui.btnRed.clicked.connect(self.toggle)
+```
+
+`.ui`를 고칠 때마다 재변환하는 게 번거로우면 실행 시점에 직접 읽는 방법도 있다. 이때는 `self.ui.btnRed`가 아니라 `self.btnRed`로 접근한다.
+
+```python
+from PyQt5 import uic
+uic.loadUi("led_gui.ui", self)
+```
+
+## ⚠️ 폼의 objectName을 바꾸면 클래스 이름이 바뀐다
+
+Designer에서 버튼 이름을 바꾸려다 **폼(최상위 Dialog)이 선택된 상태**로 `objectName`을 입력하면, `.ui`의 최상위 클래스가 통째로 바뀐다.
+
+```xml
+<class>LED1_Button</class>          <!-- 폼 objectName을 실수로 바꾼 상태 -->
+```
+
+이러면 `pyuic5`가 `Ui_Dialog`가 아니라 `Ui_LED1_Button`을 만들어내고, 코드는 `AttributeError` 또는 import 실패로 죽는다. 폼의 `objectName`은 `Dialog`로 두고 창 제목은 `windowTitle` 속성으로 따로 지정한다.
+
+`.ui`는 XML이라 이름 상태를 눈으로 확인할 수 있다.
+
+```bash
+grep -o '<class>[^<]*</class>' led_gui.ui
+grep -o 'widget class="[A-Za-z]*" name="[A-Za-z0-9_]*"' led_gui.ui
+```
+
+## 레이아웃 단축키
+
+Qt Designer의 배치 단축키는 `Ctrl+L`이 아니다.
+
+| 동작 | 단축키 |
+|---|---|
+| 가로로 배치 (Lay Out Horizontally) | `Ctrl+1` |
+| 세로로 배치 (Lay Out Vertically) | `Ctrl+2` |
+| 격자 배치 (Lay Out in a Grid) | `Ctrl+5` |
+| 레이아웃 해제 (Break Layout) | `Ctrl+0` |
+| 미리보기 | `Ctrl+R` |
+
+레이아웃을 하나도 적용하지 않으면 위젯이 절대 좌표로 고정되어 **창 크기를 바꿔도 따라오지 않는다.** 동작에는 지장이 없지만 리사이즈가 필요하면 반드시 잡아야 한다.
+
+## Qt5와 Qt6 Designer는 섞이지 않는다
+
+한 PC에 Designer가 여러 개 깔려 있을 수 있다. **`pyuic5`를 쓸 거라면 Qt5 Designer로 만든 `.ui`여야 한다.** PySide6(Qt6) Designer가 만든 `.ui`는 `pyuic5`가 읽지 못한다. (Claude 보충 — 버전 불일치 시 실패하는 것은 일반적인 사실이나 이 세션에서 직접 재현하지는 않았다)
+
+Windows + Anaconda 조합에서의 실제 경로 예:
+
+```
+C:\Users\<사용자>\anaconda3\Library\bin\designer.exe      # Qt5 Designer (conda qt-main 동봉)
+C:\Users\<사용자>\anaconda3\Scripts\pyuic5.exe            # 변환기
+```
+
+pip으로 설치한 순수 PyQt5에는 Designer가 들어 있지 않다. conda의 `qt-main` 패키지나 리눅스의 `qttools5-dev-tools`처럼 Qt 툴 패키지가 따로 있어야 한다.
+
+## 출처
+
+Claude Code 세션 (2026-09-08). 수업 자료 `heartcom/Linux-Program` 2번 PPT(Rpi_GPIO_DHT11_PyQt) 실습을 Windows PC + 라즈베리파이 4로 진행하며 확인.
+
+관련: [[라즈베리파이-PyQt5-설치-ARM64]], [[라즈베리파이-GUI-SSH-VNC-실행]]
