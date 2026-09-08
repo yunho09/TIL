@@ -163,3 +163,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Vitals-확장-상단바-시스템-모니터]], [[리눅스-메모리-점유-앱별-진단-PSS]], [[Figma-데스크톱-앱-메모리-중복]]
 - 갱신: [[절전-복귀-지연-원인과-zram-도입]] — Figma가 메모리를 많이 먹는 구체적 원인을 다룬 새 페이지로 링크 추가
 - 비고: 상단바에 CPU/메모리를 띄우고 싶다는 요청으로 시작해 Vitals 확장을 활성화·설정하고, 이어서 "왜 메모리를 이렇게 많이 먹지"를 진단한 세션. 확장 자체 스키마는 `gsettings --schemadir`로 설치 경로의 schemas를 직접 지정해야 한다는 점과 GNOME 50의 D-Bus 스크린샷 차단(`AccessDenied`)은 다른 확장 작업에도 재현될 일반 사실이라 남겼다. 메모리 진단은 RSS 대신 PSS로 합산해야 하는 이유와 zram/Shmem/slab을 더해야 총량이 맞는다는 방법론을 별도 페이지로, Figma 데스크톱 앱(`figma-linux-next`)이 비공식 Electron 래퍼라 Chromium 런타임을 중복으로 띄우는 원인과 탭을 자동 해제하지 않는 특성, `settings.json`을 열린 탭 목록으로 오인하면 안 되는 함정은 별도 페이지로 남겼다. 세션이 진행 중이던 시점의 구체적인 수치(그 순간 몇 GB를 먹고 있었는지, 어떤 특정 파일 탭 7개가 열려 있었는지)와 "어느 걸 지금 정리할지" 확인을 구하며 끝난 미결 대화는 스냅샷이라 제외했다.
+
+## 2026-09-08 22:48 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 갱신: [[절전-복귀-지연-원인과-zram-도입]] — zram 도입 후에도 절전 복귀 지연이 재발해 재조사한 내용 추가. `resume-latency` 측정 스크립트로 5일 23회 표본 확보(느림 4/23), 스왑 고갈은 이미 해소돼 있었고 남은 원인은 ① 복귀 직후 `Persistent=true` 타이머 폭주로 인한 CPU 경합(libinput 랙 로그로 확인), ② gnome-shell 자신이 zram으로 내보낸 페이지(최대 89MB)를 `page-cluster=0`(readahead 없음) 상태로 재적재하는 것. `CPUWeight`가 같은 부모 슬라이스의 형제끼리만 경쟁한다는 사실을 놓쳐 1차 드롭인(배치 서비스에 `Nice=19`+`CPUWeight=1`, `system.slice` 소속)이 `user.slice`의 gnome-shell엔 무효했던 정정 사항 포함. 최종 6가지 조치(MemoryMin 체인, 최상위 `background.slice` 신설, NVMe `none`→`mq-deadline`, 타이머 9개 `Persistent=false`, fstrim 스케줄 이동, gnome-shell `CPUWeight=1000`)와 되돌리기 스크립트(`resume-fix-revert`)를 반영. 세션 종료 시점까지 미검증 상태임을 명시.
+- 비고: 사용자가 "다른거 할 수 잇는거 다 해봐"로 포괄적 조치를 요청한 세션. 앞선(2026-09-06) 진단이 절반만 맞았고(스왑 조치는 유효했으나 원인이 더 있었음) `CPUWeight` cgroup 계층 함정처럼 자기 정정이 있었던 세션이라, 최종 결론뿐 아니라 정정 과정 자체도 재사용 가치가 있어 함께 남겼다. 세부 로그 수치(각 복귀 시각별 CPU 점유 초 단위 등)와 pkexec 인증창 진행 과정은 제외.

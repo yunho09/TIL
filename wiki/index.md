@@ -14,7 +14,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Vitals-확장-상단바-시스템-모니터]] — 자체 스키마를 쓰는 확장은 `gsettings --schemadir`로 확장 설치 경로의 schemas를 직접 지정해야 하는 이유(Vitals `hot-sensors`/`position-in-panel` 예시), GNOME 50에서 D-Bus 스크린샷이 `AccessDenied`로 막혀 있음
 
 ### 환경/리눅스-데스크톱
-- [[절전-복귀-지연-원인과-zram-도입]] — 스왑 고갈+복귀 직후 systemd 타이머 폭주가 겹쳐 절전 복귀가 9초 넘게 걸리던 원인, zram 압축 스왑 도입(설치 시점 기본값 함정 포함)과 타이머 완화 조치
+- [[절전-복귀-지연-원인과-zram-도입]] — 스왑 고갈+복귀 직후 systemd 타이머 폭주가 겹쳐 절전 복귀가 9초 넘게 걸리던 원인, zram 압축 스왑 도입(설치 시점 기본값 함정 포함)과 타이머 완화 조치. zram 도입 후에도 재발 — 진짜 급소는 gnome-shell 자신이 zram으로 내보낸 페이지 재적재, `CPUWeight`가 형제 슬라이스끼리만 경쟁한다는 함정, MemoryMin/background.slice/NVMe 스케줄러/fstrim 시간 이동 등 6가지 추가 조치
 - [[Ptyxis-터치패드-스크롤-속도-패치]] — GTK4 `-Bsymbolic`으로 LD_PRELOAD 차단, `enable-fallback-scrolling=false`로 VTE 패치가 스크롤백에 안 먹히던 원인, `DBusActivatable=true`가 PATH 래퍼를 우회하는 함정, 스크롤백/앱 배율 분리 + bypass 패치로 해결
 - [[Orca-IDE-리눅스-설치]] — AppImage type 2가 Ubuntu 26.04에서 안 열리는 이유(libfuse2 부재)와 압축 해제 설치법, `orca`↔GNOME 화면낭독기 이름 충돌, 자동 업데이트 불가 등 한계
 - [[리눅스-메모리-점유-앱별-진단-PSS]] — RSS 합산은 공유 메모리 중복 계산으로 부풀려짐, PSS로 앱별 합산해야 정확, zram/Shmem/slab 등 앱 외 요소까지 더해야 총량이 맞는 이유, Electron 앱은 하나 끄면 런타임째 통째로 회수되는 정리 우선순위
