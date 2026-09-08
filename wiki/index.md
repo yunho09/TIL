@@ -13,8 +13,10 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[절전-복귀-지연-원인과-zram-도입]] — 스왑 고갈+복귀 직후 systemd 타이머 폭주가 겹쳐 절전 복귀가 9초 넘게 걸리던 원인, zram 압축 스왑 도입(설치 시점 기본값 함정 포함)과 타이머 완화 조치
 - [[Ptyxis-터치패드-스크롤-속도-패치]] — GTK4 `-Bsymbolic`으로 LD_PRELOAD 차단, `enable-fallback-scrolling=false`로 VTE 패치가 스크롤백에 안 먹히던 원인, `DBusActivatable=true`가 PATH 래퍼를 우회하는 함정, 스크롤백/앱 배율 분리 + bypass 패치로 해결
 - [[라즈베리파이-PyQt5-설치-ARM64]] — pip PyQt5가 ARM64에서 소스 빌드로 빠지는 문제, apt `python3-pyqt5` + venv `--system-site-packages` 조합, Pi 5용 LGPIOFactory 명시가 Pi 4에서는 불필요한 이유
-- [[라즈베리파이-GUI-SSH-VNC-실행]] — GUI는 SSH 터미널(=DISPLAY 없음)에서 못 뜬다, 코드가 import 시점에 `QT_QPA_PLATFORM`을 덮어써 셸 환경변수가 무시되는 함정, Debian 13의 wayvnc 활성화와 세션 없으면 붙을 게 없는 구조
-- [[gpiozero-GPIO-배선-확인]] — gpiozero는 LED가 없어도 에러를 안 내므로 터미널 출력이 무의미, 핀 스윕으로 실제 배선 핀 찾기, BCM 번호와 물리 핀 번호 혼동
+- [[라즈베리파이-GUI-SSH-VNC-실행]] — GUI는 SSH 터미널(=DISPLAY 없음)에서 못 뜬다, 코드가 import 시점에 `QT_QPA_PLATFORM`을 덮어써 셸 환경변수가 무시되는 함정, Debian 13의 wayvnc 활성화와 세션 없으면 붙을 게 없는 구조, PC 터미널과 파이 터미널 구분(scp는 PC에서, PowerShell은 `&&` 미지원)
+- [[gpiozero-GPIO-배선-확인]] — gpiozero는 LED가 없어도 에러를 안 내므로 터미널 출력이 무의미, 핀 스윕으로 실제 배선 핀 찾기, BCM 번호와 물리 핀 번호 혼동, `GPIO busy`(같은 핀을 쓰는 프로그램 중복 실행)와 잔여 프로세스 정리
+- [[라즈베리파이-GUI-개발-워크플로]] — PC에서 Designer+pyuic5로 만들고 파이에서 실행하는 전체 흐름, 어느 기계/어느 터미널에서 무엇을 하는지 구분표, 가짜 gpiozero를 끼워 PC에서 로직을 미리 검증하는 법, 자주 막히는 지점 모음
+- [[gpiozero-PWMLED-밝기-제어]] — 켜고 끄는 LED와 달리 PWMLED는 value 0.0~1.0으로 조광, 슬라이더 0~255를 나누어 매핑할 때 STEPS 불일치 함정, PWM이 핀을 계속 점유하는 성질
 
 ### 언어/Java/Spring
 - [[빈과-DI]] — 인터페이스+구현체+생성자 주입 패턴, 다중 구현체 주입(@Primary/@Qualifier/List<T>), 싱글톤 규칙, 실무 사용 빈도
@@ -51,4 +53,4 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Claude-Code-MCP-서버-등록]] — MCP 서버 목록은 세션 부팅 시에만 로드됨, Desktop 내장 세션은 OAuth 브라우저 승인 불가(터미널 CLI 필요), 터미널을 도중에 닫아 토큰 교환이 빈 값으로 실패하는 패턴과 확인법, `/mcp` 메뉴 커서 위치를 놓쳐 엉뚱한 서버로 들어가는 함정, 자격증명 파일 직접 읽기 우회는 auto mode가 차단
 - [[Git-브랜치명-샵-이스케이프]] — 브랜치명에 `#`이 있으면 쉘 주석으로 잘려서 `--delete` 등 뒤 인자가 사라짐, 항상 따옴표로 감싸야 함
 - [[Claude-Code-느낌표-bash-접두사-채팅전용]] — `!command`는 채팅 입력 전용 즉시실행 기능, 실제 터미널(bash-input)에 그대로 붙여넣으면 `command not found: !node`로 실패
-- [[Qt-Designer-PyQt5-연결]] — objectName이 디자인↔코드의 유일한 연결고리, 폼 objectName을 잘못 바꾸면 `Ui_` 클래스명이 바뀌어 코드가 어긋남, 레이아웃 단축키는 Ctrl+1/2/5, Qt5/Qt6 Designer의 .ui는 호환되지 않음
+- [[Qt-Designer-PyQt5-연결]] — objectName이 디자인↔코드의 유일한 연결고리, 폼 objectName을 잘못 바꾸면 `Ui_` 클래스명이 바뀌어 코드가 어긋남, 레이아웃 단축키는 Ctrl+1/2/5, Qt5/Qt6 Designer의 .ui는 호환되지 않음, 반복문 시그널 연결 시 람다 늦은 바인딩, 표시와 적용 분리 패턴

@@ -59,6 +59,23 @@ Debian 13에서는 `wayvnc` 쪽이 `active`가 된다 (RealVNC의 `vncserver-x11
 
 파이에 모니터가 직접 연결돼 있다면 VNC 없이 그 화면에서 바로 실행하면 된다.
 
+## PC 터미널과 파이 터미널을 구분한다
+
+디스플레이 유무와 별개로, **명령을 어느 기계에서 치는지**도 자주 헷갈린다. 프롬프트로 판별한다.
+
+| 프롬프트 | 어디 | 쓰는 명령 |
+|---|---|---|
+| `PS C:\Users\...>` | PC (PowerShell) | `ssh`, `scp`, `$env:USERPROFILE` |
+| `pi@호스트:~ $` | 파이 (bash) | `apt`, `python`, `~/work/...` |
+
+`scp`는 PC에서 파이로 미는 명령이라 **PC 쪽에서** 친다. 파이 창에 붙여 넣으면 리눅스 셸이 PowerShell 변수를 문자 그대로 처리한다.
+
+```
+scp: stat local ":USERPROFILEOneDriveDesktopLIGHT_GUI": No such file or directory
+```
+
+반대 방향 실수도 있다. Windows PowerShell 5.1은 `&&`를 지원하지 않아 리눅스용 명령을 그대로 붙여 넣으면 파서 오류가 난다. PowerShell에서는 `;`로 잇는다.
+
 ## 출처
 
 Claude Code 세션 (2026-09-08), Raspberry Pi 4 Model B Rev 1.5 / Debian 13 (trixie) / labwc.

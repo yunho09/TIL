@@ -45,6 +45,22 @@ GPIO17·27·22가 물리 11·13·15로 **나란히 붙어 있어** 튜토리얼�
 4. 브레드보드 가로줄 — 점퍼선과 LED 다리가 같은 줄에 있어야 한다
 5. LED 자체 확인 — 저항 거쳐 3V3(물리 1번)과 GND(물리 6번)에 직접 연결해 본다. 여기서도 안 켜지면 코드 문제가 아니다.
 
+## `GPIO busy` — 핀 점유 충돌
+
+```
+lgpio.error: 'GPIO busy'
+```
+
+같은 핀을 잡는 **다른 프로그램이 이미 실행 중**이라는 뜻이다. gpiozero 객체는 프로그램이 살아 있는 동안 핀을 계속 점유하므로, LED 제어 GUI를 띄워 둔 채 다른 GPIO 프로그램을 실행하면 나중 것이 죽는다.
+
+```bash
+ps -ef | grep -E "ledRun|lightRun" | grep -v grep   # 누가 잡고 있는지
+pkill -f ledRun.py                                   # 종료
+pkill -f "python.*Run.py"                            # 비정상 종료된 잔여 프로세스까지
+```
+
+창을 그냥 닫아도 되지만, 비정상 종료되면 프로세스가 남아 핀을 계속 붙잡는다. `ps`에 아무것도 없는데 계속 busy면 이 경우다.
+
 ## 출처
 
 Claude Code 세션 (2026-09-08), Raspberry Pi 4 Model B Rev 1.5 / gpiozero 2.0.1. 수업 자료 `heartcom/Linux-Program` 2번 PPT 실습 중 배선 불일치를 추적하며 정리.

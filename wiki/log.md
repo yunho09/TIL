@@ -94,3 +94,11 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Qt-Designer-PyQt5-연결]], [[라즈베리파이-PyQt5-설치-ARM64]], [[라즈베리파이-GUI-SSH-VNC-실행]], [[gpiozero-GPIO-배선-확인]]
 - 비고: Qt Designer로 `.ui`를 그려 `pyuic5`로 변환하고 라즈베리파이 GPIO에 붙여 LED를 제어하는 실습 세션. 재사용 가치가 있는 네 덩어리를 분리해 페이지화했다 — (1) Designer↔코드 연결에서 `objectName`이 유일한 연결고리이고 폼 objectName을 잘못 바꾸면 `Ui_` 클래스명이 통째로 바뀌는 함정(실제로 `<class>LED1_Button</class>`이 되어 있었다), (2) PyQt5의 ARM64 pip 휠 부재로 apt + `venv --system-site-packages`를 써야 하는 점, (3) GUI가 SSH에서 못 뜨는 이유와 코드가 import 시점에 `QT_QPA_PLATFORM`을 덮어써 셸 환경변수 우회가 통하지 않던 함정, (4) gpiozero가 LED 미연결 시에도 에러를 내지 않아 핀 스윕으로 실제 배선(자료는 GPIO13/19/26, 실제는 17/27/22)을 찾아야 했던 과정. 수업 자료가 Pi 5 기준이라 Pi 4에서 달라지는 지점(RPi.GPIO 가용 여부, LGPIOFactory 불필요, 팬 제어 오버레이 무관)도 관련 페이지에 반영했다. 파일 전송 절차, VNC 뷰어 설치 안내, PowerShell `&&` 미지원 같은 세션 한정 진행 상태와 일반 상식은 제외했다.
 - 비고: 이 세션 시작 시 로컬이 origin/main보다 21커밋 뒤처져 있었고 `.obsidian/workspace.json` 로컬 수정 때문에 pull이 막혀 있었다. 백업 후 되돌려 pull 완료. 해당 파일은 이번에 받은 커밋의 `.gitignore`에 이미 등록돼 있으나 아직 추적 중이라 재발 가능 (아래 참고).
+
+## 2026-09-08 16:10 — ingest (Claude Code 세션)
+- 원본: Claude Code 세션 (Windows PC + Raspberry Pi 4). 앞선 15:39 항목에 이어지는 같은 실습 세션.
+- 생성: [[라즈베리파이-GUI-개발-워크플로]], [[gpiozero-PWMLED-밝기-제어]]
+- 갱신: [[gpiozero-GPIO-배선-확인]] — `lgpio.error: 'GPIO busy'`가 같은 핀을 쓰는 프로그램 중복 실행 때문이라는 점과 `ps`/`pkill`로 잔여 프로세스를 정리하는 방법 추가
+- 갱신: [[라즈베리파이-GUI-SSH-VNC-실행]] — 디스플레이 유무와 별개로 PC 터미널과 파이 터미널을 프롬프트로 구분해야 한다는 섹션 추가(`scp`를 파이 창에서 실행해 `$env:USERPROFILE`가 문자로 처리된 사례, PowerShell 5.1의 `&&` 미지원)
+- 갱신: [[Qt-Designer-PyQt5-연결]] — 반복문에서 시그널 연결 시 람다 늦은 바인딩을 기본 인자로 캡처해야 하는 점, 값 표시(valueChanged)와 하드웨어 적용(Send)을 분리하는 패턴 추가
+- 비고: 세로 슬라이더 3개(R/G/B) + SEND 버튼으로 RGB 밝기를 조절하는 조명 제어 GUI를 Designer로 만들어 파이에서 동작 확인한 세션. 새로 나온 두 개념 — PWMLED 조광과 전체 개발 워크플로 — 를 페이지로 분리하고, 실제로 부딪힌 세 가지 실패(GPIO busy, PC/파이 터미널 혼동, 람다 늦은 바인딩)는 기존 페이지에 보강했다. 워크플로 페이지는 "어떻게 만들었는지"를 한눈에 보도록 기존 페이지들을 잇는 허브 역할을 겸한다. Flask로 LED를 제어하는 웹 서버(수업 자료 3번 PPT)도 작성했으나 파이에서 실행하지 않아 검증되지 않았으므로 페이지화하지 않았다. 파일 전송 명령 오타, 비밀번호 입력 실패(한글 IME 추정) 같은 세션 한정 사건은 제외했다.

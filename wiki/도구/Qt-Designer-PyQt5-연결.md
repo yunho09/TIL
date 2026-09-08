@@ -77,6 +77,28 @@ C:\Users\<사용자>\anaconda3\Scripts\pyuic5.exe            # 변환기
 
 pip으로 설치한 순수 PyQt5에는 Designer가 들어 있지 않다. conda의 `qt-main` 패키지나 리눅스의 `qttools5-dev-tools`처럼 Qt 툴 패키지가 따로 있어야 한다.
 
+## 반복문에서 시그널을 연결할 때 — 람다 늦은 바인딩
+
+여러 위젯을 반복문으로 연결할 때 `lambda`가 루프 변수를 **참조로** 잡으면, 모든 콜백이 마지막 값 하나만 보게 된다. 기본 인자로 캡처해야 한다.
+
+```python
+for slider, label in rows.values():
+    slider.valueChanged.connect(
+        lambda v, lb=label: lb.setText(str(v))   # lb=label 로 그 시점 값을 고정
+    )
+```
+
+`lambda v: label.setText(...)`로 쓰면 슬라이더 셋 다 마지막 라벨만 갱신한다.
+
+## 표시와 적용을 분리하는 패턴
+
+값을 바꾸는 즉시 하드웨어에 반영할지, 확인 버튼을 눌렀을 때 반영할지는 설계 선택이다. 분리하면 슬라이더를 드래그하는 동안 중간값이 계속 전송되는 것을 막을 수 있다.
+
+```python
+slider.valueChanged.connect(...)      # 숫자 라벨만 갱신 (가벼움)
+btnSend.clicked.connect(self.send)    # 이때 한 번에 하드웨어 반영
+```
+
 ## 출처
 
 Claude Code 세션 (2026-09-08). 수업 자료 `heartcom/Linux-Program` 2번 PPT(Rpi_GPIO_DHT11_PyQt) 실습을 Windows PC + 라즈베리파이 4로 진행하며 확인.
