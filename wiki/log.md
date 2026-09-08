@@ -99,3 +99,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/Commonly-fe)
 - 갱신: [[Commonly-FE/프로젝트-현황]] — CodeRabbit 리뷰 코멘트 4건 대응 결과 추가: #71 삭제 버튼 `disabled` 조건이 락 변수(`deletingApplicantId !== ""`) 대신 행 id와 비교하고 있어 동시 삭제 진행 중 다른 행 클릭이 조용히 씹히던 버그 수정(`eb44f8c`), #70 `normalizeCertificateDetail`이 빈 `documentNo`를 그대로 통과시키던 버그를 `.trim() === ""` 거부 조건으로 수정(`55f3f8b`), #73 juso 오탐(dev 키 본인인증 불필요 주장에 대한 CodeRabbit 웹검색 지적)을 실제 발급 근거로 반박해 CodeRabbit이 검토의견 철회
 - 비고: 3개 PR(#70/#71/#73)의 CodeRabbit 리뷰 코멘트를 확인·대응·재검증한 세션. 두 코드 버그(동시성 disabled 스코프, 빈 문자열 미검증)는 다른 프로젝트에서도 재발 가능한 패턴이라 교훈 형태로 프로젝트 페이지에 남겼다. PR 자체는 세션 종료 시점까지 머지하지 않고 OPEN으로 남음 — 리뷰 코멘트 답변 문구, 스레드 resolve를 몇 번 확인했는지 같은 진행 로그, "닫았냐"는 질문에 리뷰/머지 중 무엇을 뜻하는지 되짚은 대화는 재사용 가치가 없어 제외했다. 새 페이지는 만들지 않음.
+
+## 2026-09-08 19:12 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 업무 목록(`TaskListPage.tsx`) 필터·페이지네이션 구현 패턴 섹션 신설: 탭 문자열→상태 룩업 테이블, `useMemo` 3단 파이프라인(allTasks→items→filtered→tasks), `today`를 한 번만 잡아 필터·표에 공유, 탭 전환 시 `useEffect` 대신 렌더 중 상태 보정으로 페이지를 1로 리셋하는 패턴, `YYYY-MM-DD` 문자열 비교
+- 비고: 필터 로직 설명 질문과, Figma 담당자 필드 위치 변경(`/publishing` 스킬, 커밋 `242faab`) 두 건이 있던 세션. 후자는 이미 프로젝트 페이지에 기록된 "task-create/edit 퍼블리싱 완료" 상태에 속하는 일회성 구현 지시라 새로 반영하지 않았다(검증 순서를 시각적 순서에 맞추는 결정도 기존 spec 결정 사항의 재적용일 뿐 새 지식 아님). 전자는 아직 문서화되지 않았던 상태 파생·필터·페이지네이션 아키텍처 패턴이라 프로젝트 페이지에 추가했다. 새 페이지는 만들지 않음.
