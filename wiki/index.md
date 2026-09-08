@@ -11,11 +11,14 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 환경/GNOME
 - [[GNOME-오버뷰-창-미리보기-사라짐]] — 3손가락 스와이프 후 가끔 창 미리보기만 비는 문제, `_gestureEnd` 예외 가설은 진단 로그로 반증됨(원인 미확정), 자동 감지+덤프 익스텐션 설치해 다음 재현 대기 중, GNOME 확장은 코드 변경 시 핫로드 안 되고 로그아웃/로그인 필요(`ReloadExtension` D-Bus deprecated)
 - [[GNOME-Wayland-wl-clipboard-포커스-토스트]] — Mutter 50에 data-control 프로토콜 부재→wl-clipboard 폴백 경로→`focus-new-windows=strict`가 겹쳐 뜨는 정체불명 토스트의 원인 체인과 `smart` 복구법
+- [[Vitals-확장-상단바-시스템-모니터]] — 자체 스키마를 쓰는 확장은 `gsettings --schemadir`로 확장 설치 경로의 schemas를 직접 지정해야 하는 이유(Vitals `hot-sensors`/`position-in-panel` 예시), GNOME 50에서 D-Bus 스크린샷이 `AccessDenied`로 막혀 있음
 
 ### 환경/리눅스-데스크톱
 - [[절전-복귀-지연-원인과-zram-도입]] — 스왑 고갈+복귀 직후 systemd 타이머 폭주가 겹쳐 절전 복귀가 9초 넘게 걸리던 원인, zram 압축 스왑 도입(설치 시점 기본값 함정 포함)과 타이머 완화 조치
 - [[Ptyxis-터치패드-스크롤-속도-패치]] — GTK4 `-Bsymbolic`으로 LD_PRELOAD 차단, `enable-fallback-scrolling=false`로 VTE 패치가 스크롤백에 안 먹히던 원인, `DBusActivatable=true`가 PATH 래퍼를 우회하는 함정, 스크롤백/앱 배율 분리 + bypass 패치로 해결
 - [[Orca-IDE-리눅스-설치]] — AppImage type 2가 Ubuntu 26.04에서 안 열리는 이유(libfuse2 부재)와 압축 해제 설치법, `orca`↔GNOME 화면낭독기 이름 충돌, 자동 업데이트 불가 등 한계
+- [[리눅스-메모리-점유-앱별-진단-PSS]] — RSS 합산은 공유 메모리 중복 계산으로 부풀려짐, PSS로 앱별 합산해야 정확, zram/Shmem/slab 등 앱 외 요소까지 더해야 총량이 맞는 이유, Electron 앱은 하나 끄면 런타임째 통째로 회수되는 정리 우선순위
+- [[Figma-데스크톱-앱-메모리-중복]] — 비공식 Electron 래퍼(`figma-linux-next`)가 Chromium 런타임을 중복으로 띄우는 원인(브라우저판 대안), 열어둔 탭은 자동 해제 안 됨, `settings.json`을 열린 탭 목록으로 오인하면 안 되는 이유, 탭↔렌더러 PID 매칭 불가로 안전한 정리법은 앱 내 직접 조작뿐
 
 ### 라즈베리파이/GPIO
 - [[GPIO-기초]] — GPIO가 무엇인지(3.3V 출력/입력), 켜짐·꺼짐뿐인 핀으로 PWM이 밝기를 만드는 원리, BCM 번호와 물리 핀 자리 번호가 다른 두 체계, 핀은 한 프로세스만 점유한다는 성질

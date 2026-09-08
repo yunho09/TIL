@@ -43,7 +43,7 @@ journalctl -b --no-pager -o short-precise | grep -E "Lid opened|unit='fprintd" |
 
 기존에 이미 꽉 차 있던 `/swap.img`(디스크 스왑)는 조치 직후에는 여전히 대부분 사용 중이라, **재부팅 전까지는 복귀가 완전히 빨라지지 않는다.** 재부팅하면 디스크 스왑이 비워지고 zram이 처음부터 주력으로 잡히면서 완전히 해결된다.
 
-근본적으로는 RAM 30GB 중 25GB를 상시 사용하는 상태(Figma 다중 인스턴스, Docker Desktop VM(qemu), IntelliJ 등)라, 안 쓰는 앱을 정리하는 것도 체감 효과가 크다.
+근본적으로는 RAM 30GB 중 25GB를 상시 사용하는 상태(Figma 다중 인스턴스, Docker Desktop VM(qemu), IntelliJ 등)라, 안 쓰는 앱을 정리하는 것도 체감 효과가 크다. Figma가 왜 그렇게 많이 먹는지는 [[Figma-데스크톱-앱-메모리-중복]] 참고.
 
 ## 출처
 
