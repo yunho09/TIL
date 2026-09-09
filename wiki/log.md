@@ -83,6 +83,11 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Commonly-FE/프로젝트-현황]], [[Vite-빌드타임-환경변수-인라인]], [[도로명주소-검색-API-신청]]
 - 비고: Commonly-fe가 이 vault에 처음 등장하는 프로젝트라 wiki/프로젝트/Commonly-FE/ 폴더와 index의 해당 섹션을 신설했다. FE 소스와 방금 fetch한 BE(`cb594fd`) 코드를 직접 대조해 얻은 FE↔BE 갭 목록(개별등록/민원인 발급이 막힌 이유, 대량등록 데이터가 `humanId=null`로 저장되어 영구히 조회·발급 불가능한 백엔드 버그, JWT에 이름/역할 클레임이 없는 문제)과 이번에 처리한 이슈·PR(#68/#70 발급결과 새로고침 복구, #69/#71 대상자 삭제, #72/#73 juso 키 문서화)을 프로젝트 페이지로 정리했다. 다른 프로젝트에도 재사용 가능한 두 개념 — Vite `VITE_*`가 빌드타임에 번들로 치환되는 메커니즘, business.juso.go.kr 도로명주소 API 신청 절차(개편된 SPA 경로 포함) — 는 wiki/프론트엔드/ 하위 별도 페이지로 분리했다. 이슈 우선순위 논의(어떤 항목부터 파고들지 고른 과정), AskUserQuestion 선택지 문구, curl 검증 원문 로그, 커밋 트레일러를 뺄지 말지 같은 세션 한정 대화는 제외했다.
 
+## 2026-09-09 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
+- 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — "상충하는 정보" 섹션 신설(2026-09-07에 전역 수정됐다고 기록한 `create-hook.ts` 더블 슬래시 결함이 이 브랜치에선 `useCreateApplication`에서 재발해 개별 훅만 다시 고친 사례, 향후 "이미 고쳐짐" 기록을 무조건 믿지 말라는 경고 추가), `useCreateApplication` 캐시 무효화 누락을 수정 완료로 추가(`createIdMutationHook`은 캐시 무효화를 자동으로 안 챙겨준다는 일반 원칙 포함), `instance.ts`가 status code를 숫자로 throw해 4xx별 문구 분기가 가능하다는 사실 추가, "설계상 한계" 섹션 신설(첨부파일 종류를 서버가 구분 못 함 — `attachments[]`에 구분 필드 없음, `submit_document`가 자유 텍스트뿐), "파일 업로드 API 스펙 두 벌" 섹션 신설(먼저 받은 multipart 스펙으로 구현했다가 나중에 도착한 공식 presign 스펙으로 전면 재작성한 사례, 어느 쪽이 유효한지 미해결), "잡다한 팁"에 `.env.development.local`로 커밋 없이 임시 BASE_URL 덮어쓰는 법 추가
+- 비고: 2026-09-06에 이미 페이지화된 "학생 지원하기" 화면 퍼블리싱 세션의 후속(같은 기능의 연장 작업)이라, Figma view-only 제약·CSS `main` shrink-to-fit·S3 presign 업로드 규칙·Playwright Blob 한계 등 핵심 개념은 이미 [[Figma-Dev-Mode-MCP]]·[[CSS-Container-shrink-to-fit]]·[[S3-Presigned-URL-업로드]]에 있어 중복 페이지화하지 않았다. 이번 세션에서 실제로 새로 나온 사실(더블 슬래시 재발, 캐시 무효화 누락, 업로드 스펙 두 벌 충돌, 첨부파일 구분 불가 설계 한계)만 골라 기존 프로젝트 페이지에 병합했다. Figma 인스펙터 값으로 버튼·카드 치수를 몇 px씩 맞춰나간 과정, 커밋 해시 목록, 백엔드 전달용 문서 작성, 임시 프리뷰용 mock 서버를 띄웠다 정리한 진행 로그는 재사용 가치가 낮아 제외했다.
+
 ## 2026-09-08 08:30 — ingest (Claude Code 세션 자동 캡처)
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 갱신: [[Zaemit-공모전/Zaemit-MCP-연동]] — OAuth 인증 최종 성공 확인(accessToken 753자, scope `mcp pii newsite`)과 이에 따라 공모전 절대 제약 "연동 이력 1회 이상" 충족 사실 추가
