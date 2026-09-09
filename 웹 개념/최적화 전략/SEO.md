@@ -32,3 +32,11 @@
 ### 참고
 ---
 https://1point.kr/blog/insights/seo-search-engine-optimization/#1-seo%25ec%259d%2598-%25ec%25a0%2595%25ec%259d%2598
+
+## 관련 노트
+
+- [[CSR SSR]]
+- [[SSG]]
+- [[ISR]]
+- [[SPA]]
+- [[HTTPS]]

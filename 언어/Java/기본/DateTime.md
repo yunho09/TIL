@@ -36,3 +36,7 @@ date.minusMonths(1);
 # 쓰는이유
 
 날짜랑 시간 쉽게 다루기 위해
+
+## 관련 노트
+
+- [[JVM-JDK-JRE]]

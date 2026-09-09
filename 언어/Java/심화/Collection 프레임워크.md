@@ -38,3 +38,10 @@ Map<String, Integer> map = new HashMap<>();
 ---
 예외
 map은 collection이 아님
+
+## 관련 노트
+
+- [[제네릭스]]
+- [[스트림]]
+- [[람다]]
+- [[인터페이스]]

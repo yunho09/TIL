@@ -32,3 +32,11 @@
 ### 참고
 ---
 https://docs.tosspayments.com/resources/glossary/spa
+
+## 관련 노트
+
+- [[CSR SSR]]
+- [[Virtual DOM]]
+- [[컴포넌트]]
+- [[브라우저 렌더링]]
+- [[SEO]]
