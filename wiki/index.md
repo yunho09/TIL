@@ -70,7 +70,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Zaemit-공모전/Zaemit-사이트-제작-트러블슈팅]] — `board_embed`의 `data-limit`이 제목 div가 아니라 `.wv-board` 루트에서만 읽히는 버그, 검수는 curl 대신 실제 브라우저 렌더로 해야 하는 이유, 툴 인자 한글은 리터럴로(유니코드 이스케이프 조립 금지), `overflow:hidden`만으론 절대위치 장식요소가 안 잘리고 부모에 `position:relative`가 같이 필요한 이유, 외부 이미지는 `image_import`로 저장해야 만료 안 됨, 반투명 카드+밝은 배경 사진 가독성 결함 패턴 (2026-09-08)
 
 ### 프로젝트/ToyVillage-Admin-FE
-- [[ToyVillage-Admin-FE/프로젝트-현황]] — Figma 퍼블리싱 harness 구조(specs/approvals 분리, 게이트 해시 판정, ②·⑦ 사람 게이트, approvals 재승인 시 cp 누락 함정), 구 파일 폐기 후 `yot` 기준 전환, 업무관리 목록·생성·수정·상세 4개 feature 퍼블리싱·게이트 승인·커밋 완료, 상태 모델(반려→파생 `지연`) 변경, 업무 목록 필터·페이지네이션 구현 패턴(useMemo 3단 파이프라인, 렌더 중 상태 보정으로 페이지 리셋), 레이아웃 버그 수정, task-report S16 재승인 미결 (2026-09-08)
+- [[ToyVillage-Admin-FE/프로젝트-현황]] — Figma 퍼블리싱 harness 구조(specs/approvals 분리, 게이트 해시 판정, ②·⑦ 사람 게이트, approvals 재승인 시 cp 누락 함정), 구 파일 폐기 후 `yot` 기준 전환, 업무관리 목록·생성·수정·상세 4개 feature 퍼블리싱·게이트 승인·커밋 완료, 업무 목록 필터·페이지네이션 구현 패턴(useMemo 3단 파이프라인, 렌더 중 상태 보정으로 페이지 리셋), 레이아웃 버그 수정, task-report S16 재승인 미결, 업무지시 API 연동 harness(RUNBOOK ①~⑬) 착수 — `GET /team/tree` 담당자 트리 API·`assignees[]`·상태 enum(`IN_PROGRESS`/`COMPLETED`/`EXPIRED`, 서버 계산값) 확정, 단체예약 API(PR #66) 선례 패턴 참고, develop 108커밋 merge 후 진행 (2026-09-09)
 
 ### 프로젝트/Commonly-FE
 - [[Commonly-FE/프로젝트-현황]] — 경력증명서 발급 프로토타입, FE↔BE 갭 목록(개별등록/민원인 발급 막힘, 대량등록 데이터 미연결 버그, JWT 클레임 부족), 진행한 이슈·PR(#68–#75), juso 주소검색 키 적용, PR 코드리뷰에서 나온 동시성 disabled 스코프 버그·문서번호 빈값 통과 버그 수정, 로그인 무한 루프(#74/#75) 원인·수정 (2026-09-08)
@@ -79,3 +79,4 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Claude-Code-MCP-서버-등록]] — MCP 서버 목록은 세션 부팅 시에만 로드됨, Desktop 내장 세션은 OAuth 브라우저 승인 불가(터미널 CLI 필요), 터미널을 도중에 닫아 토큰 교환이 빈 값으로 실패하는 패턴과 확인법, `/mcp` 메뉴 커서 위치를 놓쳐 엉뚱한 서버로 들어가는 함정, 자격증명 파일 직접 읽기 우회는 auto mode가 차단
 - [[Git-브랜치명-샵-이스케이프]] — 브랜치명에 `#`이 있으면 쉘 주석으로 잘려서 `--delete` 등 뒤 인자가 사라짐, 항상 따옴표로 감싸야 함
 - [[Claude-Code-느낌표-bash-접두사-채팅전용]] — `!command`는 채팅 입력 전용 즉시실행 기능, 실제 터미널(bash-input)에 그대로 붙여넣으면 `command not found: !node`로 실패
+- [[Git-브랜치-뒤처짐-확인-없이-기능-없다고-단정]] — 로컬 브랜치가 base보다 수십~수백 커밋 뒤처지면 이미 merge된 기능도 "없다"고 오판하기 쉬움, `git fetch` 후 `git log HEAD..origin/<base>`로 뒤처짐부터 확인, "기존 구조 분석" 단계 전엔 먼저 merge/rebase
