@@ -41,16 +41,20 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[JPA-엔티티와-리포지토리]] — @Entity 규칙(빈 생성자, Long id, setter 대신 update()), JpaRepository가 빈 인터페이스로 동작하는 원리와 쿼리 메서드
 - [[MySQL-연동]] — datasource 설정, ddl-auto 선택지, Docker MySQL 컨테이너 명령어 모음
 
+### 언어/JavaScript
+- [[Nullish-Coalescing-빈문자열-함정]] — `??`는 `null`/`undefined`만 폴백하고 `""`/`0`/`false`는 안 걸러서, 파싱 결과가 정상적으로 빈 문자열이 되는 경우 의도한 fallback이 발동 안 함(`||`와의 차이), 같은 헬퍼가 앱마다 `??`/`||`로 갈린 divergence 실사례
+
 ### 프론트엔드/CSS
-- [[CSS-Container-shrink-to-fit]] — `max-width`는 상한일 뿐 폭을 확보 못 함, `main` shrink-to-fit 원인과 해결, 전체 배경색 우회법
+- [[CSS-Container-shrink-to-fit]] — `max-width`는 상한일 뿐 폭을 확보 못 함, `main` shrink-to-fit 원인과 해결, 전체 배경색 우회법. 후속 함정: shrink-to-fit을 고쳐 `main`에 `width:100%`를 주면 교차축 `auto` 마진이 무력화돼 중앙 정렬이 깨짐 → 폭을 제한하는 자식(`Container`)에 `margin-inline: auto`를 둬서 해결
 - [[CSS-fieldset-legend-flex-패딩-무시]] — `display:flex` fieldset에서 `<legend>`가 padding 무시하고 최상단에 붙는 원인과 float+clear 해결법, 고정 px 그리드→`fr` 반응형 전환, 한글 `word-break: keep-all`
 
 ### 프론트엔드/빌드도구
 - [[Vite-빌드타임-환경변수-인라인]] — `VITE_*`가 런타임이 아니라 빌드 시점에 번들에 문자열로 치환됨, 그래서 비밀값이 될 수 없고 값 변경 시 재빌드 필요
 - [[Vite-모노레포-워크스페이스-패키지-dev서버-캐시]] — 앱 밖 `packages/*` 워크스페이스 패키지 수정이 HMR에 안 걸려 dev 서버가 옛 변환 캐시를 계속 서빙하는 문제, `.vite` 캐시 삭제+`--force` 재시작으로 해결
+- [[Vite-공용설정-publicDir-모노레포-경로]] — 공용 `vite.config.common.ts`의 `publicDir`을 `import.meta.dirname` 기준으로 계산하면 레포 루트 `public/`로 고정돼 앱별 `apps/<app>/public/`이 죽은 폴더가 되는 함정
 
 ### 프론트엔드/디자인-연동
-- [[Figma-Dev-Mode-MCP]] — 데스크톱 앱에 파일이 열려 있어야 동작, view-only 파일에서 씬 그래프 API 실패·스크린샷 폴백과 픽셀 계측 대안
+- [[Figma-Dev-Mode-MCP]] — 데스크톱 앱에 파일이 열려 있어야 동작, view-only 파일에서 씬 그래프 API 실패·스크린샷 폴백과 픽셀 계측 대안. 에셋 export 함정 3가지: `get_design_context` 이미지가 전 픽셀 투명일 수 있음, `download_assets`의 `export`는 부모 프레임에 잘린 합성 렌더일 수 있음, 원본은 `rawImages`로 받아야 함
 - [[Figma-MCP-팀별-호출-한도]] — `claude.ai Figma` 호출 한도는 계정이 아니라 파일 소유 팀의 플랜에 걸림, `whoami`는 항상 성공, 페이지 루트 전체 덤프가 한도를 급격히 소모
 
 ### 프론트엔드/API-인증
@@ -66,7 +70,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[학습-진행상황]] — 스프링 로드맵 진행 상태, 겪은 에러들, 다음 단계 후보
 
 ### 프로젝트/JOBIS-FE-V2
-- [[JOBIS-FE-V2/프로젝트-현황]] — 퍼블리싱·커밋 컨벤션(이슈 1=브랜치 1=PR 1 기본값), `packages/api` 공용 코드 결함(presign/더블슬래시 수정완료·단 브랜치별 재발 확인됨/401 이중의미/캐시 무효화 누락), `updateParams`↔`getParam` 키 표기 불일치로 필터 죽는 버그 클래스, 첨부파일 종류를 서버가 구분 못 하는 설계 한계, 파일 업로드 스펙 두 벌 충돌(미해결), 백엔드 API 확인사항(status enum, acceptances 취소 의미, 조회수, 배너), acceptances 전체 조회 API 부재 명세서로 재확인, 어드민 취업관리(`/student`) 화면 — API 연동·자동선택·체크박스 동작 전부 이번 브랜치에서 제외하고 순수 퍼블리싱만 유지하기로 한 결정과 복구 경로, 버그 제보 페이지 Figma 정합화로 디자인시스템 확장(`Input`/`TextArea` underline variant, `FileUpload` 스펙 변경이 어드민 공지 등록에도 영향) 및 학생 앱 라우터 `main` shrink-to-fit 전역 수정, 로컬 dev emotion 크래시는 프로젝트 버그가 아니라 dev 서버 기동 방식(`--force`) 문제였다고 정정 (2026-09-09)
+- [[JOBIS-FE-V2/프로젝트-현황]] — 퍼블리싱·커밋 컨벤션(이슈 1=브랜치 1=PR 1 기본값), `packages/api` 공용 코드 결함(presign/더블슬래시 수정완료·단 브랜치별 재발 확인됨/401 이중의미/캐시 무효화 누락), `updateParams`↔`getParam` 키 표기 불일치로 필터 죽는 버그 클래스, 첨부파일 종류를 서버가 구분 못 하는 설계 한계, 파일 업로드 스펙 두 벌 충돌(미해결), 백엔드 API 확인사항(status enum, acceptances 취소 의미, 조회수, 배너), acceptances 전체 조회 API 부재 명세서로 재확인, 어드민 취업관리(`/student`) 화면 — API 연동·자동선택·체크박스 동작 전부 이번 브랜치에서 제외하고 순수 퍼블리싱만 유지하기로 한 결정과 복구 경로, 버그 제보 페이지 Figma 정합화로 디자인시스템 확장(`Input`/`TextArea` underline variant, `FileUpload` 스펙 변경이 어드민 공지 등록에도 영향) 및 학생 앱 라우터 `main` shrink-to-fit 전역 수정. **(2026-09-10 갱신)** `main width:100%` 회귀로 전 페이지 좌측 쏠림 → `Container margin-inline:auto`로 수정, 공지 첨부파일명 `??`/`||` divergence 수정, 공지 12개 페이지네이션은 스테이징 서버 미지원 확인돼 보류, 홈 화면 흰 화면 버그는 토큰 재발급 큐 데드락으로 추가 의심, **어드민 `Footer` 테마 크래시가 재현되며 09-09의 "`--force` 탓" 결론과 상충**(원인 미확정 상태로 재오픈)
 
 ### 프로젝트/Zaemit-공모전
 - [[Zaemit-공모전/Zaemit-MCP-연동]] — 정본 엔드포인트(`zaemit.ai/mcp`, `mcp.zaemit.ai`는 랜딩페이지 함정), 게이트웨이 3종 구조(403툴/57그룹), 게시판·문의폼 등 플러그인 설치 필요 기능, Free 플랜 한도, 공모전 제약 (2026-09-18 마감), OAuth 인증 완료로 연동 이력 요건 충족 확인 (2026-09-08)
