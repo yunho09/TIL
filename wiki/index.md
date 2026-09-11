@@ -59,21 +59,23 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Figma-MCP-팀별-호출-한도]] — `claude.ai Figma` 호출 한도는 계정이 아니라 파일 소유 팀의 플랜에 걸림, `whoami`는 항상 성공, 페이지 루트 전체 덤프가 한도를 급격히 소모
 
 ### 프론트엔드/API-인증
-- [[401을-세션만료로-오인한-로그인-루프]] — 백엔드가 권한 부족도 403 대신 401로 응답하고 프론트가 401을 무조건 세션 만료로 처리할 때 로그인 직후 화면이 스스로 로그아웃을 유발하는 원인 체인과 해결(토큰 유효성 우선 확인). Spring Security에서 흔한 원인은 `accessDeniedHandler` 미등록으로 `AccessDeniedException`이 401 entry point로 새는 것
+- [[401을-세션만료로-오인한-로그인-루프]] — 백엔드가 권한 부족도 403 대신 401로 응답하고 프론트가 401을 무조건 세션 만료로 처리할 때 로그인 직후 화면이 스스로 로그아웃을 유발하는 원인 체인과 해결(토큰 유효성 우선 확인). Spring Security에서 흔한 원인은 `accessDeniedHandler` 미등록으로 `AccessDeniedException`이 401 entry point로 새는 것. 관련 함정: 인터셉터가 403에도 재발급 후 재시도하면 생성(POST)류 요청에서 중복 등록 위험이 생긴다는 것과, 이 판단이 리팩터링 중 회귀하기 쉽다는 점
 - [[S3-Presigned-URL-업로드]] — presign 2단계 흐름, Authorization 헤더가 서명을 깨는 이유, S3 CORS 필요성, Playwright의 Blob 바디 목킹 한계
 - [[도로명주소-검색-API-신청]] — business.juso.go.kr 신청 절차(검색 API vs 팝업 API, 개발/운영 승인키 흐름 차이), `confmKey`/JSONP 사용법, 승인키가 URL 단위로 묶이는 이유
+- [[TanStack-Query-무효화-키-null-vs-undefined]] — 쿼리 키의 빈 파라미터를 `?? null`로 채우면 prefix 무효화가 안 먹는 이유(TanStack Query는 `undefined`만 와일드카드로 취급), `params`를 그대로 넘겨 `undefined`가 되게 하는 해결
 
 ### 프론트엔드/테스트
 - [[테스트-픽스처-고정날짜-현재월-필터-노후화]] — "이번 달"만 렌더하는 화면에 고정 과거 날짜 픽스처를 쓰면 작성 당시엔 통과하다 달이 바뀌면서 자동으로 실패하는 시간 의존 테스트 패턴, 판별법과 상대 날짜 전환 해결책
-- [[배럴-Import-함정]] — 엔티티 배럴(`index.ts`)이 상수 하나 때문에 재수출 전체를 실행시켜 axios CJS 체인이 Node/Playwright 로더에서 링크 실패하는 원인, `Total: 0 tests in 0 files`로 조용히 수집조차 안 되는 게 가장 위험한 이유, 하위 모듈 직접 import로 우회, 집계 스크립트가 `"Total:"` 문자열만 보거나 `tail -1`로 판정하면 이런 실패를 놓치는 부수 함정
+- [[배럴-Import-함정]] — 엔티티 배럴(`index.ts`)이 상수 하나 때문에 재수출 전체를 실행시켜 axios CJS 체인이 Node/Playwright 로더에서 링크 실패하는 원인, `Total: 0 tests in 0 files`로 조용히 수집조차 안 되는 게 가장 위험한 이유, 하위 모듈 직접 import로 우회, 집계 스크립트가 `"Total:"` 문자열만 보거나 `tail -1`로 판정하면 이런 실패를 놓치는 부수 함정. 다른 메커니즘: 배럴 경유 순환 참조가 top-level `styled(X)` 평가 시점에 `undefined`를 주입해 크래시나는 사례
 - [[네트워크-레벨-모킹]] — 함수 교체/네트워크 가로채기/진짜 서버 3단계 비교, MSW·Playwright `page.route`·Cypress·nock·WireMock 도구별 구현 방식, fulfill/continue/abort/fallback, 고정·대본형·상태형 응답 패턴, route 등록 순서(나중 등록이 먼저 매칭)·등록 시점·서비스워커 우회·패턴 정확도 함정, 계약 승인+해시 동결로 contract drift를 보완하는 구조
+- [[스토리북-전용-Vitest-설정에-묻힌-유닛테스트]] — `storybookTest` 플러그인이 `include`를 스토리 파일로 고정해 `.test.tsx`가 수십 개 있어도 한 번도 안 도는 함정, `vitest.unit.config.ts` 분리 해결, jsdom vs 브라우저 모드 선택 기준(계산된 CSS 값 차이), `globals:true` 없으면 testing-library 자동 cleanup이 등록 안 돼 DOM이 누적되는 문제, Playwright 브라우저 빌드 버전 불일치·리눅스 배포판 미지원 시 캐시 심볼릭 링크 우회
 
 ### 프로젝트/spring-practice
 - [[프로젝트-현황]] — spring-practice 구조·API·DB 환경·알려진 허점 스냅샷 (2026-09-02)
 - [[학습-진행상황]] — 스프링 로드맵 진행 상태, 겪은 에러들, 다음 단계 후보
 
 ### 프로젝트/JOBIS-FE-V2
-- [[JOBIS-FE-V2/프로젝트-현황]] — 퍼블리싱·커밋 컨벤션(이슈 1=브랜치 1=PR 1 기본값), `packages/api` 공용 코드 결함(presign/더블슬래시 수정완료·단 브랜치별 재발 확인됨/401 이중의미/캐시 무효화 누락), `updateParams`↔`getParam` 키 표기 불일치로 필터 죽는 버그 클래스, 첨부파일 종류를 서버가 구분 못 하는 설계 한계, 파일 업로드 스펙 두 벌 충돌(미해결), 백엔드 API 확인사항(status enum, acceptances 취소 의미, 조회수, 배너), acceptances 전체 조회 API 부재 명세서로 재확인, 어드민 취업관리(`/student`) 화면 — API 연동·자동선택·체크박스 동작 전부 이번 브랜치에서 제외하고 순수 퍼블리싱만 유지하기로 한 결정과 복구 경로, 버그 제보 페이지 Figma 정합화로 디자인시스템 확장(`Input`/`TextArea` underline variant, `FileUpload` 스펙 변경이 어드민 공지 등록에도 영향) 및 학생 앱 라우터 `main` shrink-to-fit 전역 수정. **(2026-09-10 갱신)** `main width:100%` 회귀로 전 페이지 좌측 쏠림 → `Container margin-inline:auto`로 수정, 공지 첨부파일명 `??`/`||` divergence 수정, 공지 12개 페이지네이션은 스테이징 서버 미지원 확인돼 보류, 홈 화면 흰 화면 버그는 토큰 재발급 큐 데드락으로 추가 의심, **어드민 `Footer` 테마 크래시가 재현되며 09-09의 "`--force` 탓" 결론과 상충**(원인 미확정 상태로 재오픈)
+- [[JOBIS-FE-V2/프로젝트-현황]] — 퍼블리싱·커밋 컨벤션(이슈 1=브랜치 1=PR 1 기본값), `packages/api` 공용 코드 결함(presign/더블슬래시 수정완료·단 브랜치별 재발 확인됨/401 이중의미/캐시 무효화 누락), `updateParams`↔`getParam` 키 표기 불일치로 필터 죽는 버그 클래스, 첨부파일 종류를 서버가 구분 못 하는 설계 한계, 파일 업로드 스펙 두 벌 충돌(미해결), 백엔드 API 확인사항(status enum, acceptances 취소 의미, 조회수, 배너), acceptances 전체 조회 API 부재 명세서로 재확인, 어드민 취업관리(`/student`) 화면 — API 연동·자동선택·체크박스 동작 전부 이번 브랜치에서 제외하고 순수 퍼블리싱만 유지하기로 한 결정과 복구 경로, 버그 제보 페이지 Figma 정합화로 디자인시스템 확장(`Input`/`TextArea` underline variant, `FileUpload` 스펙 변경이 어드민 공지 등록에도 영향) 및 학생 앱 라우터 `main` shrink-to-fit 전역 수정. **(2026-09-10 갱신)** `main width:100%` 회귀로 전 페이지 좌측 쏠림 → `Container margin-inline:auto`로 수정, 공지 첨부파일명 `??`/`||` divergence 수정, 공지 12개 페이지네이션은 스테이징 서버 미지원 확인돼 보류, 홈 화면 흰 화면 버그는 토큰 재발급 큐 데드락으로 추가 의심, **어드민 `Footer` 테마 크래시가 재현되며 09-09의 "`--force` 탓" 결론과 상충**(원인 미확정 상태로 재오픈). **(2026-09-11 갱신)** 커밋에 Claude attribution 라인 붙이지 않기로 결정(기존 이력 재작성 완료), 디자인시스템 `.test.tsx` 46개가 storybookTest `include` 고정으로 한 번도 안 돌고 있던 문제 발견·분리 해결(418건 통과), `Modal` 순환참조·`Icon` 강제 aria-label 접근성 부채(59곳 영향, 보류)·죽은 테스트 3건 정리, `createQueryHook` params-누락 URL 버그와 공지 캐시 무효화 `null` 버그 수정, 403 인터셉터 재시도 회귀 원복, 학생 앱 이미지 URL 접두사 미적용·버그제보 API 403(서버측, 미해결) 신규 이슈, PR #147이 스택 PR 7개(#148~154)로 재구성됨
 
 ### 프로젝트/Zaemit-공모전
 - [[Zaemit-공모전/Zaemit-MCP-연동]] — 정본 엔드포인트(`zaemit.ai/mcp`, `mcp.zaemit.ai`는 랜딩페이지 함정), 게이트웨이 3종 구조(403툴/57그룹), 게시판·문의폼 등 플러그인 설치 필요 기능, Free 플랜 한도, 공모전 제약 (2026-09-18 마감), OAuth 인증 완료로 연동 이력 요건 충족 확인 (2026-09-08)
