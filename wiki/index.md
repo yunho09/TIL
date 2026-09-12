@@ -48,6 +48,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 프론트엔드/CSS
 - [[CSS-Container-shrink-to-fit]] — `max-width`는 상한일 뿐 폭을 확보 못 함, `main` shrink-to-fit 원인과 해결, 전체 배경색 우회법. 후속 함정: shrink-to-fit을 고쳐 `main`에 `width:100%`를 주면 교차축 `auto` 마진이 무력화돼 중앙 정렬이 깨짐 → 폭을 제한하는 자식(`Container`)에 `margin-inline: auto`를 둬서 해결
 - [[CSS-fieldset-legend-flex-패딩-무시]] — `display:flex` fieldset에서 `<legend>`가 padding 무시하고 최상단에 붙는 원인과 float+clear 해결법, 고정 px 그리드→`fr` 반응형 전환, 한글 `word-break: keep-all`
+- [[테이블-오버플로우-hidden-드롭다운-메뉴-잘림]] — 표 컨테이너의 `overflow:hidden`이 행의 케밥/드롭다운 메뉴까지 잘라 마지막 행에서 메뉴가 통째로 안 보이는 원인, `overflow` 제거 후 `border-radius`를 헤더에 직접 부여하는 해결법
 
 ### 프론트엔드/빌드도구
 - [[Vite-빌드타임-환경변수-인라인]] — `VITE_*`가 런타임이 아니라 빌드 시점에 번들에 문자열로 치환됨, 그래서 비밀값이 될 수 없고 값 변경 시 재빌드 필요
@@ -69,6 +70,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[배럴-Import-함정]] — 엔티티 배럴(`index.ts`)이 상수 하나 때문에 재수출 전체를 실행시켜 axios CJS 체인이 Node/Playwright 로더에서 링크 실패하는 원인, `Total: 0 tests in 0 files`로 조용히 수집조차 안 되는 게 가장 위험한 이유, 하위 모듈 직접 import로 우회, 집계 스크립트가 `"Total:"` 문자열만 보거나 `tail -1`로 판정하면 이런 실패를 놓치는 부수 함정. 다른 메커니즘: 배럴 경유 순환 참조가 top-level `styled(X)` 평가 시점에 `undefined`를 주입해 크래시나는 사례
 - [[네트워크-레벨-모킹]] — 함수 교체/네트워크 가로채기/진짜 서버 3단계 비교, MSW·Playwright `page.route`·Cypress·nock·WireMock 도구별 구현 방식, fulfill/continue/abort/fallback, 고정·대본형·상태형 응답 패턴, route 등록 순서(나중 등록이 먼저 매칭)·등록 시점·서비스워커 우회·패턴 정확도 함정, 계약 승인+해시 동결로 contract drift를 보완하는 구조
 - [[스토리북-전용-Vitest-설정에-묻힌-유닛테스트]] — `storybookTest` 플러그인이 `include`를 스토리 파일로 고정해 `.test.tsx`가 수십 개 있어도 한 번도 안 도는 함정, `vitest.unit.config.ts` 분리 해결, jsdom vs 브라우저 모드 선택 기준(계산된 CSS 값 차이), `globals:true` 없으면 testing-library 자동 cleanup이 등록 안 돼 DOM이 누적되는 문제, Playwright 브라우저 빌드 버전 불일치·리눅스 배포판 미지원 시 캐시 심볼릭 링크 우회
+- [[Playwright-toBeVisible-조상-클리핑-미탐지]] — `toBeVisible()`은 요소 자신만 검사하고 조상의 `overflow:hidden` 클리핑은 못 잡는 함정, hit-test(`elementFromPoint`)로 실제 렌더 가시성을 검증하는 대안
 
 ### 프로젝트/spring-practice
 - [[프로젝트-현황]] — spring-practice 구조·API·DB 환경·알려진 허점 스냅샷 (2026-09-02)
@@ -82,7 +84,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Zaemit-공모전/Zaemit-사이트-제작-트러블슈팅]] — `board_embed`의 `data-limit`이 제목 div가 아니라 `.wv-board` 루트에서만 읽히는 버그, 검수는 curl 대신 실제 브라우저 렌더로 해야 하는 이유, 툴 인자 한글은 리터럴로(유니코드 이스케이프 조립 금지), `overflow:hidden`만으론 절대위치 장식요소가 안 잘리고 부모에 `position:relative`가 같이 필요한 이유, 외부 이미지는 `image_import`로 저장해야 만료 안 됨, 반투명 카드+밝은 배경 사진 가독성 결함 패턴 (2026-09-08)
 
 ### 프로젝트/ToyVillage-Admin-FE
-- [[ToyVillage-Admin-FE/프로젝트-현황]] — Figma 퍼블리싱 harness 구조(specs/approvals 분리, 게이트 해시 판정, ②·⑦ 사람 게이트, approvals 재승인 시 cp 누락 함정), 구 파일 폐기 후 `yot` 기준 전환, 업무관리 목록·생성·수정·상세 4개 feature 퍼블리싱·게이트 승인·커밋 완료, 업무 목록 필터·페이지네이션 구현 패턴(useMemo 3단 파이프라인, 렌더 중 상태 보정으로 페이지 리셋), 레이아웃 버그 수정, 업무지시 API 연동 harness(RUNBOOK ①~⑬) 착수부터 승인·구현·검증 완료까지, 단체예약 API(PR #66) 선례 패턴 참고, develop 108커밋 merge. **(2026-09-11 갱신)** 전체 457개 테스트 정밀 재검증(통과 373·실패 84, #58 관련 실패 0건), [[배럴-Import-함정]]으로 3개 스펙이 조용히 안 돌던 문제 확정·수정, task-report S16이 9/8 커밋의 UI 재설계로 깨졌음을 확정(freeze로 실패가 승인 상태로 굳어짐), 실 토큰으로 백엔드 미배포 확인(이 서버는 없는 경로도 404 아닌 500 반환하는 함정), `/team/tree` contract-실배포 불일치 재확인 필요, 커밋 12개로 기능별 분리(단 타입 결합으로 `src/` 마이그레이션 자체는 못 쪼갬), 로그인/토큰 저장 경로 전체 미구현 확인
+- [[ToyVillage-Admin-FE/프로젝트-현황]] — Figma 퍼블리싱 harness 구조(specs/approvals 분리, 게이트 해시 판정, ②·⑦ 사람 게이트, approvals 재승인 시 cp 누락 함정), 구 파일 폐기 후 `yot` 기준 전환, 업무관리 목록·생성·수정·상세 4개 feature 퍼블리싱·게이트 승인·커밋 완료, 업무 목록 필터·페이지네이션 구현 패턴(useMemo 3단 파이프라인, 렌더 중 상태 보정으로 페이지 리셋), 레이아웃 버그 수정, 업무지시 API 연동 harness(RUNBOOK ①~⑬) 착수부터 승인·구현·검증 완료까지, 단체예약 API(PR #66) 선례 패턴 참고, develop 108커밋 merge. **(2026-09-11 갱신)** 전체 457개 테스트 정밀 재검증(통과 373·실패 84, #58 관련 실패 0건), [[배럴-Import-함정]]으로 3개 스펙이 조용히 안 돌던 문제 확정·수정, task-report S16이 9/8 커밋의 UI 재설계로 깨졌음을 확정(freeze로 실패가 승인 상태로 굳어짐), 실 토큰으로 백엔드 미배포 확인(이 서버는 없는 경로도 404 아닌 500 반환하는 함정), `/team/tree` contract-실배포 불일치 재확인 필요, 커밋 12개로 기능별 분리(단 타입 결합으로 `src/` 마이그레이션 자체는 못 쪼갬), 로그인/토큰 저장 경로 전체 미구현 확인. **(2026-09-12 갱신)** 목록 응답이 승인 Contract(`assigneeName`)와 어긋나(`assignees[]`) 200인데도 오류 화면 뜨던 버그 수정, 표 `overflow:hidden` 케밥 메뉴 클리핑 수정([[테이블-오버플로우-hidden-드롭다운-메뉴-잘림]]), 업무보고·진행도를 상세 응답 `reports`/`progress`로 실연동(`MISSING`→`심사대기` 표시 결정), `| tail` exit code 오판 정정([[쉘-파이프-tail-종료코드-오판]]), e2e 실패 83건을 route mock 부재·fixture 날짜·401·403 전역 로그아웃 세 원인으로 분류해 별도 이슈로 분리 결정, develop 124커밋 머지(충돌 9개 해소, 승인 해시 재발급, work-log 스펙 56개로 해소 검증), push 및 PR 본문 작성
 
 ### 프로젝트/Commonly-FE
 - [[Commonly-FE/프로젝트-현황]] — 경력증명서 발급 프로토타입, FE↔BE 갭 목록(개별등록/민원인 발급 막힘, 대량등록 데이터 미연결 버그, JWT 클레임 부족), 진행한 이슈·PR(#68–#77), juso 주소검색 키 적용, PR 코드리뷰에서 나온 동시성 disabled 스코프 버그·문서번호 빈값 통과 버그 수정, 로그인 무한 루프(#74/#75) 원인·수정. **(2026-09-10 갱신)** 노션 API 명세서 전수 확인 결과 민원인 본인 경력 조회 엔드포인트는 애초에 명세에 없었음이 확인돼(#76/#77) "BE가 GET /self를 신설해야 한다"는 이전 진단을 폐기하고 FE를 명세(선택 발급 불가, 항상 전체 발급)에 맞춰 재정렬, 401이 인가 실패까지 삼키는 메커니즘(accessDeniedHandler 부재) 확인
@@ -93,3 +95,4 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Claude-Code-느낌표-bash-접두사-채팅전용]] — `!command`는 채팅 입력 전용 즉시실행 기능, 실제 터미널(bash-input)에 그대로 붙여넣으면 `command not found: !node`로 실패
 - [[Git-브랜치-뒤처짐-확인-없이-기능-없다고-단정]] — 로컬 브랜치가 base보다 수십~수백 커밋 뒤처지면 이미 merge된 기능도 "없다"고 오판하기 쉬움, `git fetch` 후 `git log HEAD..origin/<base>`로 뒤처짐부터 확인, "기존 구조 분석" 단계 전엔 먼저 merge/rebase
 - [[GitHub-PR-본문-이미지-첨부-gh-cli-한계]] — `gh` CLI로는 PR 본문에 이미지를 직접 못 올림, 브라우저 웹 에디터에 업로드해 `user-attachments` 주소만 얻고 저장은 취소한 뒤 그 주소를 `gh`로 본문에 넣는 우회법
+- [[쉘-파이프-tail-종료코드-오판]] — `command | tail -N`의 종료 코드는 `tail`의 것이라 `command` 실패를 가려버리는 함정, `pipefail`/`PIPESTATUS`로 확인하거나 요약 전에 원본 종료 코드부터 확보하는 대응
