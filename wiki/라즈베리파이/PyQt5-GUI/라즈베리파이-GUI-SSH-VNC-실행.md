@@ -1,6 +1,6 @@
 ---
 tags: [라즈베리파이, vnc, wayvnc, wayland, ssh, qt, gui]
-updated: 2026-09-08
+updated: 2026-09-15
 ---
 
 # 라즈베리파이 GUI 앱을 SSH가 아닌 VNC에서 실행
@@ -93,8 +93,26 @@ scp: stat local ":USERPROFILEOneDriveDesktopLIGHT_GUI": No such file or director
 
 반대 방향 실수도 있다. Windows PowerShell 5.1은 `&&`를 지원하지 않아 리눅스용 명령을 그대로 붙여 넣으면 파서 오류가 난다. PowerShell에서는 `;`로 잇는다.
 
+## 며칠 뒤 다시 붙을 때 — IP가 바뀐다
+
+공유기가 DHCP로 주소를 주므로 **일주일 뒤에는 파이 IP가 바뀌어 있었다** (`192.168.1.9` → `192.168.1.30`). 증상은 SSH `Connection timed out`, VNC 뷰어 `Failed to connect to server!`.
+
+- 파이 모니터에서 `hostname -I`로 새 주소를 확인한다. 호스트명(`yunho.local`)은 이 네트워크에서 해석되지 않았다.
+- **UltraVNC Viewer 입력창 드롭다운에 옛 주소가 남아 있다.** 기록을 고르지 말고 새 주소를 직접 입력한다.
+- `raspi-config`로 켠 wayvnc는 systemd에 등록돼 있어 **재부팅 후에도 자동으로 켜져 있었다** (5900 포트 응답 확인).
+- 같은 날 `sudo poweroff` 후 다시 켠 정도로는 주소가 유지됐다.
+- Raspberry Pi 4는 전원 버튼이 없어서, `poweroff` 후 다시 켜려면 USB-C 전원선을 뽑았다 꽂는다.
+
+PC에서 파이가 살아 있는지 빠르게 보는 법:
+
+```bash
+ssh -o BatchMode=yes -o ConnectTimeout=6 pi@<IP> true
+# Permission denied   → 파이가 켜져 있고 SSH가 응답 중 (비밀번호만 안 넣은 상태)
+# Connection timed out → 꺼져 있거나 주소가 바뀜
+```
+
 ## 출처
 
 Claude Code 세션 (2026-09-08), Raspberry Pi 4 Model B Rev 1.5 / Debian 13 (trixie) / labwc.
 
-관련: [[라즈베리파이-PyQt5-설치-ARM64]], [[Qt-Designer-PyQt5-연결]]
+관련: [[라즈베리파이-PyQt5-설치-ARM64]], [[Qt-Designer-PyQt5-연결]], [[DHT11-온습도-센서]]

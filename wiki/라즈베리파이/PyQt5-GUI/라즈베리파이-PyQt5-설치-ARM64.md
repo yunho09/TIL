@@ -1,6 +1,6 @@
 ---
 tags: [라즈베리파이, pyqt5, python, venv, arm64, 설치]
-updated: 2026-09-08
+updated: 2026-09-15
 ---
 
 # 라즈베리파이에 PyQt5 설치 (ARM64)
@@ -43,6 +43,20 @@ led = LED(13, pin_factory=LGPIOFactory())
 ```
 
 Pi 4 + Bookworm/Trixie에서는 **gpiozero 기본 팩토리가 이미 lgpio**라 그냥 `LED(13)`으로 충분하다. 반대로 `RPi.GPIO`를 쓰는 예제 코드는 Pi 4에서는 그대로 동작하지만 Pi 5에서는 못 쓴다.
+
+## 한글이 □□로 깨질 때
+
+라즈베리파이 OS에는 기본 한글 글꼴이 없어서 PyQt 창의 한글 라벨이 **네모(□□)** 로 나온다. 버튼 글자가 전부 영어일 때는 드러나지 않다가 한글 라벨을 넣는 순간 보인다.
+
+```bash
+sudo apt install -y fonts-nanum
+```
+
+설치 후 **프로그램을 다시 실행**하면 한글이 나온다. 설치 전에 이미 열려 있던 앱(터미널 창 등)은 계속 깨져 보이므로 새로 연다.
+
+## 센서 라이브러리는 venv 안에 pip으로
+
+DHT11용 `adafruit-circuitpython-dht`는 apt 패키지가 아니라 venv 안에 pip으로 설치했다. `--system-site-packages` venv라 apt로 받은 PyQt5·gpiozero와 함께 쓸 수 있다 → [[DHT11-온습도-센서]]
 
 ## 출처
 

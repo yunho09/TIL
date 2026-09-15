@@ -25,16 +25,19 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Figma-터치패드-핀치줌-속도-패치]] — `app.asar` 전개+preload 주입으로 핀치줌 배속(`figma-zoom-speed`, CDP로 검증), "확대가 안 되고 그냥 움직여짐" 증상은 핀치 종료 ~190ms 뒤 남은 움직임이 libinput에 새 스크롤 제스처로 재분류되는 것(+`AttrResolutionHint` 스크롤 2배 부작용 중첩)이 원인, 핀치 꼬리 300ms 가드로 대응(사용자 확인 대기 중, 미확정)
 
 ### 라즈베리파이/GPIO
-- [[GPIO-기초]] — GPIO가 무엇인지(3.3V 출력/입력), 켜짐·꺼짐뿐인 핀으로 PWM이 밝기를 만드는 원리, BCM 번호와 물리 핀 자리 번호가 다른 두 체계, 핀은 한 프로세스만 점유한다는 성질
-- [[gpiozero-GPIO-배선-확인]] — gpiozero는 LED가 없어도 에러를 안 내므로 터미널 출력이 무의미, 핀 스윕으로 실제 배선 핀 찾기, BCM 번호와 물리 핀 번호 혼동, `GPIO busy`(같은 핀을 쓰는 프로그램 중복 실행)와 잔여 프로세스 정리, 동시 실행은 가능하고 배타적인 건 핀·포트 단위라는 점과 핀 소유자-클라이언트 구조
+- [[GPIO-기초]] — GPIO가 무엇인지(3.3V 출력/입력), 켜짐·꺼짐뿐인 핀으로 PWM이 밝기를 만드는 원리, BCM 번호와 물리 핀 자리 번호가 다른 두 체계, 핀은 한 프로세스만 점유한다는 성질, 40핀 헤더에서 1번 핀 찾는 법과 3.3V·5V·GND 위치
+- [[gpiozero-GPIO-배선-확인]] — gpiozero는 LED가 없어도 에러를 안 내므로 터미널 출력이 무의미, 핀 스윕으로 실제 배선 핀 찾기, BCM 번호와 물리 핀 번호 혼동, `GPIO busy`(같은 핀을 쓰는 프로그램 중복 실행)와 잔여 프로세스 정리, 동시 실행은 가능하고 배타적인 건 핀·포트 단위라는 점과 핀 소유자-클라이언트 구조, 센서 같은 입력 장치는 풀다운 입력으로 읽어서 찾기, 선이 부딪히면 GND 공유·신호 핀 이동
 - [[gpiozero-PWMLED-밝기-제어]] — 켜고 끄는 LED와 달리 PWMLED는 value 0.0~1.0으로 조광, 슬라이더 0~255를 나누어 매핑할 때 STEPS 불일치 함정, PWM이 핀을 계속 점유하는 성질
+- [[DHT11-온습도-센서]] — Pi 4·Debian 13·Python 3.13에서 동작한 조합(adafruit-circuitpython-dht를 venv에 pip, `use_pulseio=False`; 기본값은 `Unable to set line`으로 실패), `sensor not found`가 뜻하는 것, 3.3V 핀 옆 5V 핀 주의, 풀다운 입력 읽기로 DATA가 꽂힌 핀 찾기(HIGH 핀이 두 개면 배선 오류 신호)
 
 ### 라즈베리파이/PyQt5-GUI
-- [[라즈베리파이-GUI-개발-워크플로]] — PC에서 Designer+pyuic5로 만들고 파이에서 실행하는 전체 흐름, 어느 기계/어느 터미널에서 무엇을 하는지 구분표, 가짜 gpiozero를 끼워 PC에서 로직을 미리 검증하는 법, 자주 막히는 지점 모음
-- [[라즈베리파이-PyQt5-설치-ARM64]] — pip PyQt5가 ARM64에서 소스 빌드로 빠지는 문제, apt `python3-pyqt5` + venv `--system-site-packages` 조합, Pi 5용 LGPIOFactory 명시가 Pi 4에서는 불필요한 이유
-- [[라즈베리파이-GUI-SSH-VNC-실행]] — GUI는 SSH 터미널(=DISPLAY 없음)에서 못 뜬다, 코드가 import 시점에 `QT_QPA_PLATFORM`을 덮어써 셸 환경변수가 무시되는 함정, Debian 13의 wayvnc 활성화와 세션 없으면 붙을 게 없는 구조, PC 터미널과 파이 터미널 구분(scp는 PC에서, PowerShell은 `&&` 미지원), SSH/SCP/VNC 역할 구분 — VNC는 저장소가 아니라 화면이고 파일은 파이 디스크에만 있다
+- [[라즈베리파이-GUI-개발-워크플로]] — PC에서 Designer+pyuic5로 만들고 파이에서 실행하는 전체 흐름, 어느 기계/어느 터미널에서 무엇을 하는지 구분표, 가짜 gpiozero를 끼워 PC에서 로직을 미리 검증하는 법, 자주 막히는 지점 모음, 며칠 뒤 이어서 할 때 체크리스트(IP 재확인·최신 파일 재전송)
+- [[라즈베리파이-PyQt5-설치-ARM64]] — pip PyQt5가 ARM64에서 소스 빌드로 빠지는 문제, apt `python3-pyqt5` + venv `--system-site-packages` 조합, Pi 5용 LGPIOFactory 명시가 Pi 4에서는 불필요한 이유, 한글이 □□로 깨질 때 `fonts-nanum`
+- [[라즈베리파이-GUI-SSH-VNC-실행]] — GUI는 SSH 터미널(=DISPLAY 없음)에서 못 뜬다, 코드가 import 시점에 `QT_QPA_PLATFORM`을 덮어써 셸 환경변수가 무시되는 함정, Debian 13의 wayvnc 활성화와 세션 없으면 붙을 게 없는 구조, PC 터미널과 파이 터미널 구분(scp는 PC에서, PowerShell은 `&&` 미지원), SSH/SCP/VNC 역할 구분 — VNC는 저장소가 아니라 화면이고 파일은 파이 디스크에만 있다, 며칠 뒤 IP가 바뀌는 문제와 VNC 뷰어에 남은 옛 주소, wayvnc 재부팅 후 자동 시작
 - [[Qt-Designer-PyQt5-연결]] — objectName이 디자인↔코드의 유일한 연결고리, 폼 objectName을 잘못 바꾸면 `Ui_` 클래스명이 바뀌어 코드가 어긋남, 레이아웃 단축키는 Ctrl+1/2/5, Qt5/Qt6 Designer의 .ui는 호환되지 않음, 반복문 시그널 연결 시 람다 늦은 바인딩, 표시와 적용 분리 패턴, pyuic5가 XML을 파이썬 코드로 번역하는 방식과 생성 파일을 직접 고치면 안 되는 이유
-- [[가짜-모듈로-하드웨어-없이-테스트]] — `sys.modules`에 껍데기 모듈을 미리 등록해 하드웨어 라이브러리 import를 가로채는 기법, offscreen 렌더로 GUI 버튼까지 코드로 눌러 검증, 이 방식으로 걸러지는 것과 걸러지지 않는 것
+- [[가짜-모듈로-하드웨어-없이-테스트]] — `sys.modules`에 껍데기 모듈을 미리 등록해 하드웨어 라이브러리 import를 가로채는 기법, offscreen 렌더로 GUI 버튼까지 코드로 눌러 검증, 이 방식으로 걸러지는 것과 걸러지지 않는 것, offscreen에서 글자가 안 찍힐 때 `show()` 없이 `grab()`, 시간에 따라 변하는 가짜 센서로 그래프 화면 캡처
+- [[Qt-스타일시트-QSS]] — 폼 `styleSheet`에 QSS를 넣어 `.ui`에 저장, QLabel이 QFrame을 상속하므로 ID 선택자로 범위 한정, 세로 슬라이더는 `add-page`가 채워지는 아래쪽, 네온 발광은 QSS가 아닌 `QGraphicsDropShadowEffect`로, 다크 네온 팔레트
+- [[Qt-Designer-위젯-승격]] — 직접 만든 위젯을 Designer에 넣는 승격(Promote), `.ui`의 `customwidgets`와 pyuic5가 붙이는 import(모듈 파일을 같이 옮겨야 함), QPainter로 그린 실시간 라인 차트(deque 보관·y축 최소 폭·여러 겹 선으로 발광), 레이아웃 `stretch`
 
 ### 언어/Java/Spring
 - [[빈과-DI]] — 인터페이스+구현체+생성자 주입 패턴, 다중 구현체 주입(@Primary/@Qualifier/List<T>), 싱글톤 규칙, 실무 사용 빈도

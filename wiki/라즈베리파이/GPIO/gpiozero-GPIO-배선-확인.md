@@ -1,6 +1,6 @@
 ---
 tags: [라즈베리파이, gpiozero, gpio, 디버깅, 하드웨어]
-updated: 2026-09-08
+updated: 2026-09-15
 ---
 
 # gpiozero로 실제 배선 핀 찾기
@@ -78,8 +78,28 @@ pkill -f "python.*Run.py"                            # 비정상 종료된 잔�
 
 이러면 여러 클라이언트가 동시에 같은 장치를 제어할 수 있다.
 
+## 입력 장치(센서)는 풀다운을 걸고 읽어서 찾는다
+
+LED처럼 눈에 보이는 출력 장치는 핀을 차례로 켜 보며 찾지만, 센서는 **입력 모드 + 내부 풀다운**으로 읽어서 찾는다. 출력을 쓰지 않아 안전하다.
+
+```python
+from gpiozero import DigitalInputDevice
+d = DigitalInputDevice(5, pull_up=False)   # 내부 풀다운
+print(d.value)                              # 풀업이 달린 장치가 붙어 있으면 1
+d.close()
+```
+
+**HIGH인 핀이 기대보다 많으면 선이 엉뚱한 줄에 가 있다는 신호**다. DHT11 DATA 하나만 1이어야 하는데 GPIO18·23 두 개가 1로 나왔고, 다시 꽂자 정리됐다 → [[DHT11-온습도-센서]]
+
+## 선이 서로 부딪힐 때
+
+헤더 핀 간격이 2.54mm라 이웃 핀에 선을 여러 개 꽂으면 물리적으로 부딪힌다.
+
+- **GND는 공유한다.** 브레드보드 GND 줄 하나에 LED와 센서 GND를 같이 꽂는다. 전기적으로 문제없다.
+- **신호 핀은 멀리 옮기고 코드의 핀 번호만 바꾼다.** LED가 물리 11·13·15번이면 센서 DATA는 29번(GPIO5)으로 옮겼다.
+
 ## 출처
 
 Claude Code 세션 (2026-09-08), Raspberry Pi 4 Model B Rev 1.5 / gpiozero 2.0.1. 수업 자료 `heartcom/Linux-Program` 2번 PPT 실습 중 배선 불일치를 추적하며 정리.
 
-관련: [[라즈베리파이-PyQt5-설치-ARM64]], [[라즈베리파이-GUI-SSH-VNC-실행]]
+관련: [[라즈베리파이-PyQt5-설치-ARM64]], [[라즈베리파이-GUI-SSH-VNC-실행]], [[DHT11-온습도-센서]]
