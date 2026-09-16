@@ -23,6 +23,7 @@ wiki/라즈베리파이/GPIO/        GPIO·gpiozero·하드웨어 제어
 wiki/라즈베리파이/PyQt5-GUI/   Qt Designer·PyQt5·파이 GUI 실행 워크플로
 wiki/언어/<언어>/<프레임워크>/
 wiki/프론트엔드/CSS/
+wiki/프론트엔드/스크롤-인터랙션/ 핀 고정 스크롤, 스크롤 구동 애니메이션 기법
 wiki/프론트엔드/빌드도구/       Vite 등 번들러·dev 서버
 wiki/프론트엔드/디자인-연동/     Figma·MCP 등 디자인↔코드 연결
 wiki/프론트엔드/API-인증/       인증·외부 API 연동
