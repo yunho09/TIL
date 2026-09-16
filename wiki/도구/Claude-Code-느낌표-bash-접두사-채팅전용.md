@@ -1,6 +1,6 @@
 ---
-tags: [claude-code, cli, bash]
-updated: 2026-09-07
+tags: [claude-code, cli, bash, zsh]
+updated: 2026-09-17
 ---
 
 # Claude Code 느낌표(!) bash 접두사는 채팅 입력 전용
@@ -17,6 +17,14 @@ Claude Code 세션에서 **채팅 메시지의 맨 앞**에 `!`를 붙이면, Cl
 
 여러 줄을 붙여넣을 때 일부 줄에만 `!`를 섞어도 마찬가지다 — `!` 없는 줄만 정상 실행되고 나머지는 전부 이 에러로 실패한다.
 
+**실제 zsh/bash 대화형 터미널에 붙여넣으면 증상이 다르게 나타난다.** Claude Code의 bash-input이 아니라 사용자의 진짜 터미널(zsh 프롬프트)에 `!cd ... && git push ...`를 그대로 붙여넣으면, zsh의 **히스토리 확장(history expansion)** 기능이 `!cd`를 "cd로 시작하는 과거 명령을 찾아 치환하라"는 이벤트 지정자로 해석한다. 그런 명령이 히스토리에 없으면 셸이 명령을 실행하지도 못하고 바로 죽는다.
+
+```
+zsh: event not found: cd
+```
+
+이 경우도 해결은 동일하다 — `!`를 떼고 순수 명령만 터미널에 붙여넣으면 된다(`!`는 Claude Code 채팅 입력창에서만 의미 있는 접두사).
+
 ## 규칙
 
 - 사람이 대신 실행해야 하는 명령을 여러 개 안내할 땐, "채팅창에 `!`를 붙여 보내라"는 것인지 "터미널에 그냥 붙여넣으라"는 것인지 **명확히 구분**해서 안내한다.
@@ -25,3 +33,4 @@ Claude Code 세션에서 **채팅 메시지의 맨 앞**에 `!`를 붙이면, Cl
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2) — zsh 히스토리 확장으로 인한 `event not found` 증상 추가
