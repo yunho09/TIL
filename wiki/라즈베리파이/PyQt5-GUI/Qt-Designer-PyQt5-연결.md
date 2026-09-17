@@ -1,6 +1,6 @@
 ---
 tags: [qt, pyqt5, designer, python, gui]
-updated: 2026-09-08
+updated: 2026-09-15
 ---
 
 # Qt Designer와 PyQt5 코드 연결
@@ -130,4 +130,4 @@ btnSend.clicked.connect(self.send)    # 이때 한 번에 하드웨어 반영
 
 Claude Code 세션 (2026-09-08). 수업 자료 `heartcom/Linux-Program` 2번 PPT(Rpi_GPIO_DHT11_PyQt) 실습을 Windows PC + 라즈베리파이 4로 진행하며 확인.
 
-관련: [[라즈베리파이-PyQt5-설치-ARM64]], [[라즈베리파이-GUI-SSH-VNC-실행]]
+관련: [[라즈베리파이-PyQt5-설치-ARM64]], [[라즈베리파이-GUI-SSH-VNC-실행]], [[Qt-스타일시트-QSS]], [[Qt-Designer-위젯-승격]]
