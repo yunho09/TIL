@@ -424,6 +424,12 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[네트워크-레벨-모킹]] — 해시 동결의 한계 항목에 "산문 스펙 문서는 해시 보호 밖이라 모킹 방식이 바뀌어도 설명이 낡을 수 있다"는 사례 추가
 - 비고: 이슈 #103("mock e2e fix")으로 아직 localStorage 목업을 쓰던 e2e 10개 spec 중 3갈래를 가짜 서버 방식으로 전환한 세션. PR을 열었다가 "브랜치명 그대로 써야 한다"는 리포 컨벤션(같은 날 로그인 PR #126에서도 확정된 것과 동일)을 어겨 사용자에게 지적받고 제목·본문을 정정한 사례, CodeRabbit이 diff 밖 spec.md 문서 드리프트를 잡아준 사례는 다른 프로젝트에도 재사용 가치가 있어 일반 지식 페이지([[네트워크-레벨-모킹]])에도 반영했다. 나머지 20여 개 미전환 spec을 그대로 둔 결정, PR 예시 메시지 초안을 어떻게 다듬었는지 같은 진행 로그는 제외했다.
 
+## 2026-09-17 23:07 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 생성: [[Cloudflare-Workers-SPA-fallback-404]]
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "이슈 #134 — `/login` 등 하위 경로 새로고침 404" 절 신규 추가: 원인이 프론트 코드가 아니라 Cloudflare Workers 배포에 SPA fallback이 꺼져 있던 것으로 확정, `wrangler.jsonc`(`not_found_handling: "single-page-application"`) 추가·PR #135 생성까지 완료(머지 전이라 실서버는 계속 404), 대시보드 빌드 명령 확인은 사용자 몫으로 남김
+- 비고: 사용자가 실서버 새로고침 404를 제보해 원인 진단부터 수정 PR까지 이어진 세션. curl 헤더로 body-less 404를 확인해 Workers 배포로 추정하는 과정, "프론트가 고치는 거냐"는 질문에 원인(배포 설정)과 파일 작업 위치(프론트 저장소)가 다를 수 있다고 답한 판단은 다른 프로젝트에도 재발 가능한 일반 지식이라 새 페이지로 분리했다(wiki/프론트엔드/배포/ 폴더·index 섹션 신설, CLAUDE.md 폴더 구조표 갱신). 이 저장소 고유 사실(Worker 이름 `toyvillage-admin-fe-stag`, 이슈·PR 번호, `.gitignore`에 `.wrangler/` 추가)은 프로젝트 현황 페이지에 남겼다. Worker/Pages 중 어느 쪽인지 사용자에게 재차 확인받는 왕복 과정은 최종 판단(Workers로 확정)만 남기고 제외했다.
+
 ## 2026-09-17 22:22 — ingest (Claude Code 세션 자동 캡처)
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "개체 상세 먹이 급여 기록 버튼 연결(#119) 완료" 절 신규 추가: `/feeds/:id`가 개체 번호가 아닌 급여 기록 번호로 여는 화면이라 개체별 화면을 새로 만드는 대신 최신 급여 기록 상세로 보내는 결정과 근거, `getFeedHistory` 공개·`feedQueryKeys.history` 신설·`backPath`로 뒤로가기 보정, 버튼을 "미리 비활성화"에서 "클릭 시 조회 후 이동/오류 토스트 분기"로 정정한 경위(사용자가 스테이징에서 눌러도 반응이 없어 예외 처리 필요성 지적), e2e 48개 통과·시나리오 S17·S31·S32 재승인, PR #122 머지, 스테이징의 개체 1~3 최신 급여 기록이 전부 미래 날짜(2026-12-31) QA 테스트 데이터라는 함정
