@@ -389,3 +389,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "로그아웃 API 연동(#106) 완료" 절 신규 추가: Notion 명세 DB에 없는 API를 staging Swagger(Basic Auth라 Chrome으로 우회 확인)로 대체한 경위와 `POST /app/auth/logout` 정의, 서버 호출 실패(403/500/네트워크 오류)해도 세션은 항상 클리어하고 `/login`으로 이동시키는 결정, 401만 재발급 재시도 대상으로 유지, 승인 파일은 해시 보호 때문에 Prettier 미적용 상태를 그대로 둔 판단, PR #118
 - 갱신: [[Swagger-자동생성-문서-필수값-확인과-신뢰-한계]] — Basic Auth로 막힌 staging Swagger를 이미 로그인된 브라우저로 우회하는 법, Notion 명세에 아예 없는 API의 유일한 출처가 Swagger일 수 있다는 사례 추가
 - 비고: 이슈 #106(로그아웃 API 연동)을 spec부터 승인·구현·검증·PR까지 처리한 세션. #105(퍼블리싱, 2026-09-17 14:25 ingest 기록)가 mock 경계로 남겨둔 실제 서버 연동을 마저 채운 후속 작업이다. Swagger 조회 과정에서의 시행착오(Notion DB 재탐색, curl 실패 후 브라우저 전환)는 결과만 남기고 과정은 생략했다. 커밋 4개 목록·PR 본문 전문·"이어서" 같은 대화 재개 지시는 재사용 가치가 없어 제외.
+
+## 2026-09-17 20:40 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-3)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "공지사항·휴관일 재퍼블리싱(#93·#95)·API e2e 흐름 반영(#112) 완료" 절 신규 추가: 폐기된 Figma 파일을 여전히 가리키던 spec 재발견, 공지 읽기전용 상세·휴관일 상세 신설, #112를 같은 브랜치로 합쳐 공지 목록 API 응답 계약 변경(`{notices,totalPageSize}`, page 1부터, `createdAt`) 반영, 운영시간 수정 API(OPEN_TIME_CREATE/UPDATE) 연동으로 읽기전용화됐던 편집 기능 부활(id 유무 등록/수정 분기, 시간 형식 구분), 스테이징 `GET /close-day?date=` 무시 버그 우회, 핑크 포커스 테두리 12곳 제거, git worktree `.env` 미복사 함정, PR #120
+- 갱신: [[Figma-MCP-팀별-호출-한도]] — 한도 초과 시 해결책 두 가지 추가(파일을 자기 팀으로 Duplicate=일회성 임시 조회용, 소유자에게 팀 이전 요청=계속 쓸 파일용)
+- 비고: 이슈 #93·#95(퍼블리싱)와 #112(API e2e 갱신)를 한 브랜치에서 처리한 세션. PR 문구를 여러 차례 다듬은 왕복, 5173 포트를 반복해서 다른 워크스페이스 서버와 주고받은 세부 과정, 승인 명령 재실행 요청 같은 일회성 진행 상황은 제외했다. Figma 팀 쿼터 문제는 이미 있는 페이지의 기존 서술을 재확인만 한 수준이라 새 페이지 대신 해결책 섹션만 보강했다.
