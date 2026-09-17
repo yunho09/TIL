@@ -376,3 +376,10 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Playwright-오토스크롤-화면기준-위치측정-오염]] — Playwright가 클릭 전 대상을 뷰포트로 자동 스크롤해 화면 기준 좌표로 위치 고정을 검증하면 화면 버그 없이도 실패하는 함정과 페이지 기준 좌표로 바꿔 해결하는 법
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 계정 생성 퍼블리싱(#96) 완료 절 추가(사람 부재 상태 대리 승인·구현, 로고 파일 중복 발견·통합, S11 Playwright 함정, 사이드바 후속 연동, dev 서버 외부 종료 대응)
 - 비고: 커밋 지시·PR 문구 정리 등 일회성 진행 상황은 건너뛰고, 재사용 가치가 있는 Playwright 함정과 프로젝트 결정 사항만 반영함
+
+## 2026-09-17 20:22 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 생성: [[Yarn-Berry-silent-플래그-무효-스크립트-거짓FAIL]], [[zsh-단어분리-안됨-glob-nomatch-함정]], [[Notion-MCP-쿼터-SQL-rows-소진-시-view모드-우회]], [[Claude-Code-서브에이전트-fan-out-토큰-과다소모]], [[React-useEffect-useLayoutEffect-폼제출-타이밍-버그]]
+- 갱신: [[에러-응답-CORS-헤더-누락-상태코드-차단]] — preflight(OPTIONS) 상태코드로 preflight 실패와 본요청 CORS 헤더 누락을 구분하는 진단법, Cloudflare 502가 CORS 에러로 오인된 실사례 추가
+- 갱신: [[네트워크-레벨-모킹]] — `api.e2e.invalid` 같은 도달 불가 도메인을 안전장치로 잡아 route 미매칭 요청의 실서버 유출을 막는 기법, 해시 동결이 "AI가 테스트를 고쳐 통과시키는 것"을 막기 위한 장치라는 목적 설명과 공용 헬퍼 파일은 해시에 안 잡히는 우회 구멍 추가
+- 비고: 개체관리 API 연동 작업(spec/plan 작성, 팀 에이전트 조율, 이슈 트리아지, PR)이 대부분인 세션이라 그 진행 상태는 이미 있는 [[ToyVillage-Admin-FE/프로젝트-현황]]의 몫으로 보고 이번엔 갱신하지 않았다. 대신 작업 중 곁가지로 나온, 다른 프로젝트에도 재발 가능한 지식 5건만 새 페이지로 분리했다 — Yarn berry `-s` 플래그 무효, zsh의 단어분리·glob nomatch 차이, Notion MCP SQL/rows 쿼터 소진 시 view 모드 우회, 서브에이전트 fan-out 토큰 과다소모(팀 에이전트 4개 동시 fan-out 후 직접 순차 작업으로 전환한 사용자 피드백), React `useEffect`→`useLayoutEffect` 전환으로 폼 제출 타이밍 버그 해결. 기존 페이지와 주제가 겹친 CORS/에러 응답 진단과 Playwright stateful mock·해시 동결 개념은 새 페이지를 만들지 않고 [[에러-응답-CORS-헤더-누락-상태코드-차단]]·[[네트워크-레벨-모킹]]에 보강했다. API 계약 세부값(성별 enum, page 시작값 등), 팀 에이전트 조율 로그, 이슈 트리아지 목록, PR 본문, 커밋 분할 과정은 프로젝트 진행상황이라 제외했다.

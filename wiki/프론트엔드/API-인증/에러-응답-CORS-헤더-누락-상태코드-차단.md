@@ -1,6 +1,6 @@
 ---
 tags: [cors, http, api, debugging]
-updated: 2026-09-16
+updated: 2026-09-17
 ---
 
 # 에러 응답에 CORS 헤더가 없으면 브라우저가 상태 코드 자체를 감춘다
@@ -14,10 +14,19 @@ updated: 2026-09-16
 1. 네트워크 탭에서 응답 헤더의 `Server`를 확인 — `cloudflare` 등 프록시가 주체인지, 오리진 서버인지 구분한다.
 2. 실패한 응답에 `Access-Control-Allow-Origin`이 있는지 확인한다. 없으면 브라우저가 상태 코드를 프론트에 넘기지 않았다는 뜻이다.
 3. 같은 엔드포인트에 인증 없이 호출해 오리진 서버가 살아있는지(예: 401이 정상적으로 옴) 확인한다 — "그 요청만" 실패하는 건지 서버 전체가 죽은 건지 구분하기 위함.
+4. **Preflight(OPTIONS) 요청이 있는 경우** Network 탭에서 그 행의 상태코드를 따로 확인한다.
+   - OPTIONS 자체가 빨간색(401/403/500 등)이면 **preflight 단계에서 실패**한 것 — 본요청은 아예 나가지도 않는다.
+   - OPTIONS는 200/204로 정상인데 본요청만 실패하면, **본요청의 에러 응답에 CORS 헤더가 빠진** 이 문서의 케이스다.
+
+이 둘을 구분하지 않으면 "CORS 에러"라는 브라우저 메시지만 보고 원인을 preflight 설정 쪽으로 잘못 짚기 쉽다.
 
 ## 해결
 브라우저 쪽에서 고칠 수 없다. 에러 응답에도(프록시·게이트웨이 단 포함) CORS 헤더를 붙이도록 백엔드/인프라를 고쳐야 프론트의 상태 코드별 에러 매핑이 실제로 동작한다.
 
+## 실사례: Cloudflare 502가 CORS 에러로 보인 경우
+응답 헤더가 `Server: cloudflare`, `Content-Type: text/html`, `Retry-After` 등으로 오면 **오리진 서버 자체가 다운**된 상태에서 Cloudflare가 대신 502 에러 페이지를 돌려준 것이다. 이 에러 페이지에는 애초에 `Access-Control-Allow-Origin`이 없으므로 브라우저에는 CORS 오류로만 보인다 — 실제 원인은 CORS 설정이 아니라 오리진 서버 장애다. `Server` 헤더로 프록시/오리진을 구분하는 1번 항목이 이 케이스를 가려낸다.
+
 ## 출처
 - [[Commonly-FE/프로젝트-현황]]
 - Claude Code 세션 자동 캡처 (/data/project/Commonly-fe)
+- Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — preflight OPTIONS 진단법, Cloudflare 502 실사례 추가

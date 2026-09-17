@@ -47,6 +47,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 언어/JavaScript
 - [[Nullish-Coalescing-빈문자열-함정]] — `??`는 `null`/`undefined`만 폴백하고 `""`/`0`/`false`는 안 걸러서, 파싱 결과가 정상적으로 빈 문자열이 되는 경우 의도한 fallback이 발동 안 함(`||`와의 차이), 같은 헬퍼가 앱마다 `??`/`||`로 갈린 divergence 실사례
 - [[requestAnimationFrame-래치-가드-버그]] — rAF 스로틀 가드를 미리 busy로 두고 콜백이 안 오면(백그라운드 탭 로드 등) 영원히 잠겨 이후 이벤트가 전부 무시되는 패턴, `visibilitychange`/`pageshow` 복구 + 워치독 타이머 해결
+- [[React-useEffect-useLayoutEffect-폼제출-타이밍-버그]] — 첨부 제거 직후 바로 저장하면 옛 목록이 전송되는 버그의 원인은 파생 상태 동기화가 페인트 이후 비동기 실행되는 `useEffect`였기 때문, 페인트 전 동기 실행되는 `useLayoutEffect`로 교체해 해결, 빠른 연속 입력-제출 폼에서 파생 상태 동기화에 `useEffect`를 쓰면 레이스 컨디션이 생길 수 있다는 일반 패턴
 
 ### 프론트엔드/CSS
 - [[CSS-Container-shrink-to-fit]] — `max-width`는 상한일 뿐 폭을 확보 못 함, `main` shrink-to-fit 원인과 해결, 전체 배경색 우회법. 후속 함정: shrink-to-fit을 고쳐 `main`에 `width:100%`를 주면 교차축 `auto` 마진이 무력화돼 중앙 정렬이 깨짐 → 폭을 제한하는 자식(`Container`)에 `margin-inline: auto`를 둬서 해결
@@ -78,13 +79,13 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[TanStack-Query-placeholderData-이전탭-데이터-조작-가능]] — `placeholderData: (prev) => prev`로 탭 전환 중 이전 데이터를 보여주는 동안 행별 액션 버튼이 그 이전 데이터를 대상으로 활성 상태로 남는 함정, `isPlaceholderData` 가드로 해결
 - [[크로스오리진-파일-다운로드-a-download-무시]] — 파일 주소가 페이지와 다른 도메인이면 `<a download>`가 무시돼 새 탭으로 열리거나 파일명이 key로 나오는 원인, CORS GET 허용(fetch+Blob) vs `Content-Disposition` 헤더 두 해결 경로, 비공개 버킷은 presigned URL 필요. fetch+Blob 구현 시 공용 인증 axios 재사용 금지([[공용-인증-axios-외부도메인-토큰유출]] 참고)와 Safari용 Blob URL 지연 해제 추가
 - [[공용-인증-axios-외부도메인-토큰유출]] — 인증 인터셉터가 URL의 도메인을 안 가리고 모든 요청에 토큰을 붙이는 구조에서, 절대 URL로 외부 CDN을 호출하면 토큰이 새고 그 서버의 403이 세션 만료로 오인돼 로그아웃까지 유발할 수 있는 원인과 `fetch` 우회 해법
-- [[에러-응답-CORS-헤더-누락-상태코드-차단]] — 502 등 에러 응답에 `Access-Control-Allow-Origin`이 빠지면 브라우저가 응답을 통째로 차단해 프론트의 상태코드별 에러 매핑이 무력화되는 원인, `Server` 헤더로 프록시/오리진 구분·무인증 호출로 "이 요청만 실패"인지 판별하는 진단 순서, 백엔드/인프라에서만 고칠 수 있다는 결론
+- [[에러-응답-CORS-헤더-누락-상태코드-차단]] — 502 등 에러 응답에 `Access-Control-Allow-Origin`이 빠지면 브라우저가 응답을 통째로 차단해 프론트의 상태코드별 에러 매핑이 무력화되는 원인, `Server` 헤더로 프록시/오리진 구분·무인증 호출로 "이 요청만 실패"인지 판별하는 진단 순서, 백엔드/인프라에서만 고칠 수 있다는 결론. **(2026-09-17 추가)** preflight(OPTIONS) 상태코드로 preflight 실패와 본요청 CORS 헤더 누락을 구분하는 법, Cloudflare 502가 CORS 에러로 오인되는 실사례(`Server: cloudflare`)
 - [[Vite-dev서버-프록시로-오리진고정-CORS-우회]] — 스테이징이 특정 오리진(예 `localhost:5173`)만 허용하고 그 포트가 이미 다른 프로젝트로 점유돼 있을 때, `server.proxy`로 브라우저→dev서버(같은 오리진)→백엔드(서버 대 서버, CORS 미적용) 경로를 만들어 사람이 직접 브라우저로 확인해야 하는 상황을 우회하는 기법과 적용 시 임시 설정 분리 요령
 
 ### 프론트엔드/테스트
 - [[테스트-픽스처-고정날짜-현재월-필터-노후화]] — "이번 달"만 렌더하는 화면에 고정 과거 날짜 픽스처를 쓰면 작성 당시엔 통과하다 달이 바뀌면서 자동으로 실패하는 시간 의존 테스트 패턴, 판별법과 상대 날짜 전환 해결책
 - [[배럴-Import-함정]] — 엔티티 배럴(`index.ts`)이 상수 하나 때문에 재수출 전체를 실행시켜 axios CJS 체인이 Node/Playwright 로더에서 링크 실패하는 원인, `Total: 0 tests in 0 files`로 조용히 수집조차 안 되는 게 가장 위험한 이유, 하위 모듈 직접 import로 우회, 집계 스크립트가 `"Total:"` 문자열만 보거나 `tail -1`로 판정하면 이런 실패를 놓치는 부수 함정. 다른 메커니즘: 배럴 경유 순환 참조가 top-level `styled(X)` 평가 시점에 `undefined`를 주입해 크래시나는 사례
-- [[네트워크-레벨-모킹]] — 함수 교체/네트워크 가로채기/진짜 서버 3단계 비교, MSW·Playwright `page.route`·Cypress·nock·WireMock 도구별 구현 방식, fulfill/continue/abort/fallback, 고정·대본형·상태형 응답 패턴, route 등록 순서(나중 등록이 먼저 매칭)·등록 시점·서비스워커 우회·패턴 정확도 함정, 계약 승인+해시 동결로 contract drift를 보완하는 구조
+- [[네트워크-레벨-모킹]] — 함수 교체/네트워크 가로채기/진짜 서버 3단계 비교, MSW·Playwright `page.route`·Cypress·nock·WireMock 도구별 구현 방식, fulfill/continue/abort/fallback, 고정·대본형·상태형 응답 패턴, route 등록 순서(나중 등록이 먼저 매칭)·등록 시점·서비스워커 우회·패턴 정확도 함정, 계약 승인+해시 동결로 contract drift를 보완하는 구조. **(2026-09-17 추가)** `api.e2e.invalid` 같은 도달 불가 도메인을 안전장치로 잡아 유출 요청을 확실히 실패시키는 기법, 해시 동결의 목적(AI가 테스트를 고쳐 통과시키는 걸 방지)과 테스트가 import하는 공용 헬퍼는 해시에 안 잡혀 우회 구멍이 남는 한계
 - [[스토리북-전용-Vitest-설정에-묻힌-유닛테스트]] — `storybookTest` 플러그인이 `include`를 스토리 파일로 고정해 `.test.tsx`가 수십 개 있어도 한 번도 안 도는 함정, `vitest.unit.config.ts` 분리 해결, jsdom vs 브라우저 모드 선택 기준(계산된 CSS 값 차이), `globals:true` 없으면 testing-library 자동 cleanup이 등록 안 돼 DOM이 누적되는 문제, Playwright 브라우저 빌드 버전 불일치·리눅스 배포판 미지원 시 캐시 심볼릭 링크 우회
 - [[Playwright-toBeVisible-조상-클리핑-미탐지]] — `toBeVisible()`은 요소 자신만 검사하고 조상의 `overflow:hidden` 클리핑은 못 잡는 함정, hit-test(`elementFromPoint`)로 실제 렌더 가시성을 검증하는 대안
 - [[Playwright-reuseExistingServer-실서버-유출]] — `reuseExistingServer`가 baseURL 포트의 기존 서버를 그대로 재사용해 mock 안 된 요청이 실제 staging으로 새는 함정(다른 프로젝트 점유·자기 dev 서버가 실서버를 향한 경우 둘 다), 격리 포트+도달 불가 API로 재실행해 기존 실패와 구분하는 판별법
@@ -122,3 +123,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[브라우저-팬-숨김-상태-rAF-정지-테스트-우회]] — 브라우저 팬이 가려지면 `document.hidden=true`가 돼 rAF·CSS 애니메이션이 멈추고 스크린샷이 타임아웃/찢김되는 증상, `document.hidden` 오버라이드+rAF를 setTimeout으로 패치해 DOM 계측으로 검증하는 우회법, 검사 방식 자체가 만드는 오진(앞 섹션을 숨겨 reveal이 안 트리거된 사례) 함정
 - [[Git-스택-PR-재정렬-force-with-lease]] — 스택 PR에서 리뷰가 지목한 커밋이 상위 브랜치에 없으면 스택이 어긋났다는 신호, 순차 rebase로 재정렬, 브랜치별 명시적 SHA를 건 `--force-with-lease`로 동시 작업 중인 다른 세션을 안전하게 보호하는 법, Claude Code auto mode가 force-push를 `[Git Destructive]`로 차단해 사용자가 직접 실행해야 하는 제약
 - [[Swagger-자동생성-문서-필수값-확인과-신뢰-한계]] — Request body Schema 탭(Example Value 탭 아님)에서 `required` 배열·`minLength`/`minItems`로 실제 검증 어노테이션 기반 필수값을 읽는 법, 응답 DTO는 검증 어노테이션이 없어 Swagger만으론 null 가능 필드를 알 수 없는 이유, `pageable required:true`·성공코드 200 고정 표시·`page` minimum 표시를 그대로 믿으면 안 되는 이유
+- [[Yarn-Berry-silent-플래그-무효-스크립트-거짓FAIL]] — Yarn classic의 `-s`(silent) 플래그가 Yarn berry에서는 무효라 검증 스크립트가 원인 불명 FAIL을 내는 함정, `node scripts/xxx.mjs` 직접 실행으로 교차 검증하는 대응
+- [[zsh-단어분리-안됨-glob-nomatch-함정]] — zsh는 bash와 달리 `$F`를 자동 단어 분리하지 않아 `for` 루프가 한 번만 도는 함정과 `bash -c` 우회, 매치 안 되는 glob 패턴에 `setopt nonomatch` 없으면 "no matches found" 에러를 내는 차이
+- [[Notion-MCP-쿼터-SQL-rows-소진-시-view모드-우회]] — SQL/COUNT·rows 조회가 같은 쿼터를 공유해 소진될 수 있는데 데이터베이스 view 조회는 쿼터를 소모하지 않아(quota-free) 막혔을 때 대체 경로로 쓸 수 있다는 것
+- [[Claude-Code-서브에이전트-fan-out-토큰-과다소모]] — 반복적·탐색적 소작업까지 팀 에이전트로 병렬 fan-out하면 토큰 비용이 급증한다는 사용 패턴, 독립적이고 덩어리가 큰 작업에만 fan-out 이득이 오버헤드를 상회한다는 판단 기준
