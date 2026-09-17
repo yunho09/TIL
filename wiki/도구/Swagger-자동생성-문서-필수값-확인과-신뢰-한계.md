@@ -29,5 +29,12 @@ JSON 문서(`/v3/api-docs/...`)를 직접 읽으면 `required` 배열과 `minLen
 - 같은 이유로 `page` 파라미터의 `minimum: 0` 같은 표시도 실제 동작(예: 1부터 시작)과 다를 수 있다.
 - `POST`/`PATCH`가 같은 요청 스키마를 공유하는 경우, 수정 요청에서도 생성 때와 똑같이 전체 필드가 필수로 보인다 — 수정 시 정말 전부 필수인지는 Swagger만으로 판단하지 말고 별도 확인 대상으로 남겨야 한다.
 
+## Basic Auth로 막힌 staging Swagger는 브라우저로 우회
+
+staging Swagger UI에 Basic Auth가 걸려 있으면 `curl`로는 401로 막힌다. 이미 로그인해둔 브라우저(Chrome 등)가 있다면 그 세션으로 Swagger UI를 열어 문서를 확인하는 쪽이 빠르다 — 별도로 자격증명을 알아내거나 인증 우회를 시도할 필요 없이, 사람이 이미 인증해둔 상태를 그대로 재사용하는 것.
+
+Notion 같은 별도 명세 DB에 특정 API가 아예 등록되어 있지 않을 때도 Swagger가 유일한 출처가 될 수 있다. 이 경우 Contract 등 파생 문서의 `source` 필드에 Swagger URL을 남기고, "Notion엔 없고 Swagger가 유일한 출처"라는 사실 자체를 문서에 명시해야 한다 — role·성공 상태 코드 등 이 페이지가 정리한 한계가 그대로 적용되므로, 추후 값이 이상해 보이면 이 출처부터 의심해야 한다.
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-09-17
+- Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop) — 2026-09-17 밤 (이슈 #106, [[프로젝트/ToyVillage-Admin-FE/프로젝트-현황]] 참고)

@@ -383,3 +383,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[에러-응답-CORS-헤더-누락-상태코드-차단]] — preflight(OPTIONS) 상태코드로 preflight 실패와 본요청 CORS 헤더 누락을 구분하는 진단법, Cloudflare 502가 CORS 에러로 오인된 실사례 추가
 - 갱신: [[네트워크-레벨-모킹]] — `api.e2e.invalid` 같은 도달 불가 도메인을 안전장치로 잡아 route 미매칭 요청의 실서버 유출을 막는 기법, 해시 동결이 "AI가 테스트를 고쳐 통과시키는 것"을 막기 위한 장치라는 목적 설명과 공용 헬퍼 파일은 해시에 안 잡히는 우회 구멍 추가
 - 비고: 개체관리 API 연동 작업(spec/plan 작성, 팀 에이전트 조율, 이슈 트리아지, PR)이 대부분인 세션이라 그 진행 상태는 이미 있는 [[ToyVillage-Admin-FE/프로젝트-현황]]의 몫으로 보고 이번엔 갱신하지 않았다. 대신 작업 중 곁가지로 나온, 다른 프로젝트에도 재발 가능한 지식 5건만 새 페이지로 분리했다 — Yarn berry `-s` 플래그 무효, zsh의 단어분리·glob nomatch 차이, Notion MCP SQL/rows 쿼터 소진 시 view 모드 우회, 서브에이전트 fan-out 토큰 과다소모(팀 에이전트 4개 동시 fan-out 후 직접 순차 작업으로 전환한 사용자 피드백), React `useEffect`→`useLayoutEffect` 전환으로 폼 제출 타이밍 버그 해결. 기존 페이지와 주제가 겹친 CORS/에러 응답 진단과 Playwright stateful mock·해시 동결 개념은 새 페이지를 만들지 않고 [[에러-응답-CORS-헤더-누락-상태코드-차단]]·[[네트워크-레벨-모킹]]에 보강했다. API 계약 세부값(성별 enum, page 시작값 등), 팀 에이전트 조율 로그, 이슈 트리아지 목록, PR 본문, 커밋 분할 과정은 프로젝트 진행상황이라 제외했다.
+
+## 2026-09-17 20:37 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "로그아웃 API 연동(#106) 완료" 절 신규 추가: Notion 명세 DB에 없는 API를 staging Swagger(Basic Auth라 Chrome으로 우회 확인)로 대체한 경위와 `POST /app/auth/logout` 정의, 서버 호출 실패(403/500/네트워크 오류)해도 세션은 항상 클리어하고 `/login`으로 이동시키는 결정, 401만 재발급 재시도 대상으로 유지, 승인 파일은 해시 보호 때문에 Prettier 미적용 상태를 그대로 둔 판단, PR #118
+- 갱신: [[Swagger-자동생성-문서-필수값-확인과-신뢰-한계]] — Basic Auth로 막힌 staging Swagger를 이미 로그인된 브라우저로 우회하는 법, Notion 명세에 아예 없는 API의 유일한 출처가 Swagger일 수 있다는 사례 추가
+- 비고: 이슈 #106(로그아웃 API 연동)을 spec부터 승인·구현·검증·PR까지 처리한 세션. #105(퍼블리싱, 2026-09-17 14:25 ingest 기록)가 mock 경계로 남겨둔 실제 서버 연동을 마저 채운 후속 작업이다. Swagger 조회 과정에서의 시행착오(Notion DB 재탐색, curl 실패 후 브라우저 전환)는 결과만 남기고 과정은 생략했다. 커밋 4개 목록·PR 본문 전문·"이어서" 같은 대화 재개 지시는 재사용 가치가 없어 제외.
