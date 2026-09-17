@@ -1,5 +1,5 @@
 ---
-tags: [cloudflare, workers, spa, deploy, wrangler]
+tags: [cloudflare, workers, spa, deploy, wrangler, ci]
 updated: 2026-09-17
 ---
 
@@ -45,9 +45,18 @@ SPA를 Cloudflare Workers(정적 assets)로 배포했을 때 `/`는 정상인데
 
 Vite는 `public/` 안의 파일을 그대로 `dist/`로 복사하므로 배포에 같이 들어간다.
 
+## `wrangler.jsonc` 자체가 없으면 Workers Builds 체크가 즉시 실패
+
+SPA fallback 404와는 별개로, 저장소 루트에 `wrangler.jsonc`가 아예 없는 브랜치는 PR의 Cloudflare Workers Builds 체크 자체가 실패할 수 있다(로컬 `yarn build`는 정상 성공).
+
+- **판별법**: 체크 로그의 시작·종료 타임스탬프가 완전히 같은 초(예: `14:09:21` = `14:09:21`)면 빌드가 돌기도 전에 떨어진 것이다. 실제 빌드 오류라면 최소 몇십 초는 걸린다. 같은 저장소의 다른 PR이 같은 체크를 통과하는지도 대조하면 이 브랜치만의 설정 누락인지 판단할 수 있다.
+- 원인은 대개 `wrangler.jsonc`가 그 브랜치가 갈라진 시점 이후에 다른 PR로 추가됐고, 이 브랜치는 그 전에 갈라져서 없는 경우다. develop과 병합하면 먼저 들어간 버전과 충돌이 날 수 있는데(예: trailing comma 차이), 내용이 같다면 develop 버전을 그대로 채택하면 된다.
+- 실제 로그(빌드 명령 실행 여부 등)는 Cloudflare 대시보드에만 있고, wrangler 로그인이 안 된 환경에서는 CLI로 못 본다 — 위 타임스탬프 비교가 코드 안에서 할 수 있는 간접 진단이다.
+
 ## 원인 소재와 책임 분담
 
 고치는 파일(`wrangler.jsonc`)은 프론트 저장소에 들어가지만, 실제 배포(빌드 명령, Worker 연결)는 Cloudflare 대시보드 쪽 설정과 맞아야 하므로 배포 권한이 있는 사람과 같이 확인해야 한다. 저장소에 배포 설정 파일이 전혀 없다면 대시보드에서 누군가 수동으로 연결해 둔 것일 가능성이 높다 — 이 경우 "SPA fallback이 꺼져 있다"고 전달하면 대시보드에서 바로 켜는 것으로도 해결된다.
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — [[프로젝트/ToyVillage-Admin-FE/프로젝트-현황]] (이슈 #134, PR #135)
+- Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-3) — [[프로젝트/ToyVillage-Admin-FE/프로젝트-현황]] (이슈 #133, PR #136 — Workers Builds 즉시 실패 진단법 추가)
