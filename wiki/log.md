@@ -487,3 +487,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "이슈 #150 — 업무지시 상세에서 심사하면 업무보고 목록으로 튕기는 문제 수정, PR #151" 절 신규 추가: 업무보고 상세가 진입 경로와 무관하게 승인·반려 성공 시 `/task-reports`로 고정 이동하고 뒤로가기도 마찬가지였던 원인, 업무지시 상세→업무보고 상세 이동 시 `state: { returnTo: location.pathname }`을 넘겨 뒤로가기·심사 성공 이동·"찾을 수 없습니다" 링크 세 곳 모두 복귀하도록 수정한 해결, `state` 없을 때(목록 진입·직접 URL)는 기존대로 목록 유지, 복귀 시 심사 결과 토스트 추가, "상세→하위 액션 화면은 returnTo state로 복귀 경로를 전달" 패턴을 일반화해 기록, e2e S34·S35 추가·54개 통과, `develop-4` worktree 작업으로 `develop`(당시 #146 브랜치) 미충돌, PR #151
 - 비고: 짧은 단일 버그 수정 세션(사용자 지적→원인 확인→방식 확정 질문→구현→검증→PR)이었다. 재사용 가치가 있는 건 원인·해결 자체와 "returnTo state" 패턴 일반화이고, 이슈·PR 생성 과정, 커밋 문구 확정 같은 진행 로그는 이 프로젝트에 이미 있는 관례의 반복이라 제외했다. 새 페이지는 만들지 않음.
+
+## 2026-09-18 15:35 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-4)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "이슈 #150" 절에 보완 추가: `returnTo` 값이 `//`로 시작하면 브라우저가 프로토콜-상대 URL로 해석해 외부 도메인으로 리다이렉트될 수 있어(open redirect) 이런 값은 받지 않도록 방어 코드를 넣은 결정, 사용자 입력이 흘러드는 다른 returnTo류 값에도 일반화 가능한 패턴으로 기록. PR #151 머지 확인 후 로컬 브랜치 정리.
+- 비고: 이 세션 대부분은 #150이 이미 다른 세션/사용자에 의해 커밋·PR로 올라가 있음을 확인하는 과정과, 본 체크아웃·`develop-4`·`develop-2` 등 여러 worktree가 5173 포트를 번갈아 점유하며 오간 실랑이(포트 경쟁 자체는 이미 여러 차례 [[ToyVillage-Admin-FE/프로젝트-현황]]에 기록된 기존 패턴의 반복)였다. 어느 브랜치로 dev 서버를 띄울지 묻고 답하는 대화, `/effort`·`/model` 로컬 명령, 새로 남길 지식이 없는 브랜치 정리 진행 로그는 제외했다. 새로 남길 가치가 있는 건 `//` open redirect 방어뿐이라 기존 #150 절에 보완만 추가했다.
