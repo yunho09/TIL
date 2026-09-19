@@ -492,3 +492,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-4)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "이슈 #150" 절에 보완 추가: `returnTo` 값이 `//`로 시작하면 브라우저가 프로토콜-상대 URL로 해석해 외부 도메인으로 리다이렉트될 수 있어(open redirect) 이런 값은 받지 않도록 방어 코드를 넣은 결정, 사용자 입력이 흘러드는 다른 returnTo류 값에도 일반화 가능한 패턴으로 기록. PR #151 머지 확인 후 로컬 브랜치 정리.
 - 비고: 이 세션 대부분은 #150이 이미 다른 세션/사용자에 의해 커밋·PR로 올라가 있음을 확인하는 과정과, 본 체크아웃·`develop-4`·`develop-2` 등 여러 worktree가 5173 포트를 번갈아 점유하며 오간 실랑이(포트 경쟁 자체는 이미 여러 차례 [[ToyVillage-Admin-FE/프로젝트-현황]]에 기록된 기존 패턴의 반복)였다. 어느 브랜치로 dev 서버를 띄울지 묻고 답하는 대화, `/effort`·`/model` 로컬 명령, 새로 남길 지식이 없는 브랜치 정리 진행 로그는 제외했다. 새로 남길 가치가 있는 건 `//` open redirect 방어뿐이라 기존 #150 절에 보완만 추가했다.
+
+## 2026-09-19 16:40 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "이슈 #149 — 개체관리 종·개체 폼 자잘한 오류 3건, PR #156" 절 신규 추가: 버튼 `종 등록하기`/제목 `개체 카드` 유지 결정, `PhotoUploadField` 사진 ✕(`removeTone` 회색→hover 빨강), `legalDesignationPresets` 제거로 서버 공용 목록만 사용·전부 삭제 가능, CodeRabbit이 지적한 명세 오류(직접 추가 항목은 종 전용이 아니라 서버 공용), 게이트 재승인, 검증 결과, worktree `.env`·5173 포트 부수 사실
+- 비고: 이슈·브랜치·커밋 분리·PR 생성 진행 로그, 색·문구 왕복 수정 과정, dev 서버 띄우기 실랑이, `/compact`·`/effort` 로컬 명령은 제외했다. 새 페이지는 만들지 않음.
