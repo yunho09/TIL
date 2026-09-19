@@ -513,3 +513,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-5)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "이슈 #159 — 이미 승인된 업무보고를 다시 승인하면 `승인에 실패했습니다`만 뜨는 문제, PR #161" 절 신규 추가: 원인(심사 상태와 무관한 승인·반려 버튼 상시 노출), `PENDING`일 때만 렌더링하는 해결, #150의 e2e S34 픽스처가 버그 시나리오를 정상 흐름으로 굳혀 놓았던 것 정정, 회귀 테스트 S36, 무관한 기존 실패(`app-work-report-approve` S3) 판별; 출처 줄 추가
 - 비고: 이슈·브랜치·커밋·PR 생성 진행 로그, lint/typecheck 실행 경과, 같은 내용을 두 번 요약한 응답, `/clear` 로컬 명령은 제외했다. 새 페이지는 만들지 않음.
+
+## 2026-09-20 00:05 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "이슈 #147 — 공지사항 팀 복수 선택·목록 팀 필터, `kind`→`teamIds`/`teams` API 연동, PR #157·#165" 절 신규 추가: 체크박스 복수 선택 규칙(전체/팀 상호배제)과 tab 순서 변경, `kind:'ALL'` 하드코딩 때문에 화면만으론 반영 안 됐던 것, 백엔드 Swagger 변경(`teamId` 필터는 단일값·404 `TEAM_NOT_FOUND`), Notion보다 Swagger를 근거로 진행한 결정과 승인 전 구현 절차 위반 기록, id 기준 선택 전환 시 mock id 충돌, CodeRabbit `files` 제거 제안 팩트체크(수정도 `files` 수신)와 리뷰 무시 결정, 수정 화면 첨부 변경이 조용히 저장 안 되던 버그(#164, PR #165)의 원인·수정·미확인 가정(교체 방식), 본 체크아웃 브랜치 오염·wip 커밋 정리, 격리 포트 없이 e2e 돌려 생긴 오탐, React Compiler `useMemo` 의존성 lint; 출처 줄 추가
+- 갱신: `index.md` — 프로젝트 현황 요약에 2026-09-19 밤 #147·#164 갱신 추가
+- 비고: 이슈·브랜치·커밋 분리·PR 본문 다듬기 진행 로그, 이슈 #147 본문 축약 왕복, `/model`·`/effort`·`/compact` 로컬 명령은 제외했다. 새 페이지는 만들지 않음(기존 Swagger·Playwright·Yarn·zsh 페이지와 겹치는 내용은 링크만 연결).
