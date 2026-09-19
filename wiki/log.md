@@ -497,3 +497,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "이슈 #149 — 개체관리 종·개체 폼 자잘한 오류 3건, PR #156" 절 신규 추가: 버튼 `종 등록하기`/제목 `개체 카드` 유지 결정, `PhotoUploadField` 사진 ✕(`removeTone` 회색→hover 빨강), `legalDesignationPresets` 제거로 서버 공용 목록만 사용·전부 삭제 가능, CodeRabbit이 지적한 명세 오류(직접 추가 항목은 종 전용이 아니라 서버 공용), 게이트 재승인, 검증 결과, worktree `.env`·5173 포트 부수 사실
 - 비고: 이슈·브랜치·커밋 분리·PR 생성 진행 로그, 색·문구 왕복 수정 과정, dev 서버 띄우기 실랑이, `/compact`·`/effort` 로컬 명령은 제외했다. 새 페이지는 만들지 않음.
+
+## 2026-09-19 17:30 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-5)
+- 생성: [[응답-검증-적정선-없음-vs-조회실패-구분]], [[React-Router-useBlocker-데이터라우터-필요]]
+- 갱신: [[TanStack-Query-placeholderData-이전탭-데이터-조작-가능]] — 수정 폼이 placeholder를 초기값으로 써 로딩 중 저장 시 서버 값이 덮어써지는 변형 추가; [[ToyVillage-Admin-FE/프로젝트-현황]] — 포트폴리오 정리로 확인된 프로젝트 배경·기능 범위(1차/2차)·기여 규모·작성 결정·면접 전 확인 사항 절 추가
+- 비고: 세션은 포트폴리오 초안을 여러 번 다시 쓰는 작업이었다. 초안 문구 자체와 반복 수정 과정, `/effort`·`/model` 로컬 명령은 제외했다. 파일 다운로드 토큰 유출·SPA 404·첨부 타이밍 버그는 이미 위키에 있어 새로 쓰지 않고 링크만 걸었다. 내용은 저장소 이력·Notion 기록에 대한 Claude의 요약이라 사용자가 확인해야 할 항목(기간, 운영 표기, 실제 발생 여부)을 프로젝트 페이지에 그대로 남겼다.
