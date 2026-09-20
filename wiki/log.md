@@ -519,3 +519,10 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "이슈 #147 — 공지사항 팀 복수 선택·목록 팀 필터, `kind`→`teamIds`/`teams` API 연동, PR #157·#165" 절 신규 추가: 체크박스 복수 선택 규칙(전체/팀 상호배제)과 tab 순서 변경, `kind:'ALL'` 하드코딩 때문에 화면만으론 반영 안 됐던 것, 백엔드 Swagger 변경(`teamId` 필터는 단일값·404 `TEAM_NOT_FOUND`), Notion보다 Swagger를 근거로 진행한 결정과 승인 전 구현 절차 위반 기록, id 기준 선택 전환 시 mock id 충돌, CodeRabbit `files` 제거 제안 팩트체크(수정도 `files` 수신)와 리뷰 무시 결정, 수정 화면 첨부 변경이 조용히 저장 안 되던 버그(#164, PR #165)의 원인·수정·미확인 가정(교체 방식), 본 체크아웃 브랜치 오염·wip 커밋 정리, 격리 포트 없이 e2e 돌려 생긴 오탐, React Compiler `useMemo` 의존성 lint; 출처 줄 추가
 - 갱신: `index.md` — 프로젝트 현황 요약에 2026-09-19 밤 #147·#164 갱신 추가
 - 비고: 이슈·브랜치·커밋 분리·PR 본문 다듬기 진행 로그, 이슈 #147 본문 축약 왕복, `/model`·`/effort`·`/compact` 로컬 명령은 제외했다. 새 페이지는 만들지 않음(기존 Swagger·Playwright·Yarn·zsh 페이지와 겹치는 내용은 링크만 연결).
+
+## 2026-09-20 12:40 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "이슈 #170 — 휴관일 삭제 성공을 실패로 표시하던 문제, PR #171" 절 신규 추가: 엄격한 201+message 검사가 7/29 완화 후 `cc47c68`에서 되살아난 회귀, 승인된 e2e S7·S8·계약 문서 동반 반전, 2xx면 성공 처리, CodeRabbit 삭제 후 카드 사라짐 검증 추가, Docstring Coverage 미반영 결정, 5173 포트 점유 서버 교체; 출처 줄 추가
+- 갱신: [[응답-검증-적정선-없음-vs-조회실패-구분]] — 완화한 성공 판정이 재발하는 회귀 주의와 삭제 후 화면 상태 검증 항목 추가
+- 갱신: `index.md` — 프로젝트 현황·응답 검증 페이지 요약 갱신
+- 비고: 이슈·브랜치·커밋·PR 생성 진행 로그, 개발 서버 기동 안내 문구는 제외했다. 새 페이지는 만들지 않음.
