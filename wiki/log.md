@@ -565,3 +565,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[도메인형-패키지-구조]] — 도메인 우선 폴더 구조, 도메인 분할 기준, 서비스 순환 참조 규칙, 작성 순서
 - 갱신: `index.md` — 언어/Java/Spring에 두 페이지 추가
 - 비고: 사용자가 ERD 링크(erdcloud)를 준 직후 세션이 중단돼 특정 ERD에 대한 분석은 없음. 일반 가이드만 반영했고 기존 [[JPA-엔티티와-리포지토리]]의 "연관관계 매핑" 후속 과제와 연결되는 내용이다.
+
+## 2026-09-22 00:40 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[Cheese-snap-카메라-릴레이-크래시-해결]] — snap Cheese SIGSEGV(전역 SPA_PLUGIN_DIR 누수)와 Camera Relay 미인식(exclusive_caps=0 → GStreamer M2M 오인) 원인·해결, 진단 요령
+- 갱신: `index.md` — 환경/리눅스-데스크톱에 새 페이지 추가
+- 비고: 좌우반전 해결(Cheese Flip 효과 적용)은 사용자가 도구 실행을 중단해 미확정으로 표기. 진단 중 시행착오(fd 점검 방식, gi 모듈 부재로 인한 오판)는 요령 한 줄만 남겼다.
