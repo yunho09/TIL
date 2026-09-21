@@ -46,6 +46,8 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[스프링-CRUD-계층구조]] — Controller/Service/Repository 계층별 역할, 요청 값 추출 3종(@PathVariable/@RequestParam/@RequestBody), URL+메서드 매핑, Postman/curl 테스트 방법
 - [[JPA-엔티티와-리포지토리]] — @Entity 규칙(빈 생성자, Long id, setter 대신 update()), JpaRepository가 빈 인터페이스로 동작하는 원리와 쿼리 메서드
 - [[MySQL-연동]] — datasource 설정, ddl-auto 선택지, Docker MySQL 컨테이너 명령어 모음
+- [[ERD-to-JPA-엔티티-변환-팁]] — ERD를 엔티티로 옮길 때 껍데기→필드→관계 순서, 연관관계 3원칙(단방향 기본·`LAZY`·FK 쪽이 주인), N:M은 중간 엔티티로, ENUM은 `STRING`·돈은 `BigDecimal`, `BaseTimeEntity`+`@EnableJpaAuditing`, `@Setter`·`@Data` 금지, `ddl-auto: create`로 DDL을 ERD와 대조 (2026-09-22)
+- [[도메인형-패키지-구조]] — `domain/<도메인>/{entity,repository,service,controller,dto}` + `global/` 구조, ERD 테이블≠도메인(혼자 살 수 있나 기준·애매하면 합치기), 도메인 간 Service 참조는 한 방향만(순환 참조 방지), 가장 독립적인 도메인 하나를 끝까지 만들어 템플릿으로 (2026-09-22)
 
 ### 언어/JavaScript
 - [[Nullish-Coalescing-빈문자열-함정]] — `??`는 `null`/`undefined`만 폴백하고 `""`/`0`/`false`는 안 걸러서, 파싱 결과가 정상적으로 빈 문자열이 되는 경우 의도한 fallback이 발동 안 함(`||`와의 차이), 같은 헬퍼가 앱마다 `??`/`||`로 갈린 divergence 실사례
