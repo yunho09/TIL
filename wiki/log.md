@@ -571,3 +571,11 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Cheese-snap-카메라-릴레이-크래시-해결]] — snap Cheese SIGSEGV(전역 SPA_PLUGIN_DIR 누수)와 Camera Relay 미인식(exclusive_caps=0 → GStreamer M2M 오인) 원인·해결, 진단 요령
 - 갱신: `index.md` — 환경/리눅스-데스크톱에 새 페이지 추가
 - 비고: 좌우반전 해결(Cheese Flip 효과 적용)은 사용자가 도구 실행을 중단해 미확정으로 표기. 진단 중 시행착오(fd 점검 방식, gi 모듈 부재로 인한 오판)는 요령 한 줄만 남겼다.
+
+## 2026-09-23 00:45 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 생성: [[ToyVillage-Admin-FE/하네스-시스템]] — 퍼블리싱·API 두 하네스의 전체 단계·경로 계약을 별도 페이지로 분리 정리, Figma 덤프(`get_design_context` 결과물의 정체)·승인 sentinel·승인 해시(SHA-256 파일 지문 대조) 메커니즘·Contract 개념을 사용자 질문에 답한 설명 그대로 재구성
+- 생성: [[Yarn-PnP]] — PnP vs node_modules 링커 비교, `packageManager` 버전만으로 PnP 단정 금지·`nodeLinker` 값으로 판별
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "아키텍처(확인된 것/모르는 것)" 절 신규 추가(프론트 Vite+React·DB MySQL 확인, 백엔드 Spring Boot 추정, 호스팅·FCM 미확인), 새 하네스-시스템 페이지로 링크 추가
+- 갱신: `index.md` — 프로젝트/ToyVillage-Admin-FE에 하네스-시스템 항목 추가·프로젝트 현황 요약에 아키텍처 절 추가, 도구 섹션에 Yarn-PnP 추가
+- 비고: 초반의 "구조가 어떻게 되나요"를 메모리에 잘못 저장했다가 사용자 지적으로 정정한 시행착오, 자기 진단 표(AI 코드 이해도 자가진단) 작성 과정, 기술 선정 이유 질의에 대한 미확인 일반론 답변은 위키 지식이 아니라 제외했다. 이 세션은 원래 작업 디렉터리가 아닌 곳(/data/project/ToyVillage-Admin-FE)에서 캡처됐다.
