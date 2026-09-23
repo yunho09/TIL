@@ -579,3 +579,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "아키텍처(확인된 것/모르는 것)" 절 신규 추가(프론트 Vite+React·DB MySQL 확인, 백엔드 Spring Boot 추정, 호스팅·FCM 미확인), 새 하네스-시스템 페이지로 링크 추가
 - 갱신: `index.md` — 프로젝트/ToyVillage-Admin-FE에 하네스-시스템 항목 추가·프로젝트 현황 요약에 아키텍처 절 추가, 도구 섹션에 Yarn-PnP 추가
 - 비고: 초반의 "구조가 어떻게 되나요"를 메모리에 잘못 저장했다가 사용자 지적으로 정정한 시행착오, 자기 진단 표(AI 코드 이해도 자가진단) 작성 과정, 기술 선정 이유 질의에 대한 미확인 일반론 답변은 위키 지식이 아니라 제외했다. 이 세션은 원래 작업 디렉터리가 아닌 곳(/data/project/ToyVillage-Admin-FE)에서 캡처됐다.
+
+## 2026-09-23 09:49 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[ToyVillage-Admin-FE/하네스-시스템]] — Swagger는 Contract 공식 출처가 아니라는 위치 정리, Mock 테스트(page.route 하이재킹)는 API 연동 구현(⑨) 이후에만 성립한다는 RUNBOOK 순서 근거, 퍼블리싱 mock과 API 하네스 mock의 목적 차이, 행동명세(behavioral-spec) 템플릿·frontmatter·구조 설명 추가
+- 비고: 잡담·질의응답 형태 세션이었고 실제 코드 변경 없음. 개념 설명 위주라 기존 하네스-시스템 페이지에 통합, 새 페이지는 만들지 않음.
