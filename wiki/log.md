@@ -584,3 +584,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[ToyVillage-Admin-FE/하네스-시스템]] — Swagger는 Contract 공식 출처가 아니라는 위치 정리, Mock 테스트(page.route 하이재킹)는 API 연동 구현(⑨) 이후에만 성립한다는 RUNBOOK 순서 근거, 퍼블리싱 mock과 API 하네스 mock의 목적 차이, 행동명세(behavioral-spec) 템플릿·frontmatter·구조 설명 추가
 - 비고: 잡담·질의응답 형태 세션이었고 실제 코드 변경 없음. 개념 설명 위주라 기존 하네스-시스템 페이지에 통합, 새 페이지는 만들지 않음.
+
+## 2026-09-24 23:30 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #182 휴관일→휴무일 화면 용어 통일(변경/비변경 범위 결정과 근거, 기존 e2e 실패 대조 검증, PR #183 제목·본문 관례) 절 추가
+- 비고: 새 페이지 없음. /clear·/model·/effort 등 로컬 명령은 버림.
