@@ -589,3 +589,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #182 휴관일→휴무일 화면 용어 통일(변경/비변경 범위 결정과 근거, 기존 e2e 실패 대조 검증, PR #183 제목·본문 관례) 절 추가
 - 비고: 새 페이지 없음. /clear·/model·/effort 등 로컬 명령은 버림.
+
+## 2026-09-25 01:50 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "PR 리뷰·머지 지연 실측"(PR 83개, 평일 0.9h vs 주말·공휴일 2.4h, 연휴 직전 금요일 PR이 최장, CodeRabbit과의 관계) 및 "확인된 개발 프로세스 문제 후보" 절 추가
+- 비고: 새 페이지 없음. 멘토 제출 양식 초안 작성·문장 다듬기는 일회성 작업이라 버렸고, API 명세 불일치·e2e 94개 실패 등은 기존 기록과 중복이라 요약 한 줄만 남김.
