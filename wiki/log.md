@@ -599,3 +599,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.local/share/applications)
 - 생성: [[Figma-한글-입력-Wayland-IME]]
 - 비고: Wayland IME 플래그 vs X11 트레이드오프(핀치 줌 손실) 정리. 한글 입력 성공 여부는 미확인이라 미확정으로 표기.
+
+## 2026-09-25 22:40 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #184 업무보고 목록 제목 컬럼 퍼블리싱(컬럼 폭, 재승인 필요성), `title`=업무지시 제목·보고 제목 입력 없음 확인, PR 관례, PR #185 Workers Builds 미실행 절 추가
+- 비고: 새 페이지 없음. Figma OAuth 로그인 안내·5173 서버 끄기·커밋 분리 논의 등 일회성 진행은 버림.
