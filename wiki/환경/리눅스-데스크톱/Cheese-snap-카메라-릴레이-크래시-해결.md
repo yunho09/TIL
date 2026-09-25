@@ -1,6 +1,6 @@
 ---
 tags: [cheese, snap, pipewire, v4l2loopback, libcamera]
-updated: 2026-09-22
+updated: 2026-09-25
 ---
 
 # Cheese(snap) 카메라 앱 크래시와 Camera Relay 인식 문제
@@ -35,6 +35,18 @@ IPU7 카메라 노트북에서 snap으로 설치한 Cheese가 안 켜지던 문�
 - 사용자가 프리뷰의 좌우 반전을 원치 않았다. 반전은 Cheese 자체 효과가 아니라 릴레이/libcamera 경로에서 오는 것으로 봤다(Cheese 기본 효과는 `identity`).
 - Cheese에는 **"뒤집기(Flip)"** 효과가 내장(`videoflip video-direction=horiz`)돼 있어 Cheese에서만 되돌릴 수 있다. 릴레이 단에서 고치면 모든 앱에 적용되는 차이가 있어 범위를 고르는 단계에서 세션이 중단됨 → **적용 여부 미확정**.
 
+## 후속 (2026-09-25) — 해상도 불일치와 좌우 반전 설정
+- 증상: Cheese가 다시 안 되는 것처럼 보임(프레임이 검은색). 카메라·드라이버는 정상이었고 릴레이에서 직접 캡처하면 약 5프레임 뒤부터 정상 화면이 나왔다(초반 프레임은 검은색 자리표시).
+- 원인: Cheese 설정의 사진/영상 해상도가 **5120×3840**으로 저장돼 있었는데 Camera Relay는 **1920×1080**만 출력 → 맞는 포맷이 없어 Cheese가 릴레이를 못 쓰고 원시 내부 장치(`/dev/video1`)로 폴백, 이쪽은 화면이 안 나온다.
+- 해결: Cheese의 사진·영상 해상도를 1920×1080으로 변경(15초 테스트 실행에서 릴레이 연결·프레임 수신 확인, 창 프리뷰 자체는 육안 확인 못 함). **Cheese 환경설정에서 더 높은 해상도를 고르면 같은 증상이 재발**한다.
+- 카메라는 앱이 요청할 때만 켜지므로 열고 나서 1~2초 검은 화면은 정상.
+- 좌우 반전: 위 "미해결" 항목의 Flip 효과는 Cheese 설정의 effect 값이 `flip`이던 것을 `identity`로 바꿔 해제했다. 실행 중인 Cheese는 재시작해야 반영되며, 그래도 반전이면 하단 **Effects → No Effect**. 반영 결과 확인은 사용자 응답 대기(미확정).
+
+## Discord 카메라 (미확정)
+- 증상: Cheese는 되는데 Discord 캠은 안 됨. Discord(Electron)는 v4l2 장치를 직접 훑는 방식이라 Camera Relay를 못 본다(Cheese 문제 2와 같은 계열).
+- 시도: Discord 런처(`~/.local/share/applications/discord_discord.desktop`)에 PipeWire 카메라 경로를 켜는 설정을 추가하고 재시작. 구체 플래그는 세션에 기록되지 않음(Claude 보충: Chromium 계열의 `--enable-features=WebRTCPipeWireCapturer` 류로 추정되나 미확인).
+- 결과는 사용자 테스트 대기: 카메라 목록이 비면 여전히 못 보는 것, 목록은 있는데 검은 화면이면 접근 권한/스트리밍 단계 문제. Discord 미리보기 반전은 본인 화면에만 적용(상대에겐 정상)이고 Cheese의 반전 설정과 무관. Discord 업데이트가 `.desktop` 수정을 되돌릴 수 있다.
+
 ## 출처
-- Claude Code 세션 자동 캡처 (/home/yunho), 2026-09-22 (raw/ 파일 없음)
+- Claude Code 세션 자동 캡처 (/home/yunho), 2026-09-22, 2026-09-25 (raw/ 파일 없음)
 - 관련: [[PC-중복-설치-정리-Homebrew-도입]] (snap 앱 관련 정리), [[GNOME-Wayland-wl-clipboard-포커스-토스트]]

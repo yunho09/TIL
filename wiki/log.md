@@ -604,3 +604,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #184 업무보고 목록 제목 컬럼 퍼블리싱(컬럼 폭, 재승인 필요성), `title`=업무지시 제목·보고 제목 입력 없음 확인, PR 관례, PR #185 Workers Builds 미실행 절 추가
 - 비고: 새 페이지 없음. Figma OAuth 로그인 안내·5173 서버 끄기·커밋 분리 논의 등 일회성 진행은 버림.
+
+## 2026-09-25 23:10 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 갱신: [[Cheese-snap-카메라-릴레이-크래시-해결]] — Cheese 해상도(5120×3840 vs 릴레이 1920×1080) 불일치 원인·해결, flip→identity 반전 해제, Discord 캠 PipeWire 전환 시도 절 추가
+- 비고: 새 페이지 없음. Discord 캠·좌우반전 해제 결과는 사용자 확인 전이라 미확정으로 표기.
