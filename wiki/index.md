@@ -24,6 +24,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[리눅스-메모리-점유-앱별-진단-PSS]] — RSS 합산은 공유 메모리 중복 계산으로 부풀려짐, PSS로 앱별 합산해야 정확, zram/Shmem/slab 등 앱 외 요소까지 더해야 총량이 맞는 이유, Electron 앱은 하나 끄면 런타임째 통째로 회수되는 정리 우선순위
 - [[Figma-데스크톱-앱-메모리-중복]] — 비공식 Electron 래퍼(`figma-linux-next`)가 Chromium 런타임을 중복으로 띄우는 원인(브라우저판 대안), 열어둔 탭은 자동 해제 안 됨, `settings.json`을 열린 탭 목록으로 오인하면 안 되는 이유, 탭↔렌더러 PID 매칭 불가로 안전한 정리법은 앱 내 직접 조작뿐
 - [[Figma-터치패드-핀치줌-속도-패치]] — `app.asar` 전개+preload 주입으로 핀치줌 배속(`figma-zoom-speed`, CDP로 검증), "확대가 안 되고 그냥 움직여짐" 증상은 핀치 종료 ~190ms 뒤 남은 움직임이 libinput에 새 스크롤 제스처로 재분류되는 것(+`AttrResolutionHint` 스크롤 2배 부작용 중첩)이 원인, 핀치 꼬리 300ms 가드로 대응(사용자 확인 대기 중, 미확정)
+- [[Figma-한글-입력-Wayland-IME]] — 네이티브 Wayland로 뜬 Figma에서 한글이 안 쳐지던 원인(IME 플래그 부재), `--enable-wayland-ime --wayland-text-input-version=3` 적용, X11(`--ozone-platform=x11`)로 내리면 핀치 줌이 죽어 되돌린 트레이드오프, 실제 입력 성공은 사용자 확인 대기 중(미확정)
 - [[Electron-워크스페이스-고정-창-포커스탈취]] — `setVisibleOnAllWorkspaces(true)`는 리눅스에서 `_NET_WM_STATE_STICKY`(X11/XWayland 전용, 네이티브 Wayland는 무효)로 동작, override-redirect 창(입력용 히트 창 등)은 원래도 전체 워크스페이스에 있다는 사실, macOS는 show마다 재적용 필요하지만 리눅스는 생성 시 1회로 유지되는 차이, 창을 전체 워크스페이스에 고정하면 워크스페이스 전환 시 키보드 포커스가 그 창으로 넘어가는 미해결 부작용
 
 ### 라즈베리파이/GPIO

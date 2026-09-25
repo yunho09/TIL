@@ -594,3 +594,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — "PR 리뷰·머지 지연 실측"(PR 83개, 평일 0.9h vs 주말·공휴일 2.4h, 연휴 직전 금요일 PR이 최장, CodeRabbit과의 관계) 및 "확인된 개발 프로세스 문제 후보" 절 추가
 - 비고: 새 페이지 없음. 멘토 제출 양식 초안 작성·문장 다듬기는 일회성 작업이라 버렸고, API 명세 불일치·e2e 94개 실패 등은 기존 기록과 중복이라 요약 한 줄만 남김.
+
+## 2026-09-25 22:35 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.local/share/applications)
+- 생성: [[Figma-한글-입력-Wayland-IME]]
+- 비고: Wayland IME 플래그 vs X11 트레이드오프(핀치 줌 손실) 정리. 한글 입력 성공 여부는 미확인이라 미확정으로 표기.
