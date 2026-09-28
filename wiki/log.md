@@ -624,3 +624,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #153 사이드바 프로필 로고 통일(직원은 웹 미사용이라 역할 분기 제거)·직원 계정 표/팀원 모달 범위 제외 결정, PR #197 절 추가
 - 비고: 새 페이지 없음. 브랜치 생성·커밋·PR 절차와 인스타 기본 프로필풍 SVG 시행착오(삭제됨)는 결정만 남기고 버림.
+
+## 2026-09-28 23:25 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #154 파비콘 교체(PR #193) 절, 열린 이슈 코드 대조 점검 절(이슈가 안 닫히는 두 경로) 추가
+- 비고: 새 페이지 없음. 브랜치 생성·커밋·push·PR·dev 서버 종료 등 일회성 진행은 버림. 이슈 상태는 코드만 보고 판단한 스냅샷이라 화면 확인 전으로 표기.
