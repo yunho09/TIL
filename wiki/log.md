@@ -614,3 +614,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 생성: [[OnlyOffice-한글-파일명-크래시-fontconfig-캐시]]
 - 비고: 다운로드 폴더 중복 파일·설치 파일 정리는 일회성 작업이라 버림.
+
+## 2026-09-28 14:20 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 생성: [[ToyVillage-Admin-FE/첨부파일-미리보기-모달]]
+- 비고: 첨부파일 미리보기 모달 구현 결정·리뷰 수정·HEIC 원인 정리. 커밋 분할 설명·화면 목록 정리 요청 등 일회성 진행은 요약만 남기고 버림. ⑦ 육안 확인과 CDN PDF 응답은 미확인으로 표기.
