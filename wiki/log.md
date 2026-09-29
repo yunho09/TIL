@@ -640,3 +640,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 갱신: [[OnlyOffice-한글-파일명-크래시-fontconfig-캐시]] — 실행 직후 크래시 재발 사례(fontconfig 캐시가 `cache-12`를 가리키는 심볼릭 링크로 변조) 절 추가
 - 비고: 새 페이지 없음. 외부 모니터 미인식 건은 케이블/포트 점검 안내뿐 원인 미확정이라 버림.
+
+## 2026-09-30 00:58 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #174 절에 구현 완료(PR #205) 하위 절 추가(SkeletonStatus busy·중첩 status, countLoading, 통일된 오류 문구, 토스트 타이밍, CodeRabbit `?? 0` 수정, develop 대조 e2e 판별, develop→main PR #207), 제목·출처 갱신
+- 비고: 새 페이지 없음. 커밋 분할·언어 정정·dev 서버 열기·로그인 안내 등 일회성 진행은 버림.
