@@ -635,3 +635,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Sentry-React-SPA-에러추적-도입]], [[GA4-내부-어드민-SPA-도입-체크리스트]]
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #200 Sentry 도입(PR #202) 절과 Cloudflare Workers 인프라 문제 절 추가; [[Cloudflare-Workers-SPA-fallback-404]] — Worker/Workers Builds 개념 구분, PR 브랜치 `#` 미리보기 실패, stag/prod 이중 Worker `wrangler.jsonc` 이름 불일치, Build/Runtime 변수 구분, GitHub App 연결 경고 절 추가
 - 비고: 디스코드 공유용 제안서 문구 다듬기·CI 배포 담당자에게 보낼 메시지 초안 여러 번 반복은 최종 결론만 남기고 버림. GA4는 제안서 검토·피드백만 있고 실제 구현은 없어 개념 정리 페이지만 신설(프로젝트 로그에는 "미착수"로만 표기). Cloudflare 트러블슈팅은 실시간으로 원인이 여러 차례 뒤집힌 대화였는데, 마지막에 확정된 원인(PR 브랜치 `#`, GitHub 조직 연결 경고)만 남기고 중간 추정은 버림.
+
+## 2026-09-29 20:10 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 갱신: [[OnlyOffice-한글-파일명-크래시-fontconfig-캐시]] — 실행 직후 크래시 재발 사례(fontconfig 캐시가 `cache-12`를 가리키는 심볼릭 링크로 변조) 절 추가
+- 비고: 새 페이지 없음. 외부 모니터 미인식 건은 케이블/포트 점검 안내뿐 원인 미확정이라 버림.
