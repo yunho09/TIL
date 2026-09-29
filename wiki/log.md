@@ -629,3 +629,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #154 파비콘 교체(PR #193) 절, 열린 이슈 코드 대조 점검 절(이슈가 안 닫히는 두 경로) 추가
 - 비고: 새 페이지 없음. 브랜치 생성·커밋·push·PR·dev 서버 종료 등 일회성 진행은 버림. 이슈 상태는 코드만 보고 판단한 스냅샷이라 화면 확인 전으로 표기.
+
+## 2026-09-29 12:11 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 생성: [[Sentry-React-SPA-에러추적-도입]], [[GA4-내부-어드민-SPA-도입-체크리스트]]
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #200 Sentry 도입(PR #202) 절과 Cloudflare Workers 인프라 문제 절 추가; [[Cloudflare-Workers-SPA-fallback-404]] — Worker/Workers Builds 개념 구분, PR 브랜치 `#` 미리보기 실패, stag/prod 이중 Worker `wrangler.jsonc` 이름 불일치, Build/Runtime 변수 구분, GitHub App 연결 경고 절 추가
+- 비고: 디스코드 공유용 제안서 문구 다듬기·CI 배포 담당자에게 보낼 메시지 초안 여러 번 반복은 최종 결론만 남기고 버림. GA4는 제안서 검토·피드백만 있고 실제 구현은 없어 개념 정리 페이지만 신설(프로젝트 로그에는 "미착수"로만 표기). Cloudflare 트러블슈팅은 실시간으로 원인이 여러 차례 뒤집힌 대화였는데, 마지막에 확정된 원인(PR 브랜치 `#`, GitHub 조직 연결 경고)만 남기고 중간 추정은 버림.
