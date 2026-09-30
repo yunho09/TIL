@@ -1,6 +1,6 @@
 ---
 tags: [OnlyOffice, fontconfig, 리눅스, 트러블슈팅]
-updated: 2026-09-29
+updated: 2026-09-30
 ---
 
 # OnlyOffice 한글 파일명 크래시 — fontconfig 캐시 손상
@@ -37,6 +37,13 @@ fc-cache -f                                               # 강제 재생성
 - 재현하려고 OnlyOffice를 강제로 띄우면 "timeout 예상치 않게 끝남" 류 알림이 남을 수 있는데 무해하다(계속 누르면 됨).
 - 교훈: 앱이 **폰트/글자 렌더링 시점에** 죽고 백트레이스가 `libfontconfig`면 앱 설정보다 `~/.cache/fontconfig`부터 의심한다. 한글 파일명 조건이 없어도 발생할 수 있다.
 
+## x2t 변환기 크래시 — 템플릿 미리보기 (2026-09-30)
+- 증상: "예상치 않게 끝났습니다" 창이 떴는데 죽은 건 편집기 본체가 아니라 변환 보조 프로그램 **`x2t`**. 시작 화면용 내장 템플릿("Gift Certificate.dotx")의 **미리보기 썸네일을 백그라운드로 만드는 중**이라 사용자 문서·데이터와 무관.
+- 원인: 앱 자체 라이브러리 `libdoctrenderer.so`의 NULL 포인터 접근(앱 내부 버그). 폰트 코드에서 죽은 게 아니므로 위 fontconfig 건과 별개. 같은 템플릿을 수동 변환하면 정상이라 재현되지 않는 일회성이었고, 버전 9.4.0(최신)이라 업데이트로 해결할 수도 없음.
+- 대응: **계속**을 누르면 됨. 알림 창은 `~/.apport-ignore.xml`에 `x2t`를 등록해 숨길 수 있다(Ubuntu apport). 남은 `/var/crash/*x2t*.crash`는 삭제.
+- 참고: 템플릿 미리보기 캐시(`templates_cache/200`)가 비어 있으면 시작 화면을 열 때마다 썸네일을 새로 만든다. 같은 크래시가 잦으면 캐시를 먼저 채우는 식으로 대응.
+- 미적용 대안: `/opt/onlyoffice/desktopeditors/converter/x2t`를 재시도 래퍼(최대 3회)로 교체. `dpkg-divert --rename --divert …/x2t.real --add …/x2t`로 원본을 옮기면 업데이트에도 덮어써지지 않지만 pkexec 권한이 필요해 자동 모드에서 막혔고 실행되지 않음. 되돌리기는 래퍼 삭제 후 `dpkg-divert --rename --remove …/x2t`.
+
 ## 관련
 - [[Figma-한글-입력-Wayland-IME]] — 같은 "한글"이 얽힌 데스크톱 앱 문제지만 원인은 IME 플래그로 별개
 - [[Orca-IDE-리눅스-설치]]
@@ -44,3 +51,4 @@ fc-cache -f                                               # 강제 재생성
 ## 출처
 - Claude Code 세션 자동 캡처 (/home/yunho, 2026-09-28)
 - Claude Code 세션 자동 캡처 (/home/yunho, 2026-09-29)
+- Claude Code 세션 자동 캡처 (/home/yunho/.local/share/onlyoffice/desktopeditors/data/templates_cache/300, 2026-09-30)

@@ -645,3 +645,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #174 절에 구현 완료(PR #205) 하위 절 추가(SkeletonStatus busy·중첩 status, countLoading, 통일된 오류 문구, 토스트 타이밍, CodeRabbit `?? 0` 수정, develop 대조 e2e 판별, develop→main PR #207), 제목·출처 갱신
 - 비고: 새 페이지 없음. 커밋 분할·언어 정정·dev 서버 열기·로그인 안내 등 일회성 진행은 버림.
+
+## 2026-09-30 16:20 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.local/share/onlyoffice/desktopeditors/data/templates_cache/300)
+- 갱신: [[OnlyOffice-한글-파일명-크래시-fontconfig-캐시]] — x2t 템플릿 미리보기 크래시(libdoctrenderer NULL 접근) 원인, apport-ignore 대응, dpkg-divert 래퍼 대안 절 추가
+- 비고: 새 페이지 없음. 재현 시도 과정은 결론만 남김.
