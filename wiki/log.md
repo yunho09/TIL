@@ -650,3 +650,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.local/share/onlyoffice/desktopeditors/data/templates_cache/300)
 - 갱신: [[OnlyOffice-한글-파일명-크래시-fontconfig-캐시]] — x2t 템플릿 미리보기 크래시(libdoctrenderer NULL 접근) 원인, apport-ignore 대응, dpkg-divert 래퍼 대안 절 추가
 - 비고: 새 페이지 없음. 재현 시도 과정은 결론만 남김.
+
+## 2026-10-01 17:30 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[Nautilus-폴더-먼저-정렬-끄기와-Homebrew-gsettings-함정]]
+- 비고: 파일 앱 재시작 안내·예상 정렬 순서 등 일회성 확인은 버림. 설정 키와 Homebrew gsettings 함정만 남김.

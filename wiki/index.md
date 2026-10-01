@@ -12,6 +12,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[GNOME-오버뷰-창-미리보기-사라짐]] — 3손가락 스와이프 후 가끔 창 미리보기만 비는 문제, `_gestureEnd` 예외 가설은 진단 로그로 반증됨(원인 미확정), 자동 감지+덤프 익스텐션 설치해 다음 재현 대기 중, GNOME 확장은 코드 변경 시 핫로드 안 되고 로그아웃/로그인 필요(`ReloadExtension` D-Bus deprecated)
 - [[GNOME-Wayland-wl-clipboard-포커스-토스트]] — Mutter 50에 data-control 프로토콜 부재→wl-clipboard 폴백 경로→`focus-new-windows=strict`가 겹쳐 뜨는 정체불명 토스트의 원인 체인과 `smart` 복구법
 - [[Vitals-확장-상단바-시스템-모니터]] — 자체 스키마를 쓰는 확장은 `gsettings --schemadir`로 확장 설치 경로의 schemas를 직접 지정해야 하는 이유(Vitals `hot-sensors`/`position-in-panel` 예시), GNOME 50에서 D-Bus 스크린샷이 `AccessDenied`로 막혀 있음
+- [[Nautilus-폴더-먼저-정렬-끄기와-Homebrew-gsettings-함정]] — 파일 앱 최신순에서 폴더가 맨 위에 모이는 건 `sort-directories-first` 때문(GTK4 파일 선택창도 공유), PATH의 Homebrew `gsettings`는 dconf에 연결 안 돼 set/get이 둘 다 "성공"처럼 보이지만 실제로는 저장 안 되는 함정, `dconf write`나 `/usr/bin/gsettings`로 해결·검증 (2026-10-01)
 
 ### 환경/리눅스-데스크톱
 - [[PC-중복-설치-정리-Homebrew-도입]] — Linuxbrew 도입 후 apt/수동 설치와 중복되던 tmux·mise를 brew로 통일(브랜드 tmux client가 기존 apt tmux server 세션에 그대로 재접속돼 끊김 없이 교체 가능했다는 사실 포함), 로그인 셸(zsh)·essential 패키지(bash)는 위험해서 보류, ghostty deb/snap 중복(brew ghostty는 macOS 전용이라 대체 불가), wezterm·postman/notion snap·`.nvm` 등 앱 교체로 죽어있던 설치본 판별법(libfuse2 없는 AppImage, 실행 경로 교체 시점 대조), `.desktop` 오버라이드가 중복이 아니라 XDG 우선순위로 snap을 가리는 의도된 구조라는 것, docker-ce/Docker Desktop 이중설치·codex 설치 깨짐은 미해결로 남김
