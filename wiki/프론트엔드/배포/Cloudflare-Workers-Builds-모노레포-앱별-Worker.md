@@ -55,5 +55,13 @@ Nx 모노레포(앱 3개)를 Cloudflare Workers Builds에 연결하면 기본 �
 - 필수 상태 체크가 없는 룰셋이면 머지를 막지 않는다. 같은 이름으로 Hello World Worker를 다시 만들어도 연결이 자동으로 붙지 않았고(대시보드엔 `Connect` 버튼만 보임) 오히려 공개 Worker만 하나 더 생겼다. 확실한 제거는 Cloudflare 지원 문의뿐 — **지울 거면 연결(Settings → Builds → Disconnect)을 먼저 끊고 삭제**.
 - Workers Builds는 **푸시가 있을 때만** 빌드한다. Worker를 새로 만든 뒤 기존 PR 브랜치를 프리뷰 빌드하려면 새 푸시(빈 커밋 포함)가 필요하고, 대시보드의 재시도는 원래 브랜치(develop)를 다시 빌드할 뿐이다.
 
+## 비운영 브랜치 푸시는 `versions upload`만 — stag 목록에 main 줄이 뜨는 이유
+(ToyVillage-Admin-FE 사례, 단일 앱 stag/prod Worker 2개 구성. prod는 `wrangler.jsonc`의 `env.prod`를 `npx wrangler deploy --env prod`로 배포)
+- Worker가 저장소 전체 push를 보므로 **배포 대상이 아닌 브랜치가 push돼도 빌드가 돈다.** Production branch가 아닌 브랜치는 Deploy command가 `npx wrangler versions upload`(버전만 올리고 트래픽은 안 돌림)로 실행된다. 진행 단계에 "Deploying"이라고 떠도 마지막 단계의 고정 이름일 뿐이다.
+- 그래서 stag(Production branch `develop`)의 Versions 목록에 main 줄이 생겨도 **현재 배포(파란 막대)는 develop 버전**에 그대로 있다. 반대로 prod에는 `#200/sentry` 같은 다른 브랜치 빌드가 실패 줄로 뜰 수 있다 — 배포는 안 되지만 `--env prod` 업로드 대상이 운영 Worker이므로, 운영 Worker의 non-production branch builds를 끄거나 main만 빌드하도록 제한하는 게 안전하다.
+- 어느 쪽이 실제 배포 중인지는 Versions의 파란 막대 + Active deployment의 커밋 해시, 그리고 실제 사이트(`curl`로 해당 커밋에만 있는 변경, 예: 파비콘 태그)로 교차 확인한다.
+- force push·머지로 같은 내용이 두 번 푸시되면 빌드·버전 줄도 두 번 생긴다(원래 커밋 해시와 재작성 후 해시).
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2) — [[JOBIS-FE-V2/프로젝트-현황]]
+- Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — [[프로젝트/ToyVillage-Admin-FE/프로젝트-현황]]

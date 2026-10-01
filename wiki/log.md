@@ -666,3 +666,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
 - 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — 포트폴리오 정리용 설계 요약 절 추가(createDomainApi, 토큰 재발급 조건, API 에러 0 e2e, 코드 확인 수치)
 - 비고: Notion 페이지 작성 요청·문체 조정·아이콘 문답 등 일회성 지시는 버림. 토큰 재발급 경위는 기존 절과 중복이라 링크만.
+
+## 2026-10-02 01:30 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2)
+- 갱신: [[Sentry-React-SPA-에러추적-도입]] — DSN 공개키 누락 함정, 동작 확인 절차, 성능 화면·대시보드 안내 절 추가
+- 갱신: [[Cloudflare-Workers-Builds-모노레포-앱별-Worker]] — 비운영 브랜치 `versions upload` 동작과 stag/prod 배포 교차 확인 절 추가
+- 비고: 새 페이지 없음. 머지된 PR 삭제 불가·커밋 트레일러 정리 논의, 스크린샷 판독, 계정·DSN 값, 세션 기록 조회 문답 등 일회성 내용은 버림.

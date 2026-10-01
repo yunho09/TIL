@@ -1,6 +1,6 @@
 ---
 tags: [sentry, react, vite, react-router, observability, error-tracking]
-updated: 2026-09-29
+updated: 2026-10-02
 ---
 
 # Sentry — React+Vite SPA에 에러·성능 추적 붙이기
@@ -61,9 +61,39 @@ axios 인터셉터와 react-query `onError`를 **둘 다** 연결하면 같은 A
 - v11부터 성능 데이터는 예전 방식(transaction)이 아니라 span 단위로 전송된다. Sentry 화면에서는 동일하게 Insights 메뉴에서 보인다.
 - 백엔드가 다른 도메인이고 CORS로 추적 헤더를 안 열어 두면, 프론트에서 본 응답 시간까지만 보이고 서버 내부 어디가 느렸는지는 안 보인다. 이어 보려면 백엔드에도 Sentry를 붙이고 CORS에 추적 헤더를 허용해야 한다.
 
+## DSN 형식 함정 — 공개키 누락 시 조용히 꺼짐
+- 올바른 DSN: `https://<공개키 32자리>@o<조직번호>.ingest.us.sentry.io/<프로젝트번호>`. 공개키(public key)는 어느 프로젝트로 보낼지 식별하는 값이지 비밀번호가 아니라 번들에 들어가도 된다.
+- 실제 사례: Cloudflare Build variables의 `VITE_SENTRY_DSN`에 `https://` 바로 뒤 `공개키@`가 빠진 값을 넣어 배포 → 콘솔에 `Invalid Sentry Dsn`, 초기화 안 됨, Network 탭에 `envelope` 요청이 아예 없음. **번들에 DSN 문자열이 보여도 형식이 틀리면 꺼진 것**이다.
+- 값은 직접 조합하지 말고 Sentry → Settings → Projects → 프로젝트 → **SDK Setup → Client Keys (DSN)**의 DSN 한 줄을 통째로 복사한다(Secret Key·Public Key 칸은 쓰지 않는다). `SENTRY_AUTH_TOKEN`(소스맵 업로드용)과는 별개 값.
+- `VITE_*`는 빌드 시점 인라인이라 값만 저장하면 반영 안 되고 **Retry build**가 필요하다([[Vite-빌드타임-환경변수-인라인]]). stag/prod가 같은 값을 복사했으면 둘 다 고쳐야 한다.
+
+## 동작 확인 절차
+1. 운영 사이트를 열고 F12 → Network 필터 `envelope` → `ingest.us.sentry.io/.../envelope/`가 **200**이면 전송 중(`tracesSampleRate: 1`이면 에러 없이도 페이지 로딩 기록이 나간다). 광고 차단 확장 프로그램이 sentry.io를 막을 수 있으니 안 보이면 **시크릿 창**에서 확인.
+2. 테스트 에러: Console에 `setTimeout(() => { throw new Error('sentry 테스트 prod') })`. 콘솔에서 바로 `throw`만 치면 SDK가 못 잡으므로 `setTimeout`으로 감싼다.
+3. Sentry Issues에 environment 태그(`prod`)·라우트(`/login` 등)·Replay 1개가 붙어 오는지 본다. 콘솔에서 만든 에러는 스택에 원본 `src/...` 줄이 안 나올 수 있어 소스맵 검증은 실제 에러로 한다. 확인 후 테스트 이슈는 Resolve. 사용자 정보를 안 보내면 Users 0이 정상.
+4. 번들에 `.map` 요청이 소스맵이 아니라 일반 SPA HTML을 돌려주면 소스맵이 공개되지 않은 것.
+
+## 성능 화면 위치와 보는 법
+- Insights → Frontend: Web Vitals, Network Requests(Outbound API Requests, 엔드포인트별 평균·p95·호출 수·실패율), Frontend Assets(JS·CSS 로딩/크기). 개별 요청은 Explore → Traces에서 `span.op:http.client`(API 호출만), `transaction.op:pageload`(첫 로딩), `navigation`(메뉴 이동)으로 필터. 메뉴 이름·경로는 버전마다 바뀌므로 안 열리면 검색(돋보기)으로 찾는다.
+- 기본 대시보드 목록은 대부분 무관하다. 브라우저 React/Vite 앱이면 **Frontend Overview · Web Vitals · Outbound API Requests · Frontend Assets** 4개만 보고, AI/MCP·Backend·Laravel·Next.js·Mobile은 무시. 항상 environment를 `prod`로 걸어 stag와 섞이지 않게 한다. DSN이 고쳐진 시점부터만 쌓이므로 실사용 1~2일 후에 본다.
+- Web Vitals 읽기: Performance Score 100점 만점(90+ 좋음). P75 기준 LCP ≤2.5s·INP ≤200ms·CLS ≤0.1·TTFB 빨간 점이면 약점. 표본이 15회 안팎인 페이지의 수치(예: 로그인 화면 INP 422ms는 로그인 API 대기가 섞였을 수 있음)는 며칠 쌓은 뒤 재판단. 값이 정상 범위여도 Pages 표는 로드 횟수가 많은 화면(`/`)부터 본다.
+
+## 에러가 Sentry에 안 남는 빈틈과 보강 (이슈 #212, 2026-10-02)
+
+배포 후 "서버가 200을 주는데 필드 하나가 비어 불러오기가 실패"하는 일이 생겨도 Sentry에 안 뜬 사례에서 정리한 것. axios 인터셉터는 **HTTP 에러 응답만** 보므로, 200인데 응답 형식 검사(런타임 가드)가 실패해서 던지는 에러는 React Query가 잡아 화면에 "불러오기 실패"만 띄우고 기록이 사라진다.
+
+- **보강 위치**: `QueryClient`의 `QueryCache`/`MutationCache` `onError`. 위 "axios·react-query 동시 연결 시 중복" 문제 때문에, **axios 에러는 여기서 제외**하고(인터셉터가 이미 보냄) 취소된 요청도 뺀다. 쿼리 키는 첫 칸만 태그로 남기고 검색어가 섞일 수 있는 나머지는 붙이지 않는다.
+- **400을 보낼지**: 이 서버는 400을 거의 "형식 오류" 전용으로 쓰고(중복은 409, 없음은 404) 프론트가 같은 규칙을 미리 막고 있어서, 운영에서 400이 나면 프론트·서버 규칙 불일치 버그일 가능성이 높다. 그래서 위 "예상 가능한 4xx 제외" 기준의 예외로 **400은 보낸다**(API·상태별 이슈로 묶임). 서버의 `description`은 입력값이 섞일 수 있어 제외. 서버가 400을 정상 거절에도 쓰는 곳이면 잡음이 되므로 서버의 상태 코드 사용 방식을 먼저 봐야 한다. 부작용: 화면이 미리 막지 않고 서버 400 문구를 그대로 보여주는 곳(예: 예약 "사전답사일은 방문일보다 늦을 수 없습니다")은 직원이 잘못 입력할 때마다 이슈가 쌓인다 — 화면 검증이 빠졌다는 신호이기도 하다.
+- **강제 로그아웃 기록**: 토큰 재발급 실패 후 세션 종료는 에러가 아니라 **경고**로 남긴다. 서버가 401/403을 구분해 주지 않으면 상태 코드 대신 **실패 단계**로 나눈다(저장된 토큰 없음 / 재발급 거절 / 재발급 후에도 403). 동시에 실패한 요청이 여럿이어도 한 번만 보내고, 다른 탭에서 로그아웃해 토큰이 이미 없는 경우는 보내지 않는다.
+- **같은 DSN으로 stag/prod 공유**: Sentry 프로젝트는 하나, `environment`(`stag`/`prod`) 태그로만 구분한다. Environment 필터로 같이/따로 볼 수 있지만 **이슈는 프로젝트 단위로 묶여** 같은 에러는 한 이슈이고 Resolved도 두 환경에 같이 적용된다. 알림 규칙은 environment 조건을 걸어 `prod`만 울리게 한다. 실제로 켜져 있는지는 코드가 아니라 Cloudflare Build variables(`VITE_SENTRY_DSN`, `VITE_SENTRY_ENVIRONMENT`, 소스맵용 토큰류)로 정해진다.
+- **e2e 검증 방식**: Sentry 전송을 가로채서(실제 Sentry로는 안 나감) 검증하는 전용 e2e와 전용 dev 서버를 둔다. 기본 e2e 서버는 DSN을 비우고, 재사용하는 dev 서버에 DSN이 있으면 테스트 시작 전에 멈추게 해 로컬 `.env`의 DSN으로 테스트 에러가 실서버에 올라가는 사고를 막는다. 고치기 전 코드로 되돌려 테스트가 실제로 실패하는지도 확인했다.
+- **그 밖의 후보(보류)**: 배포 버전(`release`) 표시(소스맵 플러그인이 자동으로 붙이는지 Sentry 이슈 화면의 Release로 먼저 확인), 사용자 피드백 버튼(화면 변경이라 상의 필요). 토큰 안의 사용자 ID(`sub`)를 `setUser({ id })`로 붙이면 이름 없이 "어느 직원"을 구분할 수 있다.
+
 ## 관련
 - [[Vite-빌드타임-환경변수-인라인]]
 - [[Cloudflare-Workers-SPA-fallback-404]] — Build variables vs Runtime variables 구분
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — [[프로젝트/ToyVillage-Admin-FE/프로젝트-현황]] (이슈 #200, PR #202)
+- Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — DSN 공개키 누락 사례, 확인 절차, 성능 화면 안내
+- Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — 이슈 #212, PR #213
