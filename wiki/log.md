@@ -677,3 +677,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2)
 - 갱신: [[Sentry-React-SPA-에러추적-도입]] — 200 응답 형식 오류·400·강제 로그아웃 보강 절 추가, [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #212/PR #213 절(스테이징 401/403 실측, 재발급 동작 확인) 추가
 - 비고: 브랜치 이동·커밋 해시·PR 올리기 문답 등 일회성 진행은 버림.
+
+## 2026-10-02 01:40 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2)
+- 갱신: [[Sentry-React-SPA-에러추적-도입]] — 절전 복귀 가짜 네트워크 에러 이슈 사례·해결(#209), 조직·리전·플랜 한도·가격·토큰 위치 메모 절 추가
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #209(PR #210/#211), main 브랜치 보호 적용·관리자 예외, Close 키워드 미동작 절 추가
+- 비고: 새 페이지 없음. 스크린샷 단계별 클릭 안내·디스코드 메시지 문구·PR 본문 작성 등 일회성 진행은 버림. DSN·토큰 값은 저장하지 않음.
