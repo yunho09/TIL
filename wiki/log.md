@@ -661,3 +661,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Cloudflare-Workers-Builds-모노레포-앱별-Worker]], [[GitHub-closing-keyword-기본브랜치-PR-자동닫힘과-코드오너-룰셋]], [[Node-내장-localStorage가-vitest-jsdom-Storage를-가림]]
 - 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — 컨벤션 요약, PR #160 리뷰 반영·Workers 배포·CORS·S3 목록 공개 이슈, stag QA #166/#167(이미지 상대경로 원인 확정으로 09-10 미해결 항목과 상충 표기), 공지 페이지네이션·Figma #168/#169 절 추가
 - 비고: 세션 중 붙여넣어진 계정·토큰·환경변수 값은 저장하지 않음. 브라우저 자동화 시행착오, 커밋 해시 나열, 빌드 대기 폴링, 상태 정리 요청 반복 등 일회성 진행은 버림.
+
+## 2026-10-01 20:18 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
+- 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — 포트폴리오 정리용 설계 요약 절 추가(createDomainApi, 토큰 재발급 조건, API 에러 0 e2e, 코드 확인 수치)
+- 비고: Notion 페이지 작성 요청·문체 조정·아이콘 문답 등 일회성 지시는 버림. 토큰 재발급 경위는 기존 절과 중복이라 링크만.
