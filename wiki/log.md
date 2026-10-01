@@ -672,3 +672,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Sentry-React-SPA-에러추적-도입]] — DSN 공개키 누락 함정, 동작 확인 절차, 성능 화면·대시보드 안내 절 추가
 - 갱신: [[Cloudflare-Workers-Builds-모노레포-앱별-Worker]] — 비운영 브랜치 `versions upload` 동작과 stag/prod 배포 교차 확인 절 추가
 - 비고: 새 페이지 없음. 머지된 PR 삭제 불가·커밋 트레일러 정리 논의, 스크린샷 판독, 계정·DSN 값, 세션 기록 조회 문답 등 일회성 내용은 버림.
+
+## 2026-10-02 01:30 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2)
+- 갱신: [[Sentry-React-SPA-에러추적-도입]] — 200 응답 형식 오류·400·강제 로그아웃 보강 절 추가, [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #212/PR #213 절(스테이징 401/403 실측, 재발급 동작 확인) 추가
+- 비고: 브랜치 이동·커밋 해시·PR 올리기 문답 등 일회성 진행은 버림.

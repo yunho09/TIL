@@ -89,11 +89,32 @@ axios 인터셉터와 react-query `onError`를 **둘 다** 연결하면 같은 A
 - **e2e 검증 방식**: Sentry 전송을 가로채서(실제 Sentry로는 안 나감) 검증하는 전용 e2e와 전용 dev 서버를 둔다. 기본 e2e 서버는 DSN을 비우고, 재사용하는 dev 서버에 DSN이 있으면 테스트 시작 전에 멈추게 해 로컬 `.env`의 DSN으로 테스트 에러가 실서버에 올라가는 사고를 막는다. 고치기 전 코드로 되돌려 테스트가 실제로 실패하는지도 확인했다.
 - **그 밖의 후보(보류)**: 배포 버전(`release`) 표시(소스맵 플러그인이 자동으로 붙이는지 Sentry 이슈 화면의 Release로 먼저 확인), 사용자 피드백 버튼(화면 변경이라 상의 필요). 토큰 안의 사용자 ID(`sub`)를 `setUser({ id })`로 붙이면 이름 없이 "어느 직원"을 구분할 수 있다.
 
+## 운영 실사례 — 노트북 절전 복귀가 만드는 가짜 네트워크 에러 이슈 (2026-09-30 관측, #209/PR #210)
+
+운영 투입 직후 이슈 15개가 쌓였지만 실제로는 3건(테스트 에러 1 + 사건 2)이었다. 5xx·렌더 에러는 0건.
+- **현상**: 대시보드를 켜 둔 채 노트북을 덮고 6~9시간 뒤 열면, 대시보드가 동시에 부르는 API 7개가 **같은 초에** Network Error(Linux) 또는 10초 타임아웃(Mac)으로 실패 → 이슈 7개씩 생성.
+- **판별 근거**: breadcrumbs에서 실패 직전까지 수 시간 활동이 없고 그 전 API는 전부 200. 서버가 죽었다면 여러 사용자에게서 활동 중에 났을 것. 같은 시각·같은 화면·여러 API 동시 실패면 서버 장애보다 클라이언트 네트워크 일시 단절을 먼저 의심.
+- **원인 3겹**: (1) react-query `refetchOnReconnect` 기본값이 켜져 있어 복귀 순간(와이파이가 덜 붙은 때) 자동 재요청이 나가 실패 (2) 응답 없는 에러를 전부 전송 (3) `fingerprint`가 `api+메서드+경로+상태`라 API마다 이슈가 갈라짐.
+- **해결(코드, `reportApiError.ts` 한 파일)**: 응답이 없는 에러는 fingerprint에서 경로를 빼 종류별(`ERR_NETWORK`/`ECONNABORTED`) 이슈 하나로 묶고(경로는 `api.path` 태그로 확인), 응답이 없으면서 `navigator.onLine === false` 또는 `document.visibilityState === 'hidden'`이면 전송 안 함. **5xx는 항상 전송·API별 분리 유지**(원인이 API마다 다르므로).
+- **한계**: 복귀 직후 브라우저가 온라인이라 판단하고 화면도 보이는 상태에서 난 실패는 가드로 못 거른다 → 묶기가 안전망(이슈 1개).
+- **코드 밖**: Sentry 알림 규칙에서 네트워크 에러·타임아웃은 제외(수집만). breadcrumb로만 남기는 안은 진짜 서버 다운(응답 없음)도 놓쳐 기각.
+- Users가 0으로 나오는 건 정상 — 로그인 응답에 사용자 ID가 없어 `role`만 태그로 붙이기 때문.
+
+## 계정·플랜 결정 메모 (2026-09-29~10-02)
+
+- 조직 이름은 개인 이름이 아니라 팀 이름(slug가 `<org>.sentry.io`와 소스맵 `SENTRY_ORG`가 됨). 데이터 리전은 US/EU 중 선택, **가입 후 변경 불가**(한국 리전 없음). 개인 구글 계정으로 만들면 본인이 Owner — 인수인계엔 멤버 초대가 필요한데 무료는 1명뿐이라 그때 유료 전환이 필요할 수 있음.
+- 온보딩 화면의 기능 체크박스는 예시 코드만 바꿀 뿐 기능을 잠그지 않는다. 온보딩 예시 코드·"Break the world" 버튼·AI 프롬프트는 환경변수·PII 제거·4xx 제외가 빠져 있어 그대로 쓰지 않는다. 프로젝트 이름은 기본값 `javascript-react`로 생성되므로 `SENTRY_PROJECT`로 쓸 이름으로 바꿔 둔다. 토큰은 Settings → Developer Settings → **Organization Tokens**(`sntrys_...`, 생성 시 한 번만 표시).
+- GitHub 연동은 조직에 Sentry 앱(저장소 읽기 권한)을 설치해야 하므로 팀 합의 후에. 에러 수집·소스맵·알림에는 불필요.
+- 14일 체험은 카드 미등록 시 자동으로 무료(Developer) 전환, 과금 없음. 무료: 멤버 1명·에러 월 5,000건·Replay 월 50개·보관 30일, 한도 초과분은 그달 버려짐(사이트 영향 없음). Team은 월 $26(연 결제 기준, 무제한 멤버·에러 5만건·Slack 연동 명시), Replay/Tracing 한도는 Team도 동일. 혼자 보는 용도면 무료+이메일 알림으로 충분, 팀 공유·Slack이 필요할 때 Team. 유료가 부담인데 팀이 봐야 하면 Sentry 호환 오픈소스 GlitchTip 자체 호스팅이 대안(서버 관리 부담).
+- Cloudflare 등록 시 `SENTRY_AUTH_TOKEN`은 Secret, 나머지는 Text, Workers는 Build 쪽 변수 칸. 다음 빌드부터 적용. DSN이 비면 Sentry가 꺼진 채 동작하므로 환경변수 등록 전에 머지해도 안전.
+- 검증: 콘솔 `setTimeout(() => { throw new Error('test') })` → 원본 파일명·줄 번호(소스맵) 확인 → 배포 주소의 `/assets/*.js.map`이 열리지 않는지 확인. 알림은 "새 이슈 발생" 하나를 `prod`에만.
+
 ## 관련
 - [[Vite-빌드타임-환경변수-인라인]]
 - [[Cloudflare-Workers-SPA-fallback-404]] — Build variables vs Runtime variables 구분
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — [[프로젝트/ToyVillage-Admin-FE/프로젝트-현황]] (이슈 #200, PR #202)
+- Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — 2026-10-02 (플랜·계정 결정, 운영 이슈 분석, #209/PR #210)
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — DSN 공개키 누락 사례, 확인 절차, 성능 화면 안내
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — 이슈 #212, PR #213
