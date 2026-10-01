@@ -655,3 +655,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 생성: [[Nautilus-폴더-먼저-정렬-끄기와-Homebrew-gsettings-함정]]
 - 비고: 파일 앱 재시작 안내·예상 정렬 순서 등 일회성 확인은 버림. 설정 키와 Homebrew gsettings 함정만 남김.
+
+## 2026-10-01 20:00 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
+- 생성: [[Cloudflare-Workers-Builds-모노레포-앱별-Worker]], [[GitHub-closing-keyword-기본브랜치-PR-자동닫힘과-코드오너-룰셋]], [[Node-내장-localStorage가-vitest-jsdom-Storage를-가림]]
+- 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — 컨벤션 요약, PR #160 리뷰 반영·Workers 배포·CORS·S3 목록 공개 이슈, stag QA #166/#167(이미지 상대경로 원인 확정으로 09-10 미해결 항목과 상충 표기), 공지 페이지네이션·Figma #168/#169 절 추가
+- 비고: 세션 중 붙여넣어진 계정·토큰·환경변수 값은 저장하지 않음. 브라우저 자동화 시행착오, 커밋 해시 나열, 빌드 대기 폴링, 상태 정리 요청 반복 등 일회성 진행은 버림.
