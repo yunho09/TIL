@@ -99,6 +99,11 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[에러-응답-CORS-헤더-누락-상태코드-차단]] — 502 등 에러 응답에 `Access-Control-Allow-Origin`이 빠지면 브라우저가 응답을 통째로 차단해 프론트의 상태코드별 에러 매핑이 무력화되는 원인, `Server` 헤더로 프록시/오리진 구분·무인증 호출로 "이 요청만 실패"인지 판별하는 진단 순서, 백엔드/인프라에서만 고칠 수 있다는 결론. **(2026-09-17 추가)** preflight(OPTIONS) 상태코드로 preflight 실패와 본요청 CORS 헤더 누락을 구분하는 법, Cloudflare 502가 CORS 에러로 오인되는 실사례(`Server: cloudflare`)
 - [[Vite-dev서버-프록시로-오리진고정-CORS-우회]] — 스테이징이 특정 오리진(예 `localhost:5173`)만 허용하고 그 포트가 이미 다른 프로젝트로 점유돼 있을 때, `server.proxy`로 브라우저→dev서버(같은 오리진)→백엔드(서버 대 서버, CORS 미적용) 경로를 만들어 사람이 직접 브라우저로 확인해야 하는 상황을 우회하는 기법과 적용 시 임시 설정 분리 요령
 
+### 프론트엔드/성능-관측
+- [[Web-Vitals와-모니터링-도구-역할-분담]] — Web Vitals(LCP/INP/CLS, p75 판정)는 지표 이름이고 `web-vitals` 라이브러리·SDK·Sentry/GA4와 층위가 다르다는 정리, INP는 랩/CI로 못 재고 실사용자 수집만 가능, GA4 경로는 직접 전송·p75 보기 불편·24h 지연이라 Sentry 하나로 에러+Web Vitals+API 계측(fetch/XHR 자동)을 처리, API 계측(p50/p95) 개념, 머지 전 차단은 못 한다는 Sentry의 한계, GA4는 PII(경로 정규화)·광고차단 때문에 보류하고 필요하면 PostHog 셀프호스팅 (2026-10-04)
+- [[번들-회귀-방지-CI와-ESLint-복잡도-도입]] — CI가 없어 GitHub Actions부터 필요, size-limit(gzip, 실측에 10~15% 여유, PR마다 3kB씩 커지는 회귀 차단)·Lighthouse CI(러너 편차 때문에 3회 중앙값·초기 warn, 스플리팅 후 도입)·ESLint 복잡도(max-depth/params 0건이면 컴포넌트가 큰 것, 임계 15부터 baseline으로 신규 유입만 차단) (2026-10-04)
+- [[어드민-SPA-번들-성능-baseline과-최적화-우선순위]] — 957KB 단일 청크·로그인 LCP 2,088ms 실측 조건(Slow 4G+CPU 4x, CDP, 5회 중앙값, 소스맵 디코드), 같은 로고가 public/과 src/에 md5 동일하게 중복 번들, 폰트 preconnect·brotli·스플리팅·vendor 분리 우선순위, 가상화·Tailwind 전환 등 안 하기로 한 결정, 스택 선택 이유 설명 시 틀리기 쉬운 표현(axios 로딩, Yarn Berry PnP) (2026-10-04)
+
 ### 프론트엔드/테스트
 - [[테스트-픽스처-고정날짜-현재월-필터-노후화]] — "이번 달"만 렌더하는 화면에 고정 과거 날짜 픽스처를 쓰면 작성 당시엔 통과하다 달이 바뀌면서 자동으로 실패하는 시간 의존 테스트 패턴, 판별법과 상대 날짜 전환 해결책
 - [[배럴-Import-함정]] — 엔티티 배럴(`index.ts`)이 상수 하나 때문에 재수출 전체를 실행시켜 axios CJS 체인이 Node/Playwright 로더에서 링크 실패하는 원인, `Total: 0 tests in 0 files`로 조용히 수집조차 안 되는 게 가장 위험한 이유, 하위 모듈 직접 import로 우회, 집계 스크립트가 `"Total:"` 문자열만 보거나 `tail -1`로 판정하면 이런 실패를 놓치는 부수 함정. 다른 메커니즘: 배럴 경유 순환 참조가 top-level `styled(X)` 평가 시점에 `undefined`를 주입해 크래시나는 사례

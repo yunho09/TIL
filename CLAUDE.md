@@ -29,6 +29,7 @@ wiki/프론트엔드/배포/          Cloudflare Workers/Pages 등 배포 플랫
 wiki/프론트엔드/디자인-연동/     Figma·MCP 등 디자인↔코드 연결
 wiki/프론트엔드/API-인증/       인증·외부 API 연동
 wiki/프론트엔드/테스트/         e2e/유닛 테스트 패턴·함정 (Playwright 등)
+wiki/프론트엔드/성능-관측/       번들·Web Vitals 성능 측정, 모니터링 도구 선택, 회귀 방지 CI
 wiki/프로젝트/<프로젝트명>/
 wiki/도구/                    프로젝트에 매이지 않는 범용 도구 (Claude Code, Git …)
 ```

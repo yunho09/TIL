@@ -110,6 +110,8 @@ axios 인터셉터와 react-query `onError`를 **둘 다** 연결하면 같은 A
 - 검증: 콘솔 `setTimeout(() => { throw new Error('test') })` → 원본 파일명·줄 번호(소스맵) 확인 → 배포 주소의 `/assets/*.js.map`이 열리지 않는지 확인. 알림은 "새 이슈 발생" 하나를 `prod`에만.
 
 ## 관련
+- [[Web-Vitals와-모니터링-도구-역할-분담]] — Sentry vs GA4 역할 분담, API 계측 개념
+- [[번들-회귀-방지-CI와-ESLint-복잡도-도입]] — Sentry가 못 막는 머지 전 회귀 차단
 - [[Vite-빌드타임-환경변수-인라인]]
 - [[Cloudflare-Workers-SPA-fallback-404]] — Build variables vs Runtime variables 구분
 
