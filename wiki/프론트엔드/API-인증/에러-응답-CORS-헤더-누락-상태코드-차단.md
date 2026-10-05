@@ -26,7 +26,11 @@ updated: 2026-09-17
 ## 실사례: Cloudflare 502가 CORS 에러로 보인 경우
 응답 헤더가 `Server: cloudflare`, `Content-Type: text/html`, `Retry-After` 등으로 오면 **오리진 서버 자체가 다운**된 상태에서 Cloudflare가 대신 502 에러 페이지를 돌려준 것이다. 이 에러 페이지에는 애초에 `Access-Control-Allow-Origin`이 없으므로 브라우저에는 CORS 오류로만 보인다 — 실제 원인은 CORS 설정이 아니라 오리진 서버 장애다. `Server` 헤더로 프록시/오리진을 구분하는 1번 항목이 이 케이스를 가려낸다.
 
+## 실사례 2: 업로드 503이 "네트워크 오류"로 표시 (Commonly, 2026-10)
+정상 워크북 업로드가 503인데 화면엔 "서버에 연결할 수 없습니다." — 503에 CORS 헤더가 없어 `fetch`가 reject돼 FE가 네트워크 오류로 오인. **같은 요청에서 입력만 바꾸는 A/B로 실패 단계를 특정**했다: 깨진 zip(.xlsx) → CORS 정상인 읽히는 500, 정상 워크북 → CORS 없는 503. multipart·인증·CORS·에러 경로는 정상이고 파싱 뒤 S3 업로드 단계에서 앱/엣지가 죽는다는 뜻. 미인증 curl이 401을 정상 반환하는 것도 "오리진 전체 장애가 아님"의 근거. 자세히는 [[Commonly-FE/배포본-기능-감사-2026-10]].
+
 ## 출처
+- Claude Code 세션 자동 캡처 (/data/project/Commonly-fe) (2026-10-01 세션 — 업로드 503 A/B 사례)
 - [[Commonly-FE/프로젝트-현황]]
 - Claude Code 세션 자동 캡처 (/data/project/Commonly-fe)
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — preflight OPTIONS 진단법, Cloudflare 502 실사례 추가
