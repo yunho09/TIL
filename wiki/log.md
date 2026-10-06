@@ -700,3 +700,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #221(스켈레톤 버튼 제거)·#222(업무지시 삭제 409 안내, Toast 줄바꿈) 절 추가
 - 비고: 새 페이지 없음. 로컬 서버 포트 전환, push/PR 요청, Figma 수정 프롬프트 문구 등 일회성 진행은 버림.
+
+## 2026-10-07 01:40 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[Sentry-React-SPA-에러추적-도입]] — 4xx 수집 범위 재조정 절(실측·결정 기준·명세 전수 집계)과 Dedupe 오진 교훈 추가, [[ToyVillage-Admin-FE/프로젝트-현황]] — 이슈 #225/PR #226·#227 절, 재발급 404 강제 로그아웃 원인 후보 절 추가
+- 비고: 새 페이지 없음. 이슈·PR 본문 길이 다듬기, 브랜치 생성, 테스트 이슈 삭제 문답 등 일회성 진행은 버림. 재발급 404 원인(다중 탭/기기 가설)과 500 5건 미도착은 미확정으로 표기.
