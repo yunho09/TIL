@@ -130,6 +130,18 @@ axios 인터셉터와 react-query `onError`를 **둘 다** 연결하면 같은 A
 - Cloudflare 등록 시 `SENTRY_AUTH_TOKEN`은 Secret, 나머지는 Text, Workers는 Build 쪽 변수 칸. 다음 빌드부터 적용. DSN이 비면 Sentry가 꺼진 채 동작하므로 환경변수 등록 전에 머지해도 안전.
 - 검증: 콘솔 `setTimeout(() => { throw new Error('test') })` → 원본 파일명·줄 번호(소스맵) 확인 → 배포 주소의 `/assets/*.js.map`이 열리지 않는지 확인. 알림은 "새 이슈 발생" 하나를 `prod`에만.
 
+## 사용자 행동 보는 곳과 개인정보 샘 — Breadcrumbs·Replay·aria-label (2026-10-07)
+- **위치**: 둘 다 *Issues → 이슈 클릭한 상세 화면*에 있다. **Breadcrumbs**(아래로 스크롤)는 에러 직전의 Navigation·UI Click·HTTP·Console 기록, **Replays 탭**은 그 이슈 세션 녹화. 전체 녹화 목록은 Explore → Replays. *Dashboards 목록 화면에는 둘 다 없다*(왼쪽 아이콘 메뉴에서 이동해야 함).
+- **경고 수준 이벤트(세션 종료 경고 등)는 녹화가 안 남을 수 있다**(`replaysOnErrorSampleRate`가 에러 세션만 녹화) → 이럴 땐 경고 직전 HTTP breadcrumb에서 어떤 요청이 403을 받았는지 본다.
+- **Replay 글자가 `****`로 보이는 건 정상**: `maskAllText`·`maskAllInputs`·`blockAllMedia`가 일부러 가린 것(이미지는 회색 점선 상자). 읽기 편하게 하려면 개인정보 아닌 고정 문구(버튼·메뉴·제목·라벨·**에러 메시지 영역**)에만 `data-sentry-unmask`를 붙인다.
+- **마스킹을 믿지 말고 이벤트를 열어 확인해야 하는 이유**: Replay는 가렸어도 **`ui.click` breadcrumb에는 버튼 `aria-label`이 그대로** 들어간다. `${account.name} 계정 메뉴`·`${staff.name} 배정 추가`처럼 직원 이름이 든 aria-label이 이 프로젝트에 **37곳**(미해결, `initSentry.ts`의 `beforeBreadcrumb`에서 ui.click 라벨을 지우고 replay의 `aria-label` 속성도 마스킹하는 수정 대기). 개인정보 설정을 미리 계획했어도 새는 곳이 생긴다는 사례.
+- **무엇을 Sentry로 보낼지 기준**: "이게 이슈로 올라왔을 때 누군가 고칠 게 있는가". 고칠 게 있으면 이슈, 정상 흐름이면 breadcrumb만. 보통 넣는 것: 처리 안 된 예외·렌더 에러, 5xx, 응답 형식이 명세와 다름, 네트워크 실패(노이즈 필터와 함께), 400(대개 프론트 버그). 팀마다 갈림: 404(경고), 409·422(예상된 실패라 보통 breadcrumb만). 보통 뺌: 401·403 재발급 흐름, 취소된 요청, 확장 프로그램·`ResizeObserver` 경고, 일반 클릭 이벤트(분석 도구 영역). 4xx 응답 본문은 서버가 사용자 입력을 되돌려줄 수 있어 **상태 코드·경로만** 남긴다.
+- **Sentry가 구조적으로 못 잡는 것**: 예외 없이 화면에 `~에 실패했습니다`만 띄우고 끝나는 곳(이 프로젝트 53개 파일 92곳), 버튼 무반응·디자인 차이처럼 조용한 오동작, DSN 없는 로컬 개발 환경. 사용자 피드백 위젯·실패 문구 공통 함수에서 같이 기록하는 방법이 보강안.
+- **온라인 판별과 한계**: `navigator.onLine && document.visibilityState === 'visible'`일 때만 전송(#209). `onLine=true`는 "인터넷이 된다"가 아니라 공유기·캡티브 와이파이에서도 true — 확실한 건 `false`일 때뿐. 깨어나는 순간 탭은 바로 visible·onLine도 true인데 실제 연결 전에 요청이 먼저 나가면 가짜 에러가 새므로 완전하지 않다(보완안: 탭이 다시 보인 직후 몇 초 실패 무시, 오래 쉰 뒤 첫 요청 실패 무시).
+- **환경 필터**: 환경 태그는 `prod`/`stag`(URL의 `environment=production`은 무시됨). Explore에선 `query=environment:prod`. 한 계정을 개발자와 실제 사용자가 같이 쓰면 운영 수치에 개발 기기가 섞이므로(강제 로그아웃 사례 → [[ToyVillage-Admin-FE/프로젝트-현황]]) "재현테스트" 이벤트·테스트 에러는 집계에서 뺀다. 사용자 1명 서비스에선 "에러를 겪은 사용자 비율"이 0/100%라 지표가 안 된다.
+- **메뉴 지도**: Issues(Feed·Inbox·Errors & Outages·Warnings·Breached Metrics·User Feedback), Explore(Traces=API별 호출 수·p50·p95, Errors/Discover=환경·API·상태 코드별 표, Replays), Dashboards(Frontend Overview·Web Vitals·Outbound API Requests가 React 관리자 웹에 유효, AI Agents·Laravel 등은 기본 템플릿이라 무관), Monitors(Alerts=슬랙·디스코드 알림 설정, Uptime), Settings(DSN·연동·보관). 오늘 새 문제는 Issues→Inbox, 느린 화면은 Web Vitals, 느린 API는 Explore→Traces.
+- **성능 데이터 한계(첫 관찰 9/29~10/6, prod)**: 표본이 작고(pageload ~1,800·API ~8,100) 성능 스팬에는 상태 코드가 안 남아 API 실패율을 상태별로 못 쪼개며 ID 경로가 묶이지 않는다. 사진 업로드 `POST /file`이 첫 시도에 status 0(61ms)으로 실패하고 재시도엔 성공한 사례는 크기·형식 거부가 CORS 헤더 없이 돌아온 것으로 *추정*(미검증, 클라이언트 크기·형식 검증 제안).
+
 ## 관련
 - [[Web-Vitals와-모니터링-도구-역할-분담]] — Sentry vs GA4 역할 분담, API 계측 개념
 - [[번들-회귀-방지-CI와-ESLint-복잡도-도입]] — Sentry가 못 막는 머지 전 회귀 차단
@@ -142,3 +154,4 @@ axios 인터셉터와 react-query `onError`를 **둘 다** 연결하면 같은 A
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — DSN 공개키 누락 사례, 확인 절차, 성능 화면 안내
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — 이슈 #212, PR #213
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-07 (이슈 #225, PR #226/#227: 4xx 수집 범위 실측·재조정, Dedupe 오진 철회)
+- Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-07 저녁 (Breadcrumbs·Replay 위치, aria-label 개인정보 샘, 수집 기준, 메뉴 지도)
