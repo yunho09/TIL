@@ -730,3 +730,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Playwright-e2e-실패-유형-분류와-취약-선택자-패턴]], [[Notion-MCP-update_content-빈칸-별표-깨짐]]
 - 갱신: [[ToyVillage-Admin-FE/하네스-점검-결과와-개선-방향]] — API 하네스 측정·분담 결정·Swagger 비교 22/65·승인자 검증·팀 규칙 합산 절 추가, [[ToyVillage-Admin-FE/프로젝트-현황]] — 하네스 e2e 실행 범위·53개 잔존 확인, [[Claude-Code-세션-기록으로-정정-지시-측정]] — 합산 판정 기준·테스트 실행 판정 기준
 - 비고: 디스코드/지환 전달 메시지 초안, 포트폴리오 문단 초안·Notion 페이지 편집 내역, 이슈 #235 생성 문답, 설득 전략 문답은 일회성이라 버림. 계약 없는 API 19 vs 17개, 정정 비율 48
+
+## 2026-10-09 18:35 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
+- 생성: [[IntelliJ-심볼릭-링크-중복-루트로-New-Java-Class-안-뜸]], [[JKYMHS-Backend/프로젝트-현황]]
+- 비고: 엔티티 이름 문답은 매핑 표와 결정 사항만 남기고, 다음 작업 제안은 버림.
