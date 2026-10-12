@@ -735,3 +735,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
 - 생성: [[IntelliJ-심볼릭-링크-중복-루트로-New-Java-Class-안-뜸]], [[JKYMHS-Backend/프로젝트-현황]]
 - 비고: 엔티티 이름 문답은 매핑 표와 결정 사항만 남기고, 다음 작업 제안은 버림.
+
+## 2026-10-12 10:15 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[웹한글-표-글자처럼-취급-빈-첫쪽]]
+- 비고: 패널 위치 추측 문답과 특정 문서 편집 지시는 일회성이라 버림. HOP·H2Orestart는 설치·검증 없이 검색 출처만 기록.
