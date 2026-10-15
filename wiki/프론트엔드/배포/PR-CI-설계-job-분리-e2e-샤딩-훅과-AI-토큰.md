@@ -40,5 +40,17 @@ Cloudflare 빌드만 있고 머지를 막는 검사가 없는 저장소에 CI를
 - 상태가 외부 서버에 좌우되는 실서버 API 테스트, 이미 일정 비율이 깨진 검사를 전체 범위로 켜는 것(켜는 순간 모든 PR 실패) → **PR에서 바뀐 범위만 검사**하도록 줄인다.
 - 브랜치 보호: 필수 상태 검사가 0개면 PR이 있어도 아무것도 막지 않는다. 관리자 우회를 막을지는 팀 규칙("PR 없는 머지 금지")과 엮인 합의 사항.
 
+## 계획 검토에서 나온 함정 (2026-10-15)
+- **e2e는 정리 전에도 "필수 아님"으로 먼저 켠다.** 정리하는 동안에도 다른 작업이 동작을 바꿔 새 실패가 쌓이므로, PR마다 실패 수가 느는지 보이게 하고 다 고친 뒤 필수로 승격.
+- **필수 검사에 `paths` 필터를 걸면 안 된다.** 필터에 걸려 워크플로가 안 돌면 결과가 안 와서 필수 검사가 "대기 중"으로 남아 머지가 안 된다. Cloudflare build watch paths도 같은 문제.
+- **"머지가 막힌다"는 관리자에겐 거짓일 수 있다.** `enforce_admins`가 꺼져 있으면 우회 가능 — 끌지, "관리자는 우회 가능"으로 적을지 정한다.
+- **"바뀐 기능만 게이트 검사"는 기능 판정 기준이 필요하다.** `src/shared` 같은 공통 파일을 바꾼 PR에서 관련 게이트를 전부 돌릴지 안 돌릴지 정해야 하고, 일부가 이미 깨져 있으면 공통 파일 하나로 무관한 기능의 재freeze가 몰린다.
+- **PR 제목 검사는 `pull_request`의 `types`에 `edited`를 넣어야** 제목만 고쳐도 다시 돈다.
+- **commit-msg 훅은 설치 방식을 정한다**: 훅은 저장소에 커밋되지 않아 각자 설치해야 동작 → husky나 `core.hooksPath`로 자동화. `git merge`/`git revert`의 기본 메시지는 통과시키고, `--no-verify` 우회는 막을 수 없다.
+- **Node 버전 고정**: `.nvmrc`·`engines`가 없으면 Actions·Cloudflare·로컬 버전이 어긋난다. Yarn 4는 Actions에서 `corepack enable` 필요.
+- **lint·typecheck·style-policy·하네스 테스트는 한 job으로**: 합쳐 15초라 나누면 job마다 도는 `yarn install`이 검사보다 오래 걸린다(위 "job을 나누는 이유"는 e2e와의 분리 얘기).
+- 로컬 `format:check`는 git에 안 올라가는 디렉터리(`.omx/`)까지 검사해 숫자가 부풀려지므로(577 vs 커밋 파일 326) 추적 파일만 센다.
+
 ## 출처
+- Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-15 계획 검토
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-07~08 CI 설계 문답
