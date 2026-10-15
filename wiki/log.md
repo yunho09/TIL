@@ -745,3 +745,14 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 생성: [[블루투스-이어폰-연결키-유실-재페어링]]
 - 비고: 페어링 진행 중 안내 문답은 원인·해결·이름 캐시 사실만 남기고 버림.
+
+## 2026-10-15 15:10 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 생성: [[디스크-정리와-부팅-서비스-최적화-점검]]
+- 갱신: [[GNOME-오버뷰-창-미리보기-사라짐]] — 원인 특정(전환 애니메이션 중 스와이프 시 중간 위치 값), 수정 적용·효과 미확인
+- 비고: `clear` 입력 문답과 재로그인 요청은 일회성이라 버림.
+
+## 2026-10-15 15:10 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[Ghostty-Ctrl+Enter-바로보내기-F11-전체화면]]
+- 비고: 입력 테스트용 잡담 턴과 keybindings 스킬 본문 덤프는 버림. 최종 Ghostty keybind 줄은 세션에 없어 "Claude 보충" 표시.

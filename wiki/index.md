@@ -9,13 +9,14 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[위키-자동-캡처]] — Karpathy LLM Wiki 모델 채택 이유, SessionEnd 훅 기반 자동 ingest+push 파이프라인, 스킵 조건, 적용 범위/한계, Notion 자동 연동 미채택 이유
 
 ### 환경/GNOME
-- [[GNOME-오버뷰-창-미리보기-사라짐]] — 3손가락 스와이프 후 가끔 창 미리보기만 비는 문제, `_gestureEnd` 예외 가설은 진단 로그로 반증됨(원인 미확정), 자동 감지+덤프 익스텐션 설치해 다음 재현 대기 중, GNOME 확장은 코드 변경 시 핫로드 안 되고 로그아웃/로그인 필요(`ReloadExtension` D-Bus deprecated)
+- [[GNOME-오버뷰-창-미리보기-사라짐]] — 3손가락 스와이프 후 가끔 창 미리보기만 비는 문제, `_gestureEnd` 예외 가설은 진단 로그로 반증됨, **(2026-10-15)** 35건 로그에서 원인 특정: 워크스페이스 전환 애니메이션 중 스와이프하면 위치 값이 0.54처럼 중간에 남아 빈 틈을 비춤(엉뚱한 워크스페이스로 끌려가는 증상도 동일 원인), 익스텐션에 오픈 시 위치 보정 추가했으나 재로그인 후 효과 미확인, 자동 감지+덤프 익스텐션, GNOME 확장은 코드 변경 시 핫로드 안 되고 로그아웃/로그인 필요(`ReloadExtension` D-Bus deprecated)
 - [[GNOME-Wayland-wl-clipboard-포커스-토스트]] — Mutter 50에 data-control 프로토콜 부재→wl-clipboard 폴백 경로→`focus-new-windows=strict`가 겹쳐 뜨는 정체불명 토스트의 원인 체인과 `smart` 복구법
 - [[Vitals-확장-상단바-시스템-모니터]] — 자체 스키마를 쓰는 확장은 `gsettings --schemadir`로 확장 설치 경로의 schemas를 직접 지정해야 하는 이유(Vitals `hot-sensors`/`position-in-panel` 예시), GNOME 50에서 D-Bus 스크린샷이 `AccessDenied`로 막혀 있음
 - [[Nautilus-폴더-먼저-정렬-끄기와-Homebrew-gsettings-함정]] — 파일 앱 최신순에서 폴더가 맨 위에 모이는 건 `sort-directories-first` 때문(GTK4 파일 선택창도 공유), PATH의 Homebrew `gsettings`는 dconf에 연결 안 돼 set/get이 둘 다 "성공"처럼 보이지만 실제로는 저장 안 되는 함정, `dconf write`나 `/usr/bin/gsettings`로 해결·검증 (2026-10-01)
 
 ### 환경/리눅스-데스크톱
 - [[PC-중복-설치-정리-Homebrew-도입]] — Linuxbrew 도입 후 apt/수동 설치와 중복되던 tmux·mise를 brew로 통일(브랜드 tmux client가 기존 apt tmux server 세션에 그대로 재접속돼 끊김 없이 교체 가능했다는 사실 포함), 로그인 셸(zsh)·essential 패키지(bash)는 위험해서 보류, ghostty deb/snap 중복(brew ghostty는 macOS 전용이라 대체 불가), wezterm·postman/notion snap·`.nvm` 등 앱 교체로 죽어있던 설치본 판별법(libfuse2 없는 AppImage, 실행 경로 교체 시점 대조), `.desktop` 오버라이드가 중복이 아니라 XDG 우선순위로 snap을 가리는 의도된 구조라는 것, docker-ce/Docker Desktop 이중설치·codex 설치 깨짐은 미해결로 남김
+- [[디스크-정리와-부팅-서비스-최적화-점검]] — 루트 13G→18G 정리 내역(저널 500M 제한·rc 패키지 purge·캐시), Docker 자동 시작→소켓 활성화, 남긴 것과 이유(grub-pc, npx, yarn berry PnP), '부팅 30초 단축'이 과장이었던 이유(로그인은 3초, 크리티컬 체인 확인 필요), 절전 복귀 직후 네트워크 대기 후 동기화 (2026-10-15)
 - [[GPU-유휴클럭-램프업-지연-프레임드랍]] — 창 드래그·오버뷰 애니메이션만 버벅이고 계속 움직이면 부드러워지는 증상의 원인은 GPU 유휴 클럭 400MHz 고정+최대클럭 램프업 ~1.5초인데 애니메이션은 0.2~0.4초라 못 따라가는 것, 컴포지터/패널 60Hz 하락·Discord `--disable-gpu`라는 오진단 2건은 실측으로 반증, wayland presentation-time 프로토콜·120Hz vs 60Hz 시각 비교자·act_freq 샘플링 진단 기법, `min_freq` sysfs로 임시 해결(재부팅시 원복)과 배터리 트레이드오프, XWayland 프레임 페이싱은 별개 미해결 이슈로 남음
 - [[절전-복귀-지연-원인과-zram-도입]] — 스왑 고갈+복귀 직후 systemd 타이머 폭주가 겹쳐 절전 복귀가 9초 넘게 걸리던 원인, zram 압축 스왑 도입(설치 시점 기본값 함정 포함)과 타이머 완화 조치. zram 도입 후에도 재발 — 진짜 급소는 gnome-shell 자신이 zram으로 내보낸 페이지 재적재, `CPUWeight`가 형제 슬라이스끼리만 경쟁한다는 함정, MemoryMin/background.slice/NVMe 스케줄러/fstrim 시간 이동 등 6가지 추가 조치. **최종 확인된 진짜 원인은 복귀가 아니라 전원 버튼 절전 진입 지연** — gnome-shell의 화면 시간(Screen Time) 기록 기능이 sleep 억제자를 놓지 않아 logind가 `InhibitDelayMaxSec` 5초를 다 채운 뒤에야 절전에 들어간 것, `Lid opened`만 측정하던 도구의 사각지대
 - [[Ptyxis-터치패드-스크롤-속도-패치]] — GTK4 `-Bsymbolic`으로 LD_PRELOAD 차단, `enable-fallback-scrolling=false`로 VTE 패치가 스크롤백에 안 먹히던 원인, `DBusActivatable=true`가 PATH 래퍼를 우회하는 함정, 스크롤백/앱 배율 분리 + bypass 패치로 해결
@@ -31,6 +32,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Electron-워크스페이스-고정-창-포커스탈취]] — `setVisibleOnAllWorkspaces(true)`는 리눅스에서 `_NET_WM_STATE_STICKY`(X11/XWayland 전용, 네이티브 Wayland는 무효)로 동작, override-redirect 창(입력용 히트 창 등)은 원래도 전체 워크스페이스에 있다는 사실, macOS는 show마다 재적용 필요하지만 리눅스는 생성 시 1회로 유지되는 차이, 창을 전체 워크스페이스에 고정하면 워크스페이스 전환 시 키보드 포커스가 그 창으로 넘어가는 미해결 부작용
 
 - [[블루투스-이어폰-연결키-유실-재페어링]] — 노트북 블루투스는 정상인데 Buds2 Pro만 `br-connection-key-missing`으로 연결 안 되던 원인(이어폰 쪽 연결 키 유실), 옛 페어링 삭제 후 재페어링, 길게 누르기가 노이즈캔슬링일 때 폰 BT 끄고 케이스 뚜껑 여닫아 페어링 모드 진입, 재페어링 시 별명 초기화와 소리 출력 목록 이름 캐시는 재연결로 갱신
+- [[Ghostty-Ctrl+Enter-바로보내기-F11-전체화면]] — Ghostty 기본 Ctrl+Enter=전체화면이 Claude Code `chat:sendNow`와 충돌해 F11로 이전, `text:\r`(Enter 동일)은 답변 중 끼어들기가 아니라 대기열행이라 오답, 설정 리로드는 Ctrl+Shift+,, tmux 안에서 안내 문구가 `Ctrl+X Ctrl+S`로 뜨는 이유와 keybindings.json `null` 해제로 통일하는 법 (2026-10-15)
 
 ### 라즈베리파이/GPIO
 - [[GPIO-기초]] — GPIO가 무엇인지(3.3V 출력/입력), 켜짐·꺼짐뿐인 핀으로 PWM이 밝기를 만드는 원리, BCM 번호와 물리 핀 자리 번호가 다른 두 체계, 핀은 한 프로세스만 점유한다는 성질, 40핀 헤더에서 1번 핀 찾는 법과 3.3V·5V·GND 위치
