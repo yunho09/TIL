@@ -756,3 +756,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 생성: [[Ghostty-Ctrl+Enter-바로보내기-F11-전체화면]]
 - 비고: 입력 테스트용 잡담 턴과 keybindings 스킬 본문 덤프는 버림. 최종 Ghostty keybind 줄은 세션에 없어 "Claude 보충" 표시.
+
+## 2026-10-15 15:20 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 갱신: [[터치패드-전역-스크롤-속도-libinput-quirks]] — Chrome 전용 스크롤 배율 확장(1.35배 확정), 뒤로가기 스와이프 이동량 옵션 해제와 배율 보정 추가
+- 비고: 창 띄우기·언어 지시 등 일회성 턴은 버림. 뒤로가기 설정 효과는 사용자 확인 전.
