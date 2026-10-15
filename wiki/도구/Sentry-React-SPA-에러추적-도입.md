@@ -141,6 +141,8 @@ axios 인터셉터와 react-query `onError`를 **둘 다** 연결하면 같은 A
 - **환경 필터**: 환경 태그는 `prod`/`stag`(URL의 `environment=production`은 무시됨). Explore에선 `query=environment:prod`. 한 계정을 개발자와 실제 사용자가 같이 쓰면 운영 수치에 개발 기기가 섞이므로(강제 로그아웃 사례 → [[ToyVillage-Admin-FE/프로젝트-현황]]) "재현테스트" 이벤트·테스트 에러는 집계에서 뺀다. 사용자 1명 서비스에선 "에러를 겪은 사용자 비율"이 0/100%라 지표가 안 된다.
 - **메뉴 지도**: Issues(Feed·Inbox·Errors & Outages·Warnings·Breached Metrics·User Feedback), Explore(Traces=API별 호출 수·p50·p95, Errors/Discover=환경·API·상태 코드별 표, Replays), Dashboards(Frontend Overview·Web Vitals·Outbound API Requests가 React 관리자 웹에 유효, AI Agents·Laravel 등은 기본 템플릿이라 무관), Monitors(Alerts=슬랙·디스코드 알림 설정, Uptime), Settings(DSN·연동·보관). 오늘 새 문제는 Issues→Inbox, 느린 화면은 Web Vitals, 느린 API는 Explore→Traces.
 - **성능 데이터 한계(첫 관찰 9/29~10/6, prod)**: 표본이 작고(pageload ~1,800·API ~8,100) 성능 스팬에는 상태 코드가 안 남아 API 실패율을 상태별로 못 쪼개며 ID 경로가 묶이지 않는다. 사진 업로드 `POST /file`이 첫 시도에 status 0(61ms)으로 실패하고 재시도엔 성공한 사례는 크기·형식 거부가 CORS 헤더 없이 돌아온 것으로 *추정*(미검증, 클라이언트 크기·형식 검증 제안).
+- **4xx를 수집하도록 배포했는데 이슈가 0개일 때**: 코드가 맞아도 ① 실제로 4xx가 안 났을 수 있고(배포 직후·사용자 소수·프론트가 선검증하는 400) ② Issues 화면 필터(기간·Environment All·`level:warning`)가 가렸을 수 있다. 태그 검색 `api.status:404`로 직접 찾고, 스테이징에서 *경로는 있고 번호만 없는* 상세 주소로 들어가 warning 이슈가 1분 안에 생기는지로 확정 검증한다(없는 *경로*는 서버가 500을 줘서 404 검증이 안 된다). 상세는 [[ToyVillage-Admin-FE/프로젝트-현황]] (2026-10-08).
+- **개선 전후 재측정의 시계**: Sentry after 기간은 수정이 **운영 환경에 배포된 날**부터 센다(환경이 prod/stag로 나뉘므로 develop 머지는 해당 없음). 수집 기준을 두 번 넓힌 지표는 기간 간 비교가 안 되고, 계정 분리처럼 코드가 아닌 조치로 줄어든 몫은 성과에서 분리한다.
 
 ## 관련
 - [[Web-Vitals와-모니터링-도구-역할-분담]] — Sentry vs GA4 역할 분담, API 계측 개념
@@ -154,4 +156,5 @@ axios 인터셉터와 react-query `onError`를 **둘 다** 연결하면 같은 A
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — DSN 공개키 누락 사례, 확인 절차, 성능 화면 안내
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — 이슈 #212, PR #213
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-07 (이슈 #225, PR #226/#227: 4xx 수집 범위 실측·재조정, Dedupe 오진 철회)
+- Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-08 저녁 (4xx 이슈 0건 점검법, 재측정 시계)
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-07 저녁 (Breadcrumbs·Replay 위치, aria-label 개인정보 샘, 수집 기준, 메뉴 지도)
