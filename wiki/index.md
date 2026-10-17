@@ -31,6 +31,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[웹한글-표-글자처럼-취급-빈-첫쪽]] — 웹 한글에서 첫 쪽이 비고 '쪽 경계에서' 아이콘이 회색이던 원인은 큰 표의 '글자처럼 취급'(쪽을 못 넘어 통째로 밀림), 해제 후 '나눔' 선택으로 해결, 강제 쪽 나누기·문단 모양 점검, 리눅스엔 한컴오피스가 없어 웹판 사용(HOP·H2Orestart는 미검증 대안)
 - [[Electron-워크스페이스-고정-창-포커스탈취]] — `setVisibleOnAllWorkspaces(true)`는 리눅스에서 `_NET_WM_STATE_STICKY`(X11/XWayland 전용, 네이티브 Wayland는 무효)로 동작, override-redirect 창(입력용 히트 창 등)은 원래도 전체 워크스페이스에 있다는 사실, macOS는 show마다 재적용 필요하지만 리눅스는 생성 시 1회로 유지되는 차이, 창을 전체 워크스페이스에 고정하면 워크스페이스 전환 시 키보드 포커스가 그 창으로 넘어가는 부작용. **(2026-10-15)** 원인 특정(WM_HINTS 부재→mutter가 포커스 가능 창으로 취급+sticky로 전 워크스페이스 MRU 선두) 및 해결(X11 `WM_HINTS input=False`를 koffi/XCB로 설정, A/B 검증), 창 첫 표시 시 포커스 1회 잡는 잔여 한계, koffi 인자 개수 무시 등 네이티브 바인딩 테스트 함정
 
+- [[카카오톡-Wine-스플래시-멈춤-한글-네모-크래시]] — Wine 카카오톡이 26.8.2 자동 업데이트 후 스플래시에서 멈춘 원인(Direct3D가 기본 OpenGL 경로에서 안 그려짐)과 Direct3D→Vulkan 렌더러 전환, 입력 중 한글이 네모인 원인(영어 UI의 Arial에 한글 글리프 없음, Wine 글꼴 대체는 진짜 Arial 있으면 무시)과 `pref.ini` 언어 ko 변경, Themida 보호로 원인 못 읽은 시작 직후 간헐 크래시를 실행기 자동 재실행으로 우회, WINEPREFIX 누락 시 `~/.wine` 생성 함정 (2026-10-17)
 - [[블루투스-이어폰-연결키-유실-재페어링]] — 노트북 블루투스는 정상인데 Buds2 Pro만 `br-connection-key-missing`으로 연결 안 되던 원인(이어폰 쪽 연결 키 유실), 옛 페어링 삭제 후 재페어링, 길게 누르기가 노이즈캔슬링일 때 폰 BT 끄고 케이스 뚜껑 여닫아 페어링 모드 진입, 재페어링 시 별명 초기화와 소리 출력 목록 이름 캐시는 재연결로 갱신
 - [[Ghostty-Ctrl+Enter-바로보내기-F11-전체화면]] — Ghostty 기본 Ctrl+Enter=전체화면이 Claude Code `chat:sendNow`와 충돌해 F11로 이전, `text:\r`(Enter 동일)은 답변 중 끼어들기가 아니라 대기열행이라 오답, 설정 리로드는 Ctrl+Shift+,, tmux 안에서 안내 문구가 `Ctrl+X Ctrl+S`로 뜨는 이유와 keybindings.json `null` 해제로 통일하는 법 (2026-10-15)
 
