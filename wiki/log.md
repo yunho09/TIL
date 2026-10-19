@@ -814,3 +814,12 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
 - 갱신: [[절전-복귀-지연-원인과-zram-도입]] — 4차 조사 절 추가(재발, `resume-stacks` 복귀 스택 기록 장치의 동작·위치·제거법)
 - 비고: 새 페이지 없음. 원인은 미확정이며 내일 첫 복귀 결과 대기 중. "화면 늦게 켜짐" 제보 요청 등 일회성 안내는 버림.
+
+## 2026-10-19 11:04 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — 10/12~14 절 추가(Swagger 차이 22→9, 휴무일 `/close-day/date` 계약 오류와 오진 철회, flaky e2e 2건, #249·#251 요약, 성능 before, stag/운영 URL·직원 20명/관리자 1명)
+- 갱신: [[ToyVillage-Admin-FE/하네스-점검-결과와-개선-방향]] — API 하네스 ② Notion+Swagger 동시 조회(#248/#249) 절, 수치 정정(명세 46·화면 43)
+- 갱신: [[Sentry-React-SPA-에러추적-도입]] — breadcrumb·Replay 버튼 라벨 차단(#251) 절, 37곳 "미해결" 표기를 수정으로 정정
+- 갱신: [[Swagger-자동생성-문서-필수값-확인과-신뢰-한계]] — 실서버와 다른 표기 9건 실사례와 대조 해석법 절
+- 갱신: [[어드민-SPA-번들-성능-baseline과-최적화-우선순위]] — 10/14 재측정(배포 빌드 DSN 함정, 번들 구성, 업무 만들기=API 대기) 절
+- 비고: 새 페이지 없음. 세션 앞부분(멘토 과제 양식·PR 지연·하네스 점검·Sentry 첫 관찰·강제 로그아웃 원인·4xx 수집·네트워크 노이즈)은 10/7~10/8 기존 ingest와 중복이라 건너뜀. 포폴 PDF 피드백·Notion 편집 내역·디스코드 메시지·이슈 초안·"맡은 일" 문구 정리는 일회성이라 버림. #251 운영 효과(37→0)와 flaky e2e 원인은 미확정(추정)으로 표기.

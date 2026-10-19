@@ -1,6 +1,6 @@
 ---
 tags: [performance, bundle, code-splitting, vite, lcp, baseline]
-updated: 2026-10-04
+updated: 2026-10-19
 ---
 
 # 어드민 SPA 번들 성능 — baseline 실측과 최적화 우선순위
@@ -25,6 +25,14 @@ Vite+React 어드민(ToyVillage-Admin-FE)의 개선 전 수치를 재현 가능�
 - 규모: 모듈 557 / 소스 377 / 라우트 43. `lazy(` 0건, `prefetchQuery` 0건, `React.memo` 0건. 로그인 화면 하나에 개체관리·업무일지·대시보드 코드를 전부 받는다. Vite가 `chunks are larger than 500 kB` 경고를 낸다.
 - 서버 상태: `useQuery` 56 / `useMutation` 33, 전역 `staleTime` 60초, `placeholderData` 6개 화면. 업무일지 쪽은 `predicate`로 목록만 무효화하고, 급여/피드는 다른 직원이 계속 추가하므로 `staleTime: 0`으로 둔 판단이 주석으로 남아 있다.
 - 이미 잘 된 것: `pdfjs-dist`를 `await import()`로 동적 로드해 PDF 청크 431kB + 워커 1.27MB가 초기 로드에서 빠져 있다.
+
+## 2026-10-14 재측정 — 로컬 빌드는 Sentry가 빠져 실제보다 작게 나온다
+- 같은 조건(프로덕션 빌드, Slow 4G, CPU 4x, 캐시 끔, 5회 중앙값, develop `2613909`)으로 다시 쟀다. 9/22 이후 기능이 늘어 메인 JS 957→**1,031 kB**(+7.7%, 로컬 빌드 기준)로 커졌고, PDF 청크(431 kB)는 이미 분리돼 있어 9/22 값과 구성이 다르므로 **스플리팅 직전에 before를 다시 재야** 한다.
+- **함정**: 로컬 `.env`에는 `VITE_SENTRY_DSN`이 없어 `initSentry`가 빌드에서 통째로 제거(dead-code elimination)된다. DSN을 넣은 **배포 빌드**로 다시 재면 메인 JS **1,306 kB**(gzip 372), 로그인 초기 JS 전송 **369.8 kB**, 로그인 LCP **2,528 ms**(로컬 빌드 280.4 kB·1,968 ms)로 훨씬 크다. 앞으로 before·after 모두 **가짜 DSN을 넣은 배포 빌드**로 재고, 측정 중 sentry.io·GA 요청은 막는다. 환경변수가 번들 내용을 바꾸는 항목([[Vite-빌드타임-환경변수-인라인]])은 측정 전에 배포와 같게 맞춘다.
+- **번들 구성(배포 빌드 1,306 kB)**: react-dom 179, **Sentry 전체 298(23%)**(replay 125.3·core 94.5·browser 27.4·browser-utils 25.5·react 15.3·web-vitals 8.7), react-router 96, axios 45(fetch 전환은 재발급 흐름까지 바뀌어 비추천), 기타 라이브러리 ~75, **인라인 SVG 69개 ~63 kB**+아이콘 파일 26 kB(Figma 추출 SVG라 불필요한 속성이 많아 압축 여지), 나머지 앱 코드 ~340. 코드 스플리팅은 **전체 크기는 거의 그대로**고 첫 화면 전송량만 줄인다 — 전체를 줄이려면 replay 지연 로딩(−125 kB)+SVG 정리(−30~40 kB 추정)가 먼저(약 −13%).
+- **로그인 LCP 요소는 로고가 아니라 왼쪽 패널의 인라인 SVG**: 위 우선순위 2번(로고 포맷 전환)을 해도 LCP는 거의 안 준다. 로고 작업의 after는 "전송 143 kB→?"로 쓰는 게 정확하다(위 baseline의 "로고가 LCP 요소"라는 추정을 이 측정이 정정).
+- **"느린 화면=JS"라는 가정을 뒤집은 사례**: 업무 만들기 화면 이동 p95 9.24s를 코드 스플리팅 대상으로 봤으나 운영에서 9번 연 기록 모두 화면 이동 시간이 `/team/tree` 응답 시간과 거의 같았다(예: 9,236 ms 중 9,172 ms; `/team/tree` p95 8.53s). 담당자 선택 트리가 이 API를 기다리는 **API 대기**이므로 스플리팅으로는 안 줄고, 팀 구조는 자주 안 바뀌어 프론트에서 캐시·미리 불러오기로 대기를 가리는 게 가능하다(서버 응답 자체는 백엔드 영역이라 "프론트가 대기를 가린 몫"으로만 서술). 10/6 이후 운영 사용 0회라 Sentry로 after를 못 재고 지연을 건 mock 실험실 측정을 쓴다.
+- 운영 Web Vitals(Sentry p75): LCP 502 ms·INP 48 ms·CLS 0·TTFB 542 ms는 개선 숫자가 아니라 "운영에서 재고 있다"는 증거(관리자 1명+개발자 테스트가 섞인 값이라 기간·환경을 붙인다). 번들 예산 CI 없이 3주에 +7.7%가 늘었다는 사실이 size-limit의 근거 → [[번들-회귀-방지-CI와-ESLint-복잡도-도입]].
 
 ## 최적화 우선순위
 1. **로고 중복 제거**(10분, −139kB): `public/assets/login-logo.png`와 `src/shared/assets/toyvillage-logo.png`가 **md5까지 동일**한데 `public/`과 `src/` 양쪽에 있어 Vite가 둘 다 번들에 넣는다.
@@ -55,4 +63,5 @@ Vite+React 어드민(ToyVillage-Admin-FE)의 개선 전 수치를 재현 가능�
 - [[ToyVillage-Admin-FE/프로젝트-현황]]
 
 ## 출처
+- Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-14 (before 재측정, 배포 빌드 DSN 함정, 번들 구성, 업무 만들기=API 대기)
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-04 (세션 내용은 2026-09-22~28 논의)

@@ -1,6 +1,6 @@
 ---
 tags: [sentry, react, vite, react-router, observability, error-tracking]
-updated: 2026-10-07
+updated: 2026-10-19
 ---
 
 # Sentry — React+Vite SPA에 에러·성능 추적 붙이기
@@ -134,7 +134,7 @@ axios 인터셉터와 react-query `onError`를 **둘 다** 연결하면 같은 A
 - **위치**: 둘 다 *Issues → 이슈 클릭한 상세 화면*에 있다. **Breadcrumbs**(아래로 스크롤)는 에러 직전의 Navigation·UI Click·HTTP·Console 기록, **Replays 탭**은 그 이슈 세션 녹화. 전체 녹화 목록은 Explore → Replays. *Dashboards 목록 화면에는 둘 다 없다*(왼쪽 아이콘 메뉴에서 이동해야 함).
 - **경고 수준 이벤트(세션 종료 경고 등)는 녹화가 안 남을 수 있다**(`replaysOnErrorSampleRate`가 에러 세션만 녹화) → 이럴 땐 경고 직전 HTTP breadcrumb에서 어떤 요청이 403을 받았는지 본다.
 - **Replay 글자가 `****`로 보이는 건 정상**: `maskAllText`·`maskAllInputs`·`blockAllMedia`가 일부러 가린 것(이미지는 회색 점선 상자). 읽기 편하게 하려면 개인정보 아닌 고정 문구(버튼·메뉴·제목·라벨·**에러 메시지 영역**)에만 `data-sentry-unmask`를 붙인다.
-- **마스킹을 믿지 말고 이벤트를 열어 확인해야 하는 이유**: Replay는 가렸어도 **`ui.click` breadcrumb에는 버튼 `aria-label`이 그대로** 들어간다. `${account.name} 계정 메뉴`·`${staff.name} 배정 추가`처럼 직원 이름이 든 aria-label이 이 프로젝트에 **37곳**(미해결, `initSentry.ts`의 `beforeBreadcrumb`에서 ui.click 라벨을 지우고 replay의 `aria-label` 속성도 마스킹하는 수정 대기). 개인정보 설정을 미리 계획했어도 새는 곳이 생긴다는 사례.
+- **마스킹을 믿지 말고 이벤트를 열어 확인해야 하는 이유**: Replay는 가렸어도 **`ui.click` breadcrumb에는 버튼 `aria-label`이 그대로** 들어간다. `${account.name} 계정 메뉴`·`${staff.name} 배정 추가`처럼 직원 이름이 든 aria-label이 이 프로젝트에 **37곳**(10/7 시점 미해결 → 10/14 #251로 수정, 방법은 아래 "클릭 기록으로 새는 버튼 라벨 차단" 절 — main 배포 전이라 운영 확인은 미완). 개인정보 설정을 미리 계획했어도 새는 곳이 생긴다는 사례.
 - **무엇을 Sentry로 보낼지 기준**: "이게 이슈로 올라왔을 때 누군가 고칠 게 있는가". 고칠 게 있으면 이슈, 정상 흐름이면 breadcrumb만. 보통 넣는 것: 처리 안 된 예외·렌더 에러, 5xx, 응답 형식이 명세와 다름, 네트워크 실패(노이즈 필터와 함께), 400(대개 프론트 버그). 팀마다 갈림: 404(경고), 409·422(예상된 실패라 보통 breadcrumb만). 보통 뺌: 401·403 재발급 흐름, 취소된 요청, 확장 프로그램·`ResizeObserver` 경고, 일반 클릭 이벤트(분석 도구 영역). 4xx 응답 본문은 서버가 사용자 입력을 되돌려줄 수 있어 **상태 코드·경로만** 남긴다.
 - **Sentry가 구조적으로 못 잡는 것**: 예외 없이 화면에 `~에 실패했습니다`만 띄우고 끝나는 곳(이 프로젝트 53개 파일 92곳), 버튼 무반응·디자인 차이처럼 조용한 오동작, DSN 없는 로컬 개발 환경. 사용자 피드백 위젯·실패 문구 공통 함수에서 같이 기록하는 방법이 보강안.
 - **온라인 판별과 한계**: `navigator.onLine && document.visibilityState === 'visible'`일 때만 전송(#209). `onLine=true`는 "인터넷이 된다"가 아니라 공유기·캡티브 와이파이에서도 true — 확실한 건 `false`일 때뿐. 깨어나는 순간 탭은 바로 visible·onLine도 true인데 실제 연결 전에 요청이 먼저 나가면 가짜 에러가 새므로 완전하지 않다(보완안: 탭이 다시 보인 직후 몇 초 실패 무시, 오래 쉰 뒤 첫 요청 실패 무시).
@@ -144,6 +144,16 @@ axios 인터셉터와 react-query `onError`를 **둘 다** 연결하면 같은 A
 - **4xx를 수집하도록 배포했는데 이슈가 0개일 때**: 코드가 맞아도 ① 실제로 4xx가 안 났을 수 있고(배포 직후·사용자 소수·프론트가 선검증하는 400) ② Issues 화면 필터(기간·Environment All·`level:warning`)가 가렸을 수 있다. 태그 검색 `api.status:404`로 직접 찾고, 스테이징에서 *경로는 있고 번호만 없는* 상세 주소로 들어가 warning 이슈가 1분 안에 생기는지로 확정 검증한다(없는 *경로*는 서버가 500을 줘서 404 검증이 안 된다). 상세는 [[ToyVillage-Admin-FE/프로젝트-현황]] (2026-10-08).
 - **개선 전후 재측정의 시계**: Sentry after 기간은 수정이 **운영 환경에 배포된 날**부터 센다(환경이 prod/stag로 나뉘므로 develop 머지는 해당 없음). 수집 기준을 두 번 넓힌 지표는 기간 간 비교가 안 되고, 계정 분리처럼 코드가 아닌 조치로 줄어든 몫은 성과에서 분리한다.
 
+## 클릭 기록(breadcrumb)으로 새는 버튼 라벨 차단 (이슈 #250, PR #251, 2026-10-14)
+
+위 "개인정보 샘" 문제(직원 이름이 든 `aria-label` 37곳)를 실제로 막은 방법과 함정. 아직 main 배포 전이라 운영에서 37→0 확인은 미완.
+- **원인**: Sentry는 클릭 시 `ui.click` breadcrumb를 남기고 에러 이벤트에 같이 보낸다. 내부 `htmlTreeAsString`이 `aria-label`·`type`·`name`·`title`·`alt` 값을 **항상** 이스케이프 없이 붙여(`body > button[aria-label="홍길동 삭제"][title="홍길동"]`) `${직원이름} 삭제`·`${파일이름} 다운로드`가 그대로 외부로 나갔다. 새는 길은 둘: ① 일반 클릭 breadcrumb ② **Replay에 같이 담기는 클릭 breadcrumb** — 이건 `beforeBreadcrumb`를 거치지 않는다. Replay 화면 마스킹을 해도 이 문자열은 안 가려지고, Replay 기본 `maskAttributes`는 `['title','placeholder','aria-label']`이라 `alt`는 화면에서도 안 가려졌다.
+- **수정(`initSentry.ts` 한 파일)**: `beforeBreadcrumb`에서 `ui.*` 카테고리의 메시지에 라벨 속성이 있으면 **문자열을 버리고 클릭한 DOM 요소(`hint.event.target`)에서 다시 만든다**(위로 최대 5단계 `부모 > 자식`, 태그·id·class·type·name 값은 남기고 `aria-label`·`title`·`alt`는 **속성 이름만** → `body > button[aria-label][title]`). Replay 쪽은 `beforeAddRecordingEvent`에서 `tag === 'breadcrumb'` 이벤트의 `data.node`(tagName·attributes)로 같은 방식 재생성, 그리고 `maskAttributes`에 `alt`를 더했다 — **이 옵션을 직접 쓰면 기본값이 사라지므로** 기본 3개를 그대로 적고 `alt`만 추가.
+- **정규식 1차안이 뚫린 이유**: `[aria-label="…"]`를 `[aria-label]`로 치환하는 정규식은 라벨에 `"]`가 섞이면(`문서"]홍길동 삭제`) 값 중간에서 멈춰 `button[aria-label]홍길동 삭제"][title]`처럼 이름이 남는다(CodeRabbit 지적, 직접 재현됨). 원인은 Sentry가 값을 이스케이프하지 않아 **문자열만 보고는 값의 끝을 알 수 없다**는 것 → 일반 원칙: 신뢰할 수 없는 값이 섞인 문자열에서 민감 부분을 **잘라내지 말고, 원재료에서 민감 부분 없이 다시 조립**한다.
+- **검증 방식**: 이름이 든 라벨 버튼(`aria-label="문서"]홍길동 삭제"`, `title="홍길동"`)을 주입해 누르고 에러를 낸 뒤, 가로챈 이벤트에서 breadcrumb이 `button[aria-label][title]`인지와 이벤트 JSON 어디에도 `홍길동`이 없는지 확인. 수정 전 코드와 정규식 버전에서 **실제로 실패하는 것까지** 확인해 테스트가 누출을 잡는다는 걸 보였다. 한계: Replay 전송본은 압축돼 e2e로 못 열어 일반 이벤트만 검증, 녹화 쪽은 같은 함수를 쓴다는 점으로 갈음.
+- **알아 둘 것**: 속성 이름·버튼 종류는 남겨 "어떤 종류의 버튼을 어디서 눌렀나"는 디버깅에 계속 쓸 수 있다. 이 PR의 CI에서 이 변경과 무관한 `app-auth-reissue` S9가 한 번 실패했다 — 로그인 응답 도착 전에 토큰을 읽는 경쟁 상태로 추정(PR #247의 대시보드 먹이 급여 S1과 함께 재실행하면 통과하는 flaky 2건, 별도 이슈 후보).
+- **Replay 지연 로딩**: 번들의 Sentry 298 kB 중 replay가 125 kB(약 10%)라 에러 난 세션에만 쓰는 녹화 코드는 나중에 불러오는 안이 있다(녹화를 실제로 쓰므로 빼지 않고 지연 로딩). 단 첫 화면이 뜨기 전의 에러는 녹화가 없다 → [[어드민-SPA-번들-성능-baseline과-최적화-우선순위]].
+
 ## 관련
 - [[Web-Vitals와-모니터링-도구-역할-분담]] — Sentry vs GA4 역할 분담, API 계측 개념
 - [[번들-회귀-방지-CI와-ESLint-복잡도-도입]] — Sentry가 못 막는 머지 전 회귀 차단
@@ -151,6 +161,7 @@ axios 인터셉터와 react-query `onError`를 **둘 다** 연결하면 같은 A
 - [[Cloudflare-Workers-SPA-fallback-404]] — Build variables vs Runtime variables 구분
 
 ## 출처
+- Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-14 (이슈 #250/PR #251 breadcrumb 라벨 차단, 정규식→요소 재조립)
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — [[프로젝트/ToyVillage-Admin-FE/프로젝트-현황]] (이슈 #200, PR #202)
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — 2026-10-02 (플랜·계정 결정, 운영 이슈 분석, #209/PR #210)
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — DSN 공개키 누락 사례, 확인 절차, 성능 화면 안내

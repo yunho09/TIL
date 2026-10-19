@@ -1,6 +1,6 @@
 ---
 tags: [swagger, openapi, spring, api]
-updated: 2026-09-17
+updated: 2026-10-19
 ---
 
 # Swagger 자동생성 문서 필수값 확인과 신뢰 한계
@@ -35,6 +35,19 @@ staging Swagger UI에 Basic Auth가 걸려 있으면 `curl`로는 401로 막힌�
 
 Notion 같은 별도 명세 DB에 특정 API가 아예 등록되어 있지 않을 때도 Swagger가 유일한 출처가 될 수 있다. 이 경우 Contract 등 파생 문서의 `source` 필드에 Swagger URL을 남기고, "Notion엔 없고 Swagger가 유일한 출처"라는 사실 자체를 문서에 명시해야 한다 — role·성공 상태 코드 등 이 페이지가 정리한 한계가 그대로 적용되므로, 추후 값이 이상해 보이면 이 출처부터 의심해야 한다.
 
+## 실서버와 어긋나는 표기 실사례 9건과 대조 해석법 (2026-10-14)
+
+ToyVillage에서 계약 65개를 스테이징 Swagger와 자동 대조해 다른 22곳을 실서버로 확인한 결과(계약 쪽 14곳 수정, 나머지 9곳은 Swagger가 틀림). 9건 모두 **성공 응답 코드**만 달랐고 경로·요청·응답 필드 차이는 없었다.
+- **생성 POST 8건**: 실서버 201인데 Swagger는 200 — `POST /animal-manage/kind`·`/animal-manage/legal-status`·`/animal-manage`·`/tasks`·`/close-day`·`/open-time`·`/documents`·`/app/admin/employees`. 위 "성공 상태 코드는 전부 200" 항목의 실사례. Spring에서 성공 코드를 문서에 명시하지 않으면 기본값 200이 나오는 흔한 패턴이라 백엔드엔 `@ResponseStatus(HttpStatus.CREATED)` 또는 `@ApiResponse(responseCode = "201")` 지정을 요청하면 된다. 직원 생성만 직접 호출하지 않고 코드 주석에 의존(미재확인).
+- **삭제 1건**: `DELETE /notice/{id}`는 실서버 200+message인데 Swagger는 204(본문 없음).
+- **Notion 명세도 틀린다**: 휴무일 날짜 조회 경로(Notion `GET /close-day`+`date`, 실제 `GET /close-day/date?date=`), 자료 수정 `PUT /documents/{id}`(Notion·옛 계약 201, 실제 200). "Swagger가 틀리다"와 "명세(Notion)가 틀리다"를 둘 다 의심해 실서버를 직접 호출하는 게 기준.
+- **"다르다"를 해석하는 법**: 대조에서 "계약에만 있음"이 뜨면 서버가 그 기능을 지원 안 한다고 읽기 쉬운데, 같은 리소스의 **다른 operation**이 그 기능을 가졌을 수 있다. 휴무일은 `GET /close-day`가 `date`를 무시하고 전체를 주는 대신 `GET /close-day/date`가 따로 있었다(그 날짜 일정만, 없는 날은 `[]`, `date` 빼면 500). 처음엔 `date`를 요청에서 빼는 수정을 만들었다가 "날짜별로 주는 걸로 아는데?"라는 질문에 호출해 보고 철회했다 — 증상(전체가 온다)이 아니라 Swagger의 경로 목록(`/close-day*`)을 먼저 훑는다. 화면이 전체를 받아 직접 거르는 임시 처리가 오래 숨어 있었던 이유도 이것.
+- **응답 `sort`**: Spring `Page` 응답엔 `sort`(`empty`·`sorted`·`unsorted`)가 들어와 Swagger엔 있고 계약엔 없는 차이가 3건(개체·관찰 목록 응답, 공지 목록 쿼리 `sort`) — 화면은 안 쓰므로 계약에 추가만 하면 되는 무해한 차이.
+- **용어 operation**: "메서드+경로" 한 쌍 = API 한 개. 경로가 같아도 메서드가 다르면 다른 operation이다.
+- **실서버 확인 방법**: 로그인된 스테이징 어드민 탭의 콘솔에서 `fetch`로 직접 호출(테스트 데이터를 만들면 제목에 이슈 번호를 붙여 두고 삭제는 사람이 한다). 비동기 호출 결과를 `await` 없이 던지면 응답 코드가 안 찍히므로 top-level `await`로 받는다(안 그러면 같은 테스트 자료가 중복 생성됨). 스테이징 프런트는 `admin-stag.toyvillage.kr`, `admin.toyvillage.kr`은 **운영**이다.
+- 이 대조를 하네스에 넣은 구조는 [[ToyVillage-Admin-FE/하네스-점검-결과와-개선-방향]] 참고.
+
 ## 출처
+- Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-12~14 (#246/#247 Swagger 표기 오류 9건, `/close-day/date`)
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-09-17
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop) — 2026-09-17 밤 (이슈 #106, [[프로젝트/ToyVillage-Admin-FE/프로젝트-현황]] 참고)
