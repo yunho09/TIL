@@ -829,3 +829,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[ToyVillage-Admin-FE/하네스-시스템]] — "API 승인 단계 강화(#258/PR #263)" 절 추가(승인자 검증·AI 세션 거부·변경분 diff·재승인 testHash 유지, CodeRabbit 회귀 2건, 스크립트 `.mjs` 틀)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — PR #263 CI의 휴무일 e2e 간헐 실패 판별 절 추가
 - 비고: 새 페이지 없음. 커밋·push·PR 생성 절차, 쉬운 말 재설명 요청, 대기 알림 등은 일회성이라 버림. flaky 근본 원인은 미확정으로 표기.
+
+## 2026-10-20 14:26 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-3)
+- 갱신: [[어드민-SPA-번들-성능-baseline과-최적화-우선순위]] — #262 이미지 WebP 변환 결과 절 추가(전후 실측 표, LCP 불변 이유, WebP 설명, 파비콘 64 kB 후보)
+- 비고: 새 페이지 없음. 브랜치·커밋·푸시·PR 생성 절차와 Notion 반영 내역은 일회성이라 버림.
