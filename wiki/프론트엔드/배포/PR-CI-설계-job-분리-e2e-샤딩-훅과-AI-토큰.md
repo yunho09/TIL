@@ -54,3 +54,5 @@ Cloudflare 빌드만 있고 머지를 막는 검사가 없는 저장소에 CI를
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-15 계획 검토
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-07~08 CI 설계 문답
+
+- 구현 결과와 실제로 겪은 함정은 [[커밋-PR-형식-CI-검사-구현과-함정]] 참고 (2026-10-20).

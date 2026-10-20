@@ -834,3 +834,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-3)
 - 갱신: [[어드민-SPA-번들-성능-baseline과-최적화-우선순위]] — #262 이미지 WebP 변환 결과 절 추가(전후 실측 표, LCP 불변 이유, WebP 설명, 파비콘 64 kB 후보)
 - 비고: 새 페이지 없음. 브랜치·커밋·푸시·PR 생성 절차와 Notion 반영 내역은 일회성이라 버림.
+
+## 2026-10-20 14:32 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-4)
+- 생성: [[커밋-PR-형식-CI-검사-구현과-함정]]
+- 갱신: [[PR-CI-설계-job-분리-e2e-샤딩-훅과-AI-토큰]] — 구현 페이지 링크 추가
+- 비고: 이슈 편집·브랜치·푸시·PR 생성 절차와 쉬운 말 재설명 반복은 버림. setup-node 캐시 옵션명은 세션에 없어 추정 표기. S9 flaky 원인은 미확정.
