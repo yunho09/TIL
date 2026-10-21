@@ -869,3 +869,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Cloudflare-Workers-Builds-모노레포-앱별-Worker]] — 배포 단계 code 10500 일시 오류와 Retry build 절 추가
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — #267/PR #268 절 추가
 - 비고: 붙여넣은 빌드 로그(소스맵 업로드 목록)·작업 정리 반복 요약·PR/커밋 진행은 버림. 머지 여부는 미확정.
+
+## 2026-10-21 14:01 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 생성: [[Claude-작업-중-화면-절전-유지-훅과-GNOME-억제자]]
+- 비고: 임시 테스트 스크립트·gsettings 인자 실수 등 시행착오와 최종 요약 반복은 버림. 해제 측(실제 절전 진입)은 미검증으로 표기.
