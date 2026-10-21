@@ -874,3 +874,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
 - 생성: [[Claude-작업-중-화면-절전-유지-훅과-GNOME-억제자]]
 - 비고: 임시 테스트 스크립트·gsettings 인자 실수 등 시행착오와 최종 요약 반복은 버림. 해제 측(실제 절전 진입)은 미검증으로 표기.
+
+## 2026-10-21 14:02 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[tmux-Claude-세션-창-이름-주제-표시와-길이-자동-맞춤]]
+- 비고: 임시 세션 검증 과정과 응답 반복 요약은 버림. 실제 .tmux.conf 내용은 대화에 없어 옵션명은 적지 않음.
