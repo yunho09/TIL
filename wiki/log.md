@@ -856,3 +856,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
 - 생성: [[xquare-openapi-frontend/프로젝트-현황]], [[curl-API-호출-예시-쉘-인용-규칙]]
 - 비고: 이슈/브랜치/푸시/PR 생성·서버 종료 등 일회성 작업과 반복 요약은 버림. 명세 불일치는 백엔드 명세 대조 결과 그대로이며 Figma 수정 여부는 미확정.
+
+## 2026-10-21 12:24 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-4)
+- 갱신: [[Playwright-e2e-실패-유형-분류와-취약-선택자-패턴]] — 간헐 실패 원인 확정 절(대기 누락 2종, CI 재시도, `CI` vs `GITHUB_ACTIONS`) 추가
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — #264/PR #269 절 추가(10-20 미확인 가설 확정, 테스트 수정 시 승인 해시 재동결 관례)
+- 비고: 커밋 해시 나열·푸시/PR 생성 등 일회성 작업은 버림. 수정된 테스트의 실제 안정화는 CI 확인 전이라 미확정으로 표기.
