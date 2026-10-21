@@ -38,6 +38,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[블루투스-이어폰-연결키-유실-재페어링]] — 노트북 블루투스는 정상인데 Buds2 Pro만 `br-connection-key-missing`으로 연결 안 되던 원인(이어폰 쪽 연결 키 유실), 옛 페어링 삭제 후 재페어링, 길게 누르기가 노이즈캔슬링일 때 폰 BT 끄고 케이스 뚜껑 여닫아 페어링 모드 진입, 재페어링 시 별명 초기화와 소리 출력 목록 이름 캐시는 재연결로 갱신. **(2026-10-20 추가)** 마이크 사용·wireplumber 재시작 시 HSP/HFP 저음질로 떨어지는 현상과 재연결 복구
 - [[Ghostty-Ctrl+Enter-바로보내기-F11-전체화면]] — Ghostty 기본 Ctrl+Enter=전체화면이 Claude Code `chat:sendNow`와 충돌해 F11로 이전, `text:\r`(Enter 동일)은 답변 중 끼어들기가 아니라 대기열행이라 오답, 설정 리로드는 Ctrl+Shift+,, tmux 안에서 안내 문구가 `Ctrl+X Ctrl+S`로 뜨는 이유와 keybindings.json `null` 해제로 통일하는 법 (2026-10-15)
 - [[Discord-영상-로딩-OpenH264-화면공유-뭉개짐]] — Discord 영상 타일이 로딩만 돌던 원인은 `openH264Enabled:false`(상대 영상 H.264를 OpenH264로만 디코딩, `avcodec_open2 error`)이고 설정→음성 및 비디오→고급에서 켜 해결, `--disable-gpu`는 무관한 오진, 이후 화면공유 뭉개짐은 송신자 쪽 저비트레이트(2216x1440@60fps에 ~90kbps) 문제로 720p30 하향 제안 (2026-10-21)
+- [[MySQL-로컬-설치와-온오프-명령]] — apt로 MySQL 8.4 직접 설치(메모리 ~520MB라 부팅 자동 시작 끔), `mysql-on`/`mysql-off`로 토글하고 `systemctl is-active mysql`로 확인, `~/.my.cnf`로 비밀번호 없이 접속, root는 auth_socket이라 `pkexec mysql`, 재부팅 후 접속 거부는 꺼진 상태라는 뜻, Docker MySQL과 3306 포트 충돌 가능 (2026-10-21)
 
 ### 라즈베리파이/GPIO
 - [[GPIO-기초]] — GPIO가 무엇인지(3.3V 출력/입력), 켜짐·꺼짐뿐인 핀으로 PWM이 밝기를 만드는 원리, BCM 번호와 물리 핀 자리 번호가 다른 두 체계, 핀은 한 프로세스만 점유한다는 성질, 40핀 헤더에서 1번 핀 찾는 법과 3.3V·5V·GND 위치
