@@ -884,3 +884,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/bium-be)
 - 생성: [[DB-스키마-DBML-설계-리뷰]], [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]]
 - 비고: DBML 문법 설명 반복·스크린샷 확인·커밋 권유 등은 버림. 스키마 리뷰는 Claude 의견이며 팀 확정 사항이 아님.
+
+## 2026-10-21 17:22 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[Git-GUI-GitKraken-유료범위와-리눅스-무료-대안]]
+- 비고: 가격·대안 앱 최신 상태는 Claude의 검색/기존 지식 기반이라 미확인으로 표기. 마지막 "현재 있는 곳 다 보여주기" 아이디어 질문은 답변 없이 끝나 버림.
