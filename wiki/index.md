@@ -169,6 +169,9 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 프로젝트/xquare-openapi-frontend
 - [[xquare-openapi-frontend/프로젝트-현황]] — DSM Open API 문서 사이트(Next 16·Emotion) Overview 퍼블리싱(이슈 #3·PR #5 머지): `docs/` 공통 컴포넌트·`overview-content.ts` 텍스트 분리·slate 색/Roboto Mono 추가, Figma Overview가 백엔드 명세(username 로그인·`{accessToken,refreshToken}`·`classNum`·토큰 만료 미정 등)보다 뒤처진 불일치 목록과 #4로 이월한 결정, `next dev`가 `agentFeedback` 옵션으로 AGENTS.md에 자동 추가하는 블록을 별도 커밋으로 넣은 결정, 이슈/PR `[FEAT]` 형식·Co-Authored-By 금지·컴포넌트별 커밋 규칙 (2026-10-21)
 
+### 프로젝트/GolmokGyeol-FE
+- [[GolmokGyeol-FE/프로젝트-현황]] — 골목결: 별점 순위 대신 "취향 지도"로 동네 식당을 찾는 서비스, 지도는 위치가 아니라 검색마다 바뀌는 키워드(분위기) 축이라 가까운 점=비슷한 분위기, 사용 흐름·차별점(후기 문장 그대로 노출·후기 적은 가게 모양 구분·점수 비노출), 백엔드(팀원 노트북 주소·비공개 데이터) 없이 `VITE_API_BASE`+목 서버(32곳)로 로컬 실행하는 법 (2026-10-21)
+
 ### 도구
 - [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]] — 툴체인 Java 17을 Gradle이 못 찾던 원인은 `~/.gradle/gradle.properties`의 `org.gradle.java.installations.paths`가 Homebrew 포장 폴더를 가리킨 것(실제 JDK 홈은 `libexec`), 경로 수정 후 테스트 강제 재실행으로 검증(UP-TO-DATE는 증거 아님), IntelliJ Gradle 리로드·Gradle JVM 지정 (2026-10-21)
 - [[제안서-문서-협업-변환-함정-HWP-구글독스-PPTX]] — 구글 문서는 .hwp를 못 열어 docx 우회, Word 쪽수는 한글의 ~1.6배, 브라우저 자동화 탭이 백그라운드면 찾아 바꾸기 입력이 본문으로 들어가 문서가 망가진 사고와 버전 기록 복구, 클립보드가 1초 내 덮어써지는 붙여넣기 실패, 구글 문서 버전 기록은 특정 버전만 삭제 불가, 멀티에이전트 문서 작업 마커 파일·검토 전용 에이전트 운영, PPTX 폰트(Jua·Noto Sans KR) 깨짐 대응과 PDF 발표 (2026-10-13)
