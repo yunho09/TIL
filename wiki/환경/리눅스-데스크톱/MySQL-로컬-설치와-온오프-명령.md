@@ -20,6 +20,8 @@ PC에 apt로 MySQL 8.4 서버를 직접 설치하고, 부팅 시 자동 시작�
 - 상태 확인: `systemctl is-active mysql` (`active` / `inactive`)
 - 둘 다 비밀번호를 묻지 않음 (구현 방식은 세션에서 확인 못 함)
 - **재부팅 뒤 접속이 거부되면** 서버가 꺼진 상태일 뿐이니 `mysql-on`부터
+- `mysql-off` 때 "mysql.service 유닛 파일이 바뀌었으니 `systemctl daemon-reload` 하라"는 경고가 뜰 수 있다. 끄는 데는 영향 없고, 한 번 `daemon-reload` 해 두면 사라진다.
+- 메모리가 빠듯할 때(스왑 포화, OOM으로 GNOME 세션이 통째로 꺼질 위험) 가장 손쉽게 확보하는 수단이 `mysql-off` — 관련 배경은 [[절전-복귀-지연-원인과-zram-도입]]
 
 ## 기존 Docker 방식과의 관계
 - Spring 학습 프로젝트는 Docker 컨테이너로 MySQL을 쓴다 → [[MySQL-연동]], [[프로젝트/spring-practice/프로젝트-현황]]
