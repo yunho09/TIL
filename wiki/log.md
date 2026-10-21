@@ -851,3 +851,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
 - 생성: [[Discord-영상-로딩-OpenH264-화면공유-뭉개짐]]
 - 비고: 설정 화면 단계별 클릭 안내 등 일회성 턴은 버림. 720p30 하향 효과와 `--disable-gpu` 제거 최종 여부는 미확정으로 표기.
+
+## 2026-10-21 12:05 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 생성: [[xquare-openapi-frontend/프로젝트-현황]], [[curl-API-호출-예시-쉘-인용-규칙]]
+- 비고: 이슈/브랜치/푸시/PR 생성·서버 종료 등 일회성 작업과 반복 요약은 버림. 명세 불일치는 백엔드 명세 대조 결과 그대로이며 Figma 수정 여부는 미확정.
