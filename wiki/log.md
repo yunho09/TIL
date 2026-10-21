@@ -862,3 +862,10 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Playwright-e2e-실패-유형-분류와-취약-선택자-패턴]] — 간헐 실패 원인 확정 절(대기 누락 2종, CI 재시도, `CI` vs `GITHUB_ACTIONS`) 추가
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — #264/PR #269 절 추가(10-20 미확인 가설 확정, 테스트 수정 시 승인 해시 재동결 관례)
 - 비고: 커밋 해시 나열·푸시/PR 생성 등 일회성 작업은 버림. 수정된 테스트의 실제 안정화는 CI 확인 전이라 미확정으로 표기.
+
+## 2026-10-21 12:26 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-3)
+- 생성: [[Vite-청크-그룹으로-라이브러리-분리와-해시-캐시]]
+- 갱신: [[Cloudflare-Workers-Builds-모노레포-앱별-Worker]] — 배포 단계 code 10500 일시 오류와 Retry build 절 추가
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — #267/PR #268 절 추가
+- 비고: 붙여넣은 빌드 로그(소스맵 업로드 목록)·작업 정리 반복 요약·PR/커밋 진행은 버림. 머지 여부는 미확정.

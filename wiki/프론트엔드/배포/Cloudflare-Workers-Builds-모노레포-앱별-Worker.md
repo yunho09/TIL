@@ -62,6 +62,12 @@ Nx 모노레포(앱 3개)를 Cloudflare Workers Builds에 연결하면 기본 �
 - 어느 쪽이 실제 배포 중인지는 Versions의 파란 막대 + Active deployment의 커밋 해시, 그리고 실제 사이트(`curl`로 해당 커밋에만 있는 변경, 예: 파비콘 태그)로 교차 확인한다.
 - force push·머지로 같은 내용이 두 번 푸시되면 빌드·버전 줄도 두 번 생긴다(원래 커밋 해시와 재작성 후 해시).
 
+## 배포 단계 `code: 10500` 일시 오류는 Retry build (2026-10-21)
+- 증상: GitHub 검사 중 Workers Builds(`toyvillage-admin-fe-stag`)만 실패. 로그상 `yarn run build`와 Sentry 소스맵 업로드는 성공, 그다음 `npx wrangler versions upload`의 `assets-upload-session`에서 `Internal authentication error: internal server error [code: 10500]`로 종료.
+- Cloudflare 내부 서버 오류라 코드·설정과 무관. 다른 PR의 같은 빌드는 통과했고 **빌드 페이지의 "Retry build"로 통과**했다. 같은 10500이 반복될 때만 API 토큰·권한을 의심한다.
+- 판별: GitHub에는 빌드 번호만 보이고 로그가 없어 Cloudflare 대시보드(로그인 필요)에서 로그를 봐야 한다. 스테이징과 같은 조건(`--sourcemap hidden`, 가짜 토큰 Sentry 업로드)으로 로컬 빌드해 재현되지 않으면(exit 0) 빌드 단계 문제가 아니라고 좁힐 수 있다.
+- 환경이 여러 개인데 `--env`를 안 줬다는 wrangler WARNING은 이 실패와 무관.
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2) — [[JOBIS-FE-V2/프로젝트-현황]]
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2) — [[프로젝트/ToyVillage-Admin-FE/프로젝트-현황]]
