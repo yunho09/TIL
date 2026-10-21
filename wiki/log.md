@@ -879,3 +879,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 생성: [[tmux-Claude-세션-창-이름-주제-표시와-길이-자동-맞춤]]
 - 비고: 임시 세션 검증 과정과 응답 반복 요약은 버림. 실제 .tmux.conf 내용은 대화에 없어 옵션명은 적지 않음.
+
+## 2026-10-21 17:15 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/bium-be)
+- 생성: [[DB-스키마-DBML-설계-리뷰]], [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]]
+- 비고: DBML 문법 설명 반복·스크린샷 확인·커밋 권유 등은 버림. 스키마 리뷰는 Claude 의견이며 팀 확정 사항이 아님.

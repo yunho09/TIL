@@ -163,11 +163,13 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 프로젝트/Bium
 - [[Bium/프로젝트-현황]] — 1학기 단독 냉장고 웹을 3인 팀 백엔드 확장 프로젝트로 키운 2학기 제안서 확정 결정(팀 역할·이메일 알림 채택 이유·구매 주기 최소공배수 "피버타임"·냉장실/냉동실/실온 3구역·사진 업로드만·데이터 이전 제외·ngrok), 노션 후보 17개→구현 11/제외 6, 채점 기준 대비 분량·"객체 지향" 설명 약점, 검토 에이전트가 반복 지적한 모순·과장 유형, 발표 질문 대비 (2026-10-13)
 - [[Bium-백엔드-연동-기술-메모]] — JavaMailSender 설정과 Gmail 앱 비밀번호, Gemini 멀티모달 영수증 인식 흐름과 무료 한도(서드파티 인용), 식약처 식품영양성분 DB API 개요와 이름 매칭 함정, ngrok 배포의 주소 변경·PC 꺼짐 한계 (2026-10-13)
+- [[DB-스키마-DBML-설계-리뷰]] — 전체 데이터 모델 DBML 리뷰: MySQL unique가 NULL을 서로 다르게 봐 공용 도감 `(owner_id,name)` unique가 무력화, 되돌리기는 `quantity_before` 덮어쓰기가 아니라 현재 수량+차감량으로 복원, 장보기 테이블 `fridge_id` 부재·알림 대상 정보 부재, 인덱스·단위 변환·enum 통일 개선점, 현재 코드(FridgeZone 6값 vs storage×section 두 축 등)와의 차이, 레시피 추천 브랜치는 기다리지 않고 진행·DBML을 먼저 보강하기로 한 결정 (2026-10-21)
 
 ### 프로젝트/xquare-openapi-frontend
 - [[xquare-openapi-frontend/프로젝트-현황]] — DSM Open API 문서 사이트(Next 16·Emotion) Overview 퍼블리싱(이슈 #3·PR #5 머지): `docs/` 공통 컴포넌트·`overview-content.ts` 텍스트 분리·slate 색/Roboto Mono 추가, Figma Overview가 백엔드 명세(username 로그인·`{accessToken,refreshToken}`·`classNum`·토큰 만료 미정 등)보다 뒤처진 불일치 목록과 #4로 이월한 결정, `next dev`가 `agentFeedback` 옵션으로 AGENTS.md에 자동 추가하는 블록을 별도 커밋으로 넣은 결정, 이슈/PR `[FEAT]` 형식·Co-Authored-By 금지·컴포넌트별 커밋 규칙 (2026-10-21)
 
 ### 도구
+- [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]] — 툴체인 Java 17을 Gradle이 못 찾던 원인은 `~/.gradle/gradle.properties`의 `org.gradle.java.installations.paths`가 Homebrew 포장 폴더를 가리킨 것(실제 JDK 홈은 `libexec`), 경로 수정 후 테스트 강제 재실행으로 검증(UP-TO-DATE는 증거 아님), IntelliJ Gradle 리로드·Gradle JVM 지정 (2026-10-21)
 - [[제안서-문서-협업-변환-함정-HWP-구글독스-PPTX]] — 구글 문서는 .hwp를 못 열어 docx 우회, Word 쪽수는 한글의 ~1.6배, 브라우저 자동화 탭이 백그라운드면 찾아 바꾸기 입력이 본문으로 들어가 문서가 망가진 사고와 버전 기록 복구, 클립보드가 1초 내 덮어써지는 붙여넣기 실패, 구글 문서 버전 기록은 특정 버전만 삭제 불가, 멀티에이전트 문서 작업 마커 파일·검토 전용 에이전트 운영, PPTX 폰트(Jua·Noto Sans KR) 깨짐 대응과 PDF 발표 (2026-10-13)
 - [[IntelliJ-심볼릭-링크-중복-루트로-New-Java-Class-안-뜸]] — 같은 폴더가 실경로·심볼릭 링크 경로로 두 번 붙으면 IntelliJ가 다른 루트로 취급, 모듈·소스 루트 없는 쪽에선 New→Java Class가 안 뜸, 진짜 `[backend]` 루트 사용·Remove from Project·Gradle 리로드 (2026-10-09)
 - [[Chrome-MCP-네트워크-관측-함정과-멀티에이전트-감사-운영]] — `read_network_requests`가 OPTIONS와 본요청을 합쳐 상태코드를 잘못 표기(PUT 503 오보 철회), 토큰 읽기 차단 우회, 에이전트 3개 병렬 감사 운영(전용 탭·보고 잘림 시 파일/분할 전송·충돌 교차 대조·확정 수준 구분 표기) (2026-10-05)
