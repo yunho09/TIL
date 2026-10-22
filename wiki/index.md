@@ -173,6 +173,10 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 프로젝트/GolmokGyeol-FE
 - [[GolmokGyeol-FE/프로젝트-현황]] — 골목결: 별점 순위 대신 "취향 지도"로 동네 식당을 찾는 서비스, 지도는 위치가 아니라 검색마다 바뀌는 키워드(분위기) 축이라 가까운 점=비슷한 분위기, 사용 흐름·차별점(후기 문장 그대로 노출·후기 적은 가게 모양 구분·점수 비노출), 백엔드(팀원 노트북 주소·비공개 데이터) 없이 `VITE_API_BASE`+목 서버(32곳)로 로컬 실행하는 법 (2026-10-21)
 
+### 프로젝트/haru
+- [[프로젝트/haru/프로젝트-현황]] — GNOME용 개인 일정·할 일 앱(GTK4+libadwaita, EDS로 구글 캘린더/할 일 동기화), 모듈 구조·테스트, 월/주 드래그·되돌리기·반복·할 일 표시 기능과 결정 근거(반복 날짜 이동 금지 등), 노션 🎒 일기 업로드(콜아웃만 교체, 📕 일기 DB는 지우면 안 됨, DB마다 연결 추가 필요) (2026-10-23)
+- [[프로젝트/haru/EDS-구글-캘린더-연동-함정]] — 구글 CalDAV 400(detached 남은 RRULE 삭제)/409(ETag 갱신+SEQUENCE), evolution-source-registry 멈춤 시 구글 일정이 조용히 사라지는 증상과 재시작, `ECal.Client.connect` 가림·`set_descriptions` None 불가 등 PyGObject 함정 (2026-10-23)
+
 ### 도구
 - [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]] — 툴체인 Java 17을 Gradle이 못 찾던 원인은 `~/.gradle/gradle.properties`의 `org.gradle.java.installations.paths`가 Homebrew 포장 폴더를 가리킨 것(실제 JDK 홈은 `libexec`), 경로 수정 후 테스트 강제 재실행으로 검증(UP-TO-DATE는 증거 아님), IntelliJ Gradle 리로드·Gradle JVM 지정 (2026-10-21)
 - [[제안서-문서-협업-변환-함정-HWP-구글독스-PPTX]] — 구글 문서는 .hwp를 못 열어 docx 우회, Word 쪽수는 한글의 ~1.6배, 브라우저 자동화 탭이 백그라운드면 찾아 바꾸기 입력이 본문으로 들어가 문서가 망가진 사고와 버전 기록 복구, 클립보드가 1초 내 덮어써지는 붙여넣기 실패, 구글 문서 버전 기록은 특정 버전만 삭제 불가, 멀티에이전트 문서 작업 마커 파일·검토 전용 에이전트 운영, PPTX 폰트(Jua·Noto Sans KR) 깨짐 대응과 PDF 발표 (2026-10-13)
