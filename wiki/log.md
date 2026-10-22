@@ -925,3 +925,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 생성: [[프로젝트/haru/프로젝트-현황]], [[프로젝트/haru/EDS-구글-캘린더-연동-함정]]
 - 비고: haru 앱 구조·결정·노션 일기 연동과 구글 CalDAV/EDS 함정만 남김. 구현 진행 멘트·리뷰 지적 중간 목록·일회성 테스트 절차는 제외
+
+## 2026-10-23 00:05 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 생성: [[루트-공간-부족-Docker-디스크-data-이전과-Discord-로그-스팸]]
+- 비고: Docker 디스크 /data 이전 절차·함정과 Discord snap system-observe 로그 스팸 해결만 남김. 진행 멘트·명령 실수는 제외
