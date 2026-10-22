@@ -1,6 +1,6 @@
 ---
 tags: [electron, linux, x11, wayland, gnome, window-management]
-updated: 2026-10-15
+updated: 2026-10-22
 ---
 
 # Electron 창 전체 워크스페이스 고정과 포커스 탈취
@@ -36,6 +36,11 @@ Electron의 `setVisibleOnAllWorkspaces(true)`로 창을 모든 워크스페이�
 - **Replace 모드 주의:** WM_HINTS의 기존 필드(urgency, group leader)를 지운다. Chromium은 생성 시 WM_HINTS를 쓰지 않고 `SetFlashFrameHint`만 읽고-쓰므로 지금은 안전.
 - **부수 효과:** 컨텍스트 메뉴 같은 transient 창이 닫힐 때 포커스가 펫 대신 MRU 앱으로 돌아간다(mutter `find_focusable_ancestor`가 건너뜀).
 - **로컬 우회책(`wmctrl` 감시자)은 이 수정이 정식 릴리스에 들어가기 전까지 계속 필요.**
+
+## 외부에서 `input=False`를 붙일 때: 창 범위 함정 (2026-10-22)
+- 같은 앱의 질문 말풍선 같은 보조 창도 펫 본체와 같은 종류의 창이라, 감시 스크립트가 종류만 보고 `input=False`를 붙이면 말풍선 입력칸이 먹통이 된다(입력을 받아야 하는 창까지 포커스 후보에서 빠짐). 창 제목으로 출력 전용 본체("Clawd")에만 적용해야 한다.
+- 수정 후 말풍선은 워크스페이스 고정만 되고 입력 불가 표시는 안 붙으며, 전환 시 포커스가 해당 워크스페이스 앱으로 정상 복귀함을 로그로 확인.
+- PR #980은 2026-10-22 머지됨(v1.3.0엔 미포함, 다음 릴리스부터) — [[프로젝트/clawd-on-desk/프로젝트-현황]].
 
 ## koffi로 네이티브 호출 테스트할 때의 함정
 - koffi는 **JS 인자 개수 초과를 조용히 무시**하고 `void *`에 숫자도 받는다(`labs(-5, 99)`가 5를 반환). 선언에서 파라미터를 빠뜨려도 이름만 resolve하는 테스트는 통과하고, 실연결에서는 엉뚱한 포인터로 libxcb가 복사해 크래시할 수 있다.
