@@ -930,3 +930,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
 - 생성: [[루트-공간-부족-Docker-디스크-data-이전과-Discord-로그-스팸]]
 - 비고: Docker 디스크 /data 이전 절차·함정과 Discord snap system-observe 로그 스팸 해결만 남김. 진행 멘트·명령 실수는 제외
+
+## 2026-10-23 19:52 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 갱신: [[프로젝트/haru/프로젝트-현황]] — 23:59 systemd 자동 업로드 추가(기존 "버튼으로만" 결정 변경), 헤드리스 실행 함정(캘린더 미연결 덮어쓰기·EDS 재시작 경쟁·백필)과 알려진 한계
+- 비고: 리뷰 지적 전체 목록·테스트 개수·진행 멘트는 제외
