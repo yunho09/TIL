@@ -950,3 +950,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[Vite-청크-그룹으로-라이브러리-분리와-해시-캐시]] — 라이브러리 청크 4개 구성, 전체 청크 87개 구성표·첫 로딩 717 kB, 효과 범위(재방문)와 설명 표현·꼬리질문, 분리 후 수치 미측정 명시
 - 비고: 기존 반영분(그룹 순서 함정 등)은 중복 제외
+
+## 2026-10-25 22:56 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 생성: [[k9s-한국어-로케일-테두리-깨짐-RUNEWIDTH]]
+- 비고: kubectl port-forward 포트 규칙, Vim :qa! 포함. 진행 멘트 제외
