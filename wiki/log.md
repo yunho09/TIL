@@ -976,3 +976,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 생성: [[oh-my-openagent-omo-설치와-OMC-비교]]
 - 비고: 진행 멘트·화면 캡처 안내 단계·창 띄우기 시도 제외
+
+## 2026-10-27 19:11 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 생성: [[스와이프-직후-Alt+Tab-이전-데스크톱-목록]]
+- 비고: 스킬 본문 주입·서브에이전트 리뷰 전문·진행 멘트 제외, 리뷰의 핵심 지적과 한계만 반영
