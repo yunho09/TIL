@@ -971,3 +971,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
 - 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — API 테스트 페이지 퍼블리싱(#10/#11) 섹션 추가, [[curl-API-호출-예시-쉘-인용-규칙]] — 사용자 입력으로 cURL 생성 시 작은따옴표 인용 헬퍼 추가
 - 비고: 진행 멘트·커밋 해시·로컬 서버 열고 끄기·메모리 부족 종료 알림 제외
+
+## 2026-10-27 16:02 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[oh-my-openagent-omo-설치와-OMC-비교]]
+- 비고: 진행 멘트·화면 캡처 안내 단계·창 띄우기 시도 제외
