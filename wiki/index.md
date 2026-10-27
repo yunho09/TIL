@@ -69,6 +69,9 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[ERD-to-JPA-엔티티-변환-팁]] — ERD를 엔티티로 옮길 때 껍데기→필드→관계 순서, 연관관계 3원칙(단방향 기본·`LAZY`·FK 쪽이 주인), N:M은 중간 엔티티로, ENUM은 `STRING`·돈은 `BigDecimal`, `BaseTimeEntity`+`@EnableJpaAuditing`, `@Setter`·`@Data` 금지, `ddl-auto: create`로 DDL을 ERD와 대조 (2026-09-22)
 - [[도메인형-패키지-구조]] — `domain/<도메인>/{entity,repository,service,controller,dto}` + `global/` 구조, ERD 테이블≠도메인(혼자 살 수 있나 기준·애매하면 합치기), 도메인 간 Service 참조는 한 방향만(순환 참조 방지), 가장 독립적인 도메인 하나를 끝까지 만들어 템플릿으로 (2026-09-22)
 - [[Spring-Security-403이-본문-없는-401로-바뀌는-ERROR-디스패치]] — 커스텀 AccessDeniedHandler 없이 OncePerRequestFilter JWT를 쓰면 인가 거부 403이 `sendError`→ERROR 디스패치→필터 미재실행→익명→본문 0바이트 401로 바뀌는 체인(도메인 예외는 `setStatus`라 본문 유지), MockMvc는 재현 못 해 403으로 오진(RANDOM_PORT로 재측정), 해결 `shouldNotFilterErrorDispatch()=false` (2026-10-05)
+- [[낙관적-락-version-스테일-수정-방지와-PUT-전환]] — `@Version`만으론 오래된 화면의 덮어쓰기를 못 막아 응답·요청에 `version`을 왕복시켜 서비스에서 비교(409), 변경 없는 저장은 UPDATE가 생략돼 재검증이 빠지는 허점, 전체 교체는 PATCH 대신 PUT, DTO 30자 vs 컬럼 50자 불일치 (2026-10-27)
+- [[LLM-프롬프트-입력-검증과-공개-API-호출-제한]] — Java `\p{Cntrl}`은 ASCII만 막아 U+2028·U+0085가 새고 ZWJ 때문에 이모지엔 `\p{Cf}` 제외, IP·전역 레이트 리미터의 프록시/IPv6/메모리/전역 잠금 함정, 공개 경로의 `/error` 401·catch-all 핸들러가 4xx를 500으로 바꾸는 문제 (2026-10-27)
+- [[Spring-Boot-4-JPA-실전-함정-메모]] — Boot 4의 `RestClient.Builder` 자동구성 없음·Jackson 3 패키지·테스트 어노테이션 위치, H2 JSON 컬럼 이중 따옴표→`@JdbcTypeCode(JSON)`, Gemini 대기(~9초) 동안 DB 연결 안 잡도록 `TransactionTemplate`로 저장만 감싸기, `@CreationTimestamp` 시간대 (2026-10-27)
 
 ### 언어/JavaScript
 - [[Nullish-Coalescing-빈문자열-함정]] — `??`는 `null`/`undefined`만 폴백하고 `""`/`0`/`false`는 안 걸러서, 파싱 결과가 정상적으로 빈 문자열이 되는 경우 의도한 fallback이 발동 안 함(`||`와의 차이), 같은 헬퍼가 앱마다 `??`/`||`로 갈린 divergence 실사례
@@ -170,6 +173,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Bium/프로젝트-현황]] — 1학기 단독 냉장고 웹을 3인 팀 백엔드 확장 프로젝트로 키운 2학기 제안서 확정 결정(팀 역할·이메일 알림 채택 이유·구매 주기 최소공배수 "피버타임"·냉장실/냉동실/실온 3구역·사진 업로드만·데이터 이전 제외·ngrok), 노션 후보 17개→구현 11/제외 6, 채점 기준 대비 분량·"객체 지향" 설명 약점, 검토 에이전트가 반복 지적한 모순·과장 유형, 발표 질문 대비 (2026-10-13)
 - [[Bium-백엔드-연동-기술-메모]] — JavaMailSender 설정과 Gmail 앱 비밀번호, Gemini 멀티모달 영수증 인식 흐름과 무료 한도(서드파티 인용), 식약처 식품영양성분 DB API 개요와 이름 매칭 함정, ngrok 배포의 주소 변경·PC 꺼짐 한계 (2026-10-13)
 - [[DB-스키마-DBML-설계-리뷰]] — 전체 데이터 모델 DBML 리뷰: MySQL unique가 NULL을 서로 다르게 봐 공용 도감 `(owner_id,name)` unique가 무력화, 되돌리기는 `quantity_before` 덮어쓰기가 아니라 현재 수량+차감량으로 복원, 장보기 테이블 `fridge_id` 부재·알림 대상 정보 부재, 인덱스·단위 변환·enum 통일 개선점, 현재 코드(FridgeZone 6값 vs storage×section 두 축 등)와의 차이, 레시피 추천 브랜치는 기다리지 않고 진행·DBML을 먼저 보강하기로 한 결정 (2026-10-21)
+- [[Bium/레시피-추천-API-Gemini-서버-이전-설계]] — v1에서 FE가 직접 부르던 Gemini를 서버로 이전한 결정·근거(키 노출 차단, DB 저장+상세 API, 숫자 중심 응답), #3→#8→#10 단계, 최종 API 4개와 오류 코드, 한 글자 재료명 부분 일치 버그(파/양파), 멤버 아님=404, 남의 담당 범위 침범 되돌림·팀 PR 규칙 (2026-10-27)
 
 ### 프로젝트/xquare-openapi-frontend
 - [[xquare-openapi-frontend/프로젝트-현황]] — DSM Open API 문서 사이트(Next 16·Emotion) Overview 퍼블리싱(이슈 #3·PR #5 머지): `docs/` 공통 컴포넌트·`overview-content.ts` 텍스트 분리·slate 색/Roboto Mono 추가, Figma Overview가 백엔드 명세(username 로그인·`{accessToken,refreshToken}`·`classNum`·토큰 만료 미정 등)보다 뒤처진 불일치 목록과 #4로 이월한 결정, `next dev`가 `agentFeedback` 옵션으로 AGENTS.md에 자동 추가하는 블록을 별도 커밋으로 넣은 결정, 이슈/PR `[FEAT]` 형식·Co-Authored-By 금지·컴포넌트별 커밋 규칙 (2026-10-21)
@@ -182,7 +186,8 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[프로젝트/haru/EDS-구글-캘린더-연동-함정]] — 구글 CalDAV 400(detached 남은 RRULE 삭제)/409(ETag 갱신+SEQUENCE), evolution-source-registry 멈춤 시 구글 일정이 조용히 사라지는 증상과 재시작, `ECal.Client.connect` 가림·`set_descriptions` None 불가 등 PyGObject 함정 (2026-10-23)
 
 ### 도구
-- [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]] — 툴체인 Java 17을 Gradle이 못 찾던 원인은 `~/.gradle/gradle.properties`의 `org.gradle.java.installations.paths`가 Homebrew 포장 폴더를 가리킨 것(실제 JDK 홈은 `libexec`), 경로 수정 후 테스트 강제 재실행으로 검증(UP-TO-DATE는 증거 아님), IntelliJ Gradle 리로드·Gradle JVM 지정 (2026-10-21)
+- [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]] — 툴체인 Java 17을 Gradle이 못 찾던 원인은 `~/.gradle/gradle.properties`의 `org.gradle.java.installations.paths`가 Homebrew 포장 폴더를 가리킨 것(실제 JDK 홈은 `libexec`), 경로 수정 후 테스트 강제 재실행으로 검증(UP-TO-DATE는 증거 아님), IntelliJ Gradle 리로드·Gradle JVM 지정 (2026-10-21, 10-27 상충 기록 추가: libexec 없는 경로도 통과했다는 사례)
+- [[dotenv-셸-source-공백-때문에-시크릿-값이-오류-출력에-노출]] — `KEY= 값`을 셸로 source하면 값이 명령으로 실행돼 `command not found: <키>`로 도구 출력·세션 기록에 노출, 파서로 읽고 마스킹·셸 eval 금지·채팅 붙여넣기 금지 (2026-10-27)
 - [[제안서-문서-협업-변환-함정-HWP-구글독스-PPTX]] — 구글 문서는 .hwp를 못 열어 docx 우회, Word 쪽수는 한글의 ~1.6배, 브라우저 자동화 탭이 백그라운드면 찾아 바꾸기 입력이 본문으로 들어가 문서가 망가진 사고와 버전 기록 복구, 클립보드가 1초 내 덮어써지는 붙여넣기 실패, 구글 문서 버전 기록은 특정 버전만 삭제 불가, 멀티에이전트 문서 작업 마커 파일·검토 전용 에이전트 운영, PPTX 폰트(Jua·Noto Sans KR) 깨짐 대응과 PDF 발표 (2026-10-13)
 - [[IntelliJ-심볼릭-링크-중복-루트로-New-Java-Class-안-뜸]] — 같은 폴더가 실경로·심볼릭 링크 경로로 두 번 붙으면 IntelliJ가 다른 루트로 취급, 모듈·소스 루트 없는 쪽에선 New→Java Class가 안 뜸, 진짜 `[backend]` 루트 사용·Remove from Project·Gradle 리로드 (2026-10-09)
 - [[Chrome-MCP-네트워크-관측-함정과-멀티에이전트-감사-운영]] — `read_network_requests`가 OPTIONS와 본요청을 합쳐 상태코드를 잘못 표기(PUT 503 오보 철회), 토큰 읽기 차단 우회, 에이전트 3개 병렬 감사 운영(전용 탭·보고 잘림 시 파일/분할 전송·충돌 교차 대조·확정 수준 구분 표기) (2026-10-05)

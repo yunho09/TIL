@@ -960,3 +960,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
 - 생성: [[Docker-Desktop-쿠버네티스-이미지-손상과-기본-Docker-kind-전환]]
 - 비고: 진행 멘트·개념 설명 페이지 안내·숙제 문답 제외. 재부팅 후 자동 복구는 미확인으로 표기
+
+## 2026-10-27 14:51 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/bium-be)
+- 생성: [[Bium/레시피-추천-API-Gemini-서버-이전-설계]], [[낙관적-락-version-스테일-수정-방지와-PUT-전환]], [[LLM-프롬프트-입력-검증과-공개-API-호출-제한]], [[Spring-Boot-4-JPA-실전-함정-메모]], [[dotenv-셸-source-공백-때문에-시크릿-값이-오류-출력에-노출]]
+- 갱신: [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]] — libexec 없는 경로로도 통과했다는 사례를 "상충하는 정보"에 추가, apt/IntelliJ toolchain 메모
+- 비고: 진행 멘트·"이해하기 쉽게" 설명 요청·디스코드/스프린트 현황 정리·노션 명세 작성 과정·키 문답 반복은 제외. Spring Security ERROR 디스패치는 기존 페이지 링크만
