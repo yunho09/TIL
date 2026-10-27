@@ -42,6 +42,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Discord-영상-로딩-OpenH264-화면공유-뭉개짐]] — Discord 영상 타일이 로딩만 돌던 원인은 `openH264Enabled:false`(상대 영상 H.264를 OpenH264로만 디코딩, `avcodec_open2 error`)이고 설정→음성 및 비디오→고급에서 켜 해결, `--disable-gpu`는 무관한 오진, 이후 화면공유 뭉개짐은 송신자 쪽 저비트레이트(2216x1440@60fps에 ~90kbps) 문제로 720p30 하향 제안 (2026-10-21). **(2026-10-24 추가)** 친구 1440p60 화공 깨짐 재진단: 로그의 저비트레이트만 보고 송신자 탓한 첫 결론이 "다른 사람은 잘 보임"으로 뒤집혀 이 PC 앱 쪽(OpenH264 디코딩) 유력, 깨짐 모양별 원인 구분, 시청자 화질 메뉴 없음, HW 가속 실패 이유(snap 드라이버가 Lunar Lake 모름), 결정적 시험은 크롬 웹 비교, 해결 후보는 공식 .deb+인텔 드라이버 또는 Vesktop (미확정)
 - [[MySQL-로컬-설치와-온오프-명령]] — apt로 MySQL 8.4 직접 설치(메모리 ~520MB라 부팅 자동 시작 끔), `mysql-on`/`mysql-off`로 토글하고 `systemctl is-active mysql`로 확인, `~/.my.cnf`로 비밀번호 없이 접속, root는 auth_socket이라 `pkexec mysql`, 재부팅 후 접속 거부는 꺼진 상태라는 뜻, Docker MySQL과 3306 포트 충돌 가능 (2026-10-21)
 
+- [[Docker-Desktop-쿠버네티스-이미지-손상과-기본-Docker-kind-전환]] — Docker Desktop 내장 쿠버네티스(kind 모드)에서 pull 끊김 뒤 이미지 바이너리가 0바이트·24MiB로 잘려 LoadBalancer가 `<pending>`에 멈춘 원인과 네이티브 엔진 사본 해시 비교로 진단·교체한 방법, `docker desktop start`가 Claude Desktop VM을 오인하는 함정, 기본 Docker+kind 전환(메모리 3.9GB→약 1GB, LoadBalancer 없음→port-forward, 직접 빌드 이미지는 `kind load docker-image`), 볼륨을 엔진 사이로 옮길 때 compose 라벨·zsh 배열 함정 (2026-10-24)
 - [[k9s-한국어-로케일-테두리-깨짐-RUNEWIDTH]] — 한국어 로케일에서 k9s 테두리가 띄엄띄엄·제목이 끊기던 원인(모호 폭 문자를 2칸으로 계산)과 `RUNEWIDTH_EASTASIAN=0` 해결(lazydocker도 동일), 떠 있던 k9s는 재시작 필요, `port-forward` 로컬:파드 포트 규칙, Vim `:qa!` (2026-10-25)
 
 ### 라즈베리파이/GPIO

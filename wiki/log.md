@@ -955,3 +955,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
 - 생성: [[k9s-한국어-로케일-테두리-깨짐-RUNEWIDTH]]
 - 비고: kubectl port-forward 포트 규칙, Vim :qa! 포함. 진행 멘트 제외
+
+## 2026-10-27 13:44 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 생성: [[Docker-Desktop-쿠버네티스-이미지-손상과-기본-Docker-kind-전환]]
+- 비고: 진행 멘트·개념 설명 페이지 안내·숙제 문답 제외. 재부팅 후 자동 복구는 미확인으로 표기
