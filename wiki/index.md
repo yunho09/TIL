@@ -119,6 +119,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[도로명주소-검색-API-신청]] — business.juso.go.kr 신청 절차(검색 API vs 팝업 API, 개발/운영 승인키 흐름 차이), `confmKey`/JSONP 사용법, 승인키가 URL 단위로 묶이는 이유
 - [[TanStack-Query-무효화-키-null-vs-undefined]] — 쿼리 키의 빈 파라미터를 `?? null`로 채우면 prefix 무효화가 안 먹는 이유(TanStack Query는 `undefined`만 와일드카드로 취급), `params`를 그대로 넘겨 `undefined`가 되게 하는 해결
 - [[TanStack-Query-mutate-콜백-언마운트-스킵]] — `mutate()`에 넘긴 per-call 콜백은 컴포넌트 언마운트 시 실행 안 되고 await도 안 되어 `isPending`이 캐시 무효화 완료보다 먼저 풀리는 문제, 해결은 부수효과를 `useMutation` 훅 옵션으로 이동, 넓은 키 무효화가 곧 제거될 좁은 쿼리를 헛도는 함정도 포함
+- [[204-No-Content에-response-json-예외-삭제-성공이-실패로-표시]] — 삭제 API가 204(본문 없음)인데 `response.json()`을 무조건 부르면 빈 본문 파싱 예외로 성공이 실패로 표시되는 원인, 204 즉시 성공+본문을 text로 읽어 비면 성공·있을 때만 JSON 파싱하는 해결, 같은 패턴의 다른 삭제 API 점검 (2026-10-27)
 - [[응답-검증-적정선-없음-vs-조회실패-구분]] — (2026-09-20 추가: 완화한 삭제 성공 판정이 큰 커밋에서 되살아난 회귀, 삭제 후 화면 상태까지 검증) 응답 검증이 너무 엄격하면 서버 성공을 실패로 표시하고(공지 목록 전체 오류, 201+message만 성공 인정) 너무 느슨하면 네트워크·서버 오류가 "없음"으로 보이므로, 화면에 꼭 필요한 필드만 검증하고 404만 "없음"·나머지는 재시도 가능 오류로 분리
 - [[TanStack-Query-placeholderData-이전탭-데이터-조작-가능]] — (2026-09-19 추가: 수정 폼이 placeholder를 초기값으로 쓰면 로딩 중 저장 시 서버 값이 기본값으로 덮어써지는 변형, `isPending` 동안 폼 미렌더로 해결) `placeholderData: (prev) => prev`로 탭 전환 중 이전 데이터를 보여주는 동안 행별 액션 버튼이 그 이전 데이터를 대상으로 활성 상태로 남는 함정, `isPlaceholderData` 가드로 해결
 - [[크로스오리진-파일-다운로드-a-download-무시]] — 파일 주소가 페이지와 다른 도메인이면 `<a download>`가 무시돼 새 탭으로 열리거나 파일명이 key로 나오는 원인, CORS GET 허용(fetch+Blob) vs `Content-Disposition` 헤더 두 해결 경로, 비공개 버킷은 presigned URL 필요. fetch+Blob 구현 시 공용 인증 axios 재사용 금지([[공용-인증-axios-외부도메인-토큰유출]] 참고)와 Safari용 Blob URL 지연 해제 추가
