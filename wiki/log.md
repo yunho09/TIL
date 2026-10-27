@@ -981,3 +981,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
 - 생성: [[스와이프-직후-Alt+Tab-이전-데스크톱-목록]]
 - 비고: 스킬 본문 주입·서브에이전트 리뷰 전문·진행 멘트 제외, 리뷰의 핵심 지적과 한계만 반영
+
+## 2026-10-27 20:24 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-4)
+- 생성: [[팝오버-열림-닫힘-자동-스크롤과-페이지-높이-유지]]
+- 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — #272/PR #275 엑셀 다운로드 퍼블리싱 섹션과 출처 추가
+- 비고: 진행 멘트·스킬 본문 주입·커밋 목록·개발 서버 종료 알림 제외
