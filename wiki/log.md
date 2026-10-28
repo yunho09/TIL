@@ -1021,3 +1021,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
 - 갱신: [[GNOME-오버뷰-창-미리보기-사라짐]] — 오버뷰 좌우 스와이프 다중 칸 이동(allowLongSwipes) 원인·수정·측정 섹션 추가
 - 비고: 스와이프 직후 Alt+Tab 내용은 기존 [[스와이프-직후-Alt+Tab-이전-데스크톱-목록]]과 중복이라 제외. 스킬 본문 주입, 서브에이전트 리뷰 원문, 진행 멘트 제외
+
+## 2026-10-28 14:08 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[GNOME-알림-배너-위치-오른쪽-이동-확장]]
+- 갱신: index.md — 환경/GNOME 섹션에 항목 추가
+- 비고: /clear 및 진행 멘트 제외
