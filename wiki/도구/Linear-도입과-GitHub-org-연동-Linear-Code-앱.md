@@ -42,6 +42,12 @@ GitHub Issues 중심이던 팀에 Linear를 도입할 때의 개념 대응, 워�
 - 가져오기: 열린 GitHub 이슈만 옮기면 되고, 옮긴 뒤 GitHub Issues는 쓰지 않기로 정한다(양쪽 관리는 꼬임).
 - 팀 결정 항목: 팀 키, 사이클 사용·주기, 브랜치 규칙, Triage 담당, GitHub Issues 폐지 여부, PR 템플릿에 `Closes OPN-` 한 줄.
 
+## 일정 관리·상태 보드·팀원 초대
+- **일정**: 이슈에는 **마감일(Due date)만** 있고 시작일이 없다 → 작업별 시작~종료 간트는 불가, 프로젝트 단위 **Timeline 뷰**(프로젝트 기간+마일스톤 막대)로 대신한다. 주차별 계획은 **Cycles**(1~2주 자동 반복, 미완료 이슈 자동 이월), 단계별 목표는 프로젝트 안 **마일스톤**, 진행률은 프로젝트 %·사이클 그래프. 마감일은 급한 이슈에만 쓰는 편이 관리하기 쉽다. 프로젝트 기간·마일스톤은 MCP로 넣을 수 있지만 사이클 활성화는 팀 설정(브라우저)에서 해야 한다. (Claude 보충: 위는 Linear 일반 기능 설명이며 GitHub Project와의 직접 비교는 권한 문제(404)로 못 했다.)
+- **상태 흐름**: `Backlog → Todo → In Progress → In Review → Done` (+ Canceled/Duplicate). Backlog/Todo/Canceled는 수동, In Progress·In Review·Done은 PR 이벤트로 자동. 보드 보기는 **팀 → Issues → Display → Board**(칸반, 드래그 또는 이슈 선택 후 `S`로 상태 변경), 내 이슈만은 My issues. QA 같은 중간 상태는 팀 설정 Issue statuses에서 추가.
+- **초대**: 사이드바 **Invite people**(또는 Settings → Members)에서 이메일(쉼표 구분)·역할 **Member**·팀 선택 후 전송. Guest는 유료 플랜 전용. 팀이 공개 팀이면 초대 때 팀을 안 골라도 들어와서 직접 참여 가능. 초대 후 Admin 한 명 더 지정.
+- **워크스페이스 이름 결정**: 조직명(`xquare`)이 다른 프로젝트에 이미 쓰이면 프로젝트 전용 이름(`xquare-openapi`)으로 따로 만든다 — Free 한도를 나눠 쓰지 않는 장점.
+
 ## 관련
 - [[GitHub-closing-keyword-기본브랜치-PR-자동닫힘과-코드오너-룰셋]] — GitHub 쪽 닫기 키워드 동작
 - [[xquare-openapi-frontend/프로젝트-현황]] — 이 도입이 적용된 프로젝트

@@ -1063,3 +1063,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Claude-Code-MCP-고아-프로세스와-메모리-정리]]
 - 갱신: index.md — 신규 1개 추가
 - 비고: 특정 세션 종료 대상·resume ID·시점별 메모리 수치 표 등 일회성 내용 제외
+
+## 2026-10-28 17:05 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 갱신: [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — 일정 관리(마감일/Timeline/Cycles/마일스톤)·상태 보드·팀원 초대·워크스페이스 이름 결정 절 추가, index.md — 해당 요약 갱신
+- 비고: 연동 오진 정정·브랜치/PR 설정 등은 기존 페이지에 이미 반영돼 있어 중복 제외. 브라우저 조작 순서·권한 확인 등 일회성 내용 제외
