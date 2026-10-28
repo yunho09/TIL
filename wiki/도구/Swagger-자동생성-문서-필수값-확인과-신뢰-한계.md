@@ -47,7 +47,16 @@ ToyVillage에서 계약 65개를 스테이징 Swagger와 자동 대조해 다른
 - **실서버 확인 방법**: 로그인된 스테이징 어드민 탭의 콘솔에서 `fetch`로 직접 호출(테스트 데이터를 만들면 제목에 이슈 번호를 붙여 두고 삭제는 사람이 한다). 비동기 호출 결과를 `await` 없이 던지면 응답 코드가 안 찍히므로 top-level `await`로 받는다(안 그러면 같은 테스트 자료가 중복 생성됨). 스테이징 프런트는 `admin-stag.toyvillage.kr`, `admin.toyvillage.kr`은 **운영**이다.
 - 이 대조를 하네스에 넣은 구조는 [[ToyVillage-Admin-FE/하네스-점검-결과와-개선-방향]] 참고.
 
+## 2026-10-27 재대조: 9건은 그대로, `floor` 필드가 새로 생김
+스테이징 Swagger(`/v3/api-docs/app`)를 다시 받아 계약 65개와 대조한 결과(23:33): 같음 54·다름 11 = **알려진 차이 9건 그대로(해소 0)** + **새 차이 3건**.
+- **9건의 위치는 한 곳**: 요청·응답 필드는 다 맞고 Swagger 화면 각 API의 `Responses` 맨 위 줄(성공 코드)만 틀렸다. 같은 서버의 `POST /file`·`POST /reservation`은 Swagger에도 `201 Created`로 정확히 나오므로, 성공 코드를 명시한 메서드(`@ResponseStatus(HttpStatus.CREATED)` 추정)와 빠뜨린 8곳이 갈린 것으로 보인다(백엔드 코드를 못 본 **추정**). 공지 삭제는 문서에 "204 No Content"+응답 본문 스키마가 같이 달려 있어 문서 자체도 앞뒤가 안 맞는다.
+- **springdoc 근거**: 스키마 이름이 `com.command.toyvillage_server…`이고 OpenAPI 3.1 → Java 서버에서 springdoc이 코드로 자동 생성한 문서(Spring Boot일 가능성이 매우 높음).
+- **새 차이 `floor`**(종 animal-kind): `POST /animal-manage/kind`·`PATCH /animal-manage/kind/{animalKindId}` 요청에 `floor` 정수 **필수(4~5)**, `GET /animal-manage/kind` 응답에 `floor` 선택. 우리 계약·화면엔 없다 → 서버가 실제로 필수 검사를 시작하면 종 생성·수정이 **400으로 실패**할 수 있다. 의미(층?)와 반영 시점은 백엔드에 질문해야 하는 사항.
+- **이번에 확인하지 못한 것**: Swagger 문서만 다시 봤고 실서버를 호출하진 않았다. `.env`에 스테이징 로그인 계정이 없어 ① 실서버가 아직 201을 주는지 ② `floor` 없이 종을 만들면 정말 400인지는 미확인(종 생성은 데이터를 만드는 요청이라 하려면 계정과 함께 진행 여부 확인 필요).
+- **백엔드에 보낼 메시지 형식**: 처음엔 원인 추정·요청·질문까지 담은 긴 글을 썼으나 사용자는 "안 맞는 것만" 원했다. 표 2개(성공 상태 코드 9행 `API|기능|실제|Swagger`, 새 필드 3행)로 끝내고, 직원 계정 생성의 201은 예전 코드 주석 근거라 재확인 안 했다는 각주 한 줄만 남기는 게 맞다. 슬랙은 표를 표로 렌더링하지 않으니 마크다운 표는 노션·GitHub·디스코드용.
+
 ## 출처
+- Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-27 (Swagger 재대조, `floor` 새 차이, 백엔드 전달 메시지)
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-10-12~14 (#246/#247 Swagger 표기 오류 9건, `/close-day/date`)
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-09-17
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop) — 2026-09-17 밤 (이슈 #106, [[프로젝트/ToyVillage-Admin-FE/프로젝트-현황]] 참고)
