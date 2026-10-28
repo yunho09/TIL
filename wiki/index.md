@@ -32,6 +32,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[노트북-카메라-밝기-libcamera-ISP-튜닝]] — 갤럭시북5 카메라가 하얗게 날아가던 원인(libcamera `ov02e10.yaml`이 1.3~1.4배 증폭, AE는 증폭 전 단계라 보정 못 함)과 계수 비례 축소(0.62배)+흰색 끝·채도·감마 보정, 원본/수정 번갈아 측정법, Camera Relay 점유 시 크롬 화면 안 나오는 함정, 패키지 재설치 시 덮어쓰기 위험, 반사 해결 여부는 미확정, wireplumber 재시작이 버즈를 HSP/HFP로 떨어뜨린 부작용 (2026-10-20)
 - [[Orca-IDE-리눅스-설치]] — AppImage type 2가 Ubuntu 26.04에서 안 열리는 이유(libfuse2 부재)와 압축 해제 설치법, `orca`↔GNOME 화면낭독기 이름 충돌, 자동 업데이트 불가 등 한계
 - [[리눅스-메모리-점유-앱별-진단-PSS]] — RSS 합산은 공유 메모리 중복 계산으로 부풀려짐, PSS로 앱별 합산해야 정확, zram/Shmem/slab 등 앱 외 요소까지 더해야 총량이 맞는 이유, Electron 앱은 하나 끄면 런타임째 통째로 회수되는 정리 우선순위
+- [[Claude-Code-MCP-고아-프로세스와-메모리-정리]] — 죽은 세션이 남긴 MCP 고아 프로세스(gk mcp 21개 등) 정리와 zsh에서 PID 변수가 안 쪼개져 kill이 안 먹는 함정, claude.ai 계정 동기화 GitKraken 플러그인(세션당 3프로세스)을 `/plugin`에서 끄는 법, Chrome 메모리 절약은 탭을 끄는 게 아니라 점진적으로 잠재우는 것(쓰다 만 글 주의), 워크트리별 vite 개발 서버 ~650M씩 (2026-10-28)
 - [[Figma-데스크톱-앱-메모리-중복]] — 비공식 Electron 래퍼(`figma-linux-next`)가 Chromium 런타임을 중복으로 띄우는 원인(브라우저판 대안), 열어둔 탭은 자동 해제 안 됨, `settings.json`을 열린 탭 목록으로 오인하면 안 되는 이유, 탭↔렌더러 PID 매칭 불가로 안전한 정리법은 앱 내 직접 조작뿐
 - [[Figma-터치패드-핀치줌-속도-패치]] — `app.asar` 전개+preload 주입으로 핀치줌 배속(`figma-zoom-speed`, CDP로 검증), "확대가 안 되고 그냥 움직여짐" 증상은 핀치 종료 ~190ms 뒤 남은 움직임이 libinput에 새 스크롤 제스처로 재분류되는 것(+`AttrResolutionHint` 스크롤 2배 부작용 중첩)이 원인, 핀치 꼬리 300ms 가드로 대응(사용자 확인 대기 중, 미확정)
 - [[Figma-한글-입력-Wayland-IME]] — 네이티브 Wayland로 뜬 Figma에서 한글이 안 쳐지던 원인(IME 플래그 부재), `--enable-wayland-ime --wayland-text-input-version=3` 적용, X11(`--ozone-platform=x11`)로 내리면 핀치 줌이 죽어 되돌린 트레이드오프, 실제 입력 성공은 사용자 확인 대기 중(미확정)
