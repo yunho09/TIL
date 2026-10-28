@@ -82,6 +82,20 @@ public class PostService {
 - 규칙을 Service에 두는 이유: 입구(Controller)가 여러 개 생겨도 규칙은 한 곳
 - `Optional`: `findById`는 "있을 수도 없을 수도 있는 상자"를 반환 → `.orElse(null)`로 처리 중 (TS의 `Post | undefined` 감각)
 
+## DTO와 Entity — 같은 "데이터 모양"이지만 향하는 곳이 다르다 (2026-10-28 추가, bium-be 예시)
+
+- **DTO**: 프론트와 주고받는 JSON 모양(`~Request` 받는 상자 / `~Response` 돌려주는 상자). **Entity**: DB 테이블 모양. 한 줄로: DTO=API 경계, Entity=DB 경계.
+- 엔티티를 그대로 JSON으로 내보내면 안 되는 이유: ① `deletedAt`·`createdBy` 같은 불필요/민감한 값이 나가고 연관 엔티티가 줄줄이 딸려 나오거나 직렬화 에러, ② 요청 DTO에 받을 필드만 두면 JSON에 `fridge` 등을 끼워 넣어도 안 바뀜 + `@NotBlank`·`@Size` 검증을 DTO에 두고 컨트롤러 `@Valid`가 서비스 전에 걸러냄, ③ 화면이 원하는 묶음(냉장/냉동/실온·칸별)과 DB의 한 줄씩 쌓인 행 사이를 변환, ④ 컬럼을 바꿔도 DTO가 같으면 API 계약이 유지됨.
+- 흐름: JSON → 요청 DTO(`@Valid`) → Service가 엔티티를 찾아 `item.update(...)` → `Response.from(엔티티)` → JSON. 비움 DTO는 `record`(불변·접근자 자동 생성).
+- DTO 모양을 FE·BE가 다르게 알고 있으면 화면이 깨진다 → API를 만들기 전에 DTO 형식부터 같이 정한다.
+
+## 예외가 에러 응답이 되는 길 (비움 구조)
+
+- `throw`는 그 메서드를 즉시 끝내고 예외를 위로 올림 → 컨트롤러도 안 잡음 → `@RestControllerAdvice`의 `GlobalExceptionHandler`가 `@ExceptionHandler(BusinessException.class)`로 받아 JSON(`{success:false, data:null, error:{code,message}}`)과 상태 코드로 변환.
+- `ErrorCode` enum에 상태 코드+메시지를 묶고, 서비스는 `throw new BusinessException(ErrorCode.X)`만 쓴다 → 에러 응답 모양이 API마다 달라지지 않음. `RuntimeException`을 상속해 `throws` 선언 불필요.
+- 서비스 메서드는 **빠르고 공짜인 검사(멤버 확인·재료 존재)를 먼저, 느리고 비용 드는 호출(Gemini)은 그 뒤에**. 거절된 요청이 호출 횟수 제한을 소모하지 않게 하는 순서도 이 때문.
+- 서비스에 `new` 없이 쓰이는 필드는 `@RequiredArgsConstructor`(final 필드 생성자 자동 생성)+`@Service` 빈의 생성자 주입 → [[빈과-DI]]. `@Transactional` 대신 `TransactionTemplate`로 저장 구간만 감싸는 이유는 [[Spring-Boot-4-JPA-실전-함정-메모]].
+
 ## 확인 문제
 
 > [!question]- Q1. "제목 없는 글 거부" 검증은 Controller/Service/Repository 중 어디에? 왜?

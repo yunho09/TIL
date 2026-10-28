@@ -66,7 +66,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 언어/Java/Spring
 - [[빈과-DI]] — 인터페이스+구현체+생성자 주입 패턴, 다중 구현체 주입(@Primary/@Qualifier/List<T>), 싱글톤 규칙, 실무 사용 빈도
 - [[스프링-컨테이너]] — 컨테이너=Map 비유, 빈은 메모리에만 존재, 조립 순서, @SpringBootApplication 구성, 컴포넌트 스캔 기준점과 src 폴더 구조
-- [[스프링-CRUD-계층구조]] — Controller/Service/Repository 계층별 역할, 요청 값 추출 3종(@PathVariable/@RequestParam/@RequestBody), URL+메서드 매핑, Postman/curl 테스트 방법
+- [[스프링-CRUD-계층구조]] — Controller/Service/Repository 계층별 역할, 요청 값 추출 3종(@PathVariable/@RequestParam/@RequestBody), URL+메서드 매핑, Postman/curl 테스트 방법. **(2026-10-28 추가)** DTO(API 경계) vs Entity(DB 경계)와 엔티티를 그대로 내보내면 안 되는 4가지 이유, 예외가 `ErrorCode`→`GlobalExceptionHandler`를 거쳐 JSON 에러가 되는 길, 빠른 검사 먼저·비싼 호출 나중 순서
 - [[JPA-엔티티와-리포지토리]] — @Entity 규칙(빈 생성자, Long id, setter 대신 update()), JpaRepository가 빈 인터페이스로 동작하는 원리와 쿼리 메서드
 - [[MySQL-연동]] — datasource 설정, ddl-auto 선택지, Docker MySQL 컨테이너 명령어 모음
 - [[ERD-to-JPA-엔티티-변환-팁]] — ERD를 엔티티로 옮길 때 껍데기→필드→관계 순서, 연관관계 3원칙(단방향 기본·`LAZY`·FK 쪽이 주인), N:M은 중간 엔티티로, ENUM은 `STRING`·돈은 `BigDecimal`, `BaseTimeEntity`+`@EnableJpaAuditing`, `@Setter`·`@Data` 금지, `ddl-auto: create`로 DDL을 ERD와 대조 (2026-09-22)
@@ -75,6 +75,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[낙관적-락-version-스테일-수정-방지와-PUT-전환]] — `@Version`만으론 오래된 화면의 덮어쓰기를 못 막아 응답·요청에 `version`을 왕복시켜 서비스에서 비교(409), 변경 없는 저장은 UPDATE가 생략돼 재검증이 빠지는 허점, 전체 교체는 PATCH 대신 PUT, DTO 30자 vs 컬럼 50자 불일치 (2026-10-27)
 - [[LLM-프롬프트-입력-검증과-공개-API-호출-제한]] — Java `\p{Cntrl}`은 ASCII만 막아 U+2028·U+0085가 새고 ZWJ 때문에 이모지엔 `\p{Cf}` 제외, IP·전역 레이트 리미터의 프록시/IPv6/메모리/전역 잠금 함정, 공개 경로의 `/error` 401·catch-all 핸들러가 4xx를 500으로 바꾸는 문제 (2026-10-27)
 - [[Spring-Boot-4-JPA-실전-함정-메모]] — Boot 4의 `RestClient.Builder` 자동구성 없음·Jackson 3 패키지·테스트 어노테이션 위치, H2 JSON 컬럼 이중 따옴표→`@JdbcTypeCode(JSON)`, Gemini 대기(~9초) 동안 DB 연결 안 잡도록 `TransactionTemplate`로 저장만 감싸기, `@CreationTimestamp` 시간대 (2026-10-27)
+- [[MySQL-잠금-읽기와-H2-테스트-사각지대]] — REPEATABLE READ 스냅샷 때문에 락을 기다렸다가도 옛 데이터를 읽어 초대 코드가 둘 남던 문제와 `FOR UPDATE` 잠금 읽기 해결, 로그 INSERT의 FK 공유 락이 같은 재료 동시 삭제를 데드락으로 만드는 체인과 flush-먼저 해결·락 순서 통일, H2로는 둘 다 재현 안 됨, `@Transactional` 테스트가 가리는 롤백 검증·MANDATORY 전파·인덱스에 맞춘 정렬 (2026-10-28)
 
 ### 언어/Python/머신러닝
 - [[XGBoost-식품불량-분류-Colab-실습]] — 식품 불량 데이터(1만 행, 입력 7개) XGBoost 분류 결과(정확도 0.9960)와 gain 기준 중요도, 온도·습도 결정 경계, Train/Test 차이로 과적합 확인, Colab 함정("모두 실행"이 `files.upload()`에서 멈춤·UTC 시각·한글 폰트·무한 루프 셀·변수명 분리) (2026-10-28)
@@ -188,6 +189,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Bium-백엔드-연동-기술-메모]] — JavaMailSender 설정과 Gmail 앱 비밀번호, Gemini 멀티모달 영수증 인식 흐름과 무료 한도(서드파티 인용), 식약처 식품영양성분 DB API 개요와 이름 매칭 함정, ngrok 배포의 주소 변경·PC 꺼짐 한계 (2026-10-13)
 - [[DB-스키마-DBML-설계-리뷰]] — 전체 데이터 모델 DBML 리뷰: MySQL unique가 NULL을 서로 다르게 봐 공용 도감 `(owner_id,name)` unique가 무력화, 되돌리기는 `quantity_before` 덮어쓰기가 아니라 현재 수량+차감량으로 복원, 장보기 테이블 `fridge_id` 부재·알림 대상 정보 부재, 인덱스·단위 변환·enum 통일 개선점, 현재 코드(FridgeZone 6값 vs storage×section 두 축 등)와의 차이, 레시피 추천 브랜치는 기다리지 않고 진행·DBML을 먼저 보강하기로 한 결정 (2026-10-21)
 - [[Bium/레시피-추천-API-Gemini-서버-이전-설계]] — v1에서 FE가 직접 부르던 Gemini를 서버로 이전한 결정·근거(키 노출 차단, DB 저장+상세 API, 숫자 중심 응답), #3→#8→#10 단계, 최종 API 4개와 오류 코드, 한 글자 재료명 부분 일치 버그(파/양파), 멤버 아님=404, 남의 담당 범위 침범 되돌림·팀 PR 규칙 (2026-10-27)
+- [[냉장고-공유-API-설계와-리뷰-반영]] — 공유 API 명세를 FE와 먼저 확정(OWNER 권한·8자 24시간 초대 코드·오류 코드·FE 요청 `isMe`), 내보낸 멤버가 같은 코드로 재참여하는 정책 구멍→코드 동시 무효화, 활동 기록 범위(이동·차감·되돌리기는 선재 담당이라 제외)와 팀 확인 요청, 보류 항목, 에이전트 리뷰+CodeRabbit 이중 리뷰 운영 (2026-10-28)
 
 ### 프로젝트/xquare-openapi-frontend
 - [[xquare-openapi-frontend/어드민-도입-모노레포-결정과-Figma-디자인시스템-정리]] — admin 앱 도입을 모노레포로 하되 공통화는 두 앱이 실제 쓸 때만 `packages/ui`로 올리기로 한 결정·근거, 메인 색 보라·admin 로그인은 user 레이아웃+"관리자" 표시, Figma 디자인 시스템 정리(색 이름·사이드바 280px·용어 통일), 팀 결정(한 끼 허용·키 만료 1년·작성자 고정 등)과 남은 일 (2026-10-28)
