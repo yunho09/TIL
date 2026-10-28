@@ -180,6 +180,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 
 ### 프로젝트/xquare-openapi-frontend
 - [[xquare-openapi-frontend/프로젝트-현황]] — DSM Open API 문서 사이트(Next 16·Emotion) Overview 퍼블리싱(이슈 #3·PR #5 머지): `docs/` 공통 컴포넌트·`overview-content.ts` 텍스트 분리·slate 색/Roboto Mono 추가, Figma Overview가 백엔드 명세(username 로그인·`{accessToken,refreshToken}`·`classNum`·토큰 만료 미정 등)보다 뒤처진 불일치 목록과 #4로 이월한 결정, `next dev`가 `agentFeedback` 옵션으로 AGENTS.md에 자동 추가하는 블록을 별도 커밋으로 넣은 결정, 이슈/PR `[FEAT]` 형식·Co-Authored-By 금지·컴포넌트별 커밋 규칙 (2026-10-21). **(2026-10-27 추가)** API 테스트 페이지(`/api-test`, 이슈 #10·PR #11) 퍼블리싱: 더미 데이터 분리·시안과 다른 점·Figma 숨은 1px 프레임 함정, 리뷰 반영(cURL 셸 인용, 탭 ARIA, 자격증명 autoComplete, 클립보드 catch)
+- [[xquare-openapi-frontend/DSM-Open-API-데이터-수집-루트]] — 나이스 Open API(급식·학사일정·시간표·반학과; 키 없으면 5건, 담임·교사명·개인정보 없음)로 자동 수집 vs 교무부/자습감독/동아리 교사·학생 설문 출처 구분, 루트 확정/미정 추천, 학생 조회 `USER` 권한 개인정보 쟁점, 갱신 주기, 백엔드 요청 목록 (2026-10-28)
 
 ### 프로젝트/GolmokGyeol-FE
 - [[GolmokGyeol-FE/프로젝트-현황]] — 골목결: 별점 순위 대신 "취향 지도"로 동네 식당을 찾는 서비스, 지도는 위치가 아니라 검색마다 바뀌는 키워드(분위기) 축이라 가까운 점=비슷한 분위기, 사용 흐름·차별점(후기 문장 그대로 노출·후기 적은 가게 모양 구분·점수 비노출), 백엔드(팀원 노트북 주소·비공개 데이터) 없이 `VITE_API_BASE`+목 서버(32곳)로 로컬 실행하는 법 (2026-10-21)
