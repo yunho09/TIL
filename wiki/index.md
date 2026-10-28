@@ -74,6 +74,9 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[LLM-프롬프트-입력-검증과-공개-API-호출-제한]] — Java `\p{Cntrl}`은 ASCII만 막아 U+2028·U+0085가 새고 ZWJ 때문에 이모지엔 `\p{Cf}` 제외, IP·전역 레이트 리미터의 프록시/IPv6/메모리/전역 잠금 함정, 공개 경로의 `/error` 401·catch-all 핸들러가 4xx를 500으로 바꾸는 문제 (2026-10-27)
 - [[Spring-Boot-4-JPA-실전-함정-메모]] — Boot 4의 `RestClient.Builder` 자동구성 없음·Jackson 3 패키지·테스트 어노테이션 위치, H2 JSON 컬럼 이중 따옴표→`@JdbcTypeCode(JSON)`, Gemini 대기(~9초) 동안 DB 연결 안 잡도록 `TransactionTemplate`로 저장만 감싸기, `@CreationTimestamp` 시간대 (2026-10-27)
 
+### 언어/Python/머신러닝
+- [[XGBoost-식품불량-분류-Colab-실습]] — 식품 불량 데이터(1만 행, 입력 7개) XGBoost 분류 결과(정확도 0.9960)와 gain 기준 중요도, 온도·습도 결정 경계, Train/Test 차이로 과적합 확인, Colab 함정("모두 실행"이 `files.upload()`에서 멈춤·UTC 시각·한글 폰트·무한 루프 셀·변수명 분리) (2026-10-28)
+
 ### 언어/JavaScript
 - [[Nullish-Coalescing-빈문자열-함정]] — `??`는 `null`/`undefined`만 폴백하고 `""`/`0`/`false`는 안 걸러서, 파싱 결과가 정상적으로 빈 문자열이 되는 경우 의도한 fallback이 발동 안 함(`||`와의 차이), 같은 헬퍼가 앱마다 `??`/`||`로 갈린 divergence 실사례
 - [[requestAnimationFrame-래치-가드-버그]] — rAF 스로틀 가드를 미리 busy로 두고 콜백이 안 오면(백그라운드 탭 로드 등) 영원히 잠겨 이후 이벤트가 전부 무시되는 패턴, `visibilitychange`/`pageshow` 복구 + 워치독 타이머 해결

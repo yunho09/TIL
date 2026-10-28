@@ -1004,3 +1004,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]]
 - 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — Linear 도입 섹션(워크스페이스·팀·컨벤션 변경·남은 일) 추가
 - 비고: 이름 짓기 잡담, 브라우저 조작 진행 멘트, 스킬 본문 주입 제외
+
+## 2026-10-28 13:18 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.config/Claude/scratch-workspaces/68eef3b8-da94-4db5-b563-9565e29705a3/4cebf249-3d72-4a77-a55b-e742194ef06a/scratch-2026-10-27-331dfd)
+- 생성: [[XGBoost-식품불량-분류-Colab-실습]]
+- 갱신: index.md — 언어/Python/머신러닝 섹션 추가
+- 비고: 새 폴더 wiki/언어/Python/머신러닝 생성 (CLAUDE.md 분류표는 갱신하지 않음). 스킬 본문 주입, 브라우저 진행 멘트, 파일 이동 제안 제외
