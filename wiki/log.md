@@ -1010,3 +1010,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[XGBoost-식품불량-분류-Colab-실습]]
 - 갱신: index.md — 언어/Python/머신러닝 섹션 추가
 - 비고: 새 폴더 wiki/언어/Python/머신러닝 생성 (CLAUDE.md 분류표는 갱신하지 않음). 스킬 본문 주입, 브라우저 진행 멘트, 파일 이동 제안 제외
+
+## 2026-10-28 13:19 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend/node_modules/next/dist/docs)
+- 생성: [[xquare-openapi-frontend/어드민-도입-모노레포-결정과-Figma-디자인시스템-정리]], [[Next-Turborepo-npm-workspaces-모노레포-세팅]]
+- 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — 관련 링크 2개 추가
+- 비고: 스킬 본문 주입, Figma 작업 진행 멘트, 모순 목록 번호 나열 중간 단계 제외
