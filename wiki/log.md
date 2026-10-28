@@ -1016,3 +1016,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[xquare-openapi-frontend/어드민-도입-모노레포-결정과-Figma-디자인시스템-정리]], [[Next-Turborepo-npm-workspaces-모노레포-세팅]]
 - 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — 관련 링크 2개 추가
 - 비고: 스킬 본문 주입, Figma 작업 진행 멘트, 모순 목록 번호 나열 중간 단계 제외
+
+## 2026-10-28 13:41 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 갱신: [[GNOME-오버뷰-창-미리보기-사라짐]] — 오버뷰 좌우 스와이프 다중 칸 이동(allowLongSwipes) 원인·수정·측정 섹션 추가
+- 비고: 스와이프 직후 Alt+Tab 내용은 기존 [[스와이프-직후-Alt+Tab-이전-데스크톱-목록]]과 중복이라 제외. 스킬 본문 주입, 서브에이전트 리뷰 원문, 진행 멘트 제외

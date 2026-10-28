@@ -5,7 +5,7 @@ tags:
   - overview
   - linux
   - extension
-updated: 2026-10-15
+updated: 2026-10-28
 ---
 
 # GNOME 오버뷰: 3손가락 스와이프 후 가끔 창 미리보기 영역이 비는 문제 (원인 특정, 수정 효과 확인 전)
@@ -79,6 +79,18 @@ JS ERROR: Error: Invalid overview shown transition from HIDDEN to HIDING
 - GNOME Shell 50.1, Mutter 0ubuntu2.2, 단일 모니터(eDP-1 2880×1800, 배율 1.5)
 - gnome-shell/mutter가 apt `hi`(hold) 상태 — 2026-07-13에 `--allow-downgrades`로 의도적으로 되돌린 흔적이 있어 이번 조사에서는 건드리지 않았음. 밀린 업데이트의 changelog에 오버뷰/제스처 관련 수정은 없어 업데이트해도 이 문제 자체는 해결되지 않을 것으로 보임(2026-09-08 기준 미검증).
 
+## 오버뷰 좌우 스와이프가 여러 칸 날아가는 문제 (2026-10-28, 실화면 확인 전)
+
+미리보기 증상과는 별개로, 오버뷰(3손가락 위로)에서 좌우로 넘기면 데스크톱이 한꺼번에 여러 칸 넘어가 "전환이 너무 빠르다"는 불만이 나왔다.
+
+- **원인**: 오버뷰의 WorkspacesDisplay 스와이프 트래커만 `allowLongSwipes = true`(workspacesView.js:846에서 한 번 세팅되는 평범한 JS 필드)다. 손가락 이동이 ±1칸으로 잘리지 않고, 튕기면 속도 투영으로 여러 칸을 지나간다. 평소 데스크톱 스와이프는 한 번에 한 칸만 이동.
+- **악화 요인**: 터치패드 hwdb resolution 13(≈1.23배 감도, 10-08 설정)이라 터치패드 델타 400단위=1칸 기준이 약 0.8cm 간격으로 체감됨.
+- **측정(헤드리스 셸에서 터치패드 제스처 흉내)**: 원래는 3cm 천천히 끌기 0→3칸, 0.75cm 살짝 튕기기 0→3칸(432ms). 수정 후 둘 다 0→1칸. 확장을 끄면 원래 동작으로 복귀, 오류 없음.
+- **수정**: `overview-gesture-fix` 확장의 `enable()`에서 `controls._workspacesDisplay._swipeTracker.allowLongSwipes = false`로 바꾸고 원래 값을 저장, `disable()`에서 복원.
+- 증상 진단 교훈: 사용자가 "전환이 빠르다"고 해도 직전에 만든 [[스와이프-직후-Alt+Tab-이전-데스크톱-목록]]의 `swipe-alttab-fix`는 재로그인 전이라 로드조차 안 된 상태였으므로 원인이 아니었다. 확장 로드 여부를 먼저 확인하고, 모호하면 어느 화면의 어떤 동작인지 되물어 좁힌다.
+- 재로그인 후 확인: 개요에서 좌우로 한 번 튕겨 한 칸만 넘어가는지 (결과 미확정).
+
 ## 출처
 
 - Claude Code 세션 자동 캡처 (/home/yunho)
+- Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)

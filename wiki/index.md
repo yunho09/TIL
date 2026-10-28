@@ -9,7 +9,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[위키-자동-캡처]] — Karpathy LLM Wiki 모델 채택 이유, SessionEnd 훅 기반 자동 ingest+push 파이프라인, 스킵 조건, 적용 범위/한계, Notion 자동 연동 미채택 이유
 
 ### 환경/GNOME
-- [[GNOME-오버뷰-창-미리보기-사라짐]] — 3손가락 스와이프 후 가끔 창 미리보기만 비는 문제, `_gestureEnd` 예외 가설은 진단 로그로 반증됨, **(2026-10-15)** 35건 로그에서 원인 특정: 워크스페이스 전환 애니메이션 중 스와이프하면 위치 값이 0.54처럼 중간에 남아 빈 틈을 비춤(엉뚱한 워크스페이스로 끌려가는 증상도 동일 원인), 익스텐션에 오픈 시 위치 보정 추가했으나 재로그인 후 효과 미확인, 자동 감지+덤프 익스텐션, GNOME 확장은 코드 변경 시 핫로드 안 되고 로그아웃/로그인 필요(`ReloadExtension` D-Bus deprecated)
+- [[GNOME-오버뷰-창-미리보기-사라짐]] — 3손가락 스와이프 후 가끔 창 미리보기만 비는 문제, `_gestureEnd` 예외 가설은 진단 로그로 반증됨, **(2026-10-28)** 오버뷰 좌우 스와이프가 여러 칸 날아가던 원인(오버뷰 트래커만 `allowLongSwipes=true`, 터치패드 1.23배 감도로 악화)과 `overview-gesture-fix`에서 false로 한 칸씩 제한(헤드리스 측정 3칸→1칸, 실화면 확인 전), **(2026-10-15)** 35건 로그에서 원인 특정: 워크스페이스 전환 애니메이션 중 스와이프하면 위치 값이 0.54처럼 중간에 남아 빈 틈을 비춤(엉뚱한 워크스페이스로 끌려가는 증상도 동일 원인), 익스텐션에 오픈 시 위치 보정 추가했으나 재로그인 후 효과 미확인, 자동 감지+덤프 익스텐션, GNOME 확장은 코드 변경 시 핫로드 안 되고 로그아웃/로그인 필요(`ReloadExtension` D-Bus deprecated)
 - [[스와이프-직후-Alt+Tab-이전-데스크톱-목록]] — 3손가락 스와이프 직후 Alt+Tab이 떠나는 데스크톱 창 목록을 띄우던 원인(슬라이드 0.1~0.4초가 끝나야 활성 워크스페이스가 바뀜, 키보드 전환은 먼저 바뀌어 무관), `SwitcherPopup._init` 패치로 전환을 즉시 완료하는 `swipe-alttab-fix` 확장, 취소 스와이프 중간값이 개요를 오염시키는 리뷰 지적, 헤드리스 셸 검증(Alt+Tab 기본 바인딩=AppSwitcher 함정), Ctrl+Alt+Tab 미포함 한계, 실화면 확인 대기 (2026-10-27)
 - [[GNOME-Wayland-wl-clipboard-포커스-토스트]] — Mutter 50에 data-control 프로토콜 부재→wl-clipboard 폴백 경로→`focus-new-windows=strict`가 겹쳐 뜨는 정체불명 토스트의 원인 체인과 `smart` 복구법
 - [[Vitals-확장-상단바-시스템-모니터]] — 자체 스키마를 쓰는 확장은 `gsettings --schemadir`로 확장 설치 경로의 schemas를 직접 지정해야 하는 이유(Vitals `hot-sensors`/`position-in-panel` 예시), GNOME 50에서 D-Bus 스크린샷이 `AccessDenied`로 막혀 있음
