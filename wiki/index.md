@@ -194,6 +194,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 프로젝트/haru
 - [[프로젝트/haru/프로젝트-현황]] — GNOME용 개인 일정·할 일 앱(GTK4+libadwaita, EDS로 구글 캘린더/할 일 동기화), 모듈 구조·테스트, 월/주 드래그·되돌리기·반복·할 일 표시 기능과 결정 근거(반복 날짜 이동 금지 등), 노션 🎒 일기 업로드(콜아웃만 교체, 📕 일기 DB는 지우면 안 됨, DB마다 연결 추가 필요), 23:59 systemd 자동 업로드(백필·캘린더 미연결 시 덮어쓰기 금지·EDS 재시작 경쟁 함정) (2026-10-23)
 - [[프로젝트/haru/EDS-구글-캘린더-연동-함정]] — 구글 CalDAV 400(detached 남은 RRULE 삭제)/409(ETag 갱신+SEQUENCE), evolution-source-registry 멈춤 시 구글 일정이 조용히 사라지는 증상과 재시작, `ECal.Client.connect` 가림·`set_descriptions` None 불가 등 PyGObject 함정 (2026-10-23)
+- [[프로젝트/haru/GTK4-끌어-놓기-할-일-DnD-함정]] — 사이드바 할 일 ↔ 달력 날짜 끌어 놓기: 문자열로 실으면 메모칸·입력칸이 UID를 받아 삽입되므로 전용 GType(TaskRef)으로 전달, DragSource 100ms 지연 때문에 빠른 flick이 클릭(완료 토글)으로 오인되는 함정, 체크 직후 끌기 시 낡은 icomp 덮어쓰기 경쟁, 실행 중 옛 프로세스 재시작(gdbus quit)·일부 hunk만 커밋하는 법 (2026-10-28)
 
 ### 도구
 - [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — GitHub Issues→Linear 개념 대응·Free 한도는 워크스페이스별, "org 하나=워크스페이스 하나라 연동 불가"라던 오진 정정(예전 `Linear` 앱과 별개인 `Linear Code` 앱으로 연결 가능), member는 Request·owner는 Cancel Request 후 Install, 브랜치 `feature/identifier`·PR 자동화 기본값·매직 워드, public 레포 댓글 기능 주의, MCP로는 팀 키/연동 설정 불가 (2026-10-28)
