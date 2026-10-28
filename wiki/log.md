@@ -998,3 +998,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[xquare-openapi-frontend/DSM-Open-API-데이터-수집-루트]]
 - 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — 관련 링크 추가
 - 비고: 레포 파일 생성·삭제, Notion 페이지 작성/503 재시도 등 일회성 작업 제외
+
+## 2026-10-28 13:17 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 생성: [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]]
+- 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — Linear 도입 섹션(워크스페이스·팀·컨벤션 변경·남은 일) 추가
+- 비고: 이름 짓기 잡담, 브라우저 조작 진행 멘트, 스킬 본문 주입 제외

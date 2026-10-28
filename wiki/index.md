@@ -179,7 +179,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Bium/레시피-추천-API-Gemini-서버-이전-설계]] — v1에서 FE가 직접 부르던 Gemini를 서버로 이전한 결정·근거(키 노출 차단, DB 저장+상세 API, 숫자 중심 응답), #3→#8→#10 단계, 최종 API 4개와 오류 코드, 한 글자 재료명 부분 일치 버그(파/양파), 멤버 아님=404, 남의 담당 범위 침범 되돌림·팀 PR 규칙 (2026-10-27)
 
 ### 프로젝트/xquare-openapi-frontend
-- [[xquare-openapi-frontend/프로젝트-현황]] — DSM Open API 문서 사이트(Next 16·Emotion) Overview 퍼블리싱(이슈 #3·PR #5 머지): `docs/` 공통 컴포넌트·`overview-content.ts` 텍스트 분리·slate 색/Roboto Mono 추가, Figma Overview가 백엔드 명세(username 로그인·`{accessToken,refreshToken}`·`classNum`·토큰 만료 미정 등)보다 뒤처진 불일치 목록과 #4로 이월한 결정, `next dev`가 `agentFeedback` 옵션으로 AGENTS.md에 자동 추가하는 블록을 별도 커밋으로 넣은 결정, 이슈/PR `[FEAT]` 형식·Co-Authored-By 금지·컴포넌트별 커밋 규칙 (2026-10-21). **(2026-10-27 추가)** API 테스트 페이지(`/api-test`, 이슈 #10·PR #11) 퍼블리싱: 더미 데이터 분리·시안과 다른 점·Figma 숨은 1px 프레임 함정, 리뷰 반영(cURL 셸 인용, 탭 ARIA, 자격증명 autoComplete, 클립보드 catch)
+- [[xquare-openapi-frontend/프로젝트-현황]] — DSM Open API 문서 사이트(Next 16·Emotion) Overview 퍼블리싱(이슈 #3·PR #5 머지): `docs/` 공통 컴포넌트·`overview-content.ts` 텍스트 분리·slate 색/Roboto Mono 추가, Figma Overview가 백엔드 명세(username 로그인·`{accessToken,refreshToken}`·`classNum`·토큰 만료 미정 등)보다 뒤처진 불일치 목록과 #4로 이월한 결정, `next dev`가 `agentFeedback` 옵션으로 AGENTS.md에 자동 추가하는 블록을 별도 커밋으로 넣은 결정, 이슈/PR `[FEAT]` 형식·Co-Authored-By 금지·컴포넌트별 커밋 규칙 (2026-10-21). **(2026-10-27 추가)** API 테스트 페이지(`/api-test`, 이슈 #10·PR #11) 퍼블리싱: 더미 데이터 분리·시안과 다른 점·Figma 숨은 1px 프레임 함정, 리뷰 반영(cURL 셸 인용, 탭 ARIA, 자격증명 autoComplete, 클립보드 catch). **(2026-10-28 추가)** Linear 도입: 워크스페이스 `xquare-openapi`·팀 `OpenAPI`/`OPN`, 라벨·프로젝트 구성, GitHub #4→OPN-5 이관, 브랜치 `feature/opn-5`·`Closes OPN-5`로 컨벤션 변경
 - [[xquare-openapi-frontend/DSM-Open-API-데이터-수집-루트]] — 나이스 Open API(급식·학사일정·시간표·반학과; 키 없으면 5건, 담임·교사명·개인정보 없음)로 자동 수집 vs 교무부/자습감독/동아리 교사·학생 설문 출처 구분, 루트 확정/미정 추천, 학생 조회 `USER` 권한 개인정보 쟁점, 갱신 주기, 백엔드 요청 목록 (2026-10-28)
 
 ### 프로젝트/GolmokGyeol-FE
@@ -190,6 +190,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[프로젝트/haru/EDS-구글-캘린더-연동-함정]] — 구글 CalDAV 400(detached 남은 RRULE 삭제)/409(ETag 갱신+SEQUENCE), evolution-source-registry 멈춤 시 구글 일정이 조용히 사라지는 증상과 재시작, `ECal.Client.connect` 가림·`set_descriptions` None 불가 등 PyGObject 함정 (2026-10-23)
 
 ### 도구
+- [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — GitHub Issues→Linear 개념 대응·Free 한도는 워크스페이스별, "org 하나=워크스페이스 하나라 연동 불가"라던 오진 정정(예전 `Linear` 앱과 별개인 `Linear Code` 앱으로 연결 가능), member는 Request·owner는 Cancel Request 후 Install, 브랜치 `feature/identifier`·PR 자동화 기본값·매직 워드, public 레포 댓글 기능 주의, MCP로는 팀 키/연동 설정 불가 (2026-10-28)
 - [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]] — 툴체인 Java 17을 Gradle이 못 찾던 원인은 `~/.gradle/gradle.properties`의 `org.gradle.java.installations.paths`가 Homebrew 포장 폴더를 가리킨 것(실제 JDK 홈은 `libexec`), 경로 수정 후 테스트 강제 재실행으로 검증(UP-TO-DATE는 증거 아님), IntelliJ Gradle 리로드·Gradle JVM 지정 (2026-10-21, 10-27 상충 기록 추가: libexec 없는 경로도 통과했다는 사례)
 - [[dotenv-셸-source-공백-때문에-시크릿-값이-오류-출력에-노출]] — `KEY= 값`을 셸로 source하면 값이 명령으로 실행돼 `command not found: <키>`로 도구 출력·세션 기록에 노출, 파서로 읽고 마스킹·셸 eval 금지·채팅 붙여넣기 금지 (2026-10-27)
 - [[제안서-문서-협업-변환-함정-HWP-구글독스-PPTX]] — 구글 문서는 .hwp를 못 열어 docx 우회, Word 쪽수는 한글의 ~1.6배, 브라우저 자동화 탭이 백그라운드면 찾아 바꾸기 입력이 본문으로 들어가 문서가 망가진 사고와 버전 기록 복구, 클립보드가 1초 내 덮어써지는 붙여넣기 실패, 구글 문서 버전 기록은 특정 버전만 삭제 불가, 멀티에이전트 문서 작업 마커 파일·검토 전용 에이전트 운영, PPTX 폰트(Jua·Noto Sans KR) 깨짐 대응과 PDF 발표 (2026-10-13)
