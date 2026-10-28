@@ -1068,3 +1068,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
 - 갱신: [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — 일정 관리(마감일/Timeline/Cycles/마일스톤)·상태 보드·팀원 초대·워크스페이스 이름 결정 절 추가, index.md — 해당 요약 갱신
 - 비고: 연동 오진 정정·브랜치/PR 설정 등은 기존 페이지에 이미 반영돼 있어 중복 제외. 브라우저 조작 순서·권한 확인 등 일회성 내용 제외
+
+## 2026-10-28 17:06 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 갱신: [[Next-Turborepo-npm-workspaces-모노레포-세팅]] — 1단계 실제 적용 결과(OPN-6·PR #20, AGENTS.md 이동 이유, lockfile 유지, 검증 수치, 커밋 분리, 배포별 후속 설정) 절 추가
+- 갱신: [[어드민-도입-모노레포-결정과-Figma-디자인시스템-정리]] — 디자인 시스템 페이지 구성, 댓글 4건 반영·해결 처리, 모노레포 1단계 완료 기록, Figma 댓글/일괄 변경 팁 추가
+- 비고: 기존 페이지와 겹치는 결정·모순 목록 내용은 중복 제외. 스킬 본문·브라우저 조작 과정 등 일회성 내용 제외

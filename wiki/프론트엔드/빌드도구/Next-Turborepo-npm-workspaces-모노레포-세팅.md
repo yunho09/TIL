@@ -40,6 +40,15 @@ turbo.json, package-lock.json (루트에 하나만)
 
 배포처(Vercel vs 자체 Docker)에 따라 1단계 설정이 달라지는데 레포에 배포 설정이 없어 미확인이었다.
 
+## 1단계 실제 적용 결과 (OPN-6, PR #20, 2026-10-28)
+- `src`·`next.config.ts`·`tsconfig.json`·`eslint.config.mjs`·`package.json`을 `git mv`로 `apps/openapi`에 이동(파일 92개, 이력 유지). 앱 패키지 이름 `openapi` → `turbo run dev --filter=openapi`로 한 앱만 실행.
+- **`AGENTS.md`도 앱 폴더로 같이 이동**: `next dev`가 실행되는 앱 폴더에 이 파일을 다시 쓰기 때문.
+- 루트 `package.json`에 `workspaces`, `turbo`, `packageManager: npm@x`. `.gitignore`는 `node_modules`·`.next` 패턴이 하위 폴더에도 걸리게 바꾸고 `.turbo` 추가.
+- `package-lock.json`은 지우지 않고 그 위에 재설치 → 추가된 건 turbo와 workspace 연결뿐, 기존 패키지 버전 불변.
+- 검증: `npm run build` 동일한 27페이지 생성, 두 번째 빌드는 Turbo 캐시로 8ms, lint 통과, dev 서버 주요 경로 200. 3000번 포트가 다른 Next 서버에 점유돼 3001로 뜸(기존 서버는 건드리지 않음).
+- 커밋을 둘로 나눔: "이동만"(내용 변경 없음 → 이력 유지 확인 쉬움) / "workspaces·Turborepo 설정". PR 본문 첫 줄 `Closes OPN-6`로 Linear 연동, 팀원은 브랜치 전환 후 루트에서 `npm install` 1회 필요.
+- 배포 전이라 `outputFileTracingRoot`는 넣지 않음. 나중에 Vercel이면 앱마다 프로젝트를 만들고 Root Directory를 `apps/<app>`로, 자체 Docker면 `output: "standalone"` + `outputFileTracingRoot`.
+
 ## 관련
 - [[Vite-모노레포-워크스페이스-패키지-dev서버-캐시]]
 - [[Cloudflare-Workers-Builds-모노레포-앱별-Worker]]

@@ -43,8 +43,19 @@ xquare-openapi-frontend에 admin 앱을 추가하기로 하고, 모노레포로 
 - user 안에서 섞인 표현: API 이름(마이페이지 vs API 문서), 팀장/동아리 부장, "Welcome, Back"(코드에도 동일해 유지).
 - 사이드바 보라 글자 대비 약 3.9:1(4.5:1 미만)이나 user 규칙과 같아 유지.
 
+## 디자인 시스템 페이지 구성 (Figma `open-api` 파일 `design system` 페이지)
+- 변수 65개: `XQUARE Primitives`(기본 색 26) / `XQUARE Semantic`(용도별 27: 배경·글자·테두리·버튼·상태) / `XQUARE Layout`(간격·모서리 12). 텍스트 스타일 11개(임시로 Noto Sans KR), 모달 그림자 1개.
+- 컴포넌트 13종: Button(12가지), Badge, Input, Select, Textarea, 화살표 아이콘, Table Cell, Pagination(Item), Modal, Page Header, Sidebar(Item). 안내 프레임 Guide·Foundations 포함.
+- 글 줄이기: Page Header 설명·입력칸 안내 문구는 기본 꺼짐, 상태는 Badge로 표시.
+
+## 진행 기록 (2026-10-28)
+- 댓글 4개(학생 수정 문구 넘침, 학생 목록 학과 칸, 동아리 로고 안내, 동아리실 예시)를 반영하고 같은 문구가 있는 다른 화면도 함께 수정 후 해결 처리. 모순 목록 35건을 주체별(기획 결정 / 예시 데이터 / 용어 / 시각 스타일 / 정리)로 분류해 팀 결정 사항 반영.
+- **모노레포 1단계 완료**: OPN-6, PR #20(develop) — 상세는 [[Next-Turborepo-npm-workspaces-모노레포-세팅]]. 공유 UI 패키지·admin 앱은 다음 이슈. 배포는 아직 안 함.
+
 ## Figma 작업 팁 (Claude 세션에서 확인)
 - 플러그인 API로는 **댓글을 읽을 수 없고**(브라우저로 댓글 패널 확인), 설치되지 않은 폰트(Pretendard)는 불러올 수 없다.
+- 댓글은 로그인된 Chrome(Claude in Chrome)에서 댓글 API로 가져오고, 해결 처리 요청도 같은 경로로 가능(200 응답 후 목록 재조회로 해결 시각 확인). 내장 브라우저는 Figma 로그인이 없어 못 읽음.
+- 값 일괄 변경(예: Tailwind 색 1,743곳 → 변수)은 화면 전체를 스크립트로 순회하고, 높이 변경은 테두리 포함 여부를 먼저 확인한다. 같은 노드를 같은 방식으로 고친 화면은 스크린샷을 생략해도 되지만 그 사실을 밝힌다.
 - 화면 간 모순은 문구·수치(높이, 색)를 스크립트로 일괄 비교해 찾고, 묶음별로(기획 결정 / 예시 데이터 / 용어 / 시각 스타일 / 정리) 나눠 처리하면 편하다.
 
 ## 관련
