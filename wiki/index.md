@@ -202,7 +202,12 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[프로젝트/haru/EDS-구글-캘린더-연동-함정]] — 구글 CalDAV 400(detached 남은 RRULE 삭제)/409(ETag 갱신+SEQUENCE), evolution-source-registry 멈춤 시 구글 일정이 조용히 사라지는 증상과 재시작, `ECal.Client.connect` 가림·`set_descriptions` None 불가 등 PyGObject 함정 (2026-10-23)
 - [[프로젝트/haru/GTK4-끌어-놓기-할-일-DnD-함정]] — 사이드바 할 일 ↔ 달력 날짜 끌어 놓기: 문자열로 실으면 메모칸·입력칸이 UID를 받아 삽입되므로 전용 GType(TaskRef)으로 전달, DragSource 100ms 지연 때문에 빠른 flick이 클릭(완료 토글)으로 오인되는 함정, 체크 직후 끌기 시 낡은 icomp 덮어쓰기 경쟁, 실행 중 옛 프로세스 재시작(gdbus quit)·일부 hunk만 커밋하는 법 (2026-10-28)
 
+### 프로젝트/PR-Lens
+- [[PR-Lens/프로젝트-현황]] — PR 링크를 넣으면 먼저 볼 곳/건너뛸 곳을 골라 주는 로컬 웹앱(Next.js 16, `claude -p` 구독 사용, 127.0.0.1 전용), 🔴🟡⚪⚫🟣 분류·추천 동선·깊게 보기(≈50초 $0.2)·증분 리뷰(`anchorKey`)·SZZ-lite 정확도 측정(hono 4건, 통계적 의미 없음), systemd 사용자 서비스와 `pr-lens-update`, lint가 `.cache/repos`를 훑던 함정, 남은 위험(lock 파일 미분석) (2026-10-28)
+- [[PR-Lens/악성-PR-가정-적대적-리뷰-3라운드-교훈]] — "건너뛰는 규칙이 있으면 그 규칙이 공격면"이라 ⚫는 lock·스냅샷·미디어만 남긴 원칙 변경, 공백/줄 순서/`\r`/U+2028/이름 변경 우회 사례, 로컬 서버 Host·Origin·프레임 방어, `Sec-Fetch-Site`로 외부 링크 자동 분석 차단, `.ignore`로 Grep 숨기기 차단 (2026-10-28)
+
 ### 도구
+- [[claude-p-헤드리스-호출과-restricted-읽기-격리]] — 앱에서 `claude -p`로 구독을 API 키 없이 호출하는 공통 플래그(`--bare` 불가), 신뢰 못 할 레포는 `--restricted`+`Read,Grep,Glob`+`dontAsk`로 레포 밖 읽기 차단(없으면 `/etc` 읽힘), 환경변수 허용 목록, 자식이 위키 훅을 또 돌리지 않게 하는 환경변수 (2026-10-28)
 - [[오픈소스-기여-후보-선별-기준과-AI정책-함정]] — 머지 수는 GraphQL로 세야 함(`gh search prs --merged`는 불리언 플래그), `collaborators_only`로 외부 PR을 막은 레포(zustand·zod 등), 레포별 AI 정책(설명은 사람이/공개 의무/fedify의 Co-authored-by 금지)과 CLA, 조건부 선점 양보·PR 대상 브랜치 확인 (2026-10-28)
 - [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — GitHub Issues→Linear 개념 대응·Free 한도는 워크스페이스별, "org 하나=워크스페이스 하나라 연동 불가"라던 오진 정정(예전 `Linear` 앱과 별개인 `Linear Code` 앱으로 연결 가능), member는 Request·owner는 Cancel Request 후 Install, 브랜치 `feature/identifier`·PR 자동화 기본값·매직 워드, public 레포 댓글 기능 주의, MCP로는 팀 키/연동 설정 불가 (2026-10-28)
 - [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]] — 툴체인 Java 17을 Gradle이 못 찾던 원인은 `~/.gradle/gradle.properties`의 `org.gradle.java.installations.paths`가 Homebrew 포장 폴더를 가리킨 것(실제 JDK 홈은 `libexec`), 경로 수정 후 테스트 강제 재실행으로 검증(UP-TO-DATE는 증거 아님), IntelliJ Gradle 리로드·Gradle JVM 지정 (2026-10-21, 10-27 상충 기록 추가: libexec 없는 경로도 통과했다는 사례)
