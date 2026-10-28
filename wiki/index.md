@@ -13,11 +13,12 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[스와이프-직후-Alt+Tab-이전-데스크톱-목록]] — 3손가락 스와이프 직후 Alt+Tab이 떠나는 데스크톱 창 목록을 띄우던 원인(슬라이드 0.1~0.4초가 끝나야 활성 워크스페이스가 바뀜, 키보드 전환은 먼저 바뀌어 무관), `SwitcherPopup._init` 패치로 전환을 즉시 완료하는 `swipe-alttab-fix` 확장, 취소 스와이프 중간값이 개요를 오염시키는 리뷰 지적, 헤드리스 셸 검증(Alt+Tab 기본 바인딩=AppSwitcher 함정), Ctrl+Alt+Tab 미포함 한계, 실화면 확인 대기 (2026-10-27)
 - [[GNOME-알림-배너-위치-오른쪽-이동-확장]] — GNOME에 알림 위치 설정이 없어 `bannerAlignment`을 오른쪽으로 바꾸는 확장(`notification-right@yunho.local`)으로 해결, Wayland라 재로그인 필요, 격리 테스트 셸에서 `notify-send`+스크린샷으로 검증(실화면 확인 전) (2026-10-28)
 - [[GNOME-Wayland-wl-clipboard-포커스-토스트]] — Mutter 50에 data-control 프로토콜 부재→wl-clipboard 폴백 경로→`focus-new-windows=strict`가 겹쳐 뜨는 정체불명 토스트의 원인 체인과 `smart` 복구법
-- [[Vitals-확장-상단바-시스템-모니터]] — 자체 스키마를 쓰는 확장은 `gsettings --schemadir`로 확장 설치 경로의 schemas를 직접 지정해야 하는 이유(Vitals `hot-sensors`/`position-in-panel` 예시), GNOME 50에서 D-Bus 스크린샷이 `AccessDenied`로 막혀 있음
+- [[Vitals-확장-상단바-시스템-모니터]] — **(2026-10-28)** Ubuntu 26.04에 `gnome-system-monitor`가 없어 버튼이 무반응인 원인과 `find_program_in_path` 폴백 수정안(오너는 기본값 변경 거절, PR 대상은 `develop`), 자체 스키마를 쓰는 확장은 `gsettings --schemadir`로 확장 설치 경로의 schemas를 직접 지정해야 하는 이유(Vitals `hot-sensors`/`position-in-panel` 예시), GNOME 50에서 D-Bus 스크린샷이 `AccessDenied`로 막혀 있음
 - [[Nautilus-폴더-먼저-정렬-끄기와-Homebrew-gsettings-함정]] — 파일 앱 최신순에서 폴더가 맨 위에 모이는 건 `sort-directories-first` 때문(GTK4 파일 선택창도 공유), PATH의 Homebrew `gsettings`는 dconf에 연결 안 돼 set/get이 둘 다 "성공"처럼 보이지만 실제로는 저장 안 되는 함정, `dconf write`나 `/usr/bin/gsettings`로 해결·검증 (2026-10-01)
 - [[독-실행-점-사라짐-런처-수정-직후-재실행]] — 창은 있는데 독 아이콘에 실행 점이 없는 증상의 원인: `.desktop` 런처 수정과 앱 재실행이 같은 초라 GNOME이 창을 옛 런처에 묶어 둠, 정상 종료 후 런처로 재실행해 해결, 런처 수정 후 1~2초 기다렸다 실행 (2026-10-21)
 
 ### 환경/리눅스-데스크톱
+- [[Electron-Wayland-한글-IME-Chromium136-기본-활성화]] — `--enable-wayland-ime`·text-input-v3 플래그가 Chromium 136(Electron 36)부터 기본 동작이라 기본값으로 넣으면 효과 없고 `disable-wayland-ime`만 막힘, `WAYLAND_DEBUG` 실측과 진단 순서 (2026-10-28)
 - [[PC-중복-설치-정리-Homebrew-도입]] — Linuxbrew 도입 후 apt/수동 설치와 중복되던 tmux·mise를 brew로 통일(브랜드 tmux client가 기존 apt tmux server 세션에 그대로 재접속돼 끊김 없이 교체 가능했다는 사실 포함), 로그인 셸(zsh)·essential 패키지(bash)는 위험해서 보류, ghostty deb/snap 중복(brew ghostty는 macOS 전용이라 대체 불가), wezterm·postman/notion snap·`.nvm` 등 앱 교체로 죽어있던 설치본 판별법(libfuse2 없는 AppImage, 실행 경로 교체 시점 대조), `.desktop` 오버라이드가 중복이 아니라 XDG 우선순위로 snap을 가리는 의도된 구조라는 것, docker-ce/Docker Desktop 이중설치·codex 설치 깨짐은 미해결로 남김
 - [[루트-공간-부족-Docker-디스크-data-이전과-Discord-로그-스팸]] — 루트 6.4G→22G: SSD 하나를 `/`·`/data`로 나눈 구조라 Docker.raw(8.8G→sparse 6.9G)를 `/data`로 복사·바이트 검증·새 위치 기동 후 원본 삭제, Docker 종료 시 restart 정책 없는 컨테이너가 같이 멈추는 함정, Discord snap AppArmor 차단 로그 분당 120건(4일 180M)을 `snap connect discord:system-observe`로 즉시 차단 (2026-10-23)
 - [[디스크-정리와-부팅-서비스-최적화-점검]] — 루트 13G→18G 정리 내역(저널 500M 제한·rc 패키지 purge·캐시), Docker 자동 시작→소켓 활성화, 남긴 것과 이유(grub-pc, npx, yarn berry PnP), '부팅 30초 단축'이 과장이었던 이유(로그인은 3초, 크리티컬 체인 확인 필요), 절전 복귀 직후 네트워크 대기 후 동기화 (2026-10-15)
@@ -79,12 +80,15 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[XGBoost-식품불량-분류-Colab-실습]] — 식품 불량 데이터(1만 행, 입력 7개) XGBoost 분류 결과(정확도 0.9960)와 gain 기준 중요도, 온도·습도 결정 경계, Train/Test 차이로 과적합 확인, Colab 함정("모두 실행"이 `files.upload()`에서 멈춤·UTC 시각·한글 폰트·무한 루프 셀·변수명 분리) (2026-10-28)
 
 ### 언어/JavaScript
+- [[ESLint-flat-config와-eslintrc-ESM-CJS]] — flat config(`import()`, ESM, 배열 export)와 레거시 eslintrc(`require`, CJS)의 차이, `.eslintrc.mjs`는 아예 안 읽혀 예시가 조용히 무시됨, 문서 변환 시 규칙 문서의 `require`·CHANGELOG는 건드리지 않는 기준 (2026-10-28)
+- [[package-exports-type-module-UMD-빈-객체]] — `"type":"module"`인데 main이 UMD면 Node가 ESM으로 읽어 import/require가 에러 없이 빈 객체, `type` 제거+`.mjs`+`exports` 조건 맵+CJS 재export 래퍼 해결, Breaking 안내와 UMD 전역 이름 불일치(`YorkieSdk` vs `yorkie-js-sdk`) 호환 처리 (2026-10-28)
 - [[Nullish-Coalescing-빈문자열-함정]] — `??`는 `null`/`undefined`만 폴백하고 `""`/`0`/`false`는 안 걸러서, 파싱 결과가 정상적으로 빈 문자열이 되는 경우 의도한 fallback이 발동 안 함(`||`와의 차이), 같은 헬퍼가 앱마다 `??`/`||`로 갈린 divergence 실사례
 - [[requestAnimationFrame-래치-가드-버그]] — rAF 스로틀 가드를 미리 busy로 두고 콜백이 안 오면(백그라운드 탭 로드 등) 영원히 잠겨 이후 이벤트가 전부 무시되는 패턴, `visibilitychange`/`pageshow` 복구 + 워치독 타이머 해결
 - [[React-Router-useBlocker-데이터라우터-필요]] — 작성 중 이탈 방지는 앱 내부 이동은 `useBlocker`, 탭 닫기·새로고침은 `useBeforeUnload`로 나눠 막고, `useBlocker`는 data router(`createBrowserRouter`)에서만 동작해 JSX `<Routes>`면 라우트 정의 전환이 선행돼야 한다는 것
 - [[React-useEffect-useLayoutEffect-폼제출-타이밍-버그]] — 첨부 제거 직후 바로 저장하면 옛 목록이 전송되는 버그의 원인은 파생 상태 동기화가 페인트 이후 비동기 실행되는 `useEffect`였기 때문, 페인트 전 동기 실행되는 `useLayoutEffect`로 교체해 해결, 빠른 연속 입력-제출 폼에서 파생 상태 동기화에 `useEffect`를 쓰면 레이스 컨디션이 생길 수 있다는 일반 패턴
 
 ### 프론트엔드/CSS
+- [[word-break-overflow-wrap-anywhere-구형-웹뷰-폴백]] — `break-all`이 영어 단어를 자르는 문제를 `word-break: normal`+`overflow-wrap`으로 해결, `anywhere`는 min-content 계산에 반영되지만 Chrome 80/Safari 15.4부터라 구형 웹뷰는 `["break-word","anywhere"]` 배열 폴백 (2026-10-28)
 - [[CSS-Container-shrink-to-fit]] — `max-width`는 상한일 뿐 폭을 확보 못 함, `main` shrink-to-fit 원인과 해결, 전체 배경색 우회법. 후속 함정: shrink-to-fit을 고쳐 `main`에 `width:100%`를 주면 교차축 `auto` 마진이 무력화돼 중앙 정렬이 깨짐 → 폭을 제한하는 자식(`Container`)에 `margin-inline: auto`를 둬서 해결
 - [[CSS-fieldset-legend-flex-패딩-무시]] — `display:flex` fieldset에서 `<legend>`가 padding 무시하고 최상단에 붙는 원인과 float+clear 해결법, 고정 px 그리드→`fr` 반응형 전환, 한글 `word-break: keep-all`
 - [[테이블-오버플로우-hidden-드롭다운-메뉴-잘림]] — 표 컨테이너의 `overflow:hidden`이 행의 케밥/드롭다운 메뉴까지 잘라 마지막 행에서 메뉴가 통째로 안 보이는 원인, `overflow` 제거 후 `border-radius`를 헤더에 직접 부여하는 해결법
@@ -197,6 +201,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[프로젝트/haru/GTK4-끌어-놓기-할-일-DnD-함정]] — 사이드바 할 일 ↔ 달력 날짜 끌어 놓기: 문자열로 실으면 메모칸·입력칸이 UID를 받아 삽입되므로 전용 GType(TaskRef)으로 전달, DragSource 100ms 지연 때문에 빠른 flick이 클릭(완료 토글)으로 오인되는 함정, 체크 직후 끌기 시 낡은 icomp 덮어쓰기 경쟁, 실행 중 옛 프로세스 재시작(gdbus quit)·일부 hunk만 커밋하는 법 (2026-10-28)
 
 ### 도구
+- [[오픈소스-기여-후보-선별-기준과-AI정책-함정]] — 머지 수는 GraphQL로 세야 함(`gh search prs --merged`는 불리언 플래그), `collaborators_only`로 외부 PR을 막은 레포(zustand·zod 등), 레포별 AI 정책(설명은 사람이/공개 의무/fedify의 Co-authored-by 금지)과 CLA, 조건부 선점 양보·PR 대상 브랜치 확인 (2026-10-28)
 - [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — GitHub Issues→Linear 개념 대응·Free 한도는 워크스페이스별, "org 하나=워크스페이스 하나라 연동 불가"라던 오진 정정(예전 `Linear` 앱과 별개인 `Linear Code` 앱으로 연결 가능), member는 Request·owner는 Cancel Request 후 Install, 브랜치 `feature/identifier`·PR 자동화 기본값·매직 워드, public 레포 댓글 기능 주의, MCP로는 팀 키/연동 설정 불가 (2026-10-28)
 - [[Gradle-JDK-17-못-찾음-Homebrew-libexec-경로]] — 툴체인 Java 17을 Gradle이 못 찾던 원인은 `~/.gradle/gradle.properties`의 `org.gradle.java.installations.paths`가 Homebrew 포장 폴더를 가리킨 것(실제 JDK 홈은 `libexec`), 경로 수정 후 테스트 강제 재실행으로 검증(UP-TO-DATE는 증거 아님), IntelliJ Gradle 리로드·Gradle JVM 지정 (2026-10-21, 10-27 상충 기록 추가: libexec 없는 경로도 통과했다는 사례)
 - [[dotenv-셸-source-공백-때문에-시크릿-값이-오류-출력에-노출]] — `KEY= 값`을 셸로 source하면 값이 명령으로 실행돼 `command not found: <키>`로 도구 출력·세션 기록에 노출, 파서로 읽고 마스킹·셸 eval 금지·채팅 붙여넣기 금지 (2026-10-27)

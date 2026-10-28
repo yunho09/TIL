@@ -1033,3 +1033,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[GTK4-끌어-놓기-할-일-DnD-함정]]
 - 갱신: [[프로젝트-현황]] — 양방향 끌어 놓기 기능 요약·관련 링크 추가, index.md — 프로젝트/haru 항목 추가
 - 비고: 일정·할 일 우선순위 계획, 민수에게 보낼 메시지, 서브에이전트 산정 보고 원문 등 일회성 내용 제외
+
+## 2026-10-28 14:13 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 생성: [[오픈소스-기여-후보-선별-기준과-AI정책-함정]], [[ESLint-flat-config와-eslintrc-ESM-CJS]], [[package-exports-type-module-UMD-빈-객체]], [[Electron-Wayland-한글-IME-Chromium136-기본-활성화]], [[word-break-overflow-wrap-anywhere-구형-웹뷰-폴백]]
+- 갱신: [[Vitals-확장-상단바-시스템-모니터]] — Ubuntu 26.04 시스템 모니터 폴백 수정안 추가, [[프로젝트-현황]] — #66 리눅스 하드웨어 가속 스위치와 GPU 끄기 투명 유지 실측 추가, index.md — 항목 5개 추가·Vitals 요약 갱신
+- 비고: 후보 이슈 순위표·서브에이전트 보고 원문·PR 제목/링크 안내·진행 상황 정리 등 일회성 내용 제외

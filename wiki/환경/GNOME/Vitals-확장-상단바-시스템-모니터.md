@@ -29,6 +29,14 @@ gsettings --schemadir ~/.local/share/gnome-shell/extensions/Vitals@CoreCoding.co
 
 패널 변경 결과를 스크린샷으로 자동 확인하려 했으나 GNOME 50의 스크린샷 D-Bus 인터페이스가 `AccessDenied`로 거부했다. 자동화 스크립트에서 화면을 캡처해 검증하려는 시도는 GNOME 50에서 이 경로가 막혀 있다는 것을 전제하고, 사용자에게 육안 확인을 요청하는 쪽으로 우회해야 한다.
 
+## Ubuntu 26.04에서 시스템 모니터 버튼이 반응 없음 (upstream #543)
+
+- 원인: 스키마 기본값 `monitor-cmd`가 `gnome-system-monitor`이고 `extension.js`가 그대로 `Util.spawn`에 넘긴다. Ubuntu 26.04에는 이 실행 파일이 없고 `/usr/bin/resources`만 있다. GNOME Shell 50.1의 `trySpawn`이 `GLib.find_program_in_path(argv[0])` 실패 시 `'Command not found'`를 던진다.
+- 수정안: 설정 명령이 PATH에 있으면 그대로, 없으면 `gnome-system-monitor` → `resources` → `gnome-usage` 순으로 처음 찾은 것을 실행, 다 없으면 원래 명령을 넘겨 기존 오류 알림 유지(`extension.js` +18/−1, 기본값·UI·번역 불변). PATH를 가짜로 바꿔 8가지 경우를 로직 테스트했고 CI 린트(shexli)는 새 경고 없음. 실제 셸에서 버튼을 눌러 보진 못함(nested 세션에 `mutter-dev-bin` 필요).
+- 오너 입장: 기본값을 `resources`로 바꾸는 PR #571은 "Fedora 44 등은 아직 옛 명령"이라며 거절, 설정 창 자동 감지를 원함. 그래서 기본값을 건드리지 않는 폴백 방식. 외부 PR은 `main`이 아니라 **`develop`** 대상.
+- 리뷰 지적(미반영 결정): 설정에 오타를 내면 오류 대신 다른 앱이 뜸 → 오너가 원하면 "설정값이 기본값일 때만 폴백"으로 변경 가능.
+- 격리 테스트 요령: `XDG_DATA_HOME`/`XDG_CONFIG_HOME`을 바꾼 `dbus-run-session`에서 `gnome-shell --devkit --wayland` nested 세션, `gsettings`는 `/usr/bin/gsettings`로(linuxbrew 것은 값을 조용히 무시). 맥락: [[오픈소스-기여-후보-선별-기준과-AI정책-함정]]
+
 ## 출처
 
 - Claude Code 세션 자동 캡처 (/home/yunho/.local/share/gnome-shell/extensions/Vitals@CoreCoding.com)
