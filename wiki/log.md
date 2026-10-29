@@ -1084,3 +1084,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 갱신: [[MySQL-로컬-설치와-온오프-명령]] — Docker MySQL과의 3306 충돌 원인·3307 이전(zz- 설정 파일), DataGrip/Spring 연결 4조건·오류 유형·표시 이름 vs DB 이름·백엔드 독립성 절 추가, index.md — 해당 요약 갱신
 - 비고: 계정 비밀번호 조회, 확인용 서버 기동·종료 등 일회성 내용 제외. 비밀번호는 위키에 기록하지 않음
+
+## 2026-10-29 10:04 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 갱신: [[Next-Turborepo-npm-workspaces-모노레포-세팅]] — admin 앱 추가·user 개명, CodeRabbit 리뷰로 잡은 Turbo 설정 함정(start dependsOn build, .next/dev, PORT passThrough), 도구 역할 요약 절 추가, index.md — 해당 요약 갱신
+- 갱신: [[어드민-도입-모노레포-결정과-Figma-디자인시스템-정리]] — admin 앱 추가·개명 한 줄 추가, index.md — 해당 요약 갱신
+- 비고: Figma 모순 목록·팀 결정·1단계 PR 내용은 기존 페이지에 이미 반영돼 있어 중복 제외. 팀원 공지 문구 초안 등 일회성 내용 제외

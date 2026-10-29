@@ -1,6 +1,6 @@
 ---
 tags: [nextjs, turborepo, monorepo, npm-workspaces, emotion]
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 # Next.js 16 + Turborepo + npm workspaces 모노레포 세팅
@@ -48,6 +48,21 @@ turbo.json, package-lock.json (루트에 하나만)
 - 검증: `npm run build` 동일한 27페이지 생성, 두 번째 빌드는 Turbo 캐시로 8ms, lint 통과, dev 서버 주요 경로 200. 3000번 포트가 다른 Next 서버에 점유돼 3001로 뜸(기존 서버는 건드리지 않음).
 - 커밋을 둘로 나눔: "이동만"(내용 변경 없음 → 이력 유지 확인 쉬움) / "workspaces·Turborepo 설정". PR 본문 첫 줄 `Closes OPN-6`로 Linear 연동, 팀원은 브랜치 전환 후 루트에서 `npm install` 1회 필요.
 - 배포 전이라 `outputFileTracingRoot`는 넣지 않음. 나중에 Vercel이면 앱마다 프로젝트를 만들고 Root Directory를 `apps/<app>`로, 자체 Docker면 `output: "standalone"` + `outputFileTracingRoot`.
+
+## admin 앱 추가와 앱 이름 정리 (같은 PR #20, 2026-10-29)
+- `apps/admin`을 빈 앱(임시 홈, `dev`·`start` 포트 **3001**)으로 같은 PR에 추가. Next·React·Emotion 버전과 React 컴파일러 설정을 기존 앱과 **똑같이** 맞춤 → 나중에 컴포넌트를 공유할 때 버전 차이로 깨지는 것을 방지. `EmotionRegistry`·`globals.css`·폰트는 일단 복사하고 `packages/ui` 단계에서 한 곳으로 합칠 계획.
+- 앱 이름을 `apps/openapi` → **`apps/user`**로 `git mv` 개명(Figma 페이지명 user/admin과 일치). 이후 `--filter=user`, `npm install <패키지> -w user`. lockfile은 workspace 연결 이름만 바뀜.
+- `npm run dev`는 두 앱을 동시에 띄우므로 포트를 나눠 둬야 하고(user 3000 / admin 3001), 팀 안내에도 "admin은 3001" 한 줄이 필요하다.
+
+## Turbo 설정에서 CodeRabbit 리뷰로 잡은 함정 (PR #20)
+- **`start`에 `dependsOn: ["build"]`를 걸면 안 된다.** Turbo 캐시는 실행한 머신에만 있고 git에 안 올라간다. 새 서버·Docker·CI처럼 캐시가 없는 환경에서는 `.next`가 이미 있어도 `next build`를 다시 돌려, ① 시작이 느려지고 ② 실행 서버에 소스·devDependencies가 없으면 빌드 실패로 서버가 안 뜨며 ③ `next/font/google`(Roboto Mono)은 **빌드 때 Google에서 폰트를 받으므로** 외부 접속이 막힌 서버면 실패한다. 빌드와 실행은 분리하는 게 정석 → `dependsOn` 제거, `build` → `start` 순서는 사람이 지킴. 빌드 없이 `next start`하면 "빌드 결과 없음" 에러로 멈춤. `dev`는 빌드 불필요.
+- **루트 `npm start` 누락**: 루트 scripts에 `start`가 없어 안 됨 → `turbo run start` 추가(앱이 둘이라 둘 다 실행).
+- **빌드 outputs에 `.next/dev` 혼입**: Next 16은 개발 서버 캐시를 `.next/dev`에 두므로 `outputs`에 `"!.next/dev/**"`도 제외.
+- **`PORT=4555 npm run dev`가 무시됨**: Turbo는 `turbo.json`에 선언하지 않은 환경변수를 걸러낸다 → dev·start 작업에 `passThroughEnv: ["PORT"]`. 직접 실행해 무시되는 것을 확인한 뒤 고쳤다.
+
+## 도구 역할 요약
+- **npm workspaces**(바탕): 루트 `package.json`의 `"workspaces": ["apps/*", "packages/*"]` 한 줄. 루트에서 `npm install` 1회로 공용 `node_modules`, 사내 패키지를 npm 게시 없이 `import { Button } from "@xquare/ui"`처럼 사용.
+- **Turborepo**(그 위): 여러 앱에 명령 일괄 실행(`--filter`로 선택), 결과 캐시(6초 → 8ms), 순서 보장. `dependsOn: ["^build"]`의 `^`는 "내가 쓰는 패키지들 먼저".
 
 ## 관련
 - [[Vite-모노레포-워크스페이스-패키지-dev서버-캐시]]

@@ -52,6 +52,8 @@ xquare-openapi-frontend에 admin 앱을 추가하기로 하고, 모노레포로 
 - 댓글 4개(학생 수정 문구 넘침, 학생 목록 학과 칸, 동아리 로고 안내, 동아리실 예시)를 반영하고 같은 문구가 있는 다른 화면도 함께 수정 후 해결 처리. 모순 목록 35건을 주체별(기획 결정 / 예시 데이터 / 용어 / 시각 스타일 / 정리)로 분류해 팀 결정 사항 반영.
 - **모노레포 1단계 완료**: OPN-6, PR #20(develop) — 상세는 [[Next-Turborepo-npm-workspaces-모노레포-세팅]]. 공유 UI 패키지·admin 앱은 다음 이슈. 배포는 아직 안 함.
 
+- **(2026-10-29)** 같은 PR #20에 빈 `apps/admin`(포트 3001) 추가, 앱 이름을 `apps/openapi` → `apps/user`로 개명. CodeRabbit 리뷰로 Turbo `start` 설정 함정 수정 — [[Next-Turborepo-npm-workspaces-모노레포-세팅]].
+
 ## Figma 작업 팁 (Claude 세션에서 확인)
 - 플러그인 API로는 **댓글을 읽을 수 없고**(브라우저로 댓글 패널 확인), 설치되지 않은 폰트(Pretendard)는 불러올 수 없다.
 - 댓글은 로그인된 Chrome(Claude in Chrome)에서 댓글 API로 가져오고, 해결 처리 요청도 같은 경로로 가능(200 응답 후 목록 재조회로 해결 시각 확인). 내장 브라우저는 Figma 로그인이 없어 못 읽음.
