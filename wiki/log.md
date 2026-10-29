@@ -1079,3 +1079,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[ToyVillage-Admin-FE/프로젝트-현황]] — Swagger 차이 9→6 절 추가(백엔드 #232 부분 수정, 남은 6건 목록, 머지≠배포·CD SSH 키 오류, 공지 createdAt 형식 변경 위험), index.md — 해당 요약 갱신
 - 비고: 로고 파일 다운로드 복사, 백엔드 전달 메시지 문구 다듬기 등 일회성 내용 제외
+
+## 2026-10-29 10:03 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 갱신: [[MySQL-로컬-설치와-온오프-명령]] — Docker MySQL과의 3306 충돌 원인·3307 이전(zz- 설정 파일), DataGrip/Spring 연결 4조건·오류 유형·표시 이름 vs DB 이름·백엔드 독립성 절 추가, index.md — 해당 요약 갱신
+- 비고: 계정 비밀번호 조회, 확인용 서버 기동·종료 등 일회성 내용 제외. 비밀번호는 위키에 기록하지 않음
