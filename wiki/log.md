@@ -1090,3 +1090,10 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Next-Turborepo-npm-workspaces-모노레포-세팅]] — admin 앱 추가·user 개명, CodeRabbit 리뷰로 잡은 Turbo 설정 함정(start dependsOn build, .next/dev, PORT passThrough), 도구 역할 요약 절 추가, index.md — 해당 요약 갱신
 - 갱신: [[어드민-도입-모노레포-결정과-Figma-디자인시스템-정리]] — admin 앱 추가·개명 한 줄 추가, index.md — 해당 요약 갱신
 - 비고: Figma 모순 목록·팀 결정·1단계 PR 내용은 기존 페이지에 이미 반영돼 있어 중복 제외. 팀원 공지 문구 초안 등 일회성 내용 제외
+
+## 2026-10-29 10:05 — ingest (Claude Code 세션 자동 캡처)
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 생성: [[설계-점검과-도메인-개념-11월-플랜]]
+- 갱신: [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — PR 연결 인식 조건, GitHub 이슈 동기화(한 방향/양방향 제약), Done 자동 조건, 정리 교훈, 초대·보드 빈 칸 절 추가
+- 갱신: [[프로젝트-현황]] — Linear 운영 방식 확정(동기화·수동 상태·CI 폐기) 기록, index.md — 해당 요약 갱신
+- 비고: 팀원 이메일, 초대 안내·팀원 공지 문구 초안, 브라우저 조작 과정 등 일회성 내용 제외. 설계 점검·11월 플랜은 미결정 제안으로 표시

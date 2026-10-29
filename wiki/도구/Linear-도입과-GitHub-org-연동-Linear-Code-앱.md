@@ -1,6 +1,6 @@
 ---
 tags: [linear, github, 이슈관리, 워크플로]
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 # Linear 도입과 GitHub org 연동 (Linear Code 앱)
@@ -48,9 +48,19 @@ GitHub Issues 중심이던 팀에 Linear를 도입할 때의 개념 대응, 워�
 - **초대**: 사이드바 **Invite people**(또는 Settings → Members)에서 이메일(쉼표 구분)·역할 **Member**·팀 선택 후 전송. Guest는 유료 플랜 전용. 팀이 공개 팀이면 초대 때 팀을 안 골라도 들어와서 직접 참여 가능. 초대 후 Admin 한 명 더 지정.
 - **워크스페이스 이름 결정**: 조직명(`xquare`)이 다른 프로젝트에 이미 쓰이면 프로젝트 전용 이름(`xquare-openapi`)으로 따로 만든다 — Free 한도를 나눠 쓰지 않는 장점.
 
+## PR 자동 연결 조건과 GitHub 이슈 동기화 (2026-10-29)
+- **PR 연결 규칙**: Linear는 브랜치명·PR 제목·PR 본문 **세 곳 중 한 곳**에서 `OPN-숫자`(대소문자 무관)만 찾는다. 인식: `feature/opn-17`, `opn-17-login`, `yunho/opn-17` / 불인식: `feature/17`(팀 키 없음), `feature/#17`(GitHub 이슈 번호), `feature/opn17`(하이픈 없음). `feature/`는 팀 규칙일 뿐. 연결은 브랜치 생성이 아니라 **PR을 열 때** 일어나고, PR을 연 뒤에 제목·본문을 고쳐도 그때 연결된다. `Closes #10`은 GitHub 이슈 닫기이지 Linear와 무관.
+- 브랜치명을 못 바꾸면: PR 본문·제목에 `OPN-36`만 적기, 본문에 Linear 이슈 URL(`Closes https://linear.app/…`), Linear 이슈 `⋯` → **Add pull request…**에 PR 주소 붙여넣기. 안 붙이면 상태는 직접 옮기면 되고 자동화만 안 된다(연동의 핵심 이득이 자동화).
+- 커밋 메시지로 이슈 연결은 webhook을 따로 달아야 해서 꺼져 있고, 커밋에 `OPN-10`을 써도 아무 일 없다.
+- **GitHub 이슈 동기화(GitHub issue sync)**: 한 방향(GitHub→Linear)은 레포 여러 개를 한 팀에 연결 가능, **양방향은 팀 하나에 레포 하나만**. 연결된 이슈는 제목·상태·담당자·라벨·댓글이 양쪽에서 같이 바뀐다. **켠 뒤에 새로 만든 이슈에만 적용**되어 기존 GitHub 이슈는 안 넘어온다. 양방향을 레포 2개에 쓰려면 팀을 둘로 나눠야(Free 팀 2개 소진, 이슈 번호·브랜치 키 변경, GitHub 라벨 두 벌, 제목 `[FEAT]` 접두사 소실) 해서 한 방향을 택했다.
+- **동기화 구성에서의 상태 전환**: `opn`이 없으면 In Progress·In Review는 수동. Done은 PR 머지 시 GitHub가 연결된 이슈를 닫고 그 상태가 동기화되어 Linear도 Done이 될 것으로 보이나 **실측 전**. 단 GitHub 자동 닫기는 PR이 **레포 기본 브랜치**로 머지될 때만이라, 기본 브랜치가 `main`인데 PR을 `develop`/feature 브랜치로 보내는 레포(백엔드)는 안 닫혀 Done도 수동이다.
+- **정리 시 교훈**: 동기화를 켜면 Linear에만 만든 이슈는 GitHub에 없어 팀원이 같은 이슈를 GitHub에 다시 만들면 Linear에 중복이 생긴다. 이슈는 사람이 만들게 하고 AI는 만들지 않기로 했으며(사용자 지시), 임의로 만든 이슈 26개는 일괄 삭제(30일간 "Recently deleted"에서 복구 가능). PR 연결 확인용 CI(lint·build + Linear ID 체크)도 상태를 수동 관리하기로 하면서 의미가 없어져 PR을 머지 없이 닫았다 — 빌드·린트 CI 자체는 Linear와 무관하게 유용.
+- **Free 플랜 초대는 전원 Admin**으로 들어가므로 관리자를 따로 더 지정할 필요가 없다. 초대 목록은 Settings → Administration → Members의 **Invited** 칸(수락하면 Active), 다른 이메일로 로그인하면 초대가 연결되지 않는다.
+- **보드에서 칸이 사라져 보일 때**: 이슈 0개인 상태 칸은 기본 숨김(Hidden columns). Display(오른쪽 위 가운데 슬라이더 아이콘) → **Show empty columns**로 고정. Active 탭은 Todo·In Progress·In Review만, Backlog·Done까지 보려면 **All issues** 탭.
+
 ## 관련
 - [[GitHub-closing-keyword-기본브랜치-PR-자동닫힘과-코드오너-룰셋]] — GitHub 쪽 닫기 키워드 동작
 - [[xquare-openapi-frontend/프로젝트-현황]] — 이 도입이 적용된 프로젝트
 
 ## 출처
-- Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend, 2026-10-28)
+- Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend, 2026-10-28, 2026-10-29)
