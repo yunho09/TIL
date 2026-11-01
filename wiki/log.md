@@ -1108,3 +1108,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[GNOME-알림-배너-위치-오른쪽-이동-확장]] — 배너 디자인·유리 효과·알림 목록 통일, 두 번 클릭 원인과 3초 활성화 수정(리뷰 보완 포함), 독 압력·Pretendard·fontconfig 캐시 절 추가
 - 갱신: index.md — 해당 요약 갱신
 - 비고: 테스트 알림 띄우기·재로그인 요청 등 일회성 대화 제외
+
+## 2026-11-01 23:01 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.config/Claude/scratch-workspaces/68eef3b8-da94-4db5-b563-9565e29705a3/4cebf249-3d72-4a77-a55b-e742194ef06a/scratch-2026-11-01-746b8d)
+- 생성: [[GitHub-Projects-칸반-보드-위치와-draft-카드-gh-권한]]
+- 갱신: index.md — 도구 섹션에 항목 추가
+- 비고: xquare 이슈 #4, #22~24 목록 등 특정 시점 작업 현황과 대화 진행은 일회성이라 버림.
