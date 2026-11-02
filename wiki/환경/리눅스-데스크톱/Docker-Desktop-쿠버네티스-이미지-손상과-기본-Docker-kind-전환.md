@@ -1,9 +1,21 @@
 ---
 tags: [docker, kubernetes, kind, kubectl, docker-desktop, 리눅스]
-updated: 2026-10-27
+updated: 2026-11-03
 ---
 
 Docker Desktop 내장 쿠버네티스로 로컬 클러스터를 만들었더니, 이미지 다운로드가 중간에 끊긴 뒤 **내부 이미지 3개의 바이너리가 잘린 채로 남아** LoadBalancer가 `<pending>`에 멈췄다. 이후 가상 컴퓨터(VM) 층이 없는 **기본 Docker Engine + kind**로 갈아타 메모리를 약 3.9GB → 1GB로 줄였다. 두 구성의 차이와 함정을 정리한다. (2026-10-24 작업)
+
+## 기본 개념 (입문용)
+
+- **이미지**: 프로그램+실행에 필요한 것을 묶은 파일(설계도). **컨테이너**: 그 이미지를 실제로 실행한 것.
+- **클러스터**: 쿠버네티스가 관리하는 컴퓨터 묶음. **노드**: 그 안의 컴퓨터 한 대. 회사는 수십 대지만 로컬 연습용은 1대(여기선 노드 자체가 컨테이너).
+- **파드**: 쿠버네티스가 컨테이너를 다루는 최소 단위(보통 파드 1개=컨테이너 1개).
+- **디플로이먼트**: "이 이미지로 파드 N개를 항상 유지"하는 주문서. 파드가 죽으면 새로 켠다.
+- **서비스**: 파드 앞의 고정 창구. 파드는 죽고 새로 생길 때마다 IP가 바뀌므로 필요. **LoadBalancer** 타입은 클러스터 밖(브라우저)에서 접속하게 열어 준다.
+- **kubectl**: 클러스터에 명령하는 CLI. **컨텍스트**는 kubectl이 지금 조종하는 클러스터(`docker-desktop`, `kind-kind`).
+- "kubectl 잘 되게 + 클러스터 숙제"는 **kubectl 설치 + 로컬 클러스터 하나 띄워 `kubectl get nodes`가 Ready로 나오게** 하는 것이었다(사용자 확인: 만들기만 하면 됨).
+- 확인용 최소 실습: `kubectl create deployment hello --image=nginx` → `kubectl get pods` → `kubectl expose deployment hello --port=80 --type=LoadBalancer`(Desktop) → 끝나면 `kubectl delete deployment,service hello`.
+- kubectl은 dl.k8s.io에서 받아 `sha256sum --check`로 검증 후 `~/.local/bin`에 설치.
 
 ## Docker Desktop 내장 쿠버네티스 (kind 모드)
 
