@@ -18,6 +18,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[독-실행-점-사라짐-런처-수정-직후-재실행]] — 창은 있는데 독 아이콘에 실행 점이 없는 증상의 원인: `.desktop` 런처 수정과 앱 재실행이 같은 초라 GNOME이 창을 옛 런처에 묶어 둠, 정상 종료 후 런처로 재실행해 해결, 런처 수정 후 1~2초 기다렸다 실행 (2026-10-21)
 
 ### 환경/리눅스-데스크톱
+- [[Docker-credsStore-테스트-때-암호-창-반복]] — Gradle 테스트(컨테이너 기동)마다 암호 창이 뜨던 원인은 `~/.docker/config.json`의 `credsStore`(pass 복호화 호출), 줄 삭제로 해결·백업 복원법, 익명 pull 제한·`docker login` 평문 저장 주의, Docker Desktop 재시작 시 복귀 여부는 미확인 (2026-11-02)
 - [[NPU-미사용-원인-Core-Ultra-Ubuntu-26.04]] — NPU가 안 쓰이는 이유: 커널 드라이버·펌웨어·권한은 정상이나 유저 드라이버(`intel-npu-driver`)·`libze1`·OpenVINO·NPU 앱이 없고 26.04 apt에도 없음, 손해는 작다는 판단, 나중에 쓸 때 설치 경로(snap)와 RAM 공유 제약 (2026-11-02)
 - [[Galaxy-Book5-지문인식-Egis-SDCP-libfprint-포크]] — Egis `1c7a:05a5` 센서를 Ubuntu 기본 libfprint가 미지원("No devices available")하는 문제를 SDCP 커뮤니티 포크 빌드·`libfprint-2.so.2` 교체로 해결, Windows Hello 잔존 지문 `enroll-duplicate`→칩 비우기, 단계당 10초 제한·시간 초과 후 fprintd 죽는 버그(PR #5), apt 업데이트 덮어쓰기 훅, PAM `max-tries=3` 별도 프로필(`fprintd-retry`) (2026-11-02)
 - [[Electron-Wayland-한글-IME-Chromium136-기본-활성화]] — `--enable-wayland-ime`·text-input-v3 플래그가 Chromium 136(Electron 36)부터 기본 동작이라 기본값으로 넣으면 효과 없고 `disable-wayland-ime`만 막힘, `WAYLAND_DEBUG` 실측과 진단 순서 (2026-10-28)
