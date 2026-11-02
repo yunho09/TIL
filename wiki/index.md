@@ -18,6 +18,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[독-실행-점-사라짐-런처-수정-직후-재실행]] — 창은 있는데 독 아이콘에 실행 점이 없는 증상의 원인: `.desktop` 런처 수정과 앱 재실행이 같은 초라 GNOME이 창을 옛 런처에 묶어 둠, 정상 종료 후 런처로 재실행해 해결, 런처 수정 후 1~2초 기다렸다 실행 (2026-10-21)
 
 ### 환경/리눅스-데스크톱
+- [[NPU-미사용-원인-Core-Ultra-Ubuntu-26.04]] — NPU가 안 쓰이는 이유: 커널 드라이버·펌웨어·권한은 정상이나 유저 드라이버(`intel-npu-driver`)·`libze1`·OpenVINO·NPU 앱이 없고 26.04 apt에도 없음, 손해는 작다는 판단, 나중에 쓸 때 설치 경로(snap)와 RAM 공유 제약 (2026-11-02)
 - [[Galaxy-Book5-지문인식-Egis-SDCP-libfprint-포크]] — Egis `1c7a:05a5` 센서를 Ubuntu 기본 libfprint가 미지원("No devices available")하는 문제를 SDCP 커뮤니티 포크 빌드·`libfprint-2.so.2` 교체로 해결, Windows Hello 잔존 지문 `enroll-duplicate`→칩 비우기, 단계당 10초 제한·시간 초과 후 fprintd 죽는 버그(PR #5), apt 업데이트 덮어쓰기 훅, PAM `max-tries=3` 별도 프로필(`fprintd-retry`) (2026-11-02)
 - [[Electron-Wayland-한글-IME-Chromium136-기본-활성화]] — `--enable-wayland-ime`·text-input-v3 플래그가 Chromium 136(Electron 36)부터 기본 동작이라 기본값으로 넣으면 효과 없고 `disable-wayland-ime`만 막힘, `WAYLAND_DEBUG` 실측과 진단 순서 (2026-10-28)
 - [[PC-중복-설치-정리-Homebrew-도입]] — Linuxbrew 도입 후 apt/수동 설치와 중복되던 tmux·mise를 brew로 통일(브랜드 tmux client가 기존 apt tmux server 세션에 그대로 재접속돼 끊김 없이 교체 가능했다는 사실 포함), 로그인 셸(zsh)·essential 패키지(bash)는 위험해서 보류, ghostty deb/snap 중복(brew ghostty는 macOS 전용이라 대체 불가), wezterm·postman/notion snap·`.nvm` 등 앱 교체로 죽어있던 설치본 판별법(libfuse2 없는 AppImage, 실행 경로 교체 시점 대조), `.desktop` 오버라이드가 중복이 아니라 XDG 우선순위로 snap을 가리는 의도된 구조라는 것, docker-ce/Docker Desktop 이중설치·codex 설치 깨짐은 미해결로 남김
