@@ -1120,3 +1120,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Galaxy-Book5-지문인식-Egis-SDCP-libfprint-포크]]
 - 갱신: index.md — 환경/리눅스-데스크톱 섹션에 항목 추가
 - 비고: 빌드 로그 출력, 등록 재시도 중간 과정, `!` 명령 안내 등 일회성 진행은 버림.
+
+## 2026-11-02 17:02 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 갱신: [[프로젝트/clawd-on-desk/프로젝트-현황]] — 펫 HUD에서 Orca 세션이 안 올라오던 원인과 포커스 헬퍼 수정 절 추가
+- 갱신: index.md — 해당 요약 갱신
+- 비고: 디버깅 스킬 본문, 확인 인사 등 일회성 대화 제외.
