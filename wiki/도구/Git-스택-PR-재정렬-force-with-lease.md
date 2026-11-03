@@ -1,6 +1,6 @@
 ---
 tags: [git, github, stacked-pr, claude-code]
-updated: 2026-09-17
+updated: 2026-11-03
 ---
 
 # Git 스택 PR 재정렬과 force-with-lease 안전 푸시
@@ -47,5 +47,14 @@ Claude Code의 auto 권한 모드는 `git push --force`류를 `[Git Destructive]
 
 재정렬 전 각 브랜치의 SHA를 파일로 저장해두면(`git rev-parse <branch>` 결과 모음), rebase가 잘못됐을 때 `git reset --hard <저장된 SHA>`로 즉시 원상복구할 수 있다. lease 값으로도 재사용되므로 재정렬 시작 시점에 한 번만 저장해두면 이중으로 쓸모 있다.
 
+## 스택 PR 머지 규칙 (2026-11-03 추가, JKYMHS-Backend)
+
+- 이슈마다 브랜치를 앞 이슈 위에 쌓고 각 PR의 base를 **바로 앞 브랜치**로 잡으면 뒤 PR에는 그 이슈에서 바뀐 것만 보인다. 나란히 따로 따면 `ErrorCode`·`SecurityConfig`처럼 같은 파일을 여러 이슈가 고쳐 충돌이 계속 난다.
+- **머지는 "Create a merge commit"**: Squash/Rebase는 커밋 해시를 바꿔 위 PR에 앞 커밋이 중복으로 보이거나 충돌한다.
+- **머지 때 브랜치를 반드시 삭제**해야 GitHub가 다음 PR의 base를 자동으로 `develop`으로 바꾼다. 저장소 `deleteBranchOnMerge`가 꺼져 있으면 머지 화면에서 직접 "Delete branch".
+- CodeRabbit은 base가 `develop`/`main`인 PR만 자동 리뷰하므로 쌓인 PR에서는 `@coderabbitai review` 댓글로 요청한다. 코멘트가 옛 코드에 달려 "Outdated" 처리가 안 된 채 열려 있을 수 있어, 이미 고쳤으면 "Resolve conversation" 후 머지.
+- 앞 이슈 리뷰로 공용 API(예: 로그인 잠금)가 바뀌면 뒤 브랜치를 새 앞 브랜치 위로 rebase하고 이미 올린 PR은 force push(리뷰 전이라 영향 작음). 후속 PR은 `git rebase --onto develop <옛 base 커밋> <브랜치>`로 develop 위에 옮긴다.
+
 ## 출처
+- Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend) — [[JKYMHS-Backend/인증-API-구현과-PR-리뷰-결정사항]]
 - Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2) — [[프로젝트/JOBIS-FE-V2/프로젝트-현황]] (#146 스택 11개 브랜치, 코드 리뷰로 스택 어긋남 4곳 발견·재정렬)

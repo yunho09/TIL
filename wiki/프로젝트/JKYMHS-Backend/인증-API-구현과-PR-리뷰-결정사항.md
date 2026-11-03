@@ -1,0 +1,48 @@
+---
+tags: [Spring, 인증, PR, JKYMHS, 어디갈래]
+updated: 2026-11-03
+---
+# JKYMHS-Backend 인증 API 구현(#2~#6, #13)과 PR 읽기 순서·결정사항
+
+"어디갈래" 백엔드의 인증을 이슈별 스택 PR(#7~#12)로 구현하고, FE 요청으로 쿠키·`code` 필드를 후속 PR(#13)로 분리한 기록. 구현 패턴과 함정은 [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]], 현황·ERD 매핑은 [[JKYMHS-Backend/프로젝트-현황]].
+
+## PR 구조 (2026-11-03 기준, 전부 미머지)
+| 이슈 | PR | base | 내용 |
+|---|---|---|---|
+| #1 공통 기반 | #7 | develop | `BaseTimeEntity`, `JpaAuditingConfig`, `ErrorCode`/`CustomException`/`ErrorResponse`/`GlobalExceptionHandler`, Redis 타임아웃 2초 |
+| #2 회원·Security·JWT | #8 | #7 | `User`, `RefreshToken`, JWT 필터/프로바이더, `SecurityConfig`, `TokenService`, `LoginAttemptService`, Redis 유틸 |
+| #3 이메일 인증 | #9 | #8 | 인증 메일 발송·검증(Mailpit로 로컬 확인) |
+| #4 가입·로그인 | #11 | #8 | `AuthService`, 약관 동의 |
+| #5 재발급·로그아웃 | #12 | #11 | rotation, 탈취 시 전체 폐기 |
+| #6 구글 로그인 | #10 | #8 | `LOGGED_IN`/`LINK_REQUIRED`/`SIGNED_UP` 3갈래 |
+| 후속 | #13 | (#7~#12 머지 후 develop) | `code` 필드, 리프레시 쿠키, CORS, 재발급 10초 유예, `family_id` |
+
+- 스택 방식과 머지 규칙은 [[Git-스택-PR-재정렬-force-with-lease]]. 머지 순서 #7 → #8 → #9·#11·#10 → #12.
+- 병렬 작업은 갈래마다 **수정 가능한 공용 파일을 미리 지정**(`build.gradle`은 #3만, `User.java`는 #6만 등)해 충돌을 막고, 여러 이슈가 같이 쓰는 코드(인증 에러 코드 전체·토큰 발급·로그인 잠금·IP 제한)는 #2에 먼저 넣었다.
+- 읽기 권장 순서: #8 → #9 → #11 → #12 → #10 → #13. 핵심은 `SecurityConfig` → `JwtAuthenticationFilter` → `JwtProvider` → `JwtAuthenticationEntryPoint` → `TokenService.issue()` → `LoginAttemptService` → `AuthService.signup()/login()` → `TokenService.reissue()` → `GoogleAuthService.login()`. `TestContainers`·`IntegrationTestSupport` 내부와 Lua 문법은 후순위.
+
+## 명세에 없어서 정한 것 / 열린 결정
+- 비밀번호 재설정 인증 메일은 **가입 안 된 이메일이어도 같은 200**(실제 메일은 안 보냄). 다만 가입된 이메일일 때만 실제 발송하므로 응답 시간으로 가입 여부 추측 가능 — 막으려면 비동기 발송이 필요하고, 그러면 발송 실패를 502로 못 알린다(미결).
+- 구글 가입(`SIGNED_UP`) 직후 "필수 약관 동의 전 다른 API 403"과 약관 동의 저장 API는 이슈에 "P1에서 결정"이라 **미구현**(현재는 동의 없이도 다른 API 사용 가능).
+- 구글: 같은 이메일 계정이 이미 다른 구글 계정과 연결돼 있으면 `LINK_REQUIRED`가 조용히 덮어쓰므로 409 `EMAIL_ALREADY_EXISTS`. `login`에는 `@Transactional`을 걸지 않는다(구글 호출 동안 DB 커넥션 점유 방지) — 대가로 가입 직후 토큰 발급이 실패하면 계정만 남아 다음 구글 로그인이 `LOGGED_IN`이 된다. 구글 sub는 클라이언트에 주지 않고 `GoogleLinkTokenService` 토큰으로 대신한다. 구글 4xx 본문은 warn 로그(클라이언트 ID/시크릿 오류도 "인가 코드 만료·재사용"처럼 보여서).
+- 토큰 유효기간(액세스 30분·리프레시 14일)은 명세에 "제안값". 탈취 판단 범위("그 기기 family만 vs 전 기기")는 명세대로 전 기기 유지, 미결.
+- 배포 구성: 프록시 뒤면 `getRemoteAddr()`가 프록시 IP 하나라 IP 제한이 전원을 묶는다. `X-Forwarded-For`는 신뢰 프록시 설정 없이 읽으면 위조 가능.
+- 배포 도메인이 정해져야 쿠키(`SameSite`)·CORS 설정이 확정된다.
+- 로그아웃의 `FOR UPDATE`: 에이전트는 제거 권고(벌크 UPDATE가 같은 행을 이미 기다림, 제거 시 deadlock 197→114/300, 탈취 처리 패배 95→0), 현재는 유지. deadlock은 의도적으로 강제한 경합 수치이며 실제 운영 빈도 아님.
+- 노션 명세 정비: 에러 `code`를 API 명세 42페이지에 추가(14개 신규 이름은 팀 확인 필요: `INVALID_CURRENT_PASSWORD`, `IDENTITY_VERIFICATION_FAILED`, `GOOGLE_NOT_LINKED`, `PASSWORD_ALREADY_SET`, `PASSWORD_REQUIRED_FOR_UNLINK`, `ONBOARDING_ALREADY_DONE`, `REQUIRED_CONSENT_CANNOT_REVOKE`, `SCHEDULE_VERSION_CONFLICT`, `SCHEDULE_ITEM_DUPLICATE`, `SCHEDULE_ALREADY_ENDED`, `REQUIRED_CONTENT_MISMATCH`, `VISIT_CHECK_NOT_AVAILABLE`, `CALENDAR_PERMISSION_DENIED`, `CURSOR_VERSION_MISMATCH`). 일정 1개→코스 3개 변경 반영 중 — **AI를 몇 번 호출해 코스 3개를 만들지, 실패 시 FALLBACK도 3개인지, 코스 3개일 때 지도·식사 목록 UI, ERD의 `courseId` 보존 여부는 미정**. 기능 명세 FUNC-001-01(토큰 전부 쿠키)·001-07(비밀번호 "정확히 6자")·001-09/10은 아직 새 규약과 불일치.
+- ERD에 추가할 컬럼: `refresh_tokens.rotated_at`, `refresh_tokens.family_id`.
+- 노션 에러 코드 DB는 API 명세 기준(410, 423, 비밀번호 8~20자, 인증 토큰 만료 401)으로 고쳐야 함. 로그인 잠금은 PRD가 429, API 명세가 423 — 423 유지.
+- 의미 규칙 질문: 모든 401이 "인증이 필요합니다."인지(코드에는 다른 문구의 401이 5개) / `JwtAuthenticationEntryPoint` javadoc의 "401이면 FE가 토큰 재발급"은 재발급 엔드포인트 자신의 `INVALID_REFRESH_TOKEN`에서 루프를 만든다.
+
+## 공통 에러 응답 구조 (#7, #13)
+- 응답: `{ message, status, timestamp, description }`, #13부터 맨 앞에 `code`(= `ErrorCode` 상수명, 이름을 바꾸면 FE가 깨짐). `ErrorCode`에 없는 Spring 4xx(415 등)는 `INVALID_INPUT`.
+- `CODE_RESEND_COOLDOWN`을 IP 제한과 분리해 FE가 구분 가능하게 함. 인증 메일 발송 429는 재전송 제한/IP 제한으로 나뉘고 메일 발송 실패는 502.
+- 클래스 읽는 법은 [[스프링-CRUD-계층구조]]의 "ErrorCode·CustomException 상세" 참고.
+
+## 작업 중 확인된 사실
+- 병렬 에이전트 결과를 합치기 전에 서로 merge해 충돌 여부를 확인했고, Gradle이 `UP-TO-DATE`로 0.6초에 끝나 "통과"처럼 보인 적이 있어 테스트 재확인은 `cleanTest test`로 강제했다.
+- 멈추라는 메시지가 도착하기 전에 에이전트가 이미 커밋·테스트를 끝냈다 → 보고서에 "테스트 안 돌림"이라 쓰면 거짓. 실제 결과(214 통과)를 그대로 PR 초안에 유지.
+- 동시 20번 검증 테스트가 5/200으로 간헐 실패(`attempt > MAX_ATTEMPTS` 분기의 `delete`가 키를 먼저 지워 아무도 토큰을 못 받음) → 삭제 한 줄 제거로 0/400.
+
+## 출처
+- Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)

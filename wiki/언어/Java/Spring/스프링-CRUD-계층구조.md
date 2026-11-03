@@ -96,6 +96,15 @@ public class PostService {
 - 서비스 메서드는 **빠르고 공짜인 검사(멤버 확인·재료 존재)를 먼저, 느리고 비용 드는 호출(Gemini)은 그 뒤에**. 거절된 요청이 호출 횟수 제한을 소모하지 않게 하는 순서도 이 때문.
 - 서비스에 `new` 없이 쓰이는 필드는 `@RequiredArgsConstructor`(final 필드 생성자 자동 생성)+`@Service` 빈의 생성자 주입 → [[빈과-DI]]. `@Transactional` 대신 `TransactionTemplate`로 저장 구간만 감싸는 이유는 [[Spring-Boot-4-JPA-실전-함정-메모]].
 
+### ErrorCode·CustomException·ErrorResponse·GlobalExceptionHandler 상세 (2026-11-03 추가, JKYMHS-Backend)
+
+- **`ErrorCode`**: 값마다 `HttpStatus`+문구를 가진 enum(`@Getter`+`@RequiredArgsConstructor`로 getter·final 필드 생성자 생성). `HttpStatus`는 Spring이 만든 상태코드 enum(`getStatus().value()`가 숫자). 같은 409라도 `EMAIL_ALREADY_EXISTS`/`GOOGLE_ONLY_ACCOUNT`처럼 상태코드만으론 구분이 안 돼 이름·문구를 따로 붙인다. `@Getter`는 모든 필드, `@RequiredArgsConstructor`는 초기값 없는 final 필드만 대상.
+- **`CustomException extends RuntimeException`**: `errorCode`+`description`을 담는다. 1인자 생성자는 `this(errorCode, errorCode.getMessage())`로 description을 기본 문구로 채우고 2인자가 실제 저장. `super(errorCode.getMessage())`는 부모의 message 자리를 채워 `e.getMessage()`·로그용이며 **응답에는 쓰이지 않는다**(응답 `message`는 ErrorCode, 커스텀 문구는 `description`). 서비스가 직접 판단한 규칙 위반만 던지고, 입력 형식은 `@Valid`, 예상 못 한 오류는 그냥 올려 500.
+- **`ErrorResponse`**: `record`(`message`, `status`, `timestamp`, `description`; 접근자에 `get` 없음). `of(...)` 정적 팩토리 3개가 오버로딩으로 ①→②→③ 순서로 채워 넘기고 실제 생성은 ③(`HttpStatusCode` 받음 — Spring 415처럼 `ErrorCode` 없는 에러용).
+- **`GlobalExceptionHandler`**(`@RestControllerAdvice`+`@ExceptionHandler`): 가장 구체적인 타입의 핸들러가 선택되고 파일 순서는 무관. `CustomException`→ErrorCode 상태, `MethodArgumentNotValidException`→400(첫 필드 문구가 message, 전체 `필드: 문구`가 description), 깨진 JSON·파라미터 누락→400, `NoResourceFoundException`→404, 메서드 불일치→405(`Allow` 헤더), Redis 연결 실패·타임아웃→503, 그 외 `Exception`→500. 마지막 안전망에서 Spring `ErrorResponse` 인터페이스의 4xx는 원래 상태를 유지하지 않으면 415 등이 500이 된다(우리 `ErrorResponse`와 이름이 겹쳐 Spring 쪽은 FQN). 컨트롤러 단계 예외만 처리하므로 Security 필터의 401/403은 `HandlerExceptionResolver`로 넘겨야 한다 → [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]].
+- Redis `timeout`/`connect-timeout`을 2초로 두면 Redis가 멈춰도 요청이 오래 매달리지 않고 위 핸들러가 503으로 응답.
+- JPA Auditing: `BaseTimeEntity`(`@MappedSuperclass`+`@EntityListeners(AuditingEntityListener)`+`@CreatedDate/@LastModifiedDate`, 생성 시각 `updatable=false`)는 `@EnableJpaAuditing`이 없으면 시각이 `null`. 메인 클래스가 아니라 별도 `JpaAuditingConfig`에 둔다.
+
 ## 확인 문제
 
 > [!question]- Q1. "제목 없는 글 거부" 검증은 Controller/Service/Repository 중 어디에? 왜?

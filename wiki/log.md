@@ -1192,3 +1192,12 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[공지사항-날짜-시간-제거]]
 - 갱신: index.md — 프로젝트/ToyVillage-Admin-FE 섹션에 한 줄 추가
 - 비고: 스킬 본문(TDD)·진행 멘트·이슈/PR 생성 절차·개발 서버 안내 제외. 프로젝트-현황.md는 267KB로 너무 커서 새 페이지로 분리.
+
+## 2026-11-03 20:28 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
+- 생성: [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]], [[JKYMHS-Backend/인증-API-구현과-PR-리뷰-결정사항]]
+- 갱신: [[Git-스택-PR-재정렬-force-with-lease]] — 스택 PR 머지 규칙(merge commit, 브랜치 삭제, CodeRabbit) 추가
+- 갱신: [[스프링-CRUD-계층구조]] — ErrorCode·CustomException·ErrorResponse·GlobalExceptionHandler 상세와 JPA Auditing 추가
+- 갱신: [[JKYMHS-Backend/프로젝트-현황]] — 인증 PR 현황과 ERD 구현 차이 요약, 관련 링크
+- 갱신: index.md — 신규 2건 추가, 기존 3건 요약 보충
+- 비고: 진행 멘트·서브에이전트 핸드백·팀원/대회 안내 붙여넣기·IntelliJ 심볼릭 링크 문제(기존 [[IntelliJ-심볼릭-링크-중복-루트로-New-Java-Class-안-뜸]]에 있음)·파일별 읽기 안내·컴팩트 요약 제외. 브라우저 동작(Safari 등)과 코스 3개 생성 방식은 미확인/미정이라 그대로 표기.
