@@ -1186,3 +1186,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[엑셀-다운로드-API-연동]]
 - 갱신: index.md — 프로젝트/ToyVillage-Admin-FE 섹션에 한 줄 추가
 - 비고: 코드 한 줄씩 설명·승인 명령 안내·develop 로컬 서버 여닫기·스킬 본문·컴팩트 요약·진행 멘트 제외. 다운로드 실패 원인은 미확인이라 열린 질문으로만 기록.
+
+## 2026-11-03 19:18 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-4)
+- 생성: [[공지사항-날짜-시간-제거]]
+- 갱신: index.md — 프로젝트/ToyVillage-Admin-FE 섹션에 한 줄 추가
+- 비고: 스킬 본문(TDD)·진행 멘트·이슈/PR 생성 절차·개발 서버 안내 제외. 프로젝트-현황.md는 267KB로 너무 커서 새 페이지로 분리.
