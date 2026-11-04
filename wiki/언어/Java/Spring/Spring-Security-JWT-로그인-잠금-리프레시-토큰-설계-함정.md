@@ -1,6 +1,6 @@
 ---
 tags: [Spring, Security, JWT, Redis, Testcontainers, MySQL]
-updated: 2026-11-03
+updated: 2026-11-04
 ---
 # Spring Security JWT 인증 구현 — 로그인 잠금·리프레시 토큰 설계와 리뷰에서 재현된 함정
 
@@ -57,6 +57,15 @@ Spring Boot 4.1 / Security 7.1 / jjwt 0.13 기반 인증을 구현하고 별도 
 ## SSE 대신 폴링을 택한 이유 (작업 상태 갱신)
 - 규모(동시 수십 명)에서 폴링 부하는 1~1.5초당 단순 조회 정도라 문제 없고 SSE로 줄어드는 건 최대 1~2초 지연뿐(실측이 아니라 계산).
 - 브라우저 기본 `EventSource`는 `Authorization` 헤더를 못 붙이고, 쿠키는 `Path=/api/auth`라 SSE 경로엔 안 간다 → 인증을 따로 설계해야 한다. 연결 수명·하트비트·프록시 버퍼링·재연결 복원, 서버 증설 시 Redis pub/sub까지 따라온다.
+
+## `User` 엔티티·`SecurityConfig` 읽기 메모 (2026-11-04 보충)
+- **DB unique 제약은 `existsByEmail` 확인이 있어도 필요**: 같은 이메일로 동시에 가입 요청이 오면 둘 다 확인을 통과할 수 있고, 그때 두 번째 저장을 DB가 막는다. `google_sub`의 unique는 MySQL이 `NULL`을 여러 개 허용해서 구글 미연결 회원이 많아도 충돌하지 않는다.
+- 가입 방식별 컬럼: 이메일 가입=`passwordHash`만, 구글 가입=`googleSub`·`googleEmail`만, 가입 후 연결=셋 다. `googleEmail`은 가입 이메일과 다를 수 있어 따로 저장. `hasPassword()`가 false면 구글 전용 계정.
+- 생성자를 `private`+정적 팩토리(`createWithPassword`, 구글은 `createWithGoogle`)로 막아 이메일 가입에 구글 값이 섞이거나 온보딩 상태가 `NOT_STARTED`가 아닌 채로 만들어지는 걸 방지. JPA용 `@NoArgsConstructor(PROTECTED)`, setter 없음. id는 `Long`(저장 전 `null`로 미저장 구분), `IDENTITY`=MySQL `AUTO_INCREMENT`.
+- `OnboardingStatus`(`NOT_STARTED`/`SKIPPED`/`DONE`)는 이름만 있으면 되는 enum이라 필드·`@Getter`가 없다. 인증 PR들에는 값을 바꾸는 코드가 없어 온보딩 기능에서 변경 메서드를 추가해야 한다.
+- 세션을 안 쓰는 설정: `csrf`·`formLogin`·`httpBasic`·`logout`을 끄고 `SessionCreationPolicy.STATELESS`. 직접 만든 JWT 필터는 `addFilterBefore(…, UsernamePasswordAuthenticationFilter.class)`로 Security 필터 사이에 끼운다. 컨트롤러에서는 `@AuthenticationPrincipal Long userId`로 꺼낸다. 비밀번호용 `PasswordEncoder`(BCrypt)는 빈으로 등록.
+- `JwtProperties`(`jwt.*`)는 값이 없거나 키가 32바이트 미만이면 서버가 시작되지 않는다(`JWT_SECRET` 누락 시 기동 실패를 실제 서버로 확인).
+- 로그인 잠금 사용 순서: `start(email)`(잠겨 있으면 423) → 비밀번호 틀리면 `recordFailure`(5번째면 423)+401 → 성공하면 `reset`. Lua는 잠금 시각이 안 지났으면 `-1`, 지났으면 기록 삭제 후 재시작 → 카운트+1·TTL 10분 → 5 이상이면 잠금 시각 저장.
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)

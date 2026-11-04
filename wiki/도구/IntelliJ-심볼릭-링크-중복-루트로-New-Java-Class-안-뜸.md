@@ -1,6 +1,6 @@
 ---
 tags: [IntelliJ, Gradle, 심볼릭링크, Java]
-updated: 2026-10-09
+updated: 2026-11-04
 ---
 # IntelliJ 심볼릭 링크 중복 루트로 New → Java Class가 안 뜸
 
@@ -20,6 +20,15 @@ updated: 2026-10-09
 2. 중복 루트는 우클릭 → **Remove from Project**.
 3. 프로젝트는 심볼릭 링크 경로가 아닌 실경로(`/data/project/...`)로 연다.
 4. 그래도 안 뜨면 Gradle 탭의 Reload All Gradle Projects로 소스 루트 마킹 복구.
+
+## 같은 원인의 다른 증상: 코드 색이 키워드에만 들어옴 (2026-11-04 보충)
+- `public`·`class` 같은 키워드만 색이 있고 `@Getter`·`this.errorCode` 같은 필드·애너테이션은 단색이며, 에디터 우측 상단에 분석 꺼짐 표시(`OFF`)가 보였다. 코드 문제가 아니고 실행에도 영향 없다.
+- 단서: 상태바에 `Importing '…' Gradle Project`가 떠 있고, 왼쪽 트리에 같은 프로젝트가 `/data/project/…`와 `~/project/…`로 **두 번** 나왔다. 프로젝트를 심볼릭 링크 경로(`~/project`)로 열었는데 Gradle은 실경로(`/data/project`)를 보고 있어, 링크 쪽에서 연 파일을 프로젝트 소스로 인식하지 못해 의미 분석(semantic highlighting)이 안 됐다고 추정(설정·로그 기반 추정).
+- 해결: `File > Close Project` → 시작 화면 `Open`에서 **실경로 `/data/project/JKYMHS-Backend`** 선택 → 상태바 `Importing…`이 사라질 때까지 대기(로그상 약 20초) → 파일 다시 열기. 결과: 트리에 프로젝트 하나, 색 복구.
+- 확인법: 메서드 이름(`getMessage`)을 Ctrl+클릭해 정의로 이동하면 분석이 정상.
+- 그래도 `OFF`면: `OFF`에 마우스를 올려 이유 확인 → `File`의 Power Save Mode 체크 해제 → Highlight 수준을 `All Problems`로. 안 되면 Gradle 탭 새로고침, `File > Invalidate Caches…` 후 재시작.
+- `/data`는 홈(`~`) 안이 아니라 루트(`/`) 바로 아래에 있다. 열기 창 경로 입력칸에 `/data/project/JKYMHS-Backend`를 직접 붙여넣는 게 가장 쉽다.
+- 우하단 `Plugin error`(JetBrains AI Assistant 버전 불일치 알림)는 색 문제와 무관.
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)

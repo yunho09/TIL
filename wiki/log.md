@@ -1214,3 +1214,11 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[403-일색-서버에서-탭-간-토큰-재발급-경쟁과-Web-Locks-설계]] — #278 원인 후보 3가지 추가
 - 갱신: index.md — 위 2건 요약 보충
 - 비고: 벨로그 주제 추천·초안 작성/수정 지시·Notion 편집·진행 멘트·스킬 본문·task 알림 제외. 재방문 퇴보의 구조적 원인과 로그아웃 원인은 미확인/미재현으로 표기.
+
+## 2026-11-04 19:35 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
+- 갱신: [[IntelliJ-심볼릭-링크-중복-루트로-New-Java-Class-안-뜸]] — 키워드에만 색이 들어오고 `OFF`가 뜨는 같은 원인의 다른 증상과 실경로로 다시 열기 절차 추가
+- 갱신: [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]] — `User` 엔티티·stateless `SecurityConfig`·로그인 잠금 사용 순서 읽기 메모 추가
+- 갱신: [[JKYMHS-Backend/인증-API-구현과-PR-리뷰-결정사항]] — #7 머지·브랜치 삭제, CodeRabbit Major가 이미 수정(`ae95386`)됐는데 열려 보인 이유, 필터→EntryPoint 401 description 흐름
+- 갱신: index.md — 위 3건 요약 보충
+- 비고: 대부분 11-03 20:28 ingest와 중복이라 새 사실만 반영. 파일별 코드 읽기 설명(ErrorCode·CustomException·ErrorResponse 등)·PR 읽기 순서 안내·진행 멘트·서브에이전트 보고·컴팩트 요약 제외.

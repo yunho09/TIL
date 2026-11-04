@@ -1,6 +1,6 @@
 ---
 tags: [Spring, 인증, PR, JKYMHS, 어디갈래]
-updated: 2026-11-03
+updated: 2026-11-04
 ---
 # JKYMHS-Backend 인증 API 구현(#2~#6, #13)과 PR 읽기 순서·결정사항
 
@@ -43,6 +43,11 @@ updated: 2026-11-03
 - 병렬 에이전트 결과를 합치기 전에 서로 merge해 충돌 여부를 확인했고, Gradle이 `UP-TO-DATE`로 0.6초에 끝나 "통과"처럼 보인 적이 있어 테스트 재확인은 `cleanTest test`로 강제했다.
 - 멈추라는 메시지가 도착하기 전에 에이전트가 이미 커밋·테스트를 끝냈다 → 보고서에 "테스트 안 돌림"이라 쓰면 거짓. 실제 결과(214 통과)를 그대로 PR 초안에 유지.
 - 동시 20번 검증 테스트가 5/200으로 간헐 실패(`attempt > MAX_ATTEMPTS` 분기의 `delete`가 키를 먼저 지워 아무도 토큰을 못 받음) → 삭제 한 줄 제거로 0/400.
+
+## 진행 (2026-11-04)
+- PR #7이 merge commit으로 머지됨. 브랜치(`1-chore-common-base`)를 지워야 #8의 base가 `develop`으로 바뀌므로(저장소의 `deleteBranchOnMerge`가 꺼져 있음) 머지 화면에서 직접 삭제. 이후 #8부터 파일별로 읽는 중(테스트 파일은 안 봄).
+- #7의 CodeRabbit **Major** 코멘트(415 같은 클라이언트 4xx까지 500으로 응답)는 11-01에 달린 것이고 이미 `ae95386`("스프링 MVC 클라이언트 오류 상태코드 유지와 405 Allow 헤더 추가")에서 수정됨. 코멘트가 가리키는 줄(500 응답)은 그대로여서 Outdated 처리가 안 돼 열려 보였을 뿐 → 화면의 코드는 코멘트 시점의 옛 버전. Resolve conversation 후 머지하면 된다.
+- 필터가 토큰이 잘못돼도 바로 401을 안 주고 실패 이유(`만료된 액세스 토큰` 등)를 요청 속성에 남겨 넘기면, `JwtAuthenticationEntryPoint`가 그 이유를 `description`으로, 없으면 `액세스 토큰 없음`으로 401 응답을 만든다.
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
