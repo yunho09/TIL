@@ -1222,3 +1222,10 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[JKYMHS-Backend/인증-API-구현과-PR-리뷰-결정사항]] — #7 머지·브랜치 삭제, CodeRabbit Major가 이미 수정(`ae95386`)됐는데 열려 보인 이유, 필터→EntryPoint 401 description 흐름
 - 갱신: index.md — 위 3건 요약 보충
 - 비고: 대부분 11-03 20:28 ingest와 중복이라 새 사실만 반영. 파일별 코드 읽기 설명(ErrorCode·CustomException·ErrorResponse 등)·PR 읽기 순서 안내·진행 멘트·서브에이전트 보고·컴팩트 요약 제외.
+
+## 2026-11-04 19:38 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[어드민-SPA-번들-성능-baseline과-최적화-우선순위]] — 9초 재현(서버 mock 필요), `0/0명` 완료 신호 함정, 글에서 바로잡은 사실(예상된 결과·지어낸 동기), 최적화 누락 확인법, 공개 글용 자유 이용 사진·캡처 원칙
+- 갱신: [[Notion-MCP-update_content-빈칸-별표-깨짐]] — 이미지 포함 페이지 통째 재작성 시 댓글 위치 풀림·확인 절차
+- 갱신: index.md — 위 2건 요약 보충
+- 비고: 11-04 19:33 ingest와 중복되는 재측정 수치·#278 원인 후보는 제외. 벨로그 주제 추천·문체 지시·짤 문구·진행 멘트·task 알림·스킬 본문 제외. 재방문 퇴보의 구조적 원인은 여전히 미확인.
