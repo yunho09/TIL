@@ -1262,3 +1262,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Notion-MCP-마크다운-작성-규칙과-긴-페이지-분할-업로드]] — `<code>` 저장형 no_match, 아이콘 거절 함정 추가
 - 갱신: index.md — 인프라/쿠버네티스 섹션 신설 / CLAUDE.md 하위 분류 표에 인프라/쿠버네티스 추가
 - 비고: Notion 페이지 URL·ID, 진행 멘트, 컴팩트 요약 제외. 대조는 영문 main 브랜치 기준이며 실제 클러스터 동작은 미검증.
+
+## 2026-11-09 14:19 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 생성: [[Gradle-테스트-실행-시-뜨는-프로세스와-메모리-정리]]
+- 갱신: index.md — 환경/리눅스-데스크톱 섹션에 위 페이지 추가
+- 비고: 메모리 사용 표·진행 멘트 제외. 컴파일 워커 worktree별 생성은 추정, idletimeout 적용 여부는 미확인.
