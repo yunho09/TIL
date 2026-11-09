@@ -224,6 +224,9 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[PR-Lens/악성-PR-가정-적대적-리뷰-3라운드-교훈]] — "건너뛰는 규칙이 있으면 그 규칙이 공격면"이라 ⚫는 lock·스냅샷·미디어만 남긴 원칙 변경, 공백/줄 순서/`\r`/U+2028/이름 변경 우회 사례, 로컬 서버 Host·Origin·프레임 방어, `Sec-Fetch-Site`로 외부 링크 자동 분석 차단, `.ignore`로 Grep 숨기기 차단 (2026-10-28)
 - [[PR-Lens/가독성-개편과-PR-개요-한일-변경영역-설계]] — 코드 폭 791→1142px·sticky(`overflow: clip`)·합자 끔·대비 개선, "이 PR은" 개요(한 일 묶음 ≤8 + AI 없는 변경 영역 막대), 분석 못 한 코드 🟣 표시와 숫자·점프 일치, 점프 후 포커스(`tabindex` 함정), F5가 유료 분석을 시작하던 버그와 navigation type 수정 (2026-11-08)
 
+### 인프라/쿠버네티스
+- [[워크로드-리소스-정리와-공식문서-대조-정정]] — Pod·Deployment·ReplicaSet·StatefulSet·DaemonSet·Service 정리를 영문 원본과 대조해 정정(StatefulSet `Parallel`+`maxUnavailable`>1은 롤링 업데이트도 동시 진행, `Recreate` v1.37 Alpha, `maxUnavailable` 게이트 단계, autoscale 플래그 표기 차이), 한국어 문서는 구버전 가능·WebFetch 100k 절단 대신 GitHub raw md를 curl (2026-11-09)
+
 ### 도구
 - [[claude-p-헤드리스-호출과-restricted-읽기-격리]] — 앱에서 `claude -p`로 구독을 API 키 없이 호출하는 공통 플래그(`--bare` 불가), 신뢰 못 할 레포는 `--restricted`+`Read,Grep,Glob`+`dontAsk`로 레포 밖 읽기 차단(없으면 `/etc` 읽힘), 환경변수 허용 목록, 자식이 위키 훅을 또 돌리지 않게 하는 환경변수 (2026-10-28)
 - [[오픈소스-기여-후보-선별-기준과-AI정책-함정]] — 머지 수는 GraphQL로 세야 함(`gh search prs --merged`는 불리언 플래그), `collaborators_only`로 외부 PR을 막은 레포(zustand·zod 등), 레포별 AI 정책(설명은 사람이/공개 의무/fedify의 Co-authored-by 금지)과 CLA, 조건부 선점 양보·PR 대상 브랜치 확인 (2026-10-28)
