@@ -49,5 +49,11 @@ updated: 2026-11-04
 - #7의 CodeRabbit **Major** 코멘트(415 같은 클라이언트 4xx까지 500으로 응답)는 11-01에 달린 것이고 이미 `ae95386`("스프링 MVC 클라이언트 오류 상태코드 유지와 405 Allow 헤더 추가")에서 수정됨. 코멘트가 가리키는 줄(500 응답)은 그대로여서 Outdated 처리가 안 돼 열려 보였을 뿐 → 화면의 코드는 코멘트 시점의 옛 버전. Resolve conversation 후 머지하면 된다.
 - 필터가 토큰이 잘못돼도 바로 401을 안 주고 실패 이유(`만료된 액세스 토큰` 등)를 요청 속성에 남겨 넘기면, `JwtAuthenticationEntryPoint`가 그 이유를 `description`으로, 없으면 `액세스 토큰 없음`으로 401 응답을 만든다.
 
+## 진행 (2026-11-10)
+- #8(JWT 기반)·#11(가입·로그인)은 머지됐고 #10(구글)·#12(재발급·로그아웃)·#14(쿠키·`code`, base #12)가 열려 있다. 머지 순서는 #10 → #12 → #14, 그 위에 [[JKYMHS-Backend/남은-API-스택-PR-구성과-개발환경-Docker]]의 #16 이후가 쌓인다.
+- 리뷰 후속: 구글 동시 가입 500은 #10(`32cde78`), 로그인 길이 상한은 develop 기준 새 PR #33(이슈 #32), 이모지 비밀번호 500은 #22(`92587cd`)에서 수정(`PasswordRule`로 통합돼 재설정도 같은 규칙). develop에는 #22가 머지될 때까지 이모지 버그가 남는다. 원인·해법은 [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]].
+- `refresh_tokens`에 `family_id NOT NULL`·`rotated_at`이 추가돼, #12로 만든 기존 행은 `family_id=''`로 채워져 옛 토큰이 한 family로 묶인다 → #14 테스트 전 `docker compose down -v`. 직접 테스트 체크리스트·CORS 403 함정은 [[JKYMHS-Backend/남은-API-스택-PR-구성과-개발환경-Docker]].
+- 미결 유지: 구글 신규 가입(`SIGNED_UP`)이 약관 동의 저장 없이 완료됨(FE TRD는 "신규→약관 동의→온보딩"), 구글 이메일은 소문자 정규화 없이 정확 일치로 조회(대문자 Workspace 계정은 `LINK_REQUIRED`가 안 뜰 수 있음, 낮은 위험).
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)

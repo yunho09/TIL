@@ -67,5 +67,15 @@ Spring Boot 4.1 / Security 7.1 / jjwt 0.13 기반 인증을 구현하고 별도 
 - `JwtProperties`(`jwt.*`)는 값이 없거나 키가 32바이트 미만이면 서버가 시작되지 않는다(`JWT_SECRET` 누락 시 기동 실패를 실제 서버로 확인).
 - 로그인 잠금 사용 순서: `start(email)`(잠겨 있으면 423) → 비밀번호 틀리면 `recordFailure`(5번째면 423)+401 → 성공하면 `reset`. Lua는 잠금 시각이 안 지났으면 `-1`, 지났으면 기록 삭제 후 재시작 → 카운트+1·TTL 10분 → 5 이상이면 잠금 시각 저장.
 
+## Boot 4 / Security 7 설정 함정과 리뷰 후속 수정 (2026-11-10 보충)
+- **`spring-boot-starter-security`를 넣는 순간 모든 URL이 로그인 요구**, 기동 로그에 임시 계정 비밀번호(`Using generated security password`)가 찍힌다. JWT만 쓰면 `spring.autoconfigure.exclude`에 **`org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration`**(Boot 4 경로, Boot 3의 `...autoconfigure.security.servlet...`은 클래스를 못 찾아 기동 실패)를 넣고, 로그에 그 문구가 없는지로 확인. 공개 API는 `permitAll`을 직접 추가.
+- Security 7: `WebSecurityConfigurerAdapter`·`antMatchers` 없음 → `SecurityFilterChain` 빈 + `requestMatchers`. jjwt 0.12+: `Jwts.parser().verifyWith(key).build().parseSignedClaims(token)`, `signWith(key, Jwts.SIG.HS256)` (옛 `setSigningKey`/`parseClaimsJws` 예제는 안 맞음). 알고리즘을 안 적으면 jjwt가 키 길이로 HS384/512를 고르므로 HS256으로 고정하고 파서에도 `.sig().clear().add(HS256)`으로 제한. 토큰에는 회원 ID(sub)만(JWT 본문은 암호화가 아닌 Base64).
+- Gradle: `jjwt-api`는 `implementation`, `jjwt-impl`·`jjwt-jackson`은 `runtimeOnly`(구현 클래스를 실수로 import 못 하게 함, MySQL 드라이버와 같은 이유). 부트 BOM이 관리하는 라이브러리는 버전을 적지 말고(jjwt는 BOM에 없어 직접), Testcontainers 2.x는 모듈명이 `testcontainers-mysql`처럼 접두사가 붙는다. Docker가 꺼져 있으면 테스트 전부 실패.
+- `${JWT_SECRET}`에 **기본값을 일부러 안 둠**: 키를 깜빡해도 서버가 뜨면 코드에 공개된 키로 토큰이 서명돼 위조 가능 → 없으면 기동 실패가 안전. `.env` 우선순위는 OS 환경변수 > `.env`.
+- 이메일 collation(`utf8mb4_bin`)이 필요한 이유: MySQL 기본 비교는 대소문자 무시인데 Redis 키는 글자 하나만 달라도 다른 키라, `User@x.com`·`USER@x.com`으로 바꿔 가며 5회 잠금을 피할 수 있다. DTO에서 소문자 정규화 + DB는 정확 비교(정규화를 빠뜨리면 대소문자만 다른 이메일이 별개 회원으로 가입 가능).
+- **구글 첫 로그인 동시 2건 → 500**: "조회 후 없으면 저장" 사이에 틈. 저장이 `DataIntegrityViolationException`이면 같은 조회를 한 번 더 해서 평소 흐름(같은 구글 계정 `LOGGED_IN`/같은 이메일 `LINK_REQUIRED`)을 그대로 탄다(무조건 409로 바꾸면 흐름이 달라짐). `login()`에 `@Transactional`이 없어 실패한 저장은 이미 롤백되고 재조회는 새 트랜잭션. 테스트는 `@MockitoSpyBean`으로 "이메일 조회 직후 다른 스레드가 저장"을 재현.
+- **로그인 요청 길이 상한 없음**: 실패 기록 Redis 키(`auth:login:fail:{email}`)에 이메일이 그대로 들어가고 비교 전에 기록돼 없는 이메일도 10분간 남는다 → 1MB 이메일로 키 폭증 가능. 이메일 254자·비밀번호 72자(BCrypt 한계라 어떤 계정과도 맞을 수 없음)로 제한.
+- **이모지·한글 비밀번호 500**: 정규식 `\S{8,20}`은 한글(3바이트)·이모지(4바이트)를 통과시켜 20자여도 72바이트를 넘길 수 있다(`a1`+이모지 18개=74바이트, 한글 비밀번호는 가입 성공). `[\x21-\x7E]{8,20}`(ASCII 인쇄 가능 문자)로 바꾸면 최대 20바이트. 한글·이모지 비밀번호는 이제 400이고 메시지가 같아 FE에서 입력 단계 안내가 필요.
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
