@@ -16,6 +16,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Vitals-확장-상단바-시스템-모니터]] — **(2026-10-28)** Ubuntu 26.04에 `gnome-system-monitor`가 없어 버튼이 무반응인 원인과 `find_program_in_path` 폴백 수정안(오너는 기본값 변경 거절, PR 대상은 `develop`), 자체 스키마를 쓰는 확장은 `gsettings --schemadir`로 확장 설치 경로의 schemas를 직접 지정해야 하는 이유(Vitals `hot-sensors`/`position-in-panel` 예시), GNOME 50에서 D-Bus 스크린샷이 `AccessDenied`로 막혀 있음
 - [[Nautilus-폴더-먼저-정렬-끄기와-Homebrew-gsettings-함정]] — 파일 앱 최신순에서 폴더가 맨 위에 모이는 건 `sort-directories-first` 때문(GTK4 파일 선택창도 공유), PATH의 Homebrew `gsettings`는 dconf에 연결 안 돼 set/get이 둘 다 "성공"처럼 보이지만 실제로는 저장 안 되는 함정, `dconf write`나 `/usr/bin/gsettings`로 해결·검증 (2026-10-01)
 - [[독-실행-점-사라짐-런처-수정-직후-재실행]] — 창은 있는데 독 아이콘에 실행 점이 없는 증상의 원인: `.desktop` 런처 수정과 앱 재실행이 같은 초라 GNOME이 창을 옛 런처에 묶어 둠, 정상 종료 후 런처로 재실행해 해결, 런처 수정 후 1~2초 기다렸다 실행 (2026-10-21)
+- [[GNOME-앱목록-독-정리와-상단바-트레이-아이콘-색-입히기]] — 앱 목록 6폴더+독 파일 아이콘 하나로 정리(겹치는 앱은 삭제 말고 목록에서만 숨김, 정리 전 백업), Claude·Discord 트레이 아이콘 색 교체와 apt 훅·10분 타이머 자동 복구, 카카오톡 회색 아이콘을 노랗게 틴트하는 `tray-tint` 확장과 격리 테스트 셸 검증(실화면 확인 전) (2026-11-11)
 - [[배경화면-화질-HiDPI-해상도-맞춤과-Wallpaper-Engine]] — 배경이 흐린 원인은 Xwayland 보고값(3840×2400)과 실제 패널(2880×1800, 150%)이 달라 원본이 매 프레임 0.83배로 실시간 축소되던 것, Lanczos로 미리 맞춰 `picture-uri(-dark)` 지정·되돌리기, 256색 다크 PNG 밴딩은 못 고침, 영상형 Wallpaper Engine은 Hanabi 확장·장면/웹형은 KDE 필요, 선명도 확인 전 (2026-11-11)
 
 ### 환경/리눅스-데스크톱
