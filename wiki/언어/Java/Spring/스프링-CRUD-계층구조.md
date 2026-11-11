@@ -103,7 +103,7 @@ public class PostService {
 - **`ErrorResponse`**: `record`(`message`, `status`, `timestamp`, `description`; 접근자에 `get` 없음). `of(...)` 정적 팩토리 3개가 오버로딩으로 ①→②→③ 순서로 채워 넘기고 실제 생성은 ③(`HttpStatusCode` 받음 — Spring 415처럼 `ErrorCode` 없는 에러용).
 - **`GlobalExceptionHandler`**(`@RestControllerAdvice`+`@ExceptionHandler`): 가장 구체적인 타입의 핸들러가 선택되고 파일 순서는 무관. `CustomException`→ErrorCode 상태, `MethodArgumentNotValidException`→400(첫 필드 문구가 message, 전체 `필드: 문구`가 description), 깨진 JSON·파라미터 누락→400, `NoResourceFoundException`→404, 메서드 불일치→405(`Allow` 헤더), Redis 연결 실패·타임아웃→503, 그 외 `Exception`→500. 마지막 안전망에서 Spring `ErrorResponse` 인터페이스의 4xx는 원래 상태를 유지하지 않으면 415 등이 500이 된다(우리 `ErrorResponse`와 이름이 겹쳐 Spring 쪽은 FQN). 컨트롤러 단계 예외만 처리하므로 Security 필터의 401/403은 `HandlerExceptionResolver`로 넘겨야 한다 → [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]].
 - Redis `timeout`/`connect-timeout`을 2초로 두면 Redis가 멈춰도 요청이 오래 매달리지 않고 위 핸들러가 503으로 응답.
-- JPA Auditing: `BaseTimeEntity`(`@MappedSuperclass`+`@EntityListeners(AuditingEntityListener)`+`@CreatedDate/@LastModifiedDate`, 생성 시각 `updatable=false`)는 `@EnableJpaAuditing`이 없으면 시각이 `null`. 메인 클래스가 아니라 별도 `JpaAuditingConfig`에 둔다.
+- JPA Auditing: `BaseTimeEntity`(`@MappedSuperclass`+`@EntityListeners(AuditingEntityListener)`+`@CreatedDate/@LastModifiedDate`, 생성 시각 `updatable=false`)는 `@EnableJpaAuditing`이 없으면 시각이 `null`. 메인 클래스가 아니라 별도 `JpaAuditingConfig`에 둔다 — 동작 원리와 실험은 [[JPA-Auditing-동작-원리와-EnableJpaAuditing-분리-이유]], Redis 503·타임아웃 실측은 [[Redis-장애-503-타임아웃-실측과-WebMvcTest-테스트-함정]].
 
 ## 확인 문제
 

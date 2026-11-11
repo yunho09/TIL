@@ -30,5 +30,13 @@ updated: 2026-11-04
 - `/data`는 홈(`~`) 안이 아니라 루트(`/`) 바로 아래에 있다. 열기 창 경로 입력칸에 `/data/project/JKYMHS-Backend`를 직접 붙여넣는 게 가장 쉽다.
 - 우하단 `Plugin error`(JetBrains AI Assistant 버전 불일치 알림)는 색 문제와 무관.
 
+## 같은 날 겹친 증상: 키맵이 VSCode라 IntelliJ 단축키가 안 먹음 (2026-11-11 보충)
+- `Alt+Enter`(빠른 수정·import)와 `Ctrl+Alt+S`(설정)가 안 먹고 `Ctrl+Enter`가 줄만 바꾼 건 **키맵이 VSCode로 설정**돼 있어서였다. 키맵 선택 팝업에 `8 VSCode →`처럼 현재 키맵이 표시된다. VSCode 키맵에서 `Ctrl+Enter`는 "아래에 줄 삽입".
+- 같은 기능의 대응(일반적인 매핑, 정확한 키는 Settings → Keymap에서 기능 이름으로 검색): import·빠른 수정 `Alt+Enter` ↔ `Ctrl+.` / 설정 `Ctrl+Alt+S` ↔ `Ctrl+,` / 명령 검색 `Ctrl+Shift+A` ↔ `Ctrl+Shift+P` / import 정리 `Ctrl+Alt+O` ↔ `Shift+Alt+O`. 강의·블로그는 대부분 IntelliJ 기본(GNOME 키맵) 기준이다.
+- 설정을 열 수 없을 땐 `Shift` 두 번(전체 검색) → `auto import`/`keymap` 검색, 또는 `☰`(새 UI의 메뉴) → File → Settings. 한국어 키보드의 **오른쪽 Alt는 한/영 키**라 Alt 조합이 안 먹을 수 있어 왼쪽 Alt를 쓴다.
+- 자동 import는 Settings → Editor → General → Auto Import → Java의 `Add unambiguous imports on the fly`(후보가 하나일 때만)·`Optimize imports on the fly`. **새로 치는 코드에만** 적용되고 이미 친 코드엔 안 붙는다. 이름이 겹치는 클래스(`Column`, `Configuration` 등)는 자동 선택이 안 되므로 자동완성 목록 오른쪽의 패키지(`jakarta.persistence` 등)를 보고 고른다.
+- IntelliJ가 켜진 채 설정·`.idea`를 외부에서 고치면 종료 시 원래 값으로 덮어쓴다 → 완전히 종료한 뒤 수정. 최근 프로젝트 목록(`recentProjects.xml`)에 심볼릭 경로가 남아 있으면 목록에서 열 때마다 그 경로로 열리므로, 그 항목을 지우고 `lastProjectLocation`을 실경로(`/data/project`)로 바꾸고 `.idea`는 삭제 대신 백업해 두었다가 실경로로 직접 입력해 연다. 터미널(Claude)에서 IntelliJ를 실행하면 바로 종료돼 직접 열어야 했다.
+- 알림은 무시해도 됨: Full Line Code Completion(로컬 모델이 한 줄 제안, 직접 쳐 배우는 중엔 꺼둘 만함), Reactive Streams 플러그인 추천(Lettuce가 Reactor를 써서 잡힌 것, WebFlux 안 쓰면 불필요 → Don't suggest again), database configurations(Do not suggest again).
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)

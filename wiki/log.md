@@ -1302,3 +1302,12 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[JKYMHS-Backend/프로젝트-현황]] — 최근 상태 섹션 추가
 - 갱신: index.md — 프로젝트/JKYMHS-Backend 섹션에 신규 2건 추가, 기존 3건 요약 갱신
 - 비고: 세션 후반 PR #8·#16 파일별 코드 설명(JWT·Redis Lua 등)은 기존 페이지와 겹치거나 코드 읽기 안내라 제외. 상세 소개 수집은 950/16,190건 진행, PR 8개의 실제 키 기반 동작은 미검증.
+
+## 2026-11-11 10:01 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
+- 생성: [[JPA-Auditing-동작-원리와-EnableJpaAuditing-분리-이유]], [[Redis-장애-503-타임아웃-실측과-WebMvcTest-테스트-함정]]
+- 갱신: [[IntelliJ-심볼릭-링크-중복-루트로-New-Java-Class-안-뜸]] — VSCode 키맵 단축키 불일치, 자동 import 범위, 켜진 채 설정 수정 금지 섹션 추가
+- 갱신: [[JKYMHS-Backend/프로젝트-현황]] — "라면 실험실 vs 어디갈래" 상충 정보, 기준 문서·ERD 구성·명세 충돌, 초기 세팅 결정 이유 섹션 추가
+- 갱신: [[스프링-CRUD-계층구조]] — JPA Auditing 줄에 신규 두 페이지 링크
+- 갱신: index.md — 신규 2건 추가, 기존 2건 요약 갱신
+- 비고: 하루 앱·노션·GitHub 주간 할 일 정리, 이슈 #1~#6 초안, PR #7 파일별 설명은 일회성 작업이거나 기존 페이지와 중복이라 제외. IntelliJ 단축키 대응표는 일반적인 매핑이라 정확한 키는 Keymap에서 확인 필요.
