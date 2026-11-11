@@ -1346,3 +1346,11 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[JKYMHS-Backend/xquare-배포-CLI-allowlist-막힘과-웹-입력값]]
 - 갱신: [[JKYMHS-Backend/TourAPI-데이터-수집과-FE-ERD-불일치]] — 수집 데이터 테이블 구조(PR #18)·CSV 적재 환경변수 섹션 추가
 - 비고: 디스코드 게시문 서식, 배포 가이드 문서 작성, zip 묶기·수치 요약 등 일회성 작업과 오해-정정 대화는 제외.
+
+## 2026-11-11 14:51 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
+- 갱신: [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]] — 이메일 인증 토큰(Redis 키·Lua consume)·가입 DTO 검증/트랜잭션 범위·로그인 확인 순서·JWT 기초 섹션 추가
+- 갱신: [[스프링-CRUD-계층구조]] — 컨트롤러 반환 방식(ResponseEntity 사용 기준)·@RequestHeader·@Transactional 기초·Optional 체인 추가
+- 갱신: [[JKYMHS-Backend/인증-API-구현과-PR-리뷰-결정사항]] — 2026-11-11 진행(머지 현황, base 전환 규칙, #14 GitHub 가짜 충돌, #16 ErrorCode 충돌, 비밀번호 재설정 API 누락 #31) 추가
+- 갱신: index.md — 위 3건 요약 갱신
+- 비고: 세션 전반부(TourAPI 수집·FE↔ERD 불일치·PR #16~#30 스택·Docker 환경)와 CodeRabbit 후속 수정(구글 동시 가입·로그인 길이·이모지 비밀번호)은 기존 페이지에 이미 있어 제외. 파일별 코드 낭독, 워크플로 작성 가이드·Chrome 자동화 안내문, 상태 확인 문답은 제외. 인증 PR 실제 키 기반 동작은 여전히 미검증.

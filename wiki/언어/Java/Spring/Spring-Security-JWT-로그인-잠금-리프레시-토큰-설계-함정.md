@@ -1,6 +1,6 @@
 ---
 tags: [Spring, Security, JWT, Redis, Testcontainers, MySQL]
-updated: 2026-11-04
+updated: 2026-11-11
 ---
 # Spring Security JWT 인증 구현 — 로그인 잠금·리프레시 토큰 설계와 리뷰에서 재현된 함정
 
@@ -76,6 +76,30 @@ Spring Boot 4.1 / Security 7.1 / jjwt 0.13 기반 인증을 구현하고 별도 
 - **구글 첫 로그인 동시 2건 → 500**: "조회 후 없으면 저장" 사이에 틈. 저장이 `DataIntegrityViolationException`이면 같은 조회를 한 번 더 해서 평소 흐름(같은 구글 계정 `LOGGED_IN`/같은 이메일 `LINK_REQUIRED`)을 그대로 탄다(무조건 409로 바꾸면 흐름이 달라짐). `login()`에 `@Transactional`이 없어 실패한 저장은 이미 롤백되고 재조회는 새 트랜잭션. 테스트는 `@MockitoSpyBean`으로 "이메일 조회 직후 다른 스레드가 저장"을 재현.
 - **로그인 요청 길이 상한 없음**: 실패 기록 Redis 키(`auth:login:fail:{email}`)에 이메일이 그대로 들어가고 비교 전에 기록돼 없는 이메일도 10분간 남는다 → 1MB 이메일로 키 폭증 가능. 이메일 254자·비밀번호 72자(BCrypt 한계라 어떤 계정과도 맞을 수 없음)로 제한.
 - **이모지·한글 비밀번호 500**: 정규식 `\S{8,20}`은 한글(3바이트)·이모지(4바이트)를 통과시켜 20자여도 72바이트를 넘길 수 있다(`a1`+이모지 18개=74바이트, 한글 비밀번호는 가입 성공). `[\x21-\x7E]{8,20}`(ASCII 인쇄 가능 문자)로 바꾸면 최대 20바이트. 한글·이모지 비밀번호는 이제 400이고 메시지가 같아 FE에서 입력 단계 안내가 필요.
+
+## 이메일 인증 → 가입 → 로그인 흐름 상세와 JWT 기초 (2026-11-11 보충)
+
+### 이메일 인증 토큰(`verificationToken`)
+- 흐름: `send`(IP 제한 1분 5회 → 가입용인데 이미 가입이면 409 → 60초 내 재요청 429 → 6자리 코드를 Redis에 5분 저장 → 메일 발송, **실패하면 코드 삭제 후 502**) → `verify`(시도 +1 → 5회 초과 410 → 틀리면 400+남은 횟수 → 맞으면 코드 삭제+토큰 발급, 10분).
+- **토큰 확인은 Redis 키로**: 키 `auth:verified:{용도}:{소문자 이메일}` = 랜덤 UUID, TTL 10분. 가입 때 `consume`이 Lua로 "저장값 == 보낸 토큰이면 DEL"을 한 번에 실행(0이면 401 `EMAIL_NOT_VERIFIED`). 키에 이메일·용도가 들어 있어 A 이메일 토큰으로 B 가입, 가입용 토큰을 재설정에 사용이 막히고, 같은 토큰 두 번·동시 두 요청은 하나만 통과한다. 코드를 맞히면 바로 가입시키지 않고 토큰을 주는 이유: 코드 확인과 가입은 다른 요청이라 "인증한 그 사람이 가입한다"는 증거가 필요해서.
+- 토큰은 가입 처리 **전에** 먼저 지워지므로 그 뒤 단계가 실패하면(동시 같은 이메일 가입 등) 이메일 인증부터 다시 해야 한다(드물어 그대로 둠).
+- 코드는 `SecureRandom`(`Random`은 예측 가능), 비교는 `MessageDigest.isEqual`(`String.equals`는 다른 글자에서 바로 멈춰 응답 시간으로 몇 글자 맞았는지 추측 가능). 코드 비교 전에 횟수부터 올리는 건 로그인 잠금과 같은 이유. 코드는 `@Pattern("\\d{6}")`. 메일 서버 타임아웃은 5초(기본 무한 대기라 SMTP가 멈추면 요청도 멈춤), 실제 Gmail은 `MAIL_FROM`을 그 계정으로 맞춰야 스팸 분류를 피한다.
+- 이메일 소문자 정규화는 요청 DTO의 **record compact 생성자**(`public EmailSendRequest { email = email == null ? null : email.trim().toLowerCase(Locale.ROOT); }`)에서 한다. send·verify·가입이 규칙이 다르면 다른 Redis 키를 보게 된다. IP는 `request.getRemoteAddr()`라 프록시/LB 뒤에선 전원이 1분 5회를 나눠 쓴다(배포 시 `X-Forwarded-For` 처리 필요, 미처리).
+- **빠진 기능**: `purpose: RESET_PASSWORD`로 코드 발송·확인까지는 되지만, 그 토큰으로 새 비밀번호를 바꾸는 API(`POST /api/auth/password/reset {email, verificationToken, newPassword}` → `consume(RESET_PASSWORD)` → 변경 → 그 회원 리프레시 토큰 전부 폐기)가 어느 브랜치에도 없었다(FE에는 비밀번호 찾기 화면 A-2·A-3이 있음). 이슈 #31로만 남기고 #22 머지 후 develop에서 `PasswordRule`을 재사용해 구현하기로 함.
+
+### 가입(`SignupRequest`·`AuthService.signup`)
+- 비밀번호 정규식 `(?=.*[A-Za-z])(?=.*\d)…`의 `(?=…)`는 전방탐색(위치는 안 옮기고 "어딘가에 영문/숫자 있어야" 조건만 검사). `@NotBlank`와 `@Pattern` 메시지를 같게 둔 건 빈 문자열이 두 검증을 동시에 실패시켜 어느 문구가 나올지 정해져 있지 않기 때문.
+- **약관 필드는 `Boolean`(래퍼)+`@NotNull`**: `boolean`이면 JSON에서 값이 빠져도 조용히 `false`가 된다. 필수 3개는 `@AssertTrue`, 선택 2개도 true/false를 반드시 보내야 하며(없으면 400) "안 보냄"을 "미동의"로 짐작하지 않는다. 중첩 record에는 **`@Valid`를 붙여야** 안쪽 `@AssertTrue`가 돈다(빠뜨리면 필수 약관 false로도 가입됨).
+- `@Transactional` 하나로 회원 저장·약관 동의·리프레시 토큰 저장을 묶어 중간 실패 시 반쪽 데이터가 안 남는다. 다만 맨 앞 `consume`(Redis)은 롤백되지 않는다. `existsByEmail`은 빠른 안내용이고 **진짜 중복 방지는 DB UNIQUE**, 동시 가입의 `DataIntegrityViolationException`은 409로 변환.
+- 약관 동의는 동의한 것만이 아니라 **항상 전체 항목 행을 저장**(안 한 건 `agreed=false`, `agreedAt=null`)해 마이페이지에서 켜고 끌 때 "행이 없는 경우"를 따로 처리하지 않는다. `(user_id, consent_type)` UNIQUE.
+- 로그인 확인 순서: IP 제한(429) → 구글 전용 계정(409, 실패 횟수에 안 넣음) → 잠금 확인+시도 기록(423) → 비밀번호 비교 → 성공 시 기록 삭제. 없는 이메일도 `DUMMY_PASSWORD_HASH`(실제 해시와 같은 cost `$10$`)와 비교해 응답 시간을 맞춘다. **`LoginRequest`는 `@NotBlank`(+길이 상한)만** — 형식 규칙을 알려 주면 힌트가 되고 틀려도 같은 401이면 되므로.
+
+### JWT 기초 (학습 정리)
+- JWT는 서버가 서명해 내주는 출입증: `헤더.내용.서명` 세 부분(Base64URL 인코딩일 뿐 암호화 아님). 내용 예 `{"sub":"7","iat":…,"exp":…}`, 서명 = `HMAC-SHA256(헤더+"."+내용, 서버 비밀키)`. 내용을 바꾸면 서명이 안 맞아 거절된다. 요청마다 DB를 안 봐도 누구인지 아는 게 장점.
+- `parseSignedClaims`가 형식(`MalformedJwtException`)·허용 알고리즘(`JwtException`)·서명(`SignatureException`)·만료(`ExpiredJwtException`)를 한 번에 검사. 헤더의 `alg`는 보내는 쪽이 적을 수 있으므로 허용 목록을 HS256으로 제한해 `none` 같은 토큰을 막는다. `sub`가 숫자가 아니면 형식이 깨진 토큰으로 취급.
+- **약점**: 한 번 발급한 JWT는 서버가 아무것도 저장하지 않아 만료 전 취소 불가 → 수명을 30분으로 짧게 하고, 대신 취소 가능한 리프레시 토큰(랜덤, DB 해시, 14일, 재발급에만 사용)을 둔다.
+- 요청 인증 흐름: `Authorization: Bearer …` → `JwtAuthenticationFilter`가 검증해 `SecurityContext`에 회원 ID를 기록(실패하면 "만료/위조" 이유만 요청 속성에 남기고 **어느 쪽이든 다음으로 넘김**) → `SecurityConfig` 규칙이 로그인 필요 여부 판단 → 필요한데 기록이 없으면 `EntryPoint`가 401 → 컨트롤러는 `@AuthenticationPrincipal Long userId`.
+- 리프레시 토큰 발급(`TokenService.issue`): 액세스 토큰 생성 → `SecureRandom` 32바이트를 Base64URL 43자로 → 만료 14일 → `refresh_tokens`에 **해시만** 저장(기기=로그인마다 한 행) → 원문 두 개를 `IssuedTokens` record로 묶어 반환(원문은 앱만 보유).
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)

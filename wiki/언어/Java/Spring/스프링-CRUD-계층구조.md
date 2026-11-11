@@ -4,7 +4,7 @@ tags:
   - crud
   - controller
   - service
-updated: 2026-09-04
+updated: 2026-11-11
 ---
 
 # 스프링 CRUD 계층구조
@@ -104,6 +104,17 @@ public class PostService {
 - **`GlobalExceptionHandler`**(`@RestControllerAdvice`+`@ExceptionHandler`): 가장 구체적인 타입의 핸들러가 선택되고 파일 순서는 무관. `CustomException`→ErrorCode 상태, `MethodArgumentNotValidException`→400(첫 필드 문구가 message, 전체 `필드: 문구`가 description), 깨진 JSON·파라미터 누락→400, `NoResourceFoundException`→404, 메서드 불일치→405(`Allow` 헤더), Redis 연결 실패·타임아웃→503, 그 외 `Exception`→500. 마지막 안전망에서 Spring `ErrorResponse` 인터페이스의 4xx는 원래 상태를 유지하지 않으면 415 등이 500이 된다(우리 `ErrorResponse`와 이름이 겹쳐 Spring 쪽은 FQN). 컨트롤러 단계 예외만 처리하므로 Security 필터의 401/403은 `HandlerExceptionResolver`로 넘겨야 한다 → [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]].
 - Redis `timeout`/`connect-timeout`을 2초로 두면 Redis가 멈춰도 요청이 오래 매달리지 않고 위 핸들러가 503으로 응답.
 - JPA Auditing: `BaseTimeEntity`(`@MappedSuperclass`+`@EntityListeners(AuditingEntityListener)`+`@CreatedDate/@LastModifiedDate`, 생성 시각 `updatable=false`)는 `@EnableJpaAuditing`이 없으면 시각이 `null`. 메인 클래스가 아니라 별도 `JpaAuditingConfig`에 둔다 — 동작 원리와 실험은 [[JPA-Auditing-동작-원리와-EnableJpaAuditing-분리-이유]], Redis 503·타임아웃 실측은 [[Redis-장애-503-타임아웃-실측과-WebMvcTest-테스트-함정]].
+
+### 컨트롤러 반환 방식과 요청 헤더 (2026-11-11 추가, JKYMHS-Backend 인증 컨트롤러 읽으며)
+
+- **`@PostMapping`에 주소를 안 적으면 클래스의 `@RequestMapping` 주소가 그대로** 쓰인다. 적으면 클래스 주소 뒤에 이어 붙는다(`/api/auth/google` + `/link`).
+- **반환 타입 고르기**: 객체(record)를 그냥 돌려주면 Spring(Jackson)이 200+JSON 본문으로 보낸다(record는 접근자 `accessToken()`이 있어 바로 되고, 일반 클래스는 getter 필요). 상태 코드가 항상 같으면 `@ResponseStatus(CREATED)` 같은 애너테이션으로 정한다. **`ResponseEntity<T>`(상태 코드+헤더+본문 상자, Spring 제공, `<T>`는 본문 타입)로 감싸는 건 헤더를 붙여야 할 때(리프레시 토큰 `Set-Cookie`)나 상황별로 상태 코드가 달라질 때**. 에러 응답은 둘 다 아니고 서비스에서 `CustomException`을 던져 `GlobalExceptionHandler`가 만든다. 기본은 객체 반환, 필요할 때만 `ResponseEntity`.
+- 컨트롤러 메서드 선언 순서는 `접근제어자 반환타입 메서드이름(매개변수)`. 서비스는 결과 데이터(`GoogleLoginResponse`)만 만들고 컨트롤러가 그걸 `ResponseEntity`로 감싼다.
+- `@JsonInclude(NON_NULL)`을 record에 붙이면 null 필드가 JSON에서 빠져, 한 DTO로 `LOGGED_IN`/`SIGNED_UP`(토큰 있음)과 `LINK_REQUIRED`(토큰 없음, `linkToken`·`email`만) 같은 갈래별 응답을 낼 수 있다. FE는 `result` 값으로 다음 화면을 정한다.
+- **`@RequestHeader(value = USER_AGENT, required = false)`**: 요청 헤더 하나를 꺼내는 기능. User-Agent는 리프레시 토큰 행(`refresh_tokens.user_agent`)에 "어느 기기의 로그인인가" 기록용으로만 저장하고 **읽는 코드는 아직 없다**(ERD에 있는 컬럼이라 만든 것, 탈취 조사·"로그인한 기기 목록"에 쓸 수 있음). 클라이언트가 마음대로 바꿔 보낼 수 있어 보안 판단에는 쓰지 않는다.
+- **`@Transactional` 기초**: DB 작업 여러 개를 전부 성공/전부 취소로 묶는다(정상 종료=커밋, 예외=롤백). 따라오는 기능이 **변경 감지**(트랜잭션 안에서 읽은 엔티티 필드를 바꾸면 `save()` 없이 커밋 직전 UPDATE 자동 실행 — 로그아웃의 `token.revoke(now)`가 이 방식)와 잠금 유지(`for update`는 트랜잭션 끝에 풀림). 서비스 클래스에는 `@Transactional(readOnly = true)`를 기본으로 걸고 쓰는 메서드만 `@Transactional`로 덮어쓰면 읽기 쪽은 변경 감지·flush를 건너뛰어 가볍고 실수로 바꿔도 반영되지 않지만, **쓰는 메서드에 붙이는 걸 빠뜨리면 저장이 안 된다**.
+- **Optional + 람다**: `findByTokenHash(...).filter(t -> 내 것).filter(t -> !t.isRevoked() && !t.isExpired(now)).ifPresent(t -> t.revoke(now))`는 "상자가 비면 이후 단계가 전부 건너뛰어지는" 체인. 람다(`t -> 조건`)는 이름 없는 짧은 메서드이고 `!`는 뒤집기, `&&`는 둘 다 참일 때만 참.
+- 로그아웃은 토큰이 없든·남의 것이든·이미 폐기됐든 **항상 204**(응답이 다르면 "이 토큰은 살아 있다"는 정보가 샌다). 로그아웃해도 다른 기기 토큰은 유지되고, 액세스 토큰은 서버가 취소할 수 없어 남은 30분은 통과하므로 FE가 저장해 둔 액세스 토큰을 지워야 한다.
 
 ## 확인 문제
 
