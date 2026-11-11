@@ -1362,3 +1362,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]] — `requestMatchers` 순서 규칙, 구글 인가 코드 교환 순서, 토큰 전달 방식 추가
 - 갱신: index.md — 위 3건 요약 갱신
 - 비고: 같은 세션이 14:51에 일부 ingest돼 TourAPI 수집·FE↔ERD 불일치·PR 수동 테스트 체크리스트·JWT 필터·로그아웃 Optional 체인·ResponseEntity·쿠키 개념은 기존 페이지와 중복이라 제외. 워크플로 작성 가이드·Chrome 자동화 안내문, 파일별 코드 낭독, 머지·상태 확인 문답도 제외.
+
+## 2026-11-11 14:56 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
+- 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — 어드민 지원서 상태 변경 400(camelCase↔백엔드 SNAKE_CASE 불일치, #180/#181, develop→main 포함 관계)과 겨울인턴 카드 표시 불가 사유·BE 요청 내용 섹션 추가
+- 갱신: index.md — 위 페이지 요약에 보충 추가
+- 비고: 테스트용 dev 서버 포트 정리, 상태 확인 문답, 디스코드 문구 다듬기 시행착오, systematic-debugging 스킬 본문은 제외.
