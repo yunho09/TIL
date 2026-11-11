@@ -34,5 +34,10 @@ Figma 시안의 이미지를 코드에 그대로 박아 넣을 때(하드코딩 
 
 관련: [[JOBIS-FE-V2/프로젝트-현황]] — 학생 앱 홈 배너를 Figma 시안대로 하드코딩할 때 위 3가지를 순서대로 다 겪은 사례.
 
+## 파일 목록·이름 검색 불가, 링크 필요 (2026-11-11 추가)
+- claude.ai Figma MCP에는 팀·프로젝트의 파일 목록을 보거나 이름으로 검색하는 도구가 없고 모든 도구가 파일 키를 받는다(`whoami`로 팀·좌석만 확인 가능). 파일을 열려면 **Share → Copy link** URL이 필요하고, 특정 프레임은 그 프레임을 선택한 채 복사해 `node-id`를 포함시킨다(`node-id=0-1` → `0:1`).
+- 자동 생성 프레임을 신뢰하지 말 것: 프레임 이름("3 새 비밀번호")과 실제 내용(학번·이름 폼)이 다르거나, 폼 인스턴스 안 텍스트가 메타데이터에 안 나와 스크린샷으로 읽어야 하거나, 높이 1px 숨은 프레임·`LINK CAPTION` 숨김 레이어가 있었다. 사례: [[xquare-openapi-frontend/프로젝트-현황]].
+- SVG를 `<g>` 묶음째 가져오면 안의 선이 제자리를 잃을 수 있어 묶음을 풀어 넣는다.
+
 ## 출처
-- Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
+- Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2, /data/project/xquare-openapi-frontend)

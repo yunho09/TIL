@@ -1388,3 +1388,11 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — 도입 후 실측 섹션(Done 자동 동기화, 디스코드 질문 횟수 3→3과 이유)
 - 갱신: index.md — 위 2건 요약 갱신
 - 비고: 포트폴리오 문구 다듬기, Notion·Figma·PDF 편집 작업, Chrome 자동화 안내, figma 스킬 본문은 제외.
+
+## 2026-11-11 15:00 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 생성: [[Next-16-App-Router-동적-라우트-서버-클라이언트-cacheComponents]] — 새 하위 폴더 `프론트엔드/Next.js`(CLAUDE.md 폴더 표·index 섹션 함께 추가)
+- 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — 공지 상세·API 테스트 GET 전환·비밀번호 찾기·admin 공지 결정과 리뷰 판정, 로고 초안 5안 섹션 추가
+- 갱신: [[Figma-Dev-Mode-MCP]] — 파일 목록·이름 검색 불가(링크 필요), 프레임 이름·내용 불일치, SVG 묶음 함정
+- 갱신: index.md — 위 3건 요약 갱신
+- 비고: Figma 계정·팀 조회, 이슈·PR 생성/머지 진행 보고, 서버 켜고 끄기·브랜치 삭제, PR 리뷰 요청 메시지, Orca 스크롤 버그, figma 스킬 본문·컨텍스트 요약문은 제외. PR #11(API 테스트) 리뷰 반영은 기존 페이지에 이미 있어 중복 생략.
