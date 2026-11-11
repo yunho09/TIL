@@ -99,6 +99,9 @@ Spring Boot 4.1 / Security 7.1 / jjwt 0.13 기반 인증을 구현하고 별도 
 - `parseSignedClaims`가 형식(`MalformedJwtException`)·허용 알고리즘(`JwtException`)·서명(`SignatureException`)·만료(`ExpiredJwtException`)를 한 번에 검사. 헤더의 `alg`는 보내는 쪽이 적을 수 있으므로 허용 목록을 HS256으로 제한해 `none` 같은 토큰을 막는다. `sub`가 숫자가 아니면 형식이 깨진 토큰으로 취급.
 - **약점**: 한 번 발급한 JWT는 서버가 아무것도 저장하지 않아 만료 전 취소 불가 → 수명을 30분으로 짧게 하고, 대신 취소 가능한 리프레시 토큰(랜덤, DB 해시, 14일, 재발급에만 사용)을 둔다.
 - 요청 인증 흐름: `Authorization: Bearer …` → `JwtAuthenticationFilter`가 검증해 `SecurityContext`에 회원 ID를 기록(실패하면 "만료/위조" 이유만 요청 속성에 남기고 **어느 쪽이든 다음으로 넘김**) → `SecurityConfig` 규칙이 로그인 필요 여부 판단 → 필요한데 기록이 없으면 `EntryPoint`가 401 → 컨트롤러는 `@AuthenticationPrincipal Long userId`.
+- `SecurityConfig`의 `requestMatchers`는 **위에서부터 처음 맞는 규칙**이 적용된다 → `/api/auth/logout`은 `authenticated()`로 먼저 두고 그 아래 `/api/auth/**`를 `permitAll()`로 둬야 로그아웃만 로그인을 요구한다(순서를 뒤집으면 permitAll이 먼저 걸려 로그인 없이도 통과할 것 — Claude 보충, 세션에서 실행해 보지는 않음). `/error`를 `permitAll`로 열어 두지 않으면 컨트롤러 예외 뒤 ERROR 디스패치가 막혀 원래 에러 대신 401이 나간다.
+- 구글 로그인 순서: 앱이 구글 동의 화면을 열어 **일회용 인가 코드(`code`)**를 받음 → 서버로 `{code, redirectUri}` 전송 → **서버**가 `code`+client secret(서버에만 있는 비밀키)을 구글에 보내 이메일·구글 고유 ID를 받음(code만으로는 누구인지 알 수 없어 교환은 서버가 한다). `redirectUri`는 동의 화면을 열 때 쓴 값과 같아야 구글이 받아 주므로 앱이 같이 보낸다. 결과는 LOGGED_IN / SIGNED_UP / LINK_REQUIRED(같은 이메일의 기존 계정 → 비밀번호 확인 후 `/link`).
+- 토큰 전달 방식: 액세스(30분)는 응답 본문 → FE가 `Authorization` 헤더에 넣음(스크립트가 읽어야 하고 짧아서 위험이 작음), 리프레시(14일)는 `HttpOnly` 쿠키 → 브라우저가 자동 전송. 쿠키는 자동 전송이라 CSRF 대가가 있어 `SameSite=Lax`·`Path=/api/auth`·CORS 허용 목록을 함께 둔다.
 - 리프레시 토큰 발급(`TokenService.issue`): 액세스 토큰 생성 → `SecureRandom` 32바이트를 Base64URL 43자로 → 만료 14일 → `refresh_tokens`에 **해시만** 저장(기기=로그인마다 한 행) → 원문 두 개를 `IssuedTokens` record로 묶어 반환(원문은 앱만 보유).
 
 ## 출처

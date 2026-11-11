@@ -4,7 +4,7 @@ tags:
   - jpa
   - entity
   - repository
-updated: 2026-09-02
+updated: 2026-11-11
 ---
 
 # JPA 엔티티와 리포지토리
@@ -93,6 +93,22 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 > [!important] 쿼리 메서드 — 이름만 선언하면 구현이 생긴다
 > `findByTitleContaining` → 스프링이 이름을 해석 (`findBy` + `Title` + `Containing`)
 > → `WHERE title LIKE %?%` SQL 자동 생성. 몸통 0줄.
+
+### 이름 규칙으로 안 되는 것 — `@Query`·`@Lock`·`@Modifying` (2026-11-11 추가, JKYMHS-Backend `RefreshTokenRepository`)
+
+기본 메서드(`save`/`findById`…)와 **이름 규칙 조회**(`find`/`exists`/`count`/`delete`)면 대부분 끝난다. 이름으로 표현이 안 되는 **행 잠금 조회**와 **UPDATE**만 직접 쓴다.
+
+| 필요 | 만드는 법 | 실제 SQL |
+| --- | --- | --- |
+| 단순 조회 | 이름 규칙 `findByTokenHash` | `select … where token_hash=?` |
+| 조회하며 잠금 | `@Lock(PESSIMISTIC_WRITE)` + `@Query` | `… for update` |
+| 조건부 일괄 UPDATE | `@Modifying` + `@Query` | `update … set revoked_at=? where user_id=? and revoked_at is null` |
+
+- **`@Query`의 문장은 SQL이 아니라 JPQL**: 테이블·컬럼 대신 **클래스·필드 이름**을 쓴다(`RefreshToken`→`refresh_tokens`, `r.tokenHash`→`token_hash`, `r.user.id`→`user_id`). `r`은 별칭, `:tokenHash`는 같은 이름의 매개변수.
+- **메서드 이름에 `ForUpdate`를 붙이면** JPA가 `tokenHashForUpdate`라는 **필드를 찾다가 기동 시 에러**를 낸다 → 이름 규칙을 끄려면 `@Query`로 쿼리를 직접 적는다.
+- **`@Lock`은 트랜잭션이 끝날 때 풀린다** → 부르는 서비스 메서드에 `@Transactional`이 있어야 한다. 잠금이 없으면 같은 토큰으로 동시에 온 두 재발급이 둘 다 "아직 폐기 안 됨"을 읽어 **토큰 하나로 새 토큰 둘**을 받아 간다(탈취 감지 불가). 잠그면 두 번째 요청은 첫 요청이 폐기한 뒤 상태를 읽어 "재사용"으로 걸린다. 로그아웃은 동시에 와도 폐기를 두 번 할 뿐이라 잠글 필요가 없다.
+- **UPDATE는 이름 규칙으로 못 만든다** → `@Query`에 update 문을 쓰고 **`@Modifying`**으로 "조회가 아니라 변경 쿼리"라고 알려 준다(없으면 실행 시 에러). 반환 `int`는 바뀐 행 수. 행을 지우지 않고 `revokedAt`을 채우는 건 나중에 "폐기된 토큰이 다시 왔다"를 알아보기 위해서, `revokedAt is null` 조건은 이미 폐기된 행의 원래 폐기 시각을 보존하기 위해서.
+- **`clearAutomatically = true`**: 이 UPDATE는 영속성 컨텍스트(1차 캐시)를 거치지 않고 DB를 바로 바꾼다. 비우지 않으면 같은 트랜잭션에서 그 엔티티를 다시 찾을 때 **메모리의 옛 값(`revokedAt=null`)**이 돌아온다. 실행 직후 캐시를 비워 DB에서 다시 읽게 한다.
 
 ## 확인 문제
 

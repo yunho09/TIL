@@ -1354,3 +1354,11 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[JKYMHS-Backend/인증-API-구현과-PR-리뷰-결정사항]] — 2026-11-11 진행(머지 현황, base 전환 규칙, #14 GitHub 가짜 충돌, #16 ErrorCode 충돌, 비밀번호 재설정 API 누락 #31) 추가
 - 갱신: index.md — 위 3건 요약 갱신
 - 비고: 세션 전반부(TourAPI 수집·FE↔ERD 불일치·PR #16~#30 스택·Docker 환경)와 CodeRabbit 후속 수정(구글 동시 가입·로그인 길이·이모지 비밀번호)은 기존 페이지에 이미 있어 제외. 파일별 코드 낭독, 워크플로 작성 가이드·Chrome 자동화 안내문, 상태 확인 문답은 제외. 인증 PR 실제 키 기반 동작은 여전히 미검증.
+
+## 2026-11-11 14:54 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
+- 갱신: [[JPA-엔티티와-리포지토리]] — 이름 규칙으로 안 되는 `@Query`(JPQL)·`@Lock`·`@Modifying(clearAutomatically)` 섹션 추가
+- 갱신: [[빈과-DI]] — `final` 필드 이유·import vs 주입·타입 기준 주입(변수 이름 자유) 섹션 추가
+- 갱신: [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]] — `requestMatchers` 순서 규칙, 구글 인가 코드 교환 순서, 토큰 전달 방식 추가
+- 갱신: index.md — 위 3건 요약 갱신
+- 비고: 같은 세션이 14:51에 일부 ingest돼 TourAPI 수집·FE↔ERD 불일치·PR 수동 테스트 체크리스트·JWT 필터·로그아웃 Optional 체인·ResponseEntity·쿠키 개념은 기존 페이지와 중복이라 제외. 워크플로 작성 가이드·Chrome 자동화 안내문, 파일별 코드 낭독, 머지·상태 확인 문답도 제외.

@@ -3,7 +3,7 @@ tags:
   - spring
   - di
   - bean
-updated: 2026-09-04
+updated: 2026-11-11
 ---
 
 # 빈과 DI
@@ -88,5 +88,14 @@ public void join(String email) {
 
 확인법: 컨트롤러에서 `postService.toString()`을 몇 번 찍어봐도 `PostService@1a2b3c4d`처럼 **같은 객체 식별자**가 나온다.
 
+## `final` 필드·import·변수 이름 (2026-11-11 추가, JKYMHS-Backend `AuthController` 읽으며)
+
+`@RequiredArgsConstructor` + `private final AuthService authService;` 조합에서 Lombok은 **`final` 필드를 받는 생성자**를 만들고, 서버가 뜰 때 Spring이 그 생성자를 보고 `@Service` 객체를 찾아 넣어 준다(생성자 주입).
+- `final`을 붙이는 이유 셋: ① Lombok이 생성자에 넣을 필드를 고르는 기준(없으면 `null`로 남음) ② 컨트롤러·서비스는 빈 하나를 모든 요청이 공유하므로 중간에 바꿔치기를 컴파일 에러로 막음 ③ 생성자에서 값을 안 넣으면 컴파일 에러.
+- **`import`는 객체를 넣어 주지 않는다**: 긴 클래스 이름(`com.….TokenService`)을 짧게 쓰게 해 주는 컴파일 시점 표기일 뿐이다. 객체를 만들고 넣는 건 서버 기동 시 Spring(`@Service`). `import org.springframework…`이면 Spring 클래스, 프로젝트 패키지(`com.jkymhs…`)로 시작하면 우리 코드, `Optional`·`String`은 Java 기본.
+- **주입은 타입을 보고 한다 → 변수 이름은 자유**(`TokenService ts`도 동작). 이름을 바꾸면 쓰는 곳도 다 바꿔야 하고 관례는 클래스 이름의 첫 글자만 소문자(`tokenService`). 같은 타입 빈이 둘 이상일 때만 이름이 어느 쪽을 넣을지 고르는 단서가 된다.
+- 컨트롤러가 서비스를 가져오는 건 처리를 넘기려는 것: 컨트롤러는 "요청 받기 → 서비스 호출 → 결과 돌려주기"만 하고 실제 처리는 서비스. 재발급·로그아웃은 비밀번호·약관이 필요 없고 토큰만 다루므로 `AuthService`를 거치지 않고 `TokenService`를 바로 부르도록 서비스를 나눴다.
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/spring-practice)
+- Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
