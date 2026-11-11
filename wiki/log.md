@@ -1427,3 +1427,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Vite-SPA-nginx-정적-서빙과-try_files-캐시]], [[xquare-infra-frontend-v3/SSH-게이트웨이-VM-배포-결정과-self-hosted-runner]]
 - 갱신: index.md — 프론트엔드/배포, 프로젝트/xquare-infra-frontend-v3 섹션에 추가
 - 비고: 접속 정보·SSH config 편집 등 일회성 작업과 질문 정리 잡담 제외. raw 파일이 없어 출처는 설명형으로 표기.
+
+## 2026-11-11 17:33 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
+- 갱신: [[JKYMHS-Backend/프로젝트-현황]] — `application.yml` 보충(`ddl-auto` 4값, `google:` 빈 기본값, `@ConfigurationProperties` 케밥→카멜 매핑)
+- 갱신: index.md — 위 페이지 요약 갱신
+- 비고: 세션 내용(TourAPI 수집·FE↔ERD 불일치·스택 PR #16~#30·인증 PR #8~#14 코드 해설·JPA/트랜잭션/ResponseEntity 설명)은 기존 페이지에 이미 반영돼 있어 중복 생략. 키 입력 시행착오·상태 확인 문답·워크플로 스킬 본문 제외.
