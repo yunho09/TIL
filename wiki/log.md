@@ -1335,3 +1335,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[자소서-작성-원칙과-사실-대조-점검]]
 - 갱신: index.md — 도구 섹션에 신규 1건 추가
 - 비고: 웹한글 편집 요령·디스코드 채널 읽기는 [[Claude-in-Chrome-웹한글-양식-입력과-디스코드-읽기전용-검색]]에 이미 있어 제외. 자소서 문안, 대회·수상 목록, 멘토링 영향 정리 등 개인·일회성 자료도 제외.
+
+## 2026-11-11 14:49 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend/.claude/worktrees/team-task-allocation-7a0111)
+- 갱신: [[DSM-Open-API-데이터-수집-루트]] — 학사 일정 출처 결정(나이스 동기화+직접 입력 우선, NEIS/SCHOOL 구분, admin 일정 화면 반영) 섹션 추가
+- 비고: 주차별 태스크 분배안·디스코드 게시문 서식 등 일회성 작업 지시는 제외.
