@@ -55,5 +55,13 @@ updated: 2026-11-10
 - 구현 단계에서 바뀐 것: MySQL 예약어라 `accessible`→`accessible_only`, `content_details.fetched_at`은 NULL 허용(상세 새로고침 규칙은 "행 없음 OR fetched_at NULL OR 7일 경과").
 - ERD에는 있지만 FE가 안 쓰는 것: 관심 카테고리(질문 삭제), `users.last_companion_type`, `event_program`·`host`·`homepage` 등 일부 상세 칼럼.
 
+## 수집 데이터를 담는 테이블 구조 (PR #18, 2026-11-11 기준 develop 미반영)
+- 당시 develop에는 `User`·`RefreshToken` 테이블뿐이고, 수집 데이터용 엔티티는 `17-feat-content-foundation` 브랜치(PR #18, 대상 브랜치가 develop이 아니라 `15-chore-api-common-base`)에 있다. PR #15·#18이 develop에 합쳐져야 CSV를 적재할 수 있다.
+- **`contents`**: 장소·축제 1건=1행, PK `id`=TourAPI contentid. `content_type`(ATTRACTION/FESTIVAL/RESTAURANT/LODGING), `tour_content_type_id`(12 관광지·14 문화시설·15 축제·32 숙박·39 음식점), `sido_region_id`·`region_id`, `lcls1~3`, `category_id`, `io_type`(INDOOR/OUTDOOR/MIXED, lcls3별로 손수 지정, 비 오는 날 실내 추천용), 축제 `event_*`·`playtime_raw`, 운영 `operating_hours_raw`·`open_time`·`close_time`·`rest_date_raw`·`rest_days`·`pet_allowed`, `popularity_score`·`wish_count`·`is_deleted`.
+- **`content_details`**(1:1, `@MapsId`): `overview`·`homepage`·`fee`·`contact`·`host`·`age_limit`·`event_program`·`fetched_at`. **`overview`(소개글)와 `content_images`(detailImage2)는 CSV에 없어** 상세 새로고침 배치가 돌 때까지 비어 있다 → AI 추천에서 소개글을 쓸 계획이면 주의.
+- `regions`(depth 1 시·도 / 2 시·군·구, `parent_id`), `tour_classifications`(분류 코드 트리), `categories`(group_type PLACE_FILTER/FESTIVAL_FILTER/CHIP)·`category_mappings`, 그리고 `tour_sync_cursors`·`batch_job_logs`.
+- **CSV 적재**: `collect.py`가 CSV 4개(contents 32,548행·content_details 950·lcls_codes 246·regions 284)를 만들고, `TOUR_IMPORT_CSV_DIR`를 주면 `TourCsvImporter`가 서버 기동 시 읽는다. 같은 키 한도(하루 1,000건)를 새벽 4시 `TourSyncJob`이 나눠 쓰므로 개발용 키로는 `BATCH_ENABLED=false`를 권한다. `content_details.event_start_time`은 TourAPI에 필드가 없어 항상 비고, 축제 시간은 `operating_hours`(→`playtime_raw`)에 있다. 데이터는 git에 올리지 않는다.
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
+- Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)

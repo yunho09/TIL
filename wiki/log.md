@@ -1340,3 +1340,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend/.claude/worktrees/team-task-allocation-7a0111)
 - 갱신: [[DSM-Open-API-데이터-수집-루트]] — 학사 일정 출처 결정(나이스 동기화+직접 입력 우선, NEIS/SCHOOL 구분, admin 일정 화면 반영) 섹션 추가
 - 비고: 주차별 태스크 분배안·디스코드 게시문 서식 등 일회성 작업 지시는 제외.
+
+## 2026-11-11 14:50 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)
+- 생성: [[JKYMHS-Backend/xquare-배포-CLI-allowlist-막힘과-웹-입력값]]
+- 갱신: [[JKYMHS-Backend/TourAPI-데이터-수집과-FE-ERD-불일치]] — 수집 데이터 테이블 구조(PR #18)·CSV 적재 환경변수 섹션 추가
+- 비고: 디스코드 게시문 서식, 배포 가이드 문서 작성, zip 묶기·수치 요약 등 일회성 작업과 오해-정정 대화는 제외.
