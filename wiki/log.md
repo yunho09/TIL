@@ -1396,3 +1396,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Figma-Dev-Mode-MCP]] — 파일 목록·이름 검색 불가(링크 필요), 프레임 이름·내용 불일치, SVG 묶음 함정
 - 갱신: index.md — 위 3건 요약 갱신
 - 비고: Figma 계정·팀 조회, 이슈·PR 생성/머지 진행 보고, 서버 켜고 끄기·브랜치 삭제, PR 리뷰 요청 메시지, Orca 스크롤 버그, figma 스킬 본문·컨텍스트 요약문은 제외. PR #11(API 테스트) 리뷰 반영은 기존 페이지에 이미 있어 중복 생략.
+
+## 2026-11-11 15:02 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 갱신: [[리눅스-메모리-점유-앱별-진단-PSS]] — 스왑 개념·찼을 때 판단, swapoff -a 안전 조건 계산, Ctrl+Z 정지 세션 강제 종료 섹션 추가
+- 갱신: index.md — 위 페이지 요약 갱신
+- 비고: Claude Desktop 업데이트, 세션 13개·kind·Slack 종료 등 일회성 정리 작업은 제외.

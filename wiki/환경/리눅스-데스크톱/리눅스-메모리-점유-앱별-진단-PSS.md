@@ -1,6 +1,6 @@
 ---
 tags: [리눅스, 메모리, pss, zram, 진단]
-updated: 2026-09-08
+updated: 2026-11-11
 ---
 
 # 리눅스에서 앱별 메모리 점유를 정확히 재는 법 (PSS, zram/shmem/slab)
@@ -25,6 +25,19 @@ updated: 2026-09-08
 
 Electron 기반 앱(Figma, Discord, VS Code, Claude Desktop 등)은 각자 자기 몫의 Chromium 런타임을 통째로 들고 있어서, **하나를 끄면 그 앱의 점유가 통째로 돌아온다** — 브라우저 탭을 하나 닫는 것과는 회수되는 단위가 다르다. 그래서 "언제 안 쓰는지 아는 앱 중 가장 큰 것"부터 끄는 게 여러 앱을 조금씩 정리하는 것보다 체감 효과가 크다. Figma 데스크톱 앱의 구체적인 원인은 [[Figma-데스크톱-앱-메모리-중복]] 참고.
 
+## 스왑이 찼을 때 판단과 비우는 법 (2026-11-11 보충)
+
+- **스왑**은 RAM이 모자랄 때 당장 안 쓰는 데이터를 옮겨 두는 예비 공간이다. 이 PC는 zram 8GB(RAM 안에 압축 보관, 먼저 사용)와 `/swap.img` 8GB(SSD 파일, 훨씬 느림) 두 단계다.
+- 스왑이 가득 차면 오래 안 본 창으로 돌아갈 때 **잠깐 버벅이고**, 스왑마저 꽉 찬 상태에서 RAM이 또 모자라면 커널이 프로세스를 강제 종료(**OOM**)한다. 과거 GNOME 세션이 통째로 꺼진 것도 이 경우.
+- 그래서 스왑 숫자보다 **"바로 쓸 수 있는 메모리"(available)** 가 중요하다. 세션·앱을 정리해 available이 1.2GB→7GB로 늘면 스왑이 그대로 차 있어도 위험은 크게 준다. 스왑이 안 줄어드는 건 비운 자리를 다른 프로그램이 곧바로 다시 채우기 때문이고, 스왑 속 데이터는 해당 프로그램을 다시 쓰거나 끌 때 비워진다.
+- **비우는 법**: `sudo swapoff -a && sudo swapon -a`로 스왑 내용을 전부 RAM으로 되돌린다. 단 **필요한 RAM ≈ 스왑에 든 데이터(압축 해제 크기) − zram이 풀려 생기는 자리**여서, available이 이 값보다 작으면 OOM이 난다. 사례: 스왑 데이터 약 15GB(zram 7.3 + SSD 7.8), zram 해제로 약 3GB 확보 → 약 12GB 부족, available 5.8GB라 실행 불가. available이 필요량을 넘을 때까지 큰 앱을 더 닫은 뒤에 한다.
+- 가장 확실한 방법은 **재부팅/로그아웃**: 스왑이 완전히 비고, 스왑을 오래 붙들던 gnome-shell(약 1GB)도 새로 시작한다.
+
+## Ctrl+Z로 멈춘 Claude 세션은 SIGTERM이 안 먹는다
+
+- 터미널에서 Ctrl+Z로 정지(SIGTSTP)된 세션은 종료 신호(SIGTERM)를 처리하지 못해 안 죽는다. 13일 전 멈춘 세션이 자식 MCP 프로세스까지 메모리를 잡고 있던 사례 — 이런 묶음은 강제 종료(SIGKILL)로 세션 전체(MCP 자식 포함)를 끈다. 정리 전엔 세션별 마지막 대화 시각을 다시 확인해 최근에 쓴 세션은 제외한다. 관련: [[Claude-Code-MCP-고아-프로세스와-메모리-정리]].
+
 ## 출처
 
 - Claude Code 세션 자동 캡처 (/home/yunho/.local/share/gnome-shell/extensions/Vitals@CoreCoding.com)
+- Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
