@@ -1409,3 +1409,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Figma-Dev-Mode-MCP]] — 일부 쪽만 PDF 내보내기(프레임 숨김·바닥글 수정 후 원복) 섹션 추가
 - 갱신: index.md — 위 2건 요약 갱신
 - 비고: 이력서·노션·Figma 개별 수치 수정 내역, 제출 버튼 실행, 파일 경로 정리는 일회성이라 제외.
+
+## 2026-11-11 17:11 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 생성: [[배경화면-화질-HiDPI-해상도-맞춤과-Wallpaper-Engine]]
+- 갱신: index.md — 환경/GNOME 섹션에 새 페이지 추가
+- 비고: 세션은 ToyVillage-Admin-FE가 아닌 GNOME 배경화면 대화. Steam 설치 여부 확인·잡담 제외.
