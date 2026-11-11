@@ -1323,3 +1323,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[뚜껑-열면-화면-꺼짐-lid-grace-gsd-power-이중-잠금]]
 - 갱신: index.md — 신규 1건 추가
 - 비고: 수정 후 재현 테스트 결과는 세션에 없어 "미확인"으로 표기. systematic-debugging 스킬 본문은 제외.
+
+## 2026-11-11 14:46 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.config/Claude/scratch-workspaces/68eef3b8-da94-4db5-b563-9565e29705a3/4cebf249-3d72-4a77-a55b-e742194ef06a/scratch-2026-11-10-6bebd8)
+- 생성: [[Claude-모델-선택-Opus-5.5-vs-Fable-5.2와-자동-선택-기능]]
+- 갱신: index.md — 도구 섹션에 신규 1건 추가
+- 비고: claude-api 스킬 본문은 제외. Fable 5.2 가격·벤치마크는 세션의 웹 조사 결과(Anthropic 자체 측정 포함)이며 직접 검증하지 않았고, 어드바이저 세부 동작은 미확인으로 표기.
