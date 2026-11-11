@@ -1,6 +1,6 @@
 ---
 tags: [linear, github, 이슈관리, 워크플로]
-updated: 2026-10-29
+updated: 2026-11-11
 ---
 
 # Linear 도입과 GitHub org 연동 (Linear Code 앱)
@@ -58,9 +58,15 @@ GitHub Issues 중심이던 팀에 Linear를 도입할 때의 개념 대응, 워�
 - **Free 플랜 초대는 전원 Admin**으로 들어가므로 관리자를 따로 더 지정할 필요가 없다. 초대 목록은 Settings → Administration → Members의 **Invited** 칸(수락하면 Active), 다른 이메일로 로그인하면 초대가 연결되지 않는다.
 - **보드에서 칸이 사라져 보일 때**: 이슈 0개인 상태 칸은 기본 숨김(Hidden columns). Display(오른쪽 위 가운데 슬라이더 아이콘) → **Show empty columns**로 고정. Active 탭은 Todo·In Progress·In Review만, Backlog·Done까지 보려면 **All issues** 탭.
 
+## 도입 후 실측 (2026-11-11 추가)
+- **Done 자동 동기화는 동작**: 도입 뒤(10/28~11/10) FE 17건 + BE 11건이 보드 하나에 모였고, GitHub 이슈가 닫히면 Linear도 Done이 된다. 위 "실측 전" 서술의 후속 확인.
+- **보는 곳은 줄었지만 묻는 횟수는 그대로**: 예전엔 팀원에게 묻거나 저장소 두 곳을 열어야 했고 지금은 Linear 한 곳이면 된다. 그러나 디스코드에서 코드 태스크 진행을 직접 물은 횟수는 도입 전(10/13~10/28) 3번 → 도입 후(10/29~11/10) 3번으로 **줄지 않았다**(도입 후엔 Linear에 없는 일 4번 추가: 명단 문의 3·배포 1).
+- **줄지 않은 이유**: ① Linear엔 끝난 것만 자동 반영돼 "하는 중"이 안 보임(BE 11건 전부 Backlog, 사이클 0개, 우선순위 미지정) ② 선생님께 명단 받기·서버 배포 같은 코드 외 일은 이슈로 안 만듦 ③ 팀원이 Linear를 안 봐 11/10에 사용을 재공지.
+- 교훈: 자동으로 보이게 하려면 팀이 상태를 옮기고 코드 외 일도 이슈로 올려야 한다. 횟수는 메시지를 읽고 분류한 수동 집계(마감 안내·멘션만 있는 것 제외)라 오차 가능.
+
 ## 관련
 - [[GitHub-closing-keyword-기본브랜치-PR-자동닫힘과-코드오너-룰셋]] — GitHub 쪽 닫기 키워드 동작
 - [[xquare-openapi-frontend/프로젝트-현황]] — 이 도입이 적용된 프로젝트
 
 ## 출처
-- Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend, 2026-10-28, 2026-10-29)
+- Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend, 2026-10-28, 2026-10-29, 2026-11-11)

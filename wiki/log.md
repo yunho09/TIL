@@ -1381,3 +1381,10 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[xquare-openapi-frontend/DSM-Open-API-데이터-수집-루트]] — 팀 정리 수집 방법 섹션 추가, 나이스 제거·컴시간 전환과 기존 결정의 "상충하는 정보" 기록
 - 갱신: index.md — 위 2건 요약 갱신
 - 비고: 이슈 생성·작업 가능 목록 문답, 크롬 탭 열기/닫기, 서버 정리·브랜치 삭제 문의, 리뷰 스킬 본문·컨텍스트 요약문은 제외.
+
+## 2026-11-11 14:59 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — PM 결정 기록 섹션(호출 한도 삭제 근거, 태스크 분배 원칙·로드맵, 화면 수 오집계 교훈)
+- 갱신: [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — 도입 후 실측 섹션(Done 자동 동기화, 디스코드 질문 횟수 3→3과 이유)
+- 갱신: index.md — 위 2건 요약 갱신
+- 비고: 포트폴리오 문구 다듬기, Notion·Figma·PDF 편집 작업, Chrome 자동화 안내, figma 스킬 본문은 제외.
