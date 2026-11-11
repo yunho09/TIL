@@ -1421,3 +1421,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[GNOME-앱목록-독-정리와-상단바-트레이-아이콘-색-입히기]]
 - 갱신: index.md — 환경/GNOME 섹션에 새 페이지 추가
 - 비고: 세션 대부분이 요약 응답이라 구체 명령·키는 원본에 없음. 브레인스토밍 스킬 본문, 영어 응답 사과·잡담, 진행 안내 제외.
+
+## 2026-11-11 17:32 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-infra-frontend-v3/applications/xquare-admin-application)
+- 생성: [[Vite-SPA-nginx-정적-서빙과-try_files-캐시]], [[xquare-infra-frontend-v3/SSH-게이트웨이-VM-배포-결정과-self-hosted-runner]]
+- 갱신: index.md — 프론트엔드/배포, 프로젝트/xquare-infra-frontend-v3 섹션에 추가
+- 비고: 접속 정보·SSH config 편집 등 일회성 작업과 질문 정리 잡담 제외. raw 파일이 없어 출처는 설명형으로 표기.
