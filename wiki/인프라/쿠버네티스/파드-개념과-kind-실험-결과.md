@@ -55,6 +55,7 @@ updated: 2026-11-12
 
 ## 관련
 - [[워크로드-리소스-정리와-공식문서-대조-정정]] — 같은 Notion 정리를 공식 문서와 대조해 고친 내용
+- [[Deployment-롤아웃과-Service-타입-개념-정리]] — 이어지는 Deployment 롤아웃·롤백과 Service 타입 개념
 - [[Docker-Desktop-쿠버네티스-이미지-손상과-기본-Docker-kind-전환]] — 실습에 쓴 kind 환경
 
 ## 출처
