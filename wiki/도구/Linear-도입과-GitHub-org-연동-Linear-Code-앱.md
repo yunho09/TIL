@@ -1,6 +1,6 @@
 ---
 tags: [linear, github, 이슈관리, 워크플로]
-updated: 2026-11-11
+updated: 2026-11-12
 ---
 
 # Linear 도입과 GitHub org 연동 (Linear Code 앱)
@@ -64,9 +64,16 @@ GitHub Issues 중심이던 팀에 Linear를 도입할 때의 개념 대응, 워�
 - **줄지 않은 이유**: ① Linear엔 끝난 것만 자동 반영돼 "하는 중"이 안 보임(BE 11건 전부 Backlog, 사이클 0개, 우선순위 미지정) ② 선생님께 명단 받기·서버 배포 같은 코드 외 일은 이슈로 안 만듦 ③ 팀원이 Linear를 안 봐 11/10에 사용을 재공지.
 - 교훈: 자동으로 보이게 하려면 팀이 상태를 옮기고 코드 외 일도 이슈로 올려야 한다. 횟수는 메시지를 읽고 분류한 수동 집계(마감 안내·멘션만 있는 것 제외)라 오차 가능.
 
+## 동기화 방향 실측과 Linear 전용 이슈 (2026-11-12 추가)
+- **방향 설정은 "생성"에만 적용**: Settings → Integrations → GitHub에서 레포별로 *One-way: GitHub → Linear*여도, **이미 연결된 이슈의 업데이트는 양쪽으로 반영**된다. 실측: Linear에서 이슈를 Done으로 옮기자 1초 안에 GitHub 이슈가 completed로 닫혔다(닫은 사람은 연결된 계정). In Review로 옮긴 이슈는 GitHub에서 열린 채 유지. 즉 "GitHub 이슈 → Linear 한 방향"이라 믿고 Linear에서 Done 처리하면 GitHub 이슈가 의도치 않게 닫힐 수 있다.
+- **Linear에서 만든 이슈는 GitHub에 생기지 않는다**(One-way 기준). Two-way로 바꿔도 팀당 레포 하나라, FE·BE 레포를 한 팀이 같이 받는 구성에서는 Linear 발 이슈가 전부 한 레포로만 간다 → "이슈는 GitHub에서 만들고 상태는 Linear에서 관리"가 맞다. Linear 전용 이슈(예: 서버 배포 같은 코드 외 일)는 GitHub 짝이 없으므로 PR 연결은 브랜치 `feature/opn-78` 또는 PR 본문 `Closes OPN-78`로 한다.
+- **함정: 이슈 설명의 `PR #26` 자동 링크**: Linear 설명에 `PR #26`처럼 번호만 쓰면 팀에 연결된 레포 중 엉뚱한 레포(FE #26)로 링크됐다. 다른 레포의 PR은 **전체 URL 링크**로 적는다.
+- **일괄 이관 요령**: 레포(BE/FE)의 PR 머지·오픈 현황과 Linear 상태를 대조해 옮긴다 — develop에 머지됨=Done, PR 열림(리뷰 대기)=In Review, 원격 브랜치·PR 없음=그대로. PR이 develop이 아닌 다른 feature 브랜치로 머지된 경우는 develop 반영 전이므로 Done이 아니다. 완료 후 다시 조회해 반영을 확인한다.
+
 ## 관련
 - [[GitHub-closing-keyword-기본브랜치-PR-자동닫힘과-코드오너-룰셋]] — GitHub 쪽 닫기 키워드 동작
 - [[xquare-openapi-frontend/프로젝트-현황]] — 이 도입이 적용된 프로젝트
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend, 2026-10-28, 2026-10-29, 2026-11-11)
+- Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend/.claude/worktrees/sync-task-progress-f36bef, 2026-11-12)

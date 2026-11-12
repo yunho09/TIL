@@ -1490,3 +1490,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho)
 - 갱신: [[파드-개념과-kind-실험-결과]] — init 컨테이너를 따로 두는 이유(도구를 앱 이미지에서 분리) 1줄 추가
 - 비고: 파드 개념·실험·공식 문서 대조·Notion 수정 내역은 기존 페이지와 중복이라 제외. 확인 문제 출제·답변, 학습 진행 문답, 포크 안내는 버림.
+
+## 2026-11-12 22:25 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend/.claude/worktrees/sync-task-progress-f36bef)
+- 갱신: [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — 동기화 방향 설정은 생성에만 적용·업데이트는 양방향(Done→GitHub 닫힘 실측), Linear 전용 이슈, `PR #26` 오링크 함정, PR 현황 기반 상태 이관 기준 섹션 추가
+- 갱신: index.md — 위 페이지 요약에 2026-11-12 항목 추가
+- 비고: 이슈 17개(OPN-64~80) 생성 내역·담당자 분배·마감일, 개별 이슈 상태 이동 목록은 일회성 작업이라 제외.
