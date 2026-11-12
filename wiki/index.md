@@ -244,7 +244,8 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[PR-Lens/가독성-개편과-PR-개요-한일-변경영역-설계]] — 코드 폭 791→1142px·sticky(`overflow: clip`)·합자 끔·대비 개선, "이 PR은" 개요(한 일 묶음 ≤8 + AI 없는 변경 영역 막대), 분석 못 한 코드 🟣 표시와 숫자·점프 일치, 점프 후 포커스(`tabindex` 함정), F5가 유료 분석을 시작하던 버그와 navigation type 수정 (2026-11-08)
 
 ### 인프라/쿠버네티스
-- [[워크로드-리소스-정리와-공식문서-대조-정정]] — Pod·Deployment·ReplicaSet·StatefulSet·DaemonSet·Service 정리를 영문 원본과 대조해 정정(StatefulSet `Parallel`+`maxUnavailable`>1은 롤링 업데이트도 동시 진행, `Recreate` v1.37 Alpha, `maxUnavailable` 게이트 단계, autoscale 플래그 표기 차이), 한국어 문서는 구버전 가능·WebFetch 100k 절단 대신 GitHub raw md를 curl (2026-11-09)
+- [[워크로드-리소스-정리와-공식문서-대조-정정]] — Pod·Deployment·ReplicaSet·StatefulSet·DaemonSet·Service 정리를 영문 원본과 대조해 정정(StatefulSet `Parallel`+`maxUnavailable`>1은 롤링 업데이트도 동시 진행, `Recreate` v1.37 Alpha, `maxUnavailable` 게이트 단계, autoscale 플래그 표기 차이), 한국어 문서는 구버전 가능·WebFetch 100k 절단 대신 GitHub raw md를 curl (2026-11-09), **(2026-11-12 2차 대조)** 노션 6페이지 39곳 수정 — 유일한 오류는 `--cpu-percent`→`--cpu`, 나머지는 조건 누락(템플릿 교체·init/사이드카·Unknown→Failed·progressDeadline 자동 롤백 없음·StatefulSet `Retain`·DaemonSet 조건 노드 수 등)
+- [[파드-개념과-kind-실험-결과]] — 파드=논리 호스트(IP·포트 공유, 볼륨은 명시 마운트), 포트 충돌 컨테이너는 파드 Running이어도 재시작 반복, 컨테이너 재시작(IP·UID 유지) vs 파드 교체(새 IP·UID), phase vs kubectl STATUS, init·사이드카(`restartPolicy: Always`)·임시 컨테이너, 실행 중 파드 수정 한계, 템플릿·ReplicaSet/Deployment 역할 (2026-11-12)
 
 ### 도구
 - [[SSH-글자-입력-끊김-왕복-지연과-mosh]] — SSH 글자 입력 끊김은 키마다 서버 왕복(RTT)을 기다리기 때문(30ms 이하 무감, 50~100ms·들쭉날쭉이면 끊김, 한글 조합은 무관), mosh(서버 설치·UDP 필요)·VS Code Remote-SSH·붙여넣기로 줄이는 법 (2026-11-12)
