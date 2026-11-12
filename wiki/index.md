@@ -251,7 +251,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 
 ### 인프라/쿠버네티스
 - [[워크로드-리소스-정리와-공식문서-대조-정정]] — Pod·Deployment·ReplicaSet·StatefulSet·DaemonSet·Service 정리를 영문 원본과 대조해 정정(StatefulSet `Parallel`+`maxUnavailable`>1은 롤링 업데이트도 동시 진행, `Recreate` v1.37 Alpha, `maxUnavailable` 게이트 단계, autoscale 플래그 표기 차이), 한국어 문서는 구버전 가능·WebFetch 100k 절단 대신 GitHub raw md를 curl (2026-11-09), **(2026-11-12 2차 대조)** 노션 6페이지 39곳 수정 — 유일한 오류는 `--cpu-percent`→`--cpu`, 나머지는 조건 누락(템플릿 교체·init/사이드카·Unknown→Failed·progressDeadline 자동 롤백 없음·StatefulSet `Retain`·DaemonSet 조건 노드 수 등)
-- [[파드-개념과-kind-실험-결과]] — 파드=논리 호스트(IP·포트 공유, 볼륨은 명시 마운트), 포트 충돌 컨테이너는 파드 Running이어도 재시작 반복, 컨테이너 재시작(IP·UID 유지) vs 파드 교체(새 IP·UID), phase vs kubectl STATUS, init·사이드카(`restartPolicy: Always`)·임시 컨테이너, 실행 중 파드 수정 한계, 템플릿·ReplicaSet/Deployment 역할 (2026-11-12)
+- [[파드-개념과-kind-실험-결과]] — 파드=논리 호스트(IP·포트 공유, 볼륨은 명시 마운트), 포트 충돌 컨테이너는 파드 Running이어도 재시작 반복, 컨테이너 재시작(IP·UID 유지) vs 파드 교체(새 IP·UID), phase vs kubectl STATUS, init·사이드카(`restartPolicy: Always`)·임시 컨테이너, 실행 중 파드 수정 한계, 템플릿·ReplicaSet/Deployment 역할, init 컨테이너를 따로 두는 이유 (2026-11-12)
 - [[Deployment-롤아웃과-Service-타입-개념-정리]] — Deployment→ReplicaSet→Pod 역할 분담, 롤아웃은 템플릿 변경 때만·RollingUpdate vs Recreate, 롤백=옛 ReplicaSet 0개 보존(자동 롤백 없음, 일시 중지 중 불가), HPA, Service의 ClusterIP(가상 IP)·EndpointSlice·타입 4가지·헤드리스, 호스트·경로 분기는 Ingress/Gateway API (2026-11-12)
 
 ### 도구
