@@ -64,6 +64,16 @@ groups: [
 - 면접·포트폴리오 표현: "번들 크기를 줄였다"(X) → **"배포 뒤 다시 받는 양을 줄였다"**. "코드 스플리팅"만 말하면 화면별 지연 로딩과 섞이므로 "라이브러리 청크 분리"로 구분.
 - 꼬리질문 답: 전부 따로 쪼개지 않은 이유는 파일 수(요청 수)가 늘기 때문이라 바뀌는 주기가 비슷한 것끼리 묶음(React 계열/Sentry/나머지). 관련 커밋 `d236255`(첫 로딩 라이브러리 분리), `9dfb06a`(녹화 분리).
 
+## 첫 로딩 성능 작업의 구현 근거 (2026-11-13 코드 대조)
+면접 대비로 `origin/develop` 코드와 대조한 내용(ToyVillage-Admin-FE).
+- **라우트 코드 분할** (`App.tsx`의 `lazyPage`, PR #254): 라우트마다 `React.lazy(() => import('@/pages/...'))` + `Suspense`. ① 배럴(`@/pages/tasks`)이 아니라 **페이지 파일을 직접** import해야 한다(배럴은 묶음 전체가 한 청크가 됨). ② 처음엔 React Router 라우트 `lazy`를 썼으나 청크가 도착할 때까지 주소가 안 바뀌어 이전 화면이 남아 `React.lazy`로 교체. ③ `Suspense key={name}`이 없으면 화면이 바뀌어도 같은 Suspense로 취급돼 이전 화면이 계속 그려짐. 검증은 로그인 화면에서 다른 화면 모듈을 요청하지 않는지 보는 e2e. 메인 JS 1,031→247 kB(PR 표)와 1,307 kB(메모, 배포 빌드)는 기준 빌드가 다름 — Sentry DSN이 없으면 `if (!dsn) return` 뒤 코드가 죽은 코드로 제거돼 번들이 작아진다는 추정. **수치를 말할 땐 어떤 빌드 기준인지 함께.**
+- **Sentry 세션 녹화 지연 로딩** (`initSentry.ts`): `load` 이벤트 뒤 `import('@/app/config/sentryReplay')`로 `Sentry.addIntegration(replay)` 부착, 실패는 `.catch(() => {})`로 삼켜 배포 직후 옛 청크가 없어도 에러 전송은 유지. `lazyLoadIntegration`(Sentry CDN에서 받는 방식)은 쓰지 않음. `Sentry.init`은 `instrument.ts`에서 가장 먼저 실행.
+- **로고 WebP**: 빌드 플러그인 없이 미리 변환한 파일을 커밋. 핵심은 포맷보다 **표시 크기 136×114의 2배(레티나)인 272×228로 축소**한 것(390×328 PNG 142,732 B → 13,836 B). 이슈 #262가 이 로고를 로그인 LCP 후보로 지목.
+- **PDF 지연 로딩**: `import type`(빌드 때 소멸) + `pdf.worker.min.mjs?url`(번들엔 URL 문자열만) + PDF 미리보기를 열 때만 `await import('pdfjs-dist')`. 이미지 미리보기는 그 전에 return. 단 이 구조는 성능 작업이 아니라 9/25 미리보기 모달을 처음 만들 때부터 있었으므로 "성능 작업 때 바꿨다"고 말하면 사실과 다르다 ([[ToyVillage-Admin-FE/첨부파일-미리보기-모달]]).
+- **업무 등록 팀 구조 캐시** (PR #260): `/team/tree` p95 9초대가 병목이라 코드 분할 대신 `staleTime 30분·gcTime 1시간` + 업무 목록·상세 mount 시 `prefetchQuery`. 팀·직원 계정 변경 시 invalidate. hover 프리페치가 아니라 진입 시점 `useEffect`.
+- **장기 캐싱 주의**: 저장소에 `_headers`가 없어 Cloudflare 기본 정책을 따른다. "장기 캐싱"이라 말하기 전에 실제 응답 헤더(immutable인지 ETag 304인지)를 확인할 것(304여도 본문 0 kB).
+- **측정 방법의 한계**: 측정 스크립트·throttling 설정은 저장소에 없고 이슈 #271과 메모에만 조건(지연 20 ms·30 Mbps·CPU 2배, API mock 0.8초)이 있다. 면접 위험: 코드 스플리팅 뒤 대시보드 **재방문 LCP가 552→818 ms로 늘었다**("단점은 없었나요?" 꼬리 질문 대비), LCP는 최솟값/최댓값 대신 중앙값으로 말하기 ([[이력서-사실-검증-기준-팀원-몫과-커밋-수]]).
+
 ## 기타
 - 이슈 본문의 패키지명 `@sentry-internal/replay`는 설치된 Sentry v11에서는 `@sentry/replay`였다(단일 파일). 이슈 속 이름을 그대로 믿지 말고 `node_modules`로 확인.
 - 관련: [[Sentry-React-SPA-에러추적-도입]], [[어드민-SPA-번들-성능-baseline과-최적화-우선순위]], [[배포-반영-확인-번들-해시-대조]]
@@ -71,3 +81,4 @@ groups: [
 ## 출처
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-3) — [[ToyVillage-Admin-FE/프로젝트-현황]]
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE, 2026-10-25)
+- Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE, 2026-11-13)
