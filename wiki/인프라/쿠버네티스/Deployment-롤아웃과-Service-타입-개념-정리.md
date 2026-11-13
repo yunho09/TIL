@@ -1,6 +1,6 @@
 ---
 tags: [쿠버네티스, Deployment, ReplicaSet, Service, ClusterIP, Ingress, 롤아웃]
-updated: 2026-11-12
+updated: 2026-11-13
 ---
 
 # Deployment 롤아웃과 Service 타입 개념 정리
@@ -42,6 +42,13 @@ Deployment는 원하는 상태(이미지·replicas)만 적으면 ReplicaSet을 �
 | ExternalName | 안에서 부르면 바깥 도메인으로 | 파드·셀렉터 없이 **CNAME 별명**만. 외부 DB 주소 변경 시 Service만 수정 |
 - Service는 "밖에서 온 요청만" 다루는 게 아니라, 안·밖 어디서 온 요청이든 받아 파드들로 나눠 준다. 안에서 쓰는 경우(프론트→백엔드→DB)가 더 많고, 타입은 **바깥 출입문을 달지 여부**.
 - **헤드리스**(`clusterIP: None`): 가상 IP·트래픽 분배 없이 이름 조회 시 **파드 IP 목록을 그대로** 반환 → 어느 파드로 갈지는 호출하는 쪽이 고른다. StatefulSet과 함께 `db-0`처럼 고정 이름으로 특정 파드(예: 쓰기 담당)를 지목할 때 쓴다.
+  - 셀렉터는 **그대로 있다**: 레이블로 파드를 찾고 준비된 파드 명단을 갱신하는 일은 일반 Service와 같고, 없는 건 **대표 IP로 대신 나눠 보내는 일**뿐. 헤드리스 Service는 요청을 넘기지 않고 "명단 관리 + DNS 이름 붙이기"만 한다(요청은 Service를 거치지 않고 파드 IP로 직행).
+  - DNS 기록 비교(파드 `db-0`=10.244.0.5, `db-1`=10.244.0.6, Service IP 10.96.0.15 가정): 일반 `db` → 10.96.0.15 한 줄 / 헤드리스 `db` → 10.244.0.5, 10.244.0.6 전부, StatefulSet이면 추가로 `db-0.db` → 10.244.0.5, `db-1.db` → 10.244.0.6(형식 `파드이름.서비스이름`).
+  - 파드 IP는 파드가 **살아 있는 동안엔 안 바뀌고** 교체될 때만 바뀐다. 코드에는 이름만 쓰고 요청 때마다 DNS로 다시 물으면 지금 IP를 얻으므로 문제없다(IP를 코드에 적는 게 문제).
+- **DNS**: 클러스터 전용 DNS(Domain Name System)가 하나 있고 Service를 만들 때마다 기록이 추가된다. 이름:IP는 1:1이 아니다 — 이름 하나에 IP 여러 개(헤드리스 `db`, 인터넷의 `google.com`), IP 하나에 이름 여러 개(`db`와 `db-0.db`가 같은 IP를 가리킴). 짧은 이름 `db`의 전체 이름은 `db.default.svc.cluster.local`(같은 네임스페이스면 앞부분만 써도 됨). 여러 IP가 오면 호출하는 쪽이 하나를 고른다(보통 첫 번째, DNS가 순서를 섞기도 함).
+- **누가 무엇을 갖나**: 파드는 레이블과 자기 IP만 갖고 Service의 존재도 모른다(파드에 설치·설정할 것 없음). Service가 이름·고정 IP·셀렉터 조건·파드 명단을 갖고, DNS는 이름→IP 기록만 갖는다. "찾는 일"이 두 번: Service가 레이블로 파드를 찾고, 호출자가 이름으로 Service를 찾는다.
+- **Service 개수·셀렉터**: 보통 **앱 하나당 Service 하나**(frontend·backend·db), Service 하나 뒤에 같은 앱의 파드 여러 개. 셀렉터에 레이블을 여러 개 쓰면 **전부 가진 파드만**(AND) 선택 — 예: `app: backend`만이면 v1·v2 모두, `app: backend` + `version: v2`면 v2만.
+- 포트를 여러 개 열면 포트마다 `name`을 붙인다. Service 이름은 DNS 이름이 되므로 소문자·숫자·`-`만(63자 이하).
 - **Service는 요청 내용을 읽지 않는다.** 호스트(`admin.shop.com`)·경로(`/api`)별 분기는 **Ingress / Gateway API**가 하고(Gateway API는 Ingress의 후속, 기능 더 많음), 뒤에서 각 Service가 파드로 나눈다. Ingress 앞에 LB 하나만 두면 Service마다 LB를 만드는 비용도 줄인다.
 
 ## 관련
@@ -49,4 +56,4 @@ Deployment는 원하는 상태(이미지·replicas)만 적으면 ReplicaSet을 �
 - [[워크로드-리소스-정리와-공식문서-대조-정정]] — 같은 Notion 정리의 공식 문서 대조
 
 ## 출처
-- Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory) — 2026-11-12 세션 (설명 내용은 Claude의 개념 설명이며 공식 문서 대조는 위 대조 페이지 참조)
+- Claude Code 세션 자동 캡처 (/home/yunho) — 2026-11-12~13 세션 (설명 내용은 Claude의 개념 설명이며 공식 문서 대조는 위 대조 페이지 참조)
