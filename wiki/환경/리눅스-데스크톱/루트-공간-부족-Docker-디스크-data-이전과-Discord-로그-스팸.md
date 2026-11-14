@@ -1,6 +1,6 @@
 ---
 tags: [리눅스, 디스크, docker, snap, discord, journald, 로그]
-updated: 2026-10-23
+updated: 2026-11-15
 ---
 
 # 루트 공간 부족: Docker 디스크 /data 이전과 Discord 로그 스팸 차단 (2026-10-23)
@@ -29,6 +29,18 @@ updated: 2026-10-23
 - 되돌리기: `pkexec snap disconnect discord:system-observe`.
 - 이미 쌓인 로그는 주간 logrotate 때 압축돼 줄어든다.
 
+## 2차 이전: 개발 폴더 심볼릭 링크 + 기본 Docker bind mount (2026-11-15)
+
+루트 여유가 다시 **718MB**까지 줄어 개발 쪽을 `/data`(95GB 여유)로 옮겼다. 결과: 루트 **718MB → 22GB(개발 폴더 이동 후) → 28GB(Docker 이동 후)**, `/data`는 95GB → 63GB.
+
+- **개발 폴더(~21GB → `/data/dev-home`)**: 홈의 `.cache/JetBrains`(3.4G)·`.local/share/JetBrains`(2.2G)·`.npm`(2.8G)·`.vscode`(2.6G)·`.config/Code`(1.4G)·`.yarn`(1.4G)·`.bun`(1.1G)·`.codex`·`.local/lib/node_modules`·`.local/opt/Postman`·`.cache/ms-playwright`·`.cache/pip`·`.cache/pkg`·`.cache/Homebrew`·`.omo`·`.jdks`·`.android` 등. 방식은 "복사 → 검증 → 원본을 **심볼릭 링크로 교체**"라 앱 설정을 바꿀 필요가 없다.
+- **기본 Docker(containerd 이미지 3.8G + docker 볼륨·컨테이너 3.1G)**: `/data/containerd`, `/data/docker`로 복사·내용 비교 후 원본 삭제. 원래 경로(`/var/lib/containerd`, `/var/lib/docker`)에는 **`/etc/fstab`의 bind mount 두 줄**로 /data 폴더를 연결 → 재부팅 후에도 유지되고 kind 등 Docker 경로를 쓰는 도구는 설정 변경이 없다. fstab 원본은 `/etc/fstab.bak-20261115`로 백업.
+- **부팅 순서 함정**: 재부팅 때 `/data`가 마운트되기 전에 Docker가 먼저 뜨면 **빈 폴더로 시작**할 수 있다. 그래서 마운트 이후에만 Docker가 켜지도록 서비스 드롭인(의존성)을 추가했다.
+- 검증: 이미지 10·볼륨 7·컨테이너 5로 이전 전후 개수 동일, kind 노드 Ready, JKYMHS MySQL 볼륨 유지.
+- 이전 후 루트 사용처(104GB 중 72GB): 홈 28G(앱 설정 6.6G·`.local` 6.6G·snap 앱 데이터 3.9G·Claude 세션 기록 3.9G), snap 앱 16G, `/usr` 9.4G, 스왑 파일 8G, Homebrew 3.3G, `/opt` 3.1G. 남은 후보: snap 앱·스왑 파일.
+- `/data` 쪽 후속 후보: **`/data/docker-desktop`(12GB)** — 10월 24일 이후 안 쓰는 예전 Docker Desktop 디스크(지금은 기본 Docker 사용). `/data`가 부족해지면 가장 먼저 볼 곳.
+- 관련: [[Docker-Desktop-쿠버네티스-이미지-손상과-기본-Docker-kind-전환]]
+
 ## 일반화
 
 - 공간 부족 시 `df`로 파티션 구조부터 본다 — 물리 디스크 수가 아니라 **마운트된 파티션별 여유**가 기준이다.
@@ -38,3 +50,4 @@ updated: 2026-10-23
 ## 출처
 
 - Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- Claude Code 세션 자동 캡처 (/home/yunho, 2026-11-15)
