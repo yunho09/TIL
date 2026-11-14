@@ -1517,3 +1517,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Deployment-롤아웃과-Service-타입-개념-정리]] — 헤드리스 DNS 기록·셀렉터 유지, DNS 이름:IP 다대다, 파드/Service/DNS 역할 분담, 앱당 Service 1개·다중 레이블 AND, 포트 이름·이름 규칙 추가
 - 갱신: index.md — 위 페이지 요약 보강
 - 비고: Pod·Deployment·Service 기본 설명은 11-12 기존 페이지와 중복이라 제외. Notion 수정 요청·"다음" 진행·비유 재설명 반복 같은 일회성 대화는 버림.
+
+## 2026-11-14 21:19 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho)
+- 갱신: [[Claude-Desktop-포커스 잃으면-스스로-활성화-요청-워크스페이스-끌려옴]] — 첫 거름망이 무작동이던 원인(Chromium의 요청 opcode 칸 0)과 수정, 재실행 후 차단 확인, 5.11492.0 업데이트 호환 추가
+- 갱신: index.md — 위 페이지 요약 보강
+- 비고: 앱 재시작 요청·"했어" 같은 진행 대화, systematic-debugging 스킬 본문은 버림.
