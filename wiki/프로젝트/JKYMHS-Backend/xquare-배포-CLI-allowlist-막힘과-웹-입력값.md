@@ -1,6 +1,6 @@
 ---
 tags: [xquare, 배포, CLI, 웹, JKYMHS, Spring]
-updated: 2026-11-11
+updated: 2026-11-16
 ---
 # xquare 백엔드 배포 — CLI allowlist 막힘과 웹 입력값
 
@@ -28,6 +28,21 @@ JKYMHS-Backend(Gradle·Java 21)를 DSM 학생 PaaS **xquare**에 배포하는 �
 - **`JWT_SECRET`은 기본값이 없어** 없으면 서버가 안 뜬다(`openssl rand -base64 48`). 메일 설정을 빼면 기본 `localhost:1025`(Mailpit)로 보내다 실패해 이메일 인증이 502.
 - 도메인 예약어: `*-xquare-infra`, `xquare-remote-access-*`, `*-observability-dashboard`, `xquare-server`.
 - 실제 데이터가 쌓이면 `ddl-auto: update`를 `JPA_DDL_AUTO=validate` 등으로 바꾸는 것을 고려.
+
+## 웹 승인 구조와 배포 순서 (2026-11-16, `xquare-infra-backend-v3` 소스 확인)
+- 별도 컨테이너를 받을 필요는 없다. 웹에서 팀·앱을 직접 만들고 **앱 승인**만 받으면 된다.
+- 승인 필요 여부: **팀** 불필요 / **애드온(MySQL·Redis)** 불필요(만들면 바로 배포) / **애플리케이션** 필요 — 처음엔 `PENDING`, 관리자가 `PUBLISHED`로 바꿔야 실제 배포.
+- DB와 서버는 같은 팀 안에서 **따로 만들어지고 따로 돈다**. 순서: ① 팀 ② 애드온(MySQL·Redis — 서버가 시작 때 붙으므로 먼저) ③ 앱+환경변수 ④ 담당자 승인 요청. DB는 한 번 만들면 계속 떠 있고, 이후 develop push 때마다 서버만 재배포.
+- 환경변수 보충: `DB_USERNAME`은 `root`로 넣어야 한다(기본값 `jkymhs`). Redis 애드온도 따로 만들어 `REDIS_HOST`를 맞춘다. PR #7~#9 머지로 환경변수가 늘어 DB만 설정해서는 앱이 안 뜬다.
+
+## 웹 백엔드 502 → CLI가 유일한 경로 (2026-11-16 실측)
+- `xquare.dsmhs.kr`는 대시보드 대신 "prod ok"만 표시, `infra-backend(-stag).dsmhs.kr`(웹 백엔드)는 둘 다 **502**라 화면이 떠도 로그인·생성 불가. CLI 서버 `xquare-server.dsmhs.kr`만 정상. 일시적 장애일 수 있어 재확인 필요.
+- 이 날도 `allowed-users.yaml`에 숫자 ID `207695734`가 없었고, 파일 마지막 변경이 **6월 15일**이라 "등록했다"는 말은 이 파일에 반영된 적이 없다(웹 쪽 계정 등록으로 추정). 과거 추가는 in-jun·kimsaram32 계정이 해왔다.
+
+## 상충하는 정보
+- allowlist 추가 명령: 위 진단 절은 `xquare admin allowlist add <id>`, 11-16 세션은 `xquare server allowlist add <githubId>`. 어느 쪽이 맞는지 미확인 — 운영진에게 "CLI용 allowlist 추가"로 요청하면 된다.
+- CLI는 웹과 달리 관리자 승인 없이 바로 배포될 가능성이 있다고 봤으나 CLI 코드로는 확인하지 않았다.
+- 대안으로 "생 컨테이너 1개(서버+MySQL+Redis 동거, SSH·8080 공개)" 할당 요청을 검토했으나 담당자 답이 없어 결정되지 않았다. 사양 2vCPU/4GB/20GB는 (Claude 보충) 추정치.
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)

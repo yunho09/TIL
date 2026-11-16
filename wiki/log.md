@@ -1595,3 +1595,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — 선생님 피드백으로 API 키 발급 방식 재설계(11/3 결정 번복·FE/BE 영향·미정 항목), 로컬 CORS 허용 주소 절 추가
 - 갱신: index.md — 위 페이지 요약 추가
 - 비고: 노션·디코 글 작성, 태스크 상태 조회 같은 일회성 작업은 버림.
+
+## 2026-11-16 23:22 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)
+- 갱신: [[JKYMHS-Backend/xquare-배포-CLI-allowlist-막힘과-웹-입력값]] — 앱만 승인 필요(PENDING→PUBLISHED)·배포 순서, DB_USERNAME=root, 웹 백엔드 502 실측, allowlist 파일 6/15 이후 무변경, 명령 표기 상충, 생 컨테이너 요청 검토
+- 갱신: index.md — 위 페이지 요약 추가
+- 비고: 담당자에게 보낼 메시지 초안 작성은 일회성이라 버림.
