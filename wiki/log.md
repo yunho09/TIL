@@ -1607,3 +1607,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — staging 스웨거 401 원인(springdoc 없음·SecurityConfig permitAll 3개), 백엔드 요청 3가지, 명세 기준을 스웨거로 정한 이유, 공지 API PR #30 미머지 영향 절 추가
 - 갱신: index.md — 위 페이지 요약 추가
 - 비고: API 키 발급 재설계·CORS는 22:55 항목에서 이미 반영돼 중복 생략. 노션·디코 글 작성, 태스크 조회는 일회성이라 버림.
+
+## 2026-11-16 23:58 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2/packages/api/src)
+- 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — 지원 흐름 통합 QA 시나리오 설계 절 추가(모집의뢰서부터 흐름 순서 구성 결정, 코드로 찾은 의심 지점, 앱 코드 미확인·상태 전이 추정 한계)
+- 갱신: index.md — 위 페이지 요약 추가
+- 비고: 시트 채우기·Discord 메시지 분할·포맷 다듬기는 일회성이라 버림.
