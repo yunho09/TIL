@@ -1601,3 +1601,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[JKYMHS-Backend/xquare-배포-CLI-allowlist-막힘과-웹-입력값]] — 앱만 승인 필요(PENDING→PUBLISHED)·배포 순서, DB_USERNAME=root, 웹 백엔드 502 실측, allowlist 파일 6/15 이후 무변경, 명령 표기 상충, 생 컨테이너 요청 검토
 - 갱신: index.md — 위 페이지 요약 추가
 - 비고: 담당자에게 보낼 메시지 초안 작성은 일회성이라 버림.
+
+## 2026-11-16 23:27 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — staging 스웨거 401 원인(springdoc 없음·SecurityConfig permitAll 3개), 백엔드 요청 3가지, 명세 기준을 스웨거로 정한 이유, 공지 API PR #30 미머지 영향 절 추가
+- 갱신: index.md — 위 페이지 요약 추가
+- 비고: API 키 발급 재설계·CORS는 22:55 항목에서 이미 반영돼 중복 생략. 노션·디코 글 작성, 태스크 조회는 일회성이라 버림.
