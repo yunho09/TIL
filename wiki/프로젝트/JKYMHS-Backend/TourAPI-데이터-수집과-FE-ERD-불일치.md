@@ -71,6 +71,10 @@ updated: 2026-11-15
 - **CSV 적재**: `collect.py`가 CSV 4개(contents 32,548행·content_details 950·lcls_codes 246·regions 284)를 만들고, `TOUR_IMPORT_CSV_DIR`를 주면 `TourCsvImporter`가 서버 기동 시 읽는다. 같은 키 한도(하루 1,000건)를 새벽 4시 `TourSyncJob`이 나눠 쓰므로 개발용 키로는 `BATCH_ENABLED=false`를 권한다. `content_details.event_start_time`은 TourAPI에 필드가 없어 항상 비고, 축제 시간은 `operating_hours`(→`playtime_raw`)에 있다. 데이터는 git에 올리지 않는다.
 - **수집 데이터 분포 (2026-11-08 기준)**: `io_type` 실내 19,612·실외 10,495·혼합 2,441(비 오는 날 실내 추천용, lcls3별 수동 매핑). 썸네일은 82%에 있지만 **전화번호는 3%(874건)뿐**. 상세 소개 대상은 축제·관광지이고 **음식점·숙박은 수집 대상이 아니다**. 축제는 수집일 1년 전(2025-11-08)을 기준으로 조회해 시작일이 2022-11-01~2027-09-23로 퍼져 있다("최근 1년 시작"이 아님).
 
+## 자동 수집 진행 (2026-11-15 기준)
+- 전체 16,190건 중 4,750건(약 29%) 수집, 크론이 하루 950건(API 951회, 한도 1,000 안)씩 받아 PC가 매일 켜져 있으면 **11-27쯤 완료**. PC가 꺼진 날은 그만큼 지연(11-14는 저녁에 켜져 20:12에 실행). 로그 오류 없음.
+- 수집이 끝날 때까지 로컬 서버는 `BATCH_ENABLED=false`로 — 서버 배치가 같은 API 키의 하루 한도를 같이 쓴다.
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)
