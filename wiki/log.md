@@ -1589,3 +1589,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[JKYMHS-Backend/TourAPI-데이터-수집과-FE-ERD-불일치]] — 자동 수집 진행률·완료 예상·BATCH_ENABLED=false
 - 갱신: index.md — 위 세 페이지 요약 추가
 - 비고: 학습 가이드 작성·남은 일 나열·로컬 브랜치 정리 같은 일회성 작업은 버림.
+
+## 2026-11-16 22:55 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 갱신: [[xquare-openapi-frontend/프로젝트-현황]] — 선생님 피드백으로 API 키 발급 방식 재설계(11/3 결정 번복·FE/BE 영향·미정 항목), 로컬 CORS 허용 주소 절 추가
+- 갱신: index.md — 위 페이지 요약 추가
+- 비고: 노션·디코 글 작성, 태스크 상태 조회 같은 일회성 작업은 버림.
