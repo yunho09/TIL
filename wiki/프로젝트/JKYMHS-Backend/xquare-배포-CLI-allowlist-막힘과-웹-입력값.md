@@ -1,6 +1,6 @@
 ---
 tags: [xquare, 배포, CLI, 웹, JKYMHS, Spring]
-updated: 2026-11-16
+updated: 2026-11-17
 ---
 # xquare 백엔드 배포 — CLI allowlist 막힘과 웹 입력값
 
@@ -42,7 +42,7 @@ JKYMHS-Backend(Gradle·Java 21)를 DSM 학생 PaaS **xquare**에 배포하는 �
 ## 상충하는 정보
 - allowlist 추가 명령: 위 진단 절은 `xquare admin allowlist add <id>`, 11-16 세션은 `xquare server allowlist add <githubId>`. 어느 쪽이 맞는지 미확인 — 운영진에게 "CLI용 allowlist 추가"로 요청하면 된다.
 - CLI는 웹과 달리 관리자 승인 없이 바로 배포될 가능성이 있다고 봤으나 CLI 코드로는 확인하지 않았다.
-- 대안으로 "생 컨테이너 1개(서버+MySQL+Redis 동거, SSH·8080 공개)" 할당 요청을 검토했으나 담당자 답이 없어 결정되지 않았다. 사양 2vCPU/4GB/20GB는 (Claude 보충) 추정치.
+- 대안으로 "생 컨테이너 1개(서버+MySQL+Redis 동거, SSH·8080 공개)" 할당 요청을 검토했으나 담당자 답이 없어 결정되지 않았다. 사양 2vCPU/4GB/20GB는 (Claude 보충) 추정치. 요청문에는 용도·사양·OS(Ubuntu)·SSH·8080 공개·도메인 연결에 더해 **디스크를 영구 저장소로** 요청하는 줄을 넣기로 했다 — MySQL을 컨테이너 안에서 돌리면 임시 디스크는 재시작 때 DB 데이터가 날아간다.
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)

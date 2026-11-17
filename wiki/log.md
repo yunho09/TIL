@@ -1625,3 +1625,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Orca-채팅-UI-엔터-두번-IBus-동기모드]]
 - 갱신: index.md — 위 페이지 요약 추가
 - 비고: 실제 Orca 채팅창 확인은 미완. 이슈 등록 제안·재실행 안내는 일회성이라 버림.
+
+## 2026-11-17 13:33 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)
+- 갱신: [[JKYMHS-Backend/xquare-배포-CLI-allowlist-막힘과-웹-입력값]] — 생 컨테이너 요청 시 영구 디스크를 명시해야 하는 이유(컨테이너 내 MySQL 데이터 소실) 추가
+- 갱신: index.md — 위 페이지 요약 보충
+- 비고: 나머지(웹 승인 구조·502·allowlist·환경변수)는 기존 페이지와 중복, 담당자 요청 메시지 문안 작성은 일회성이라 버림.
