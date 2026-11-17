@@ -1,6 +1,6 @@
 ---
 tags: [GNOME, Nautilus, gsettings, dconf, Homebrew]
-updated: 2026-10-01
+updated: 2026-11-17
 ---
 
 # Nautilus 폴더 먼저 정렬 끄기와 Homebrew gsettings 함정
@@ -11,6 +11,7 @@ updated: 2026-10-01
 - 최신순으로 정렬해도 폴더가 파일과 섞이지 않고 최상단에 따로 모임.
 - 키: `org.gtk.gtk4.Settings.FileChooser sort-directories-first` (`true`=폴더 먼저). `false`로 두면 폴더도 수정 시각대로 파일 사이에 섞임.
 - 같은 GTK4 설정을 쓰는 다른 앱의 "파일 열기/저장" 창에도 함께 적용된다.
+- 이 키는 전역이라 **다운로드 폴더에만 따로 걸 수 없다** — 끄면 모든 폴더에서 폴더가 파일과 섞여 정렬된다. (다운로드만 최신순이 필요해도 다른 폴더의 폴더-먼저 정렬을 함께 포기해야 하는 트레이드오프. 2026-11-17 재요청 때 확인)
 - GUI로는 파일 앱 메뉴(☰) → 기본 설정 → "폴더를 파일보다 먼저 정렬".
 
 ## 함정: Homebrew `gsettings`는 dconf에 연결되지 않는다
