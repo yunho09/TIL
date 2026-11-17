@@ -62,6 +62,7 @@ gsettings set org.gnome.desktop.peripherals.touchpad speed -0.3
 - **마우스 휠**: `scroll-boost` 데몬이 특정 USB 마우스 장치를 grab해서 배속. 대상 마우스가 물리적으로 연결돼 있어야 동작(연결 안 돼 있으면 서비스는 떠 있어도 아무 효과 없음 — grab할 장치가 없기 때문).
 - **Chrome 전용 확장**: 위 "Chrome 전용 스크롤 배율" 절. Chrome에만 곱해짐.
 - **터미널(Ptyxis)**: 패치된 VTE 라이브러리 경로, `term-scroll-speed`로 제어. 자세한 내용은 [[Ptyxis-터치패드-스크롤-속도-패치]].
+- **휠 스무딩 확장**: 별개로 Chromium Wheel Smooth Scroller 확장이 iframe 안 휠을 막는 문제는 [[크롬-휠-스무스-스크롤-확장-AWS-콘솔-iframe-스크롤-안됨]].
 
 ## 출처
 
