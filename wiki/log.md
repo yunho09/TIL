@@ -1701,3 +1701,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — Android 점검 요약·링크 추가
 - 갱신: index.md — Android 페이지 추가
 - 비고: 앞선 캡처와 겹치는 QA 시나리오·기업 가입·시즌 토글·첨부 NoSuchKey·알림 60초 캐시·공지 첨부 PR #198은 기존 절에 있어 생략. Discord 메시지 재작성·남은 항목 안내·잡담은 제외.
+
+## 2026-11-18 01:02 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)
+- 갱신: [[JKYMHS-Backend/생-컨테이너-직접-배포-systemd-자동배포-프록시-IP]] — 동거 vs 분리 비교, 스택 PR 12개 머지 절차·함정, CSV 서버 이전·적재, BATCH_ENABLED 정정과 인기 점수, AI DB 접근 비교, 현재 한계를 11-18 기준으로 갱신
+- 갱신: index.md — 위 페이지 요약 보충
+- 비고: xquare 웹/CLI 막힘·systemd 자동 배포·프록시 IP·MySQL/Redis 구성·AI 계약은 기존 페이지에 이미 있어 생략. 담당자·팀원·AI 팀원·디스코드 메시지 초안, 접속 안내 등 일회성 내용은 버림.
