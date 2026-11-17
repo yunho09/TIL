@@ -72,6 +72,12 @@ Docker Desktop 내장 쿠버네티스로 로컬 클러스터를 만들었더니,
 - zsh 탭 자동완성: `~/.zshrc`에 `command -v kubectl >/dev/null && source <(kubectl completion zsh)`.
 - zsh에서 `echo ===`는 `=` 확장으로 실패 → `echo '---'`. `pgrep -f`는 자기 셸까지 매치되므로 `pgrep -x`나 PID 사용.
 
+## kind 클러스터가 Docker 깰 때마다 같이 켜지는 문제 (2026-11-17)
+
+- 기본 Docker는 소켓 활성화라 `docker ps` 한 번에도 깨어나는데, kind 컨트롤 플레인 컨테이너(`kind-control-plane`)의 재시작 정책이 `on-failure`라 같이 켜져 CPU ~11%·메모리 ~1GB를 계속 씀. Testcontainers 테스트 때도 동일.
+- 해결: `docker stop kind-control-plane && docker update --restart=no kind-control-plane`. 클러스터는 지워지지 않고 필요할 때 `docker start kind-control-plane`.
+- 정책 변경은 `docker inspect`로 확인(다시 `kind create`하면 기본 정책으로 돌아올 수 있음 — Claude 보충).
+
 ## 출처
 
 Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)

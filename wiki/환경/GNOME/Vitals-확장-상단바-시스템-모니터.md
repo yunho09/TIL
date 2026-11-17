@@ -37,6 +37,11 @@ gsettings --schemadir ~/.local/share/gnome-shell/extensions/Vitals@CoreCoding.co
 - 리뷰 지적(미반영 결정): 설정에 오타를 내면 오류 대신 다른 앱이 뜸 → 오너가 원하면 "설정값이 기본값일 때만 폴백"으로 변경 가능.
 - 격리 테스트 요령: `XDG_DATA_HOME`/`XDG_CONFIG_HOME`을 바꾼 `dbus-run-session`에서 `gnome-shell --devkit --wayland` nested 세션, `gsettings`는 `/usr/bin/gsettings`로(linuxbrew 것은 값을 조용히 무시). 맥락: [[오픈소스-기여-후보-선별-기준과-AI정책-함정]]
 
+## 팬 센서가 커널 로그를 오류로 채움 (2026-11-17)
+
+- 이 노트북은 팬 속도를 읽을 수 없어 Vitals에도 표시되지 않는데, 3초마다 팬 상태를 읽다 실패해 3.5일간 커널 오류 약 27,000줄이 쌓였음(1분에 2~3건).
+- 해결: Vitals 설정에서 팬 항목만 끔 → 90초 관찰 동안 0건.
+
 ## 출처
 
 - Claude Code 세션 자동 캡처 (/home/yunho/.local/share/gnome-shell/extensions/Vitals@CoreCoding.com)

@@ -30,6 +30,10 @@ Galaxy Book5 960XHA의 지문 센서(Egis ETU906Axx-E, `1c7a:05a5`)는 Ubuntu 26
 - 부팅 직후 지문 로그인 시 로그인 키링은 비밀번호로만 풀려 비밀번호를 따로 물을 수 있다.
 - 공식 드라이버가 아니라 커뮤니티 포크라 버그 보고(데몬 종료, SDCP 캐시 꼬임)가 열려 있다. 문제 시 백업 원본으로 되돌리면 된다.
 
+## 윈도우에 다녀오면 지문이 사라짐 (2026-11-17)
+- 윈도우 부팅 후 첫 우분투 부팅에서 칩의 지문이 비어 있었고, fprintd가 "칩에 없는 지문"이라며 등록 기록(오른손 검지)도 지움 → 등록 손가락 0개. 칩을 윈도우와 공유하므로 윈도우 쪽(Hello·드라이버)이 비운 것으로 추정(1회 관찰, 반복 여부 미확정).
+- 복구: `fprintd-enroll -f right-index-finger` 재등록(암호 창 한 번). 첫 시도는 10초 제한으로 `enroll-unknown-error`, 두 번째에 대고 떼기를 쉬지 않고 반복해 15단계 완료·`fprintd-list` 확인. 윈도우에 다녀온 뒤 또 안 되면 같은 원인.
+
 ## 지문 재시도 횟수 늘리기 (PAM `max-tries`)
 - 기본 `pam_fprintd` 프로필은 sudo·polkit에서 **한 번 틀리면 바로 비밀번호**로 넘어간다(잠금 화면은 원래 3회).
 - 패키지 파일(`/usr/share/pam-configs/fprintd`)은 건드리지 않고, 같은 내용에 `max-tries=3`만 바꾼 `/usr/share/pam-configs/fprintd-retry`를 만들어 `pam-auth-update`로 전환했다. 패키지 `Conflicts`는 쉼표+공백 구분. 이렇게 하면 `fprintd` 업데이트가 설정을 되돌리지 않는다.
