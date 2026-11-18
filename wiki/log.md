@@ -1719,3 +1719,10 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[JKYMHS-Backend/생-컨테이너-직접-배포-systemd-자동배포-프록시-IP]] — "팀원이 받는 별도 인스턴스와 백엔드 연결" 절 추가(인스턴스 개념, 내부 IP vs 도메인 연결 비교, FE 도메인 필수, Vite 프록시 팁)
 - 갱신: index.md — 위 페이지 요약 보충
 - 비고: 배포 과정·MySQL/Redis 구성·자동 배포·프록시 IP·스택 PR 머지·AI 계약 등은 기존 페이지에 이미 있어 생략. 담당자·팀원·디스코드 메시지 초안과 접속 안내 등 일회성 내용은 버림.
+
+## 2026-11-18 23:29 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 생성: [[Downloads-폴더-영문-통합-XDG와-최신순-정렬]]
+- 갱신: [[프로젝트/clawd-on-desk/프로젝트-현황]] — Dock으로 연 Desktop에서 펫 클릭이 창만 올리던 원인(부모 프로세스 gnome-shell)과 헬퍼 수정 절 추가
+- 갱신: index.md — 위 두 페이지 반영
+- 비고: 스킬 본문(systematic-debugging)·`/clear`·진행 멘트는 제외. 실클릭 검증은 미완이라 그대로 표기.
