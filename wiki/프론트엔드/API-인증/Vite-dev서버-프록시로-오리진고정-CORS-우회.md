@@ -1,6 +1,6 @@
 ---
 tags: [vite, cors, proxy, dev-server, qa]
-updated: 2026-09-17
+updated: 2026-11-19
 ---
 
 # Vite dev서버 프록시로 오리진 고정 CORS 우회
@@ -21,5 +21,12 @@ updated: 2026-09-17
 ## 사례
 [[ToyVillage-Admin-FE/프로젝트-현황]] — 스테이징이 `localhost:5173`만 허용하는데 5173·5174가 이미 다른 브랜치 dev 서버로 점유돼 있어, 5175에서 이 방식으로 로그인 화면을 확인했다.
 
+## 함정: `127.0.0.1`과 `localhost`는 다른 오리진 (2026-11-19)
+
+- 서버 허용 목록이 `http://localhost:5173`/`5174`처럼 **호스트 이름까지 문자열로 비교**하면, 같은 dev 서버를 `http://127.0.0.1:5173`으로 열었을 때 API 요청이 전부 CORS로 막힌다. 화면 골격만 뜨고 목록·데이터는 하나도 안 오는 "비어 보이는" 증상이 나온다(앱 버그가 아님).
+- 확인: 브라우저 콘솔의 CORS 오류부터 본다. 서버를 그대로 두고 주소만 `localhost`로 바꿔 열어 요청이 통과하는지 대조하면 원인이 확정된다.
+- 로컬 QA 주소를 안내할 때는 허용 목록에 있는 **`localhost` 형태**로 준다. 로그인 정보(localStorage 등)는 오리진별로 따로 저장되므로 주소를 바꾸면 다시 로그인해야 한다. 포트별 허용(5173=관리자, 5174=학생)이라 두 앱을 동시에 띄울 땐 포트도 맞춘다.
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/ToyVillage-Admin-FE/develop-2)
+- Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2) — 2026-11-19(`127.0.0.1` 접속 시 CORS로 빈 화면)

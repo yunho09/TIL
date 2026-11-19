@@ -1726,3 +1726,11 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[프로젝트/clawd-on-desk/프로젝트-현황]] — Dock으로 연 Desktop에서 펫 클릭이 창만 올리던 원인(부모 프로세스 gnome-shell)과 헬퍼 수정 절 추가
 - 갱신: index.md — 위 두 페이지 반영
 - 비고: 스킬 본문(systematic-debugging)·`/clear`·진행 멘트는 제외. 실클릭 검증은 미완이라 그대로 표기.
+
+## 2026-11-19 19:38 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
+- 갱신: [[크로스오리진-파일-다운로드-a-download-무시]] — JOBIS 첨부 "웹뷰로만 열림" 사례(원인: `Content-Disposition` 없는 `application/pdf`, 해결: `downloadFile` 헬퍼+새 탭 폴백, 한계와 백엔드 요청, 테스트 검증 방법)
+- 갱신: [[Vite-dev서버-프록시로-오리진고정-CORS-우회]] — `127.0.0.1` vs `localhost` 오리진 불일치로 빈 화면이 되는 함정 절 추가
+- 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — 이슈 #202/PR #203 요약과 위 두 페이지 연결
+- 갱신: index.md — 위 세 페이지 요약 보충
+- 비고: systematic-debugging 스킬 본문, 로컬 서버 기동·종료 안내, 진행 멘트, CD 진행 중간 상태는 제외.
