@@ -1790,3 +1790,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[JOBIS-FE-V2/iOS-앱-점검-2026-11-17]], [[JOBIS-FE-V2/Android-앱-점검-2026-11-17]] — ETC 항목에 정정 주석
 - 갱신: index.md — JOBIS-FE-V2 요약에 보충
 - 비고: 나머지(QA 시나리오·기업 가입·겨울인턴 토글·#197/#198·iOS/Android 점검·토큰 재발급)는 기존 페이지에 이미 있어 중복 생략. Discord 메시지 초안 원문·서브에이전트 보고 원문 제외.
+
+## 2026-11-20 08:27 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
+- 갱신: [[JOBIS-FE-V2/프로젝트-현황]] — "기업 웹 저장소 계보와 모집기간 검증 부재" 절 추가(옛 COMPANY-FE vs JOBIS-FE `apps/company`, 날짜 검증 부재 원인·수정 방향)
+- 갱신: index.md — JOBIS-FE-V2 요약에 보충
+- 비고: 기존 ETC 절의 `JOBIS-DSM-COMPANY-FE`가 기업 웹이라는 서술과 상충 가능 — 새 절에 옛 저장소라고 명시. systematic-debugging 스킬 본문, 저장소 clone·Orca 등록 같은 일회성 작업 제외.
