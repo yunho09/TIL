@@ -24,6 +24,7 @@ updated: 2026-09-06
 Playwright 같은 도구로 route를 가로채 목킹할 때, **요청의 Blob 바디는 읽을 수 없다**(`postDataBuffer()`가 `null`을 반환). 파일이 실제로 몇 바이트, 어떤 내용으로 전송되는지 확인하려면 목킹 대신 **presigned URL 자리에 실제 로컬 HTTP 서버를 띄워** 요청을 직접 받아서 바이트 수·내용을 비교해야 한다. 이 방식은 부수적으로 실제 CORS preflight가 타는지도 함께 확인할 수 있다.
 
 관련: [[JOBIS-FE-V2/프로젝트-현황]] — 학생 지원서 첨부파일 업로드에 이 패턴을 적용한 사례.
+- **한글 파일명 NFD/NFC (2026-11-19):** 맥 NFD 파일명이 키로 저장되면 NFC로 요청하는 쪽이 `NoSuchKey` — 업로드 전 `normalize("NFC")` 필요. [[한글-파일명-NFD-NFC-불일치-S3-NoSuchKey]]
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
