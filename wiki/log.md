@@ -1852,3 +1852,10 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[라우트-코드-스플리팅-React-lazy-Suspense-key와-배럴]] — 재방문 느려진 원인(304·max-age=0)과 두 분할의 목적 비교
 - 갱신: index.md — 위 3개 요약 보강
 - 비고: 이미 위키에 있던 숫자 정정·팀 측정·Sentry 상세는 생략. Figma/Notion/PDF 편집, Open API 포폴 문구 수정, 로고·링크 작업은 일회성이라 제외.
+
+## 2026-11-20 20:29 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.config/Claude/scratch-workspaces/68eef3b8-da94-4db5-b563-9565e29705a3/4cebf249-3d72-4a77-a55b-e742194ef06a/scratch-2026-11-19-47ab78)
+- 생성: [[Fable-왕-모드와-OMC-키워드-오발동-정리]]
+- 갱신: [[Claude-모델-선택-Opus-5.5-vs-Fable-5.2와-자동-선택-기능]] — 관련 링크 추가
+- 갱신: index.md — 도구 섹션에 새 페이지 추가
+- 비고: 설정 작업 진행 멘트, 로그인 만료 경고, 2D 캐릭터 후보 탐색 과정은 제외.

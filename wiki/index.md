@@ -283,6 +283,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 ### 도구
 - [[claude.ai-대화기록-크롬-확장으로-읽기]] — 로그인된 크롬에서 claude.ai 내부 API(chat_conversations 등)로 대화 목록·본문 읽기, JS 출력 1,500자 한도를 `<pre>`+get_page_text로 우회, 탭 사용 순서 (2026-11-20)
 - [[SSH-글자-입력-끊김-왕복-지연과-mosh]] — SSH 글자 입력 끊김은 키마다 서버 왕복(RTT)을 기다리기 때문(30ms 이하 무감, 50~100ms·들쭉날쭉이면 끊김, 한글 조합은 무관), mosh(서버 설치·UDP 필요)·VS Code Remote-SSH·붙여넣기로 줄이는 법 (2026-11-12)
+- [[Fable-왕-모드와-OMC-키워드-오발동-정리]] — Fable 지휘자+일꾼 구성(`~/.claude/CLAUDE.md` 왕 규칙 + `CLAUDE_CODE_SUBAGENT_MODEL=opus`로 일꾼의 Fable 상속 방지), 세션이 스스로 모델을 못 바꿔 비Fable 세션엔 "Fable로 할까요?" 선택창 규칙, 로컬 Claude Code에서만 적용, ulw/ralph/autopilot/team 차이와 team만 슬래시, 한국어 질문에 키워드가 켜져 Stop 훅이 막는 문제와 `state_clear` 정리 규칙·`cancelomc`, 2D 사무실 시각화(`agent-office-on/off`) (2026-11-20)
 - [[Claude-모델-선택-Opus-5.5-vs-Fable-5.2와-자동-선택-기능]] — 평소 코딩은 Opus 5.5·어려운 작업만 Fable 5.2 높음(가격 $4/$20 vs $8/$40, FrontierCode 점수, 독립 테스트에선 Opus가 3~4.5배 싸고 빠르나 코드 리뷰는 Fable 우세), 작업별 자동 모델 선택 기능은 없고 어드바이저·`opusplan`·서브에이전트 모델 지정·`ultrathink`로 대체 (2026-11-11)
 - [[claude-p-헤드리스-호출과-restricted-읽기-격리]] — 앱에서 `claude -p`로 구독을 API 키 없이 호출하는 공통 플래그(`--bare` 불가), 신뢰 못 할 레포는 `--restricted`+`Read,Grep,Glob`+`dontAsk`로 레포 밖 읽기 차단(없으면 `/etc` 읽힘), 환경변수 허용 목록, 자식이 위키 훅을 또 돌리지 않게 하는 환경변수 (2026-10-28)
 - [[오픈소스-기여-후보-선별-기준과-AI정책-함정]] — 머지 수는 GraphQL로 세야 함(`gh search prs --merged`는 불리언 플래그), `collaborators_only`로 외부 PR을 막은 레포(zustand·zod 등), 레포별 AI 정책(설명은 사람이/공개 의무/fedify의 Co-authored-by 금지)과 CLA, 조건부 선점 양보·PR 대상 브랜치 확인 (2026-10-28)

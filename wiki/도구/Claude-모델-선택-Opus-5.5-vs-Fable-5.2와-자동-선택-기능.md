@@ -44,4 +44,4 @@ updated: 2026-11-11
 ## 출처
 - Claude Code 세션 자동 캡처 (scratch-2026-11-10-6bebd8, `.omc/session-capture/20261111-144628-7f0f3950.txt`)
 - 세션에서 인용된 웹 자료: Anthropic "Introducing Claude Fable 5.2", Claude Platform Docs(What's new in Fable 5.2, Pricing), Claude Code Docs(Model configuration), atomicagent.io·paddo.dev 비교 글
-- 관련: [[Claude-Code-서브에이전트-fan-out-토큰-과다소모]], [[oh-my-openagent-omo-설치와-OMC-비교]]
+- 관련: [[Claude-Code-서브에이전트-fan-out-토큰-과다소모]], [[oh-my-openagent-omo-설치와-OMC-비교]], [[Fable-왕-모드와-OMC-키워드-오발동-정리]] (Fable 지휘자+일꾼 Opus 구성)
