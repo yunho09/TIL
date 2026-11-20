@@ -80,5 +80,16 @@ updated: 2026-11-11
 - **계정 열거 방지**: 가입하지 않은 이메일도 인증 토큰 오류와 **완전히 같은 예외**를 던져 401 응답 본문이 글자 하나까지 같게 했다. `CustomException`의 `description`이 응답 본문에 그대로 실리므로, 예외만 같고 description이 다르면 가입 여부가 드러난다 → 구현 때 응답에 description이 실리는지부터 확인할 것.
 - #33: 주석·PR 본문에 틀리게 적힌 Redis 키 이름 정정.
 
+## 구글 로그인(PR #10) 코드 읽기 — 설계 이유 (2026-11-20)
+- **흐름**: FE가 구글에서 받은 일회용 `code`를 `POST /api/auth/google {code, redirectUri}`로 넘김 → 백엔드가 구글에 두 번 호출(`POST /token`으로 code→토큰, `GET /userinfo`로 `sub`·email) → `LOGGED_IN`/`SIGNED_UP`/`LINK_REQUIRED`. `sub`는 구글 계정마다 고정이라 이메일(바뀔 수 있음)보다 식별자로 안전.
+- **결정 순서**: ① 이 sub가 연결된 회원 → `LOGGED_IN`, ② 같은 이메일 회원 → `LINK_REQUIRED`(토큰 없이 `linkToken`만), ③ 둘 다 없음 → 비밀번호 없는 계정 생성+토큰(`SIGNED_UP`). **같은 이메일이어도 자동 연결하지 않는다** — 비밀번호 확인 없이 연결하면 같은 이메일의 구글 계정만으로 남의 계정에 들어갈 수 있다. 같은 이메일 계정이 비밀번호 없는 구글 전용이면 본인 확인 수단이 없어 409.
+- **`GoogleOAuthClient`**: 토큰 API는 JSON이 아니라 **form(`application/x-www-form-urlencoded`)** 으로만 받는다. 구글 4xx(코드 만료·재사용)→우리 401, 5xx·타임아웃→502, `email_verified=false`→401. **타임아웃 연결 3초·응답 5초**(없으면 구글이 멈출 때 요청 스레드가 쌓여 서버 전체가 멈춤). Spring Boot 4는 별도 스타터 없이는 `RestClient.Builder`를 자동 생성하지 않아 `GoogleOAuthConfig`에서 `RestClient`를 직접 만든다.
+- **`login`에 `@Transactional` 없음**: 메서드 전체에 걸면 구글 응답을 기다리는 몇 초간 DB 커넥션을 붙잡아, 구글이 느려질 때 커넥션 풀이 고갈돼 무관한 API까지 멈춘다(외부 API 호출 코드의 흔한 실수). DB 작업은 각 서비스가 자기 트랜잭션으로.
+- **동시 가입**: 버튼 연타로 같은 구글 계정 가입이 동시에 오면 하나는 UNIQUE 위반(`DataIntegrityViolationException`) → 500 대신 **재조회해서 ①·②로 처리**.
+- **`GoogleLinkTokenService`**: Redis 키 `auth:link:{linkToken}`, 값 `{memberId, googleSub, googleEmail}`, TTL 10분. **sub를 FE에 주지 않는 이유**: FE가 sub를 들고 연결 요청에 되돌려 보내는 구조면 요청 조작으로 다른 sub를 끼워 넣을 수 있어, 서버(Redis)에만 두고 FE에는 추측 불가능한 UUID만 준다.
+- **`link`(`POST /api/auth/google/link`)**: 비밀번호 실패를 **이메일 로그인과 같은 실패 카운트(`login:fail:{email}`)에 합산**(구글 연결 쪽으로 돌아 무한 시도 방지, 5번 틀리면 423), 비교 **전에** 시도를 먼저 기록(`start()`)해 동시 100건도 5번까지만 비교, 저장 직후 `flush`해 같은 sub를 먼저 연결한 요청의 UNIQUE 위반을 커밋 시점이 아니라 그 자리에서 잡아 409로 변환. 구글 이메일은 소문자로 정규화(`GoogleUserInfo`).
+- #10은 리프레시 토큰을 응답 본문으로 주고 이후 머지된 #14가 쿠키로 바꿨다.
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
+- Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)

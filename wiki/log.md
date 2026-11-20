@@ -1814,3 +1814,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/bium-fe)
 - 갱신: [[Bium/FE-Sprint3-감사와-수정-2026-11-20]] — 요리 되돌리기 50줄 한계·"다시 불러왔어요" 거짓 안내 패턴, 내보내기 권한·초대 코드 무효화 응답 코드 추가
 - 비고: 대부분 기존 페이지에 이미 있어 중복 생략. 노션 게스트 페이지 입력·회고/프롬프트 수합·시연 순서 재정리·team 스킬 본문·일꾼 보고 원문 제외.
+
+## 2026-11-20 12:53 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)
+- 갱신: [[JKYMHS-Backend/인증-API-구현과-PR-리뷰-결정사항]] — "구글 로그인(PR #10) 코드 읽기 — 설계 이유" 절 추가(자동 연결 금지, 트랜잭션 제외, 타임아웃·에러 매핑, linkToken·sub, 연결 실패 카운트 합산·flush)
+- 갱신: index.md — 해당 항목 요약에 보충
+- 비고: 배포·systemd 자동 배포·프록시 IP·스택 PR 12개 머지·AI 연동·인스턴스 설명은 [[JKYMHS-Backend/생-컨테이너-직접-배포-systemd-자동배포-프록시-IP]]에 이미 있어 생략. Discord/팀원 메시지 초안, 임시 md 경로, SSH 접속 요청 잡담 제외.
