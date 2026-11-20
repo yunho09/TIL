@@ -276,6 +276,9 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[파드-개념과-kind-실험-결과]] — 파드=논리 호스트(IP·포트 공유, 볼륨은 명시 마운트), 포트 충돌 컨테이너는 파드 Running이어도 재시작 반복, 컨테이너 재시작(IP·UID 유지) vs 파드 교체(새 IP·UID), phase vs kubectl STATUS, init·사이드카(`restartPolicy: Always`)·임시 컨테이너, 실행 중 파드 수정 한계, 템플릿·ReplicaSet/Deployment 역할, init 컨테이너를 따로 두는 이유 (2026-11-12), **(2026-11-15 보충)** 클러스터>노드>파드>컨테이너, 리소스(주문서) vs 컨트롤러(프로그램)·Service는 컨트롤러 아님, ReplicaSet/DaemonSet/StatefulSet 유지 대상 비교
 - [[Deployment-롤아웃과-Service-타입-개념-정리]] — Deployment→ReplicaSet→Pod 역할 분담, 롤아웃은 템플릿 변경 때만·RollingUpdate vs Recreate, 롤백=옛 ReplicaSet 0개 보존(자동 롤백 없음, 일시 중지 중 불가), HPA, Service의 ClusterIP(가상 IP)·EndpointSlice·타입 4가지·헤드리스, 호스트·경로 분기는 Ingress/Gateway API, **(2026-11-13 보충)** 헤드리스의 DNS 기록(`db`→파드 IP 전부, `db-0.db`)·셀렉터는 그대로·DNS 이름:IP 다대다, 파드/Service/DNS가 각각 가진 것, 앱당 Service 1개·다중 레이블 AND 선택 (2026-11-12)
 
+### 인프라/네트워크
+- [[hosts-파일과-DNS-조회-순서]] — `/etc/hosts`는 사람이 적는 고정 주소록(캐시 아님, DNS보다 먼저·서버가 아닌 파일), 이 PC 조회 순서 hosts→mDNS→systemd-resolved(127.0.0.53), 루트→TLD→권한 서버 재귀 조회는 상위 리졸버가 수행 (2026-11-20)
+
 ### 도구
 - [[claude.ai-대화기록-크롬-확장으로-읽기]] — 로그인된 크롬에서 claude.ai 내부 API(chat_conversations 등)로 대화 목록·본문 읽기, JS 출력 1,500자 한도를 `<pre>`+get_page_text로 우회, 탭 사용 순서 (2026-11-20)
 - [[SSH-글자-입력-끊김-왕복-지연과-mosh]] — SSH 글자 입력 끊김은 키마다 서버 왕복(RTT)을 기다리기 때문(30ms 이하 무감, 50~100ms·들쭉날쭉이면 끊김, 한글 조합은 무관), mosh(서버 설치·UDP 필요)·VS Code Remote-SSH·붙여넣기로 줄이는 법 (2026-11-12)
