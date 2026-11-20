@@ -1803,3 +1803,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Bium/프로젝트-현황]] — 관련 링크 추가
 - 갱신: index.md — 프로젝트/Bium 섹션에 새 페이지 추가
 - 비고: team 스킬 본문, 일꾼 보고 원문·스크린샷 경로·PR 머지 진행 잡담, 중단된 회고 작성 요청 제외. 팀원별 미완 목록은 일회성이라 생략.
+
+## 2026-11-20 10:07 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/bium-be)
+- 갱신: [[Bium/FE-Sprint3-감사와-수정-2026-11-20]] — BE #65 CHECK 제약 결함의 해결(EnumCheckConstraintMigration·식별자 경계 정규식·@Order), enum 값 추가 체크리스트, target_user_id 스키마, 롤백 주의, 머지 시점 추가
+- 갱신: index.md — 해당 항목 요약 보충
+- 비고: 시간대(#62)·Bad Request(#61)는 기존 페이지에 있어 생략. 프롬프트 수합 요청·cross-session 메시지 원문·리뷰어 보고 원문·머지 대기 잡담 제외.
