@@ -44,9 +44,19 @@ shared    ← 제일 아래: 공통 Axios, queryClient, 범용 UI, 유틸
 - 그런데 재발급 API는 `entities/auth`에 있어 더 아래층인 shared가 import할 수 없다 → **맨 위 app이 시작 시점(`main.tsx`)에 `configureApiAuthentication`으로 인터셉터를 붙인다**. "위→아래 import 규칙을 지키면서 기능을 연결하는" 사례.
 - 팀 규칙은 "모든 API 호출은 공통 인스턴스"이고 파일 CDN 요청(`fetchStoredFile`, 기본 `fetch`)만 예외 — 이유와 동작은 [[공용-인증-axios-외부도메인-토큰유출]]. 보강: 이 서버는 토큰이 없거나 만료돼도 401이 아니라 **403**을 주기 때문에 인터셉터가 403도 재발급 대상으로 보고, 그래서 CDN의 403 한 번이 재발급→재요청→또 403→로그아웃으로 번졌다. `fetch`는 4xx·5xx여도 던지지 않아 `response.ok`를 직접 확인하고, 미리보기를 닫으면 `AbortSignal`로 요청을 취소한다.
 
+## 면접: "FSD 왜 썼어요?" / "규칙 때문에 설계가 바뀐 적?" (2026-11-21 모의면접)
+- FSD를 **고른 이유는 기록에 없다**(7/5 FE 팀원이 첫 세팅 커밋에서 "FSD-lite"로 한꺼번에 넣음, Vite·React·TS·TanStack Query·Zustand·Emotion·Playwright도 같은 커밋). "제가 골랐다"고 하면 "다른 구조와 비교했어요?"에서 막힌다. 답 틀: **누가 정했는지 → 써 보며 좋았던 점 → 한계**.
+  > 초기 구조는 FE 팀원이 FSD로 잡았고 저는 그 위에서 개발했습니다. 좋았던 점은 의존 방향이 ESLint로 강제된다는 것입니다. 예를 들어 토큰 재발급 인터셉터가 인증 엔티티 함수를 써야 해서 shared가 아니라 app 레이어로 올리게 됐고, 규칙이 없었다면 공통 코드가 특정 기능에 묶였을 겁니다.
+- 단점 질문: 작은 기능도 어느 층에 둘지 고민, 처음 보는 사람에겐 규칙이 어려움 → 그래서 같은 층끼리는 막지 않는 가벼운 방식. FSD가 아니면: 종류별 폴더(`components`/`hooks`/`pages`)는 작을 땐 편하지만 화면이 많아지면 한 기능 코드가 흩어짐. "화면 50개가 넘어도 기준이 명확했다"는 실제로 그렇게 느꼈을 때만.
+- **재발급 인터셉터를 app으로 올린 이유**(한 줄): 인터셉터가 `entities/auth`의 `reissueAppToken`을 써야 하는데 shared가 entities를 import하면 층 규칙 위반 → 위 레이어 `app/config/configureApiAuthentication.ts`로 올림. 인터셉터 = 모든 요청·응답 사이에 끼는 코드(요청에 토큰 부착 → 401/403이면 재발급 → 새 토큰으로 원 요청 1회 재시도).
+  - 대안(면접관이 "다르게는?"이라 파고들 때만): ① `reissueAppToken`을 shared로 내림(인증 도메인 코드가 공통 층에 섞임) ② shared엔 "재발급 함수를 받아 인터셉터를 붙이는 함수"만 두고 app이 시작 시 함수를 주입(의존성 주입). 팀은 app에서 연결하는 쪽을 택함 — **왜 그렇게 정했는지는 기록 없음**, 네가 고른 것처럼 말하지 않는다.
+  - 같은 이유로 **역할 타입**(`APP_ADMIN`·`EMPLOYEE`)은 shared가 갖고 entities/auth가 가져다 씀(반대면 규칙 위반, 코드 주석에도 이유 있음).
+- 응답 검사·쿼리 구조: [[응답을-unknown으로-받고-타입-가드로-검사하기]], [[TanStack-Query-기본설정-쿼리키-계층과-삭제-시-removeQueries-먼저]].
+
 ## `@` 별칭과 폴더 import (질문이 나오기 쉬운 기초)
 - `@` = `src`. `tsconfig.app.json`의 `paths: {"@/*": ["./src/*"]}`(TypeScript용)와 `vite.config.ts`의 `alias: {'@': './src'}`(빌드 도구용) 둘 다에 적어야 한다. 파일 위치와 무관하게 `@/shared/api/axios`로 쓸 수 있어 `../../../` 세기를 없앤다.
 - import에 **폴더 경로만** 쓰면 빌드 도구가 그 폴더의 `index.ts`를 자동으로 읽는다(약속된 규칙). 그 `index.ts`(배럴)가 여러 파일을 대신 export해 한 줄로 가져오게 해 주지만, 코드 분할에서는 이 "안내 데스크"가 문제 — [[라우트-코드-스플리팅-React-lazy-Suspense-key와-배럴]].
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE) — 2026-11-20 (면접 대비 설명 세션)
+- Claude Code 세션 자동 캡처 (/home/yunho/.config/Claude/scratch-workspaces/68eef3b8-da94-4db5-b563-9565e29705a3/4cebf249-3d72-4a77-a55b-e742194ef06a/scratch-2026-11-20-d28dbc) — 2026-11-21 (모의면접)
