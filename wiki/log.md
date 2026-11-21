@@ -1859,3 +1859,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 갱신: [[Claude-모델-선택-Opus-5.5-vs-Fable-5.2와-자동-선택-기능]] — 관련 링크 추가
 - 갱신: index.md — 도구 섹션에 새 페이지 추가
 - 비고: 설정 작업 진행 멘트, 로그인 만료 경고, 2D 캐릭터 후보 탐색 과정은 제외.
+
+## 2026-11-21 19:59 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2/.claude/worktrees/portfolio-review-496b55)
+- 생성: [[JOBIS-FE-V2/포트폴리오-이슈-선정과-Sentry-측정-정리-2026-11]]
+- 갱신: index.md — 프로젝트/JOBIS-FE-V2 섹션에 새 페이지 추가
+- 비고: 디스코드 메시지 문구 다듬기·Sentry 가입 요청 진행 상황은 일회성이라 제외. 기존 NFD·다운로드 페이지는 링크만 연결.
