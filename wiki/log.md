@@ -1920,3 +1920,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
 - 갱신: [[이력서-사실-검증-기준-팀원-몫과-커밋-수]] — Figma 포폴 문구 수정·PDF 재출력 요령 절 추가(줄바꿈·폭 실측·수상 줄 형식·전 쪽 재출력), index.md — 해당 요약 보강
 - 비고: 배지 문구·수상 줄 개별 수정 지시, 상금·출품번호, Figma 스킬 문서 본문은 일회성/중복이라 제외.
+
+## 2026-11-23 08:37 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2/.claude/worktrees/portfolio-review-496b55)
+- 갱신: [[JOBIS-FE-V2/포트폴리오-이슈-선정과-Sentry-측정-정리-2026-11]] — Figma 포폴 JOBIS 3장 추가 방식, 운영 학생 웹 이미지 깨짐 발견, 로컬 스크린샷 환경 절 추가, index.md — 해당 요약 보강
+- 비고: 소재 선정·이슈 01/02·Sentry·측정표는 기존 페이지와 중복이라 제외. 선배 DM 문구·Figma 스킬 문서 본문은 일회성이라 제외.
