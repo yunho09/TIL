@@ -64,6 +64,8 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 
 - [[Docker-Desktop-쿠버네티스-이미지-손상과-기본-Docker-kind-전환]] — Docker Desktop 내장 쿠버네티스(kind 모드)에서 pull 끊김 뒤 이미지 바이너리가 0바이트·24MiB로 잘려 LoadBalancer가 `<pending>`에 멈춘 원인과 네이티브 엔진 사본 해시 비교로 진단·교체한 방법, `docker desktop start`가 Claude Desktop VM을 오인하는 함정, 기본 Docker+kind 전환(메모리 3.9GB→약 1GB, LoadBalancer 없음→port-forward, 직접 빌드 이미지는 `kind load docker-image`), 볼륨을 엔진 사이로 옮길 때 compose 라벨·zsh 배열 함정 (2026-10-24), **(2026-11-03 보충)** 입문용 기본 개념(이미지·컨테이너·파드·디플로이먼트·서비스·컨텍스트)과 최소 kubectl 실습, **(2026-11-17)** kind 컨테이너가 `on-failure` 정책으로 Docker 깰 때마다 켜져 CPU·메모리를 쓰던 문제와 `docker update --restart=no`
 - [[k9s-한국어-로케일-테두리-깨짐-RUNEWIDTH]] — 한국어 로케일에서 k9s 테두리가 띄엄띄엄·제목이 끊기던 원인(모호 폭 문자를 2칸으로 계산)과 `RUNEWIDTH_EASTASIAN=0` 해결(lazydocker도 동일), 떠 있던 k9s는 재시작 필요, `port-forward` 로컬:파드 포트 규칙, Vim `:qa!` (2026-10-25)
+- [[카카오톡-Wine-파일첨부를-우분투-파일선택창으로-XDG-포털-패치]] — Wine MR 10060(XDG 포털 comdlg32 초안 패치)을 카톡 전용 Wine 11.10에 적용+32비트 wow64 연결·부모 창 지정·응답없음 방지, 리뷰로 동시 두 번째 창은 Wine 창 폴백(libdbus 공유 연결 교착 회피)·포커스 강탈 제거·힙 버퍼, 되돌리기 경로, 재실행 후 확인됨 (2026-11-22)
+- [[클립보드-Super+V-선택-즉시-붙여넣기와-Ghostty-Shift+Insert]] — 클립보드 확장 paste-on-select 설정으로 Enter만에 붙여넣기, 확장이 Shift+Insert를 보내 Ghostty에선 primary selection이 붙는 함정과 클립보드 붙여넣기로 재지정, 붙여넣기 후 클립보드 원복 동작 (2026-11-22)
 
 ### 라즈베리파이/GPIO
 - [[GPIO-기초]] — GPIO가 무엇인지(3.3V 출력/입력), 켜짐·꺼짐뿐인 핀으로 PWM이 밝기를 만드는 원리, BCM 번호와 물리 핀 자리 번호가 다른 두 체계, 핀은 한 프로세스만 점유한다는 성질, 40핀 헤더에서 1번 핀 찾는 법과 3.3V·5V·GND 위치
