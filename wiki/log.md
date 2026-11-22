@@ -1925,3 +1925,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2/.claude/worktrees/portfolio-review-496b55)
 - 갱신: [[JOBIS-FE-V2/포트폴리오-이슈-선정과-Sentry-측정-정리-2026-11]] — Figma 포폴 JOBIS 3장 추가 방식, 운영 학생 웹 이미지 깨짐 발견, 로컬 스크린샷 환경 절 추가, index.md — 해당 요약 보강
 - 비고: 소재 선정·이슈 01/02·Sentry·측정표는 기존 페이지와 중복이라 제외. 선배 DM 문구·Figma 스킬 문서 본문은 일회성이라 제외.
+
+## 2026-11-23 08:39 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/ToyVillage-Admin-FE)
+- 갱신: [[ToyVillage-Admin-FE/하네스-시스템]] — 해시의 단위(파일 단위)와 성질(내용만 비교, 되돌리면 통과, 공백 변경도 감지) 한 줄 추가
+- 비고: 세션은 토빌 포폴 면접 대비(이슈 01~04 풀이·해시 장부 로직·예상 질문 오프닝)였고 대부분 [[ToyVillage-Admin-FE/포트폴리오-숫자-코드-대조와-면접-주의점-2026-11]]·하네스-시스템에 이미 정리돼 있어 중복 제외. Figma 스킬 문서 본문·일회성 질의응답 제외. index.md는 요약 변경 없음.
