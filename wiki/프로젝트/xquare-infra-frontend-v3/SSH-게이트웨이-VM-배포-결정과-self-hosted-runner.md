@@ -1,6 +1,6 @@
 ---
 tags: [xquare, deploy, ssh, nginx, github-actions, self-hosted-runner]
-updated: 2026-11-11
+updated: 2026-11-23
 ---
 
 # xquare 프론트 배포: SSH 게이트웨이 VM과 self-hosted runner 결정
@@ -29,6 +29,9 @@ xquare 프론트(user 앱)를 `XQUARE-frontend` VM에 nginx로 올리고, 자동
 - 배포 job은 **`push` 이벤트에서만** 실행(`pull_request`로 돌면 외부 PR 코드가 서버에서 실행될 위험). 브랜치 매핑 예: `develop`→stag, `main`→prod.
 - runner 설치: 레포 Settings → Actions → Runners → New self-hosted runner(**레포 관리자 권한 필요**). `./run.sh`는 터미널 종료 시 꺼지므로 `./svc.sh install && ./svc.sh start`로 서비스 등록.
 - 초기 nginx 세팅은 SSH로 수동, 자동 배포에서만 SSH 배제.
+
+## 후속
+- 실제 runner 설치·워크플로·도메인 전환·보안 설정 실행 기록은 [[새-서버-이전-runner-자동배포-실행과-도메인-전환-함정]] (2026-11-23 추가).
 
 ## 출처
 - Claude Code 세션 자동 캡처 (xquare-admin-application, 2026-11-11) — raw 파일 없음

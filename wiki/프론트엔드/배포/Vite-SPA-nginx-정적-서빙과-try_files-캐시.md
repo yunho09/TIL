@@ -1,6 +1,6 @@
 ---
 tags: [vite, nginx, spa, deploy, react-router]
-updated: 2026-11-11
+updated: 2026-11-23
 ---
 
 # Vite SPA를 nginx로 정적 서빙하기
@@ -24,6 +24,7 @@ server {
 ```
 - **`try_files ... /index.html`**: `BrowserRouter`를 쓰면 `/dashboard` 새로고침 시 nginx가 그런 파일을 찾다 404를 낸다. 파일이 없으면 `index.html`을 주고 라우팅은 React Router가 하게 한다. (Cloudflare 쪽 같은 증상: [[Cloudflare-Workers-SPA-fallback-404]])
 - **1년 캐시가 안전한 이유**: Vite는 내용이 바뀌면 파일명 해시가 바뀌고, 새 `index.html`이 새 파일을 가리킨다.
+- **`index.html`만 `no-cache` 추가**(`location = /index.html { add_header Cache-Control "no-cache"; }`): 배포가 옛 JS를 지우는 구조에서 브라우저가 캐시한 옛 `index.html`이 지워진 JS를 요청해 흰 화면이 나는 것을 막는다. 매번 재검증만 하므로 가볍고 `/assets/` 1년 캐시는 유지. 확인·실측은 [[새-서버-이전-runner-자동배포-실행과-도메인-전환-함정]].
 - 서브경로(`/admin/`)에 올리려면 `vite.config.ts`에 `base: "/admin/"`; 서브도메인+server 블록이 더 간단.
 - 적용: `nginx -t && systemctl reload nginx`, 확인 `curl -I localhost:포트` (파일 없으면 403/404가 정상).
 - 한 서버에 prod/stag를 두려면 `listen` 포트와 `root` 폴더만 다른 설정 2개.
