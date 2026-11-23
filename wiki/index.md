@@ -242,6 +242,8 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Bium/재료별-다음-구매-날짜-API-설계]] — `GET /api/fridges/{id}/purchase-schedule`의 계산 규칙(구매일 2개 이상이면 평균 간격, 1개면 purchaseCycleDays, 둘 다 없으면 제외·지운 재료 포함), 멤버 아님=404, "한 번만 산 재료는 빠진다"가 틀린 이유, 브랜치·PR 관례 (2026-11-23)
 - [[Bium/FE-Sprint3-감사와-수정-2026-11-20]] — Sprint 1~3 FE·BE 대조 감사(계약 불일치 없음)와 수정 PR #68~#79: 낡은 냉장고 목록 캐시 때문에 '다시 시도'가 복구 안 되던 문제(stale 표시·순환 import), 냉장고 전환 잔상(replace 이동), 시세=KAMIS 소매가, 헤더 폭 트레이드오프, 모르는 action enum 방어와 FE 먼저 배포 순서, BE `ddl-auto: update`가 CHECK 제약을 안 고쳐 내보내기 500→`EnumCheckConstraintMigration`으로 기동 시 재생성(enum 값 추가 체크리스트·롤백 주의), CodeRabbit 무료 한도 대응, 시연 순서, 로컬 실제 백엔드 검증 시 vite는 5173(CORS) (2026-11-20)
 
+- [[Bium/유통기한-애니메이션과-다음-구매-달력-FE-설계]] — 유통기한 단계별 아이콘·배지 애니메이션(카드엔 transform 안 걸어 드래그와 분리, id 기반 음수 delay 분산, reduced-motion·드래그 중 정지)과 장보기 달력(냉장고 key 재생성+ignore 플래그로 늦은 응답 차단, 기본 선택일 규칙, 지난 예정은 상단 띠, 모바일은 아이콘만), 화면 확인 중 고친 월 이동 잔상·작은 아이콘, BE PR과 같이 머지 (2026-11-23)
+
 ### 프로젝트/xquare-infra-frontend-v3
 - [[xquare-infra-frontend-v3/SSH-게이트웨이-VM-배포-결정과-self-hosted-runner]] — AsyncSSH 중계 게이트웨이 뒤 VM 진단법, prod(80)/stag(8080)·도메인 확정 사항, 앞단 openresty가 포트를 넘겨줘야 외부 접근, SSH 대신 self-hosted runner 자동 배포 설계(빌드/배포 job 분리·push 이벤트 한정·svc.sh 서비스 등록) (2026-11-11)
 - [[xquare-infra-frontend-v3/새-서버-이전-runner-자동배포-실행과-도메인-전환-함정]] — 같은 도메인의 서버 교체는 프록시 규칙 한 줄 변경(빌드 먼저 넣고 연결), 요청 전 prod가 먼저 연결돼 `prod ok`만 뜬 사고, `Last-Modified`·Cache-Control로 전환 확인, 521 vs 502, runner 전용 계정·config.sh 선검사 우회·서버 셸 함정, public 레포 Actions 보안 설정 2개, 워크플로 가드, nginx no-cache (2026-11-23)
