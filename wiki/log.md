@@ -1964,3 +1964,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
 - 갱신: [[프로젝트-현황]](xquare-openapi-frontend) — 회원가입 PR #59 구현·서버 규칙 검증·스테이징 OTP 500 원인 진단·API 주소 env 결정·스테이징 API 현황·사용 기록 PR 공백 절 추가, index.md — 요약 보강
 - 비고: 선생님 피드백 결정·Figma 반영은 [[선생님-피드백-접근권한-3단계와-프로젝트별-키-2026-11-20]]에 이미 있어 생략. Linear 이슈 재분배·디스코드/노션 문안 초안·PR 코드 줄별 설명·Swagger 주소 출처 추적은 일회성이라 제외.
+
+## 2026-11-23 23:39 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 갱신: [[Linear-도입과-GitHub-org-연동-Linear-Code-앱]] — "이슈를 중복·취소로 바꾸면 연결된 PR도 닫힌다" 절 추가, [[프로젝트-현황]](xquare-openapi-frontend) — Linear 중복 정리 사고 한 줄, index.md — 요약 보강
+- 비고: 선생님 피드백 결정·Figma 반영, PR #59 구현, 스테이징 OTP 500 진단, API 주소 env, 백그라운드 시간 제한은 기존 페이지에 이미 있어 생략. 노션 문안·분배 글·PR 코드 줄별 설명·서버 주소 출처 추적은 일회성이라 제외.

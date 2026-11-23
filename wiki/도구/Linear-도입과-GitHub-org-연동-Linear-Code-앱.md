@@ -1,6 +1,6 @@
 ---
 tags: [linear, github, 이슈관리, 워크플로]
-updated: 2026-11-12
+updated: 2026-11-23
 ---
 
 # Linear 도입과 GitHub org 연동 (Linear Code 앱)
@@ -70,6 +70,13 @@ GitHub Issues 중심이던 팀에 Linear를 도입할 때의 개념 대응, 워�
 - **함정: 이슈 설명의 `PR #26` 자동 링크**: Linear 설명에 `PR #26`처럼 번호만 쓰면 팀에 연결된 레포 중 엉뚱한 레포(FE #26)로 링크됐다. 다른 레포의 PR은 **전체 URL 링크**로 적는다.
 - **일괄 이관 요령**: 레포(BE/FE)의 PR 머지·오픈 현황과 Linear 상태를 대조해 옮긴다 — develop에 머지됨=Done, PR 열림(리뷰 대기)=In Review, 원격 브랜치·PR 없음=그대로. PR이 develop이 아닌 다른 feature 브랜치로 머지된 경우는 develop 반영 전이므로 Done이 아니다. 완료 후 다시 조회해 반영을 확인한다.
 
+## 이슈를 중복·취소로 바꾸면 연결된 PR도 닫힌다 (2026-11-23 추가)
+- **상황**: 브랜치 `feature/opn-79`로 올린 PR #59가 OPN-79에 자동 연결돼 있었다. 그런데 PR 본문을 `Closes #60`(GitHub 이슈)으로 바꾸자 GitHub 이슈 #60이 Linear에 OPN-112로 넘어와 OPN-79와 중복이 됐고, OPN-79를 **Duplicate(중복) 상태**로 정리하는 순간 Linear 연동이 **같은 초에 PR #59까지 닫았다**.
+- **원인**: 브랜치 이름의 이슈 번호로 PR이 이슈에 붙으므로, 이슈가 중복·취소(canceled 계열) 상태가 되면 연동이 그 PR도 함께 닫는다. 닫은 주체는 연결된 사용자 계정으로 표시된다.
+- **복구**: PR을 다시 열면 된다. 이슈가 이미 중복 상태라 다시 닫히지는 않았다.
+- **교훈**: **열린 PR이 붙은 Linear 이슈는 중복·취소로 바꾸기 전에 확인**한다. 브랜치 이름이 옛 이슈 번호면 이슈를 정리하기 전에 PR의 연결 대상부터 본다.
+- **중복이 생기는 경로**: Linear에 이미 이슈(OPN-79)가 있는데 같은 작업용 GitHub 이슈(#60)를 따로 만들면 동기화로 Linear 이슈가 하나 더 생긴다. GitHub 이슈를 만들 거면 Linear 쪽 기존 이슈를 만들기 전에 정하거나, 만들지 않고 `Closes OPN-번호`를 쓴다.
+
 ## 관련
 - [[GitHub-closing-keyword-기본브랜치-PR-자동닫힘과-코드오너-룰셋]] — GitHub 쪽 닫기 키워드 동작
 - [[xquare-openapi-frontend/프로젝트-현황]] — 이 도입이 적용된 프로젝트
@@ -77,3 +84,4 @@ GitHub Issues 중심이던 팀에 Linear를 도입할 때의 개념 대응, 워�
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend, 2026-10-28, 2026-10-29, 2026-11-11)
 - Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend/.claude/worktrees/sync-task-progress-f36bef, 2026-11-12)
+- Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend, 2026-11-23)
