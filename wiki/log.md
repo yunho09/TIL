@@ -2047,3 +2047,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/work/code/contests/2026-11)
 - 갱신: [[공모전-AI-영상-제작-파이프라인-HyperFrames-MeloTTS-검수]] — 새 레퍼런스(리트냥이 평행 세계·생중계 UI)와 "모든 창작물은 만들기 전에 수상작·화제작 조사" 규칙 절 추가, index.md — 요약 보강
 - 비고: 경산 재제작 내용(틀·fromTo 버그·검수·피드백·보호자 계정 미출품)은 기존 페이지에 이미 있어 생략. 폴더 목록·남은 일 정리·접수 단계 안내는 일회성이라 제외.
+
+## 2026-11-25 01:04 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/work/code/project/xquare-infra-frontend-v3)
+- 생성: [[PVE-컨테이너-관리-페이지-퍼블리싱-결정과-PR-운영]]
+- 갱신: index.md — 프로젝트/xquare-infra-frontend-v3 섹션에 항목 추가
+- 비고: 스택 PR 머지 순서·base 자동 전환, Figma 한도 원리는 기존 페이지에 이미 있어 링크만 연결. 진행 보고·재요약·"다 했냐" 확인 문답은 일회성이라 제외.
