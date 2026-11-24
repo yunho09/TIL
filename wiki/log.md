@@ -1984,3 +1984,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/.config/Claude/scratch-workspaces/68eef3b8-da94-4db5-b563-9565e29705a3/4cebf249-3d72-4a77-a55b-e742194ef06a/scratch-2026-11-20-d28dbc)
 - 갱신: [[Vite-빌드타임-환경변수-인라인]] — 값이 비면 코드가 빠지는 원리(상수 치환→죽은 코드 제거→트리 셰이킹) 절 추가, index.md — 요약 보강
 - 비고: 토빌 모의면접 세션. TanStack Query·타입 가드·FSD 인터셉터 배치·SPA fallback·lazy/Suspense key·해시 캐시·CORS 프록시·Sentry·CI 등 기술 설명과 포폴 수치 주의점은 기존 페이지에 이미 있어 생략. 예상 질문 답안·5분 요약·면접 준비 진행 안내는 일회성이라 제외.
+
+## 2026-11-24 09:48 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/contests/2026-11)
+- 갱신: [[공모전-AI-영상-제작-파이프라인-HyperFrames-MeloTTS-검수]] — 경산 재제작 절 추가(틀·사운드·fromTo 즉시 적용 버그·출처 초과 자막 정정·AI 사진 위주 피드백·보호자 계정 전용이라 미출품), index.md — 요약 보강
+- 비고: 파일 경로 안내·접수 단계 안내·"남은 거 정리"는 일회성이라 제외.
