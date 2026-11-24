@@ -1979,3 +1979,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/JOBIS-FE-V2)
 - 갱신: [[iOS-앱-점검-2026-11-17]] — 11-24 후속 점검 절(develop #499 기준 미수정 2·3·4·7·8·9·10번 원인·수정안) 추가, 디스코드 마크다운 보고 방식 보충, index.md — 요약 보강
 - 비고: 이전 세션 기록 검색·레포 clone 진행 보고, 디스코드 메시지 분할 복사 안내는 일회성이라 제외. 7·8번은 제보 메모만 보고 짐작한 증상이라 페이지에 "(Claude 보충)"으로 표시.
+
+## 2026-11-24 09:46 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.config/Claude/scratch-workspaces/68eef3b8-da94-4db5-b563-9565e29705a3/4cebf249-3d72-4a77-a55b-e742194ef06a/scratch-2026-11-20-d28dbc)
+- 갱신: [[Vite-빌드타임-환경변수-인라인]] — 값이 비면 코드가 빠지는 원리(상수 치환→죽은 코드 제거→트리 셰이킹) 절 추가, index.md — 요약 보강
+- 비고: 토빌 모의면접 세션. TanStack Query·타입 가드·FSD 인터셉터 배치·SPA fallback·lazy/Suspense key·해시 캐시·CORS 프록시·Sentry·CI 등 기술 설명과 포폴 수치 주의점은 기존 페이지에 이미 있어 생략. 예상 질문 답안·5분 요약·면접 준비 진행 안내는 일회성이라 제외.

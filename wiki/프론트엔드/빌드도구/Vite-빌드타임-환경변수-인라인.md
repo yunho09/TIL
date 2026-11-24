@@ -1,6 +1,6 @@
 ---
 tags: [vite, frontend, 환경변수, 빌드]
-updated: 2026-11-23
+updated: 2026-11-24
 ---
 
 # Vite 빌드타임 환경변수 인라인
@@ -24,6 +24,20 @@ Vite는 `import.meta.env.VITE_*` 값을 런타임에 읽지 않고 **빌드 시�
 - 값별 이유: 백엔드 주소는 F12 Network 탭에 다 보이고 보안은 주소 은닉이 아니라 백엔드 인증(로그인 없이 호출 시 401)이 맡는다. OAuth **Client ID**와 App slug는 공개 식별자. 반대로 **Client Secret·Private Key(.pem)·Webhook Secret·JWT 서명 키**는 백엔드 전용이며 프론트 env에 절대 금지.
 - 대안: GitHub Variables로 CI가 주입(레포에 파일 없음, 값 변경 시 커밋 불필요)하지만 워크플로 단계가 늘고 로컬 stag/prod 빌드는 값을 따로 구해야 한다. xquare는 커밋 방식 채택 → [[새-서버-이전-runner-자동배포-실행과-도메인-전환-함정]].
 
+## 값이 비면 코드가 통째로 빠지는 원리: 상수 치환 → 죽은 코드 제거 → 트리 셰이킹 (2026-11-24 추가)
+```ts
+const dsn = import.meta.env.VITE_SENTRY_DSN
+if (!dsn) return
+Sentry.init({ dsn })        // .env에 값이 없으면 이 줄 이후가 빌드에서 사라짐
+```
+1. **치환**: 빌드 중 `import.meta.env.VITE_SENTRY_DSN`이 `.env` 값 그대로 박힌다. 값이 없으면 `const dsn = ""; if (!"") return`.
+2. **죽은 코드 제거**: 압축(minify) 단계에서 `!""`는 항상 true라 "무조건 return"으로 접히고, `return` 뒤의 `Sentry.init(...)`은 실행될 일이 없어 지워진다.
+3. **트리 셰이킹**: `Sentry.init`을 부르던 코드가 없어지니 그걸 위해 import한 Sentry 코드도 아무도 안 쓰는 코드가 돼 같이 빠진다.
+- 사람이 뺀 게 아니라 **빌드 도구가 자동으로** 뺀다. 사례(토빌): 로컬 `.env`에 DSN이 없어 번들에 Sentry가 27 kB만 남은 가벼운 빌드(메인 JS 1,031 kB)를 재고 있었고, **가짜 DSN을 넣은 배포용 빌드**는 1,306 kB였다.
+- 트리 셰이킹 두 종류 구분: ① 어디서도 import하지 않은 export를 결과물에서 빼기(`utils.ts` 함수 10개 중 1개만 import하면 9개 제외), ② 절대 실행되지 않는 분기 제거(위 경우). 배럴 파일은 ①이 항상 되지 않는 구간이 있다 → [[라우트-코드-스플리팅-React-lazy-Suspense-key와-배럴]].
+- 교훈: **성능 수치는 사용자가 받는 것과 같은 조건의 빌드로 잰다.** 환경변수가 번들 내용을 바꾸는 항목은 측정 전에 배포와 같게 맞춘다 → [[어드민-SPA-번들-성능-baseline과-최적화-우선순위]].
+
 ## 출처
+- Claude Code 세션 자동 캡처 (/home/yunho/.config/Claude/scratch-workspaces/68eef3b8-da94-4db5-b563-9565e29705a3/4cebf249-3d72-4a77-a55b-e742194ef06a/scratch-2026-11-20-d28dbc) — 트리 셰이킹·죽은 코드 제거 단계 설명 (2026-11-24)
 - Claude Code 세션 자동 캡처 (/data/project/Commonly-fe) — `VITE_JUSO_CONFM_KEY`(도로명주소 검색 API 승인키) 인라인 여부를 번들 코드로 직접 검증한 사례
 - Claude Code 세션 자동 캡처 (/data/project/xquare-infra-frontend-v3) — stag/prod env 파일 커밋 결정과 운영 번들 대조
