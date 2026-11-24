@@ -1,6 +1,6 @@
 ---
 tags: [리눅스, 디스크, docker, snap, discord, journald, 로그]
-updated: 2026-11-15
+updated: 2026-11-24
 ---
 
 # 루트 공간 부족: Docker 디스크 /data 이전과 Discord 로그 스팸 차단 (2026-10-23)
@@ -41,6 +41,18 @@ updated: 2026-11-15
 - `/data` 쪽 후속 후보: **`/data/docker-desktop`(12GB)** — 10월 24일 이후 안 쓰는 예전 Docker Desktop 디스크(지금은 기본 Docker 사용). `/data`가 부족해지면 가장 먼저 볼 곳.
 - 관련: [[Docker-Desktop-쿠버네티스-이미지-손상과-기본-Docker-kind-전환]]
 
+## 3차: 새 200GB 디스크 추가와 /apps·/work 역할 분리 (2026-11-24)
+
+- **역할 분리 결정:** 새 디스크는 **내 작업용**, 기존 `/data` 디스크는 **앱·개발도구용**으로 나눴다. 이름도 `/data`→**`/apps`**, `/data2`→**`/work`**로 바꿨다.
+  - `/work`: `code/`(프로젝트·스터디·공모전 등), `files/`(다운로드·사진·문서·비디오). 새 프로젝트는 `/work/code`, 개인 파일은 `/work/files`.
+  - `/apps`: Android SDK, 개발도구 캐시(`dev-home`), docker, VM, `.gradle` 같은 큰 도구.
+- **이전 절차:** 새 디스크 마운트 지점이 root 소유라 먼저 `chown`으로 내 계정으로 변경 → 이전 대상을 쓰던 서비스(PR Lens 서버 등)는 잠깐 끄기 → 복사 후 원본과 파일 차이 0·개수 일치 확인 → 원본 삭제 → 서비스 재기동·git·Downloads 정상 확인. 옛 경로(`/data/project`, `~/contests`, `~/Downloads`, `~/사진`)에는 **새 위치로 가는 심볼릭 링크**를 남겨 기존 경로·서비스가 그대로 동작하게 했다. 이동 기록은 `/work/move-2026-11-24.log`.
+- **공간 변화(약 37GB 이동):** `/data` 여유 11G(93%)→47G(67%), `/` 12G→14G, 새 디스크 여유 148G.
+- **200GB를 추가했는데 196G로 보이는 이유:** 파일시스템이 메타데이터용으로 일부를 쓰고, 사용량+남은 공간이 전체보다 조금 모자란 것은 ext4 등의 **root 예약 공간(비상용)** 때문이다. (Claude 보충: ext4 기준 설명)
+- **이름 바꾸기(재부팅 후에도 유지):** `/etc/fstab`의 마운트 지점을 새 이름으로 바꾸고(백업 `/etc/fstab.bak-20261124`), 홈의 바로가기(`~/project`, `~/.npm` 등)·하루 알림·PR Lens 설정의 경로도 함께 수정. 옛 `/data`·`/data2`는 새 이름으로 가는 심볼릭 링크로 남김. 도커 bind mount도 새 이름 기준으로 붙는 것까지 확인했으나 **재부팅 후 실제 마운트는 미확인**.
+- **파일 앱 사이드바 표시 이름:** "161 GB 볼륨"·"data2"로 뜨던 이름은 fstab 옵션에 **표시용 이름**(x-gvfs-name 계열, Claude 보충)을 넣어 `apps`·`work`로 바꿨다. Windows C드라이브(510GB, NTFS)는 **udev 규칙 `/etc/udev/rules.d/99-windows-name.rules`**로 우분투에서 보이는 이름만 `Windows`로 바꿨고(윈도우 쪽은 무수정), 파일을 지우면 원복된다. 사이드바에 옛 이름이 남으면 파일 앱을 닫았다 다시 연다.
+- **결정:** `/`를 200GB로 키우는 것은 하지 않고 현 상태 유지. 나중에 `/`가 다시 차면 크롬 프로필·캐시 같은 큰 것만 `/work`로 빼면 약 15G 확보 가능.
+
 ## 일반화
 
 - 공간 부족 시 `df`로 파티션 구조부터 본다 — 물리 디스크 수가 아니라 **마운트된 파티션별 여유**가 기준이다.
@@ -51,3 +63,4 @@ updated: 2026-11-15
 
 - Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
 - Claude Code 세션 자동 캡처 (/home/yunho, 2026-11-15)
+- Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory, 2026-11-24)

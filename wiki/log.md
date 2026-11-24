@@ -2037,3 +2037,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 생성: [[Helm으로-kind에-Argo-CD-설치하기]]
 - 갱신: index.md — 인프라/쿠버네티스 섹션에 항목 추가
 - 비고: 초기 admin 비밀번호 값, 진행 확인·잡담, 폴더 이동 안내는 일회성이라 제외.
+
+## 2026-11-24 19:01 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 갱신: [[루트-공간-부족-Docker-디스크-data-이전과-Discord-로그-스팸]] — 3차 절 추가: 새 200GB 디스크 역할 분리(/work·/apps), 이전 절차와 옛 경로 심볼릭 링크, fstab 이름 변경, 196G 표시 이유, 사이드바 이름(fstab·udev), `/` 확장 대신 현 상태 유지 결정, index.md — 요약 보강
+- 비고: 정리 요청 재요약·표 재출력·진행 안내는 일회성이라 제외. 재부팅 후 마운트는 미확인으로 명시.
