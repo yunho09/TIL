@@ -2031,3 +2031,9 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/contests/2026-11/research_notes)
 - 갱신: [[미성년자-부수입-플랫폼별-나이-명의-규칙-2026-11-22]] — 로블록스 DevEx 환율·백업 원천징수·UGC 조건, 타 게임 플랫폼(Unity·제페토·Steam·Epic/Apple 성년 기준), 웹소설·퍼플·인프런·OSSCA·Stripe 원문 충돌 보충, index.md — 요약 보강
 - 비고: 크몽·애드포스트·쿠팡 파트너스·주식·세금·알바 등 나머지는 기존 페이지에 이미 있어 생략. 보고서 구성 설명, 크몽 시작 순서 안내, 공모전 세션 간 목록 요청·답장은 일회성이라 제외.
+
+## 2026-11-24 16:38 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.config/Claude/scratch-workspaces/68eef3b8-da94-4db5-b563-9565e29705a3/4cebf249-3d72-4a77-a55b-e742194ef06a/scratch-2026-11-23-407843)
+- 생성: [[Helm으로-kind에-Argo-CD-설치하기]]
+- 갱신: index.md — 인프라/쿠버네티스 섹션에 항목 추가
+- 비고: 초기 admin 비밀번호 값, 진행 확인·잡담, 폴더 이동 안내는 일회성이라 제외.
