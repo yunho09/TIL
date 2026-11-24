@@ -1994,3 +1994,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
 - 갱신: [[프로젝트-현황]](xquare-openapi-frontend) — 병렬 6작업 이슈·브랜치·PR 일괄 처리(#69~#80), 공지 API 스펙·인증, 공지 연동 구현 판단, 빌드용 가짜 id, API 테스트 파라미터명 수정, 미검증·남은 결정 절 추가, index.md — 요약 보강
 - 비고: 선생님 피드백 결정·Figma 반영은 [[선생님-피드백-접근권한-3단계와-프로젝트별-키-2026-11-20]]에, 회원가입 PR #59·OTP 500·API 주소 env·백그라운드 시간 제한·Linear 중복 사고는 기존 페이지에 이미 있어 생략. 노션 문안·디스코드 글·답장 초안·태스크 재분배·PR 코드 줄별 설명·Swagger 주소 출처 추적·dev 서버 종료 알림은 일회성이라 제외.
+
+## 2026-11-24 14:18 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/data/project/xquare-openapi-frontend)
+- 갱신: [[프로젝트-현황]](xquare-openapi-frontend) — CodeRabbit 후속 대응(#59·#75 지적 수정, `git commit -a`로 `AGENTS.md`가 섞인 실수와 교훈, 무료 한도·비기본 base 리뷰 스킵), 노션 변경 기록 규칙 추가, index.md — 요약 보강
+- 비고: 선생님 피드백 결정·Figma 반영, 병렬 6작업·공지 API, PR #59·OTP 500·env·Linear 중복 사고는 기존 페이지에 이미 있어 생략. 노션 문안·디스코드 글·답장 초안·태스크 재분배·PR 줄별 설명·Swagger 주소 출처 추적은 일회성이라 제외.
