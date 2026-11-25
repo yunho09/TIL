@@ -245,7 +245,7 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[Bium/유통기한-애니메이션과-다음-구매-달력-FE-설계]] — 유통기한 단계별 아이콘·배지 애니메이션(카드엔 transform 안 걸어 드래그와 분리, id 기반 음수 delay 분산, reduced-motion·드래그 중 정지)과 장보기 달력(냉장고 key 재생성+ignore 플래그로 늦은 응답 차단, 기본 선택일 규칙, 지난 예정은 상단 띠, 모바일은 아이콘만), 화면 확인 중 고친 월 이동 잔상·작은 아이콘, BE PR과 같이 머지 (2026-11-23)
 
 ### 프로젝트/xquare-infra-frontend-v3
-- [[xquare-infra-frontend-v3/PVE-컨테이너-관리-페이지-퍼블리싱-결정과-PR-운영]] — `/container`·`/container/create` 퍼블리싱: 스택 PR(#191/#192)이라 base가 develop이 아니면 CI 안 돎, 커밋 분할 시 커밋마다 `tsc -b`·diff 동일 확인, `.omc/` 커밋 혼입 사고와 `.git/info/exclude` 로컬 제외, API 가짜 응답+가짜 토큰으로 시안 크기 캡처 대조, Figma 한도로 VM을 임의 구현했다가 한도 해제 후 시안에 맞춘 사례, 생성 버튼 필수값 활성화 결정 (2026-11-25)
+- [[xquare-infra-frontend-v3/PVE-컨테이너-관리-페이지-퍼블리싱-결정과-PR-운영]] — `/container`·`/container/create` 퍼블리싱: 스택 PR(#191/#192)이라 base가 develop이 아니면 CI 안 돎, 커밋 분할 시 커밋마다 `tsc -b`·diff 동일 확인, `.omc/` 커밋 혼입 사고와 `.git/info/exclude` 로컬 제외, API 가짜 응답+가짜 토큰으로 시안 크기 캡처 대조, Figma 한도로 VM을 임의 구현했다가 한도 해제 후 시안에 맞춘 사례, 생성 버튼 필수값 활성화 결정, 푸시된 커밋·PR에서 Claude 표기 지우기(트리 동일 대조, 해시 변경, force-with-lease) (2026-11-25)
 - [[xquare-infra-frontend-v3/SSH-게이트웨이-VM-배포-결정과-self-hosted-runner]] — AsyncSSH 중계 게이트웨이 뒤 VM 진단법, prod(80)/stag(8080)·도메인 확정 사항, 앞단 openresty가 포트를 넘겨줘야 외부 접근, SSH 대신 self-hosted runner 자동 배포 설계(빌드/배포 job 분리·push 이벤트 한정·svc.sh 서비스 등록) (2026-11-11)
 - [[xquare-infra-frontend-v3/새-서버-이전-runner-자동배포-실행과-도메인-전환-함정]] — 같은 도메인의 서버 교체는 프록시 규칙 한 줄 변경(빌드 먼저 넣고 연결), 요청 전 prod가 먼저 연결돼 `prod ok`만 뜬 사고, `Last-Modified`·Cache-Control로 전환 확인, 521 vs 502, runner 전용 계정·config.sh 선검사 우회·서버 셸 함정, public 레포 Actions 보안 설정 2개, 워크플로 가드, nginx no-cache (2026-11-23)
 
