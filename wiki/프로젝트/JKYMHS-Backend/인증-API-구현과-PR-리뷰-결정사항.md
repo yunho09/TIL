@@ -1,6 +1,6 @@
 ---
 tags: [Spring, 인증, PR, JKYMHS, 어디갈래]
-updated: 2026-11-11
+updated: 2026-11-25
 ---
 # JKYMHS-Backend 인증 API 구현(#2~#6, #13)과 PR 읽기 순서·결정사항
 
@@ -89,6 +89,16 @@ updated: 2026-11-11
 - **`GoogleLinkTokenService`**: Redis 키 `auth:link:{linkToken}`, 값 `{memberId, googleSub, googleEmail}`, TTL 10분. **sub를 FE에 주지 않는 이유**: FE가 sub를 들고 연결 요청에 되돌려 보내는 구조면 요청 조작으로 다른 sub를 끼워 넣을 수 있어, 서버(Redis)에만 두고 FE에는 추측 불가능한 UUID만 준다.
 - **`link`(`POST /api/auth/google/link`)**: 비밀번호 실패를 **이메일 로그인과 같은 실패 카운트(`login:fail:{email}`)에 합산**(구글 연결 쪽으로 돌아 무한 시도 방지, 5번 틀리면 423), 비교 **전에** 시도를 먼저 기록(`start()`)해 동시 100건도 5번까지만 비교, 저장 직후 `flush`해 같은 sub를 먼저 연결한 요청의 UNIQUE 위반을 커밋 시점이 아니라 그 자리에서 잡아 409로 변환. 구글 이메일은 소문자로 정규화(`GoogleUserInfo`).
 - #10은 리프레시 토큰을 응답 본문으로 주고 이후 머지된 #14가 쿠키로 바꿨다.
+
+## 구글 OAuth 흐름·결과 3가지의 책임 경계·flush 설명 (2026-11-25)
+- **인가 코드 방식**: FE는 API를 부르지 않고 **브라우저를 구글 로그인 URL로 이동**(`accounts.google.com/o/oauth2/v2/auth?client_id&redirect_uri&response_type=code&scope&state`)시킨다 → 구글이 `redirect_uri?code=…&state=…`로 돌려보냄 → FE가 `code`만 꺼내(`state` 대조) `POST /api/auth/google`로 전달. 액세스 토큰·사용자 정보는 `client_secret`을 가진 **백엔드만** 받는다(code만으론 무용, 일회용·수 분 만료). 구글 SDK 없이 `RestClient`로 `oauth2.googleapis.com/token`·`openidconnect.googleapis.com/v1/userinfo`를 직접 호출(주소는 `google.token-uri`·`user-info-uri` 설정). 팝업 방식(Google Identity Services)도 code를 받아 넘기는 구조는 같다.
+- **`redirectUri`는 두 번, 같은 값**: ① FE가 구글로 보낼 때(돌아올 곳), ② 백엔드가 code→토큰 교환할 때(그때 그 주소 맞다는 확인, 다르면 `redirect_uri_mismatch`) — code를 가로채도 다른 주소로는 못 쓰게 하는 장치라 FE가 본문에 같이 보낸다. 구글 콘솔 "승인된 리디렉션 URI"에도 로컬·배포 주소를 **글자 하나(http/https·포트·끝 `/`)까지 같게** 미리 등록해야 한다.
+- **책임 경계**: 본인 확인(비밀번호 체크)은 구글이 끝낸다. `LOGGED_IN`/`SIGNED_UP`/`LINK_REQUIRED`는 구글이 주는 게 아니라 **우리 서버가 구글이 준 sub·email을 DB와 비교해 정한 enum**이며 `/api/auth/google`에서만 나온다(일반 `/api/auth/login`은 가입자만 쓰므로 성공/실패 둘뿐). 한 API가 로그인+가입을 같이 처리해서 필요한 구분. `LINK_REQUIRED`는 "이메일로 가입했던 사람이 처음 구글 버튼을 누를 때"이고 **아직 로그인이 아니다**(토큰·쿠키 없이 `linkToken`만, 10분). 연결 API(`/link`)는 일반 로그인과 달리 **로그인+`google_sub` 저장**까지 하며 이메일 대신 `linkToken`을 받아 요청 조작을 막는다. 일반 로그인으로 그냥 들어가면 로그인은 되지만 연결은 안 돼 다음 구글 로그인에서 또 `LINK_REQUIRED`.
+- **구글 가입 계정의 일반 로그인**: 비밀번호가 없어 `POST /api/auth/login`이 409("구글로 가입한 계정입니다")이고, 비밀번호 비교 전에 확인하므로 실패 카운트에 넣지 않는다. 로그인한 뒤 #22의 `POST /api/members/me/password`(설정, 비밀번호 없는 계정용)로 만들면 두 방식 모두 가능. `PATCH`는 이미 비밀번호가 있는 사람의 변경용. 반대로 이메일 가입자는 구글 로그인→`LINK_REQUIRED`→비밀번호 입력으로 연결.
+- **코드 디테일**: `Boolean.TRUE.equals(userInfo.emailVerified())`(null이면 NPE 대신 "미인증" 처리), `catch`는 좁은 `HttpClientErrorException`(4xx→401)을 넓은 `RestClientException`(→502)보다 먼저(순서가 반대면 컴파일 에러), 구글 응답 `access_token`은 `@JsonProperty`로 매핑하고 필요한 필드만 받음, `GoogleLoginResponse`는 `@JsonInclude(NON_NULL)` + `loggedIn()/signedUp()/linkRequired()` 정적 팩토리로만 만들어 **결과와 필드 조합이 항상 맞게** 한다.
+- **`saveAndFlush`가 필요한 이유**: `save()`는 변경을 모아 뒀다가 커밋 때 SQL을 보내므로 UNIQUE(`google_sub`) 위반이 메서드를 빠져나간 뒤 터져 `try-catch`로 못 잡고 500. `flush`는 **SQL을 그 자리에서 보내 DB 검사만 받는 단계(아직 롤백 가능, 확정은 커밋)**라 에러를 코드 안에서 잡아 `DataIntegrityViolationException`→409로 바꾼다. 동시 요청에서 둘 다 통과하지 않는 건 **MySQL InnoDB가 UNIQUE 인덱스 값에 자동으로 거는 잠금** 덕분 — 먼저 온 쪽이 커밋하면 늦은 쪽은 중복 에러, 롤백하면 저장 성공. JPA는 SQL만 보내며(`@Lock(PESSIMISTIC_WRITE)`도 `SELECT … FOR UPDATE`를 만들어 줄 뿐 실제 잠금은 MySQL), #22의 `getByIdForUpdate`는 같은 회원이 서로 다른 구글 계정을 동시 연결하는 것을 막으려 회원 행에 직접 건 잠금. InnoDB는 MySQL의 저장 엔진(트랜잭션·행 잠금·FK, 5.5부터 기본값, 8.4도 동일).
+- **#33 로그인 길이 상한**(`LoginRequest`의 `@Size`): 이메일 **254자**(표준 최대·가입과 동일 기준 — 실패 기록 `login:fail:{email}`이 없는 이메일도 10분 남아 무제한 길이면 큰 Redis 키가 쌓임), 비밀번호 **72자**(BCrypt가 72바이트까지만 처리해 넘는 값은 어떤 계정과도 맞을 수 없음). 가입 규칙(8~20자)으로 막지 않는 이유는 "로그인은 형식을 검사하지 않는다" 원칙 — 가입 규칙이 바뀌어도 예전 비밀번호로 로그인돼야 하므로 "말이 안 되게 긴지"만 막는다. 넘으면 `@Valid`에서 400.
+- 서버(`edgl.dsmhs.kr`)에는 `GOOGLE_CLIENT_ID`·`GOOGLE_CLIENT_SECRET`을 아직 안 넣어 구글 로그인을 호출하면 구글이 거절해 401(2026-11-18 기준).
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/data/project/JKYMHS-Backend)
