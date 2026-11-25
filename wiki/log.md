@@ -2058,3 +2058,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/work/code/project/xquare-infra-frontend-v3)
 - 갱신: [[PVE-컨테이너-관리-페이지-퍼블리싱-결정과-PR-운영]] — 푸시된 커밋·PR에서 Claude 표기 지우는 절차 추가, index.md — 요약 보강
 - 비고: 커밋 분할·`.omc` 혼입·VM 시안 대조·스택 PR 머지 순서는 기존 페이지에 이미 있어 생략. 진행 보고·재요약·"다 했냐" 문답은 일회성이라 제외.
+
+## 2026-11-25 13:57 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/work/code/project/JOBIS-FE-V2/.claude/worktrees/portfolio-review-496b55)
+- 갱신: [[JOBIS-FE-V2/포트폴리오-이슈-선정과-Sentry-측정-정리-2026-11]] — Sentry 가입 요청·선배 승인 부탁 진행 상황, Figma JOBIS 3장 완료 상태 추가, index.md — 요약 보강
+- 비고: 이슈 선정·NFD·403 정책·Sentry 연결 상태·측정표·팀 노션 한계·이미지 깨짐·로컬 스크린샷 방법은 기존 페이지에 이미 있어 생략. 디스코드 문구 다듬기·Figma 플러그인 스킬 문서는 일회성이라 제외.
