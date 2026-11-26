@@ -133,7 +133,7 @@ FROM jkymhs.users u;
 - 새 스키마의 collation: 로컬 compose 예시는 `utf8mb4_unicode_ci`, 운영 서버 기본값은 `utf8mb4_0900_ai_ci`라 운영 SQL은 후자로 적었다. 로컬·운영을 하나로 맞출지는 미정(위 "미리 정할 것"의 `unicode_ci` 통일안과 다름).
 
 ## 관련
-- [[JKYMHS-Backend/프로젝트-현황]], [[MySQL-연동]]
+- [[JKYMHS-Backend/프로젝트-현황]], [[MySQL-연동]], [[JKYMHS-Backend/AI-추천-연동-데이터-의미와-운영-CHECK-제약-불일치]](AI 담당의 view 제안 `ai_content_source`, Flyway 선행 필요)
 
 ## 출처
 - Claude Code 세션 자동 캡처 (/work/code/project/JKYMHS-Backend)
