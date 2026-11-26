@@ -23,7 +23,8 @@ Claude가 관리하는 페이지 카탈로그. 페이지당 한 줄 요약. 새 
 - [[배경화면-화질-HiDPI-해상도-맞춤과-Wallpaper-Engine]] — 배경이 흐린 원인은 Xwayland 보고값(3840×2400)과 실제 패널(2880×1800, 150%)이 달라 원본이 매 프레임 0.83배로 실시간 축소되던 것, Lanczos로 미리 맞춰 `picture-uri(-dark)` 지정·되돌리기, 256색 다크 PNG 밴딩은 못 고침, 영상형 Wallpaper Engine은 Hanabi 확장·장면/웹형은 KDE 필요, 선명도 확인 전 (2026-11-11)
 
 ### 환경/리눅스-데스크톱
-- [[Downloads-폴더-영문-통합-XDG와-최신순-정렬]] — 한글 `다운로드`와 영문 `Downloads` 공존을 `/data/downloads` 심볼릭 링크 + `xdg-user-dir` 기본값으로 통합, 크롬 저장 위치를 먼저 바꾼 뒤 한글 링크 삭제하는 순서, 파일 앱 Downloads만 최신순 정렬 (2026-11-18), **(2026-11-23)** Notion 앱은 별도 크롬 프로필(`chrome-webapps/notion`)이라 오래 켜둔 창이 옛 `~/다운로드`를 계속 써서, 창을 완전히 닫은 뒤 Preferences 저장 위치를 바꿔야 함
+- [[Downloads-폴더-영문-통합-XDG와-최신순-정렬]] — 한글 `다운로드`와 영문 `Downloads` 공존을 `/data/downloads` 심볼릭 링크 + `xdg-user-dir` 기본값으로 통합, 크롬 저장 위치를 먼저 바꾼 뒤 한글 링크 삭제하는 순서, 파일 앱 Downloads만 최신순 정렬 (2026-11-18), **(2026-11-23)** Notion 앱은 별도 크롬 프로필(`chrome-webapps/notion`)이라 오래 켜둔 창이 옛 `~/다운로드`를 계속 써서, 창을 완전히 닫은 뒤 Preferences 저장 위치를 바꿔야 함, **(2026-11-26)** 22일에 `~/다운로드`가 다시 생겨 있어 파일 이동 후 삭제(만든 프로그램은 기록 없음)
+- [[카카오톡-Wine-받은-파일을-Downloads로-폴더-열기를-우분투-파일-앱으로]] — `문서/카카오톡 받은 파일`을 `~/Downloads` 링크로 교체해 받은 파일 통합, Wine 폴더 열기를 레지스트리로 `xdg-open`(파일 앱)에 연결·원본 백업, 카톡 버튼 동작은 미확인 (2026-11-26)
 - [[우분투-사용자-불편-점검-OLED-RTC-전원모드]] — OLED 화면 끄기 '안 함'→10분(작업 중엔 억제자가 막아 안전), 윈도우 다녀오면 시계 +9시간(RTC 현지시간 vs UTC, `RealTimeIsUniversal=1` 미적용), 전원 모드 배터리 측정(성능 15.2W vs 균형 11.6W), 충전 상한·gnome-shell 보안 업데이트 보류 사유 (2026-11-17)
 - [[Docker-credsStore-테스트-때-암호-창-반복]] — Gradle 테스트(컨테이너 기동)마다 암호 창이 뜨던 원인은 `~/.docker/config.json`의 `credsStore`(pass 복호화 호출), 줄 삭제로 해결·백업 복원법, 익명 pull 제한·`docker login` 평문 저장 주의, Docker Desktop 재시작 시 복귀 여부는 미확인 (2026-11-02)
 - [[Gradle-테스트-실행-시-뜨는-프로세스와-메모리-정리]] — `./gradlew test` 한 번에 뜨는 런처·데몬(3시간 유휴)·컴파일 워커(JDK 17 vs toolchain 21이라 별도 JVM, 데몬 동안 쌓임)·테스트 워커·Testcontainers(IntegrationTestSupport 상속 시)와 열리는 기준, worktree 동시 테스트·다른 Claude 세션 반복 실행으로 RAM·스왑이 찬 원인, `./gradlew --stop`·idletimeout·`--tests`로 줄이기 (2026-11-09)
