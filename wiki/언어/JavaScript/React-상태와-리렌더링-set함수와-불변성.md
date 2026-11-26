@@ -45,6 +45,26 @@ setAnimals([...animals, '호랑이'])           // ✅ 새 배열
 - state 변경 때만 리렌더되는 게 아니다. **부모가 리렌더되면** props가 같아도 자식이 기본으로 리렌더된다
 - `setCount(count + 1)` 다음 줄의 `count`는 아직 옛 값이다. (Claude 보충) state는 렌더마다의 스냅샷이기 때문
 
+## React 심화 공부 순서 (면접 대비 계획)
+
+면접에서 내부 동작까지 깊게 묻는다는 이야기에 대비한 순서. 목표는 AI로 만든 코드를 **AI 없이 설명**하는 것. 조각마다 개념 → 짧은 코드 → ToyVillage 실제 사용처(origin/develop 확인) → 면접 문장 → 꼬리 질문 → 헷갈리는 점 순으로 본다.
+
+1. 상태와 리렌더링 (이 페이지)
+2. 렌더 단계와 커밋 단계, 가상 DOM, 재조정
+3. `key`의 역할 (리스트, Suspense 경계)
+4. 상태 업데이트의 비동기·배치 처리 (`isPending`으로 연타를 못 막고 ref로 막은 이유)
+5. 클로저와 stale closure
+6. `useEffect` 실행 시점·의존성·cleanup
+7. `useRef` vs `useState`
+8. `useMemo`·`useCallback`·`React.memo`의 효과 유무
+9. Context API와 리렌더 범위
+10. React 밖 저장소: 구독 패턴과 `useSyncExternalStore`
+11. [[Zustand-내부-동작-클로저-구독자-useSyncExternalStore]]
+12. 서버 상태 vs 클라이언트 상태
+13. [[TanStack-Query-캐시-내부-동작-QueryCache-Observer]]
+14. `React.lazy`·Suspense·코드 스플리팅
+15. 에러 바운더리
+
 ## 관련
 
 - [[React-useEffect-useLayoutEffect-폼제출-타이밍-버그]]
