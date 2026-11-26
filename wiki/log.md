@@ -2084,3 +2084,8 @@ append-only 작업 기록. 과거 항목은 수정하지 않는다.
 - 원본: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)
 - 갱신: [[Spring-Security-JWT-로그인-잠금-리프레시-토큰-설계-함정]] — 토큰 저장 위치 비교표·서버 저장 방식·프로젝트 선택 이유·메모리 저장 흐름·쿠키 속성(SameSite/Path)·선택의 대가 절 추가, [[JKYMHS-Backend/프로젝트-현황]] — 코드 주석 규칙(PR #35)과 에이전트 분담 주석 정리 주의점 추가, index.md — 두 항목 요약 보강
 - 비고: 생 컨테이너 배포·자동 배포·프록시 IP·AI 연동·스택 PR 머지, 구글 OAuth·flush·#33·#14 내용은 [[인증-API-구현과-PR-리뷰-결정사항]]·[[생-컨테이너-직접-배포-systemd-자동배포-프록시-IP]]·기존 Spring 페이지에 이미 있어 생략. 디스코드 메시지 초안, PR 머지 현황 보고, 파일별 읽은 정도 점검, 에이전트 완료 알림은 일회성이라 제외.
+
+## 2026-11-26 13:33 — ingest
+- 원본: Claude Code 세션 자동 캡처 (/home/yunho/.claude/projects/-home-yunho/memory)
+- 갱신: [[프로젝트/haru/프로젝트-현황]] — 노션 일기 자동 업로드 23:59 → 새벽 2시, 하루 경계 02:00 변경과 주의점 추가, index.md — 항목 요약 보강
+- 비고: 커밋·푸시 지시, 레포 확인 문답, 커밋 메시지 빈 줄 수정은 일회성이라 제외.
