@@ -69,6 +69,25 @@ SHOW GRANTS FOR 'jkymhs_ai'@'localhost';
 - MySQL이 `127.0.0.1`에서만 받으므로, AI 서버가 이 DB를 쓰려면 **같은 인스턴스에서 돌아야 한다**(아니면 MySQL을 외부에 열어야 함).
 - AI는 외부 LLM API 키를 쓰는 방식 → 확인 시점 가용 메모리 약 2.9GB(2코어, GPU 없음)로 충분. Spring이 `127.0.0.1:8000`(예정)으로 호출하고 AI 서버는 외부에 열지 않는다. API 키는 채팅·레포가 아니라 서버 환경변수 파일에 직접 넣는다.
 
+## 운영 DB 테이블 구조 (2026-11-26, DDL만 조회)
+31개 테이블, 288개 컬럼. 데이터 현황은 확인 시점 기준이다.
+
+| 도메인 | 테이블 | 데이터 |
+|---|---|---|
+| 회원·인증 | `users`, `refresh_tokens`, `user_consents`, `user_preferences`, `user_travel_styles` | 회원 0명 |
+| 관광 콘텐츠 | `contents`, `content_details`, `content_images`, `categories`, `category_mappings`, `regions`, `tour_classifications`, `travel_style_mappings` | `contents` 약 3.2만, `regions` 284 |
+| 여행·일정 | `trips`, `trip_regions`, `plans`, `plan_items`, `visit_reviews` | 비어 있음 |
+| AI 추천 | `recommendation_requests`, `recommendation_request_regions`, `recommendation_required_places`, `preference_profiles` | 비어 있음 |
+| 사용자 행동 | `behavior_events`, `content_views`, `content_save_logs`, `wishlists` | 비어 있음 |
+| 구글 캘린더 | `google_calendar_links`, `calendar_sync_jobs`, `calendar_sync_job_items` | 비어 있음 |
+| 배치 | `batch_job_logs`, `tour_sync_cursors` | 배치 기록 220 |
+
+- **AI 관련 데이터가 이미 메인 DB에 있다**: `recommendation_requests`, `preference_profiles`, `behavior_events`, `plans.source`(AI/AI_RETRY/MANUAL), `plan_items.ai_reason`. `jkymhs_ai`로 옮길지 Spring이 계속 관리할지 AI 담당과 먼저 정해야 같은 데이터가 양쪽에 생기지 않는다(미정).
+- **AI에 넘기면 안 되는 컬럼**: `users`의 `email`·`password_hash`·`google_sub`·`google_email`, `refresh_tokens.token_hash`, 캘린더 테이블의 `encrypted_refresh_token`. view에서 뺀다.
+- **FK 없이 id 값만 있는 컬럼이 많다**: `content_views.content_id`, `behavior_events.content_id`, `trips.confirmed_plan_id` 등. 이 연결 관계는 컬럼 이름에서 추정한 것이다.
+- **운영 서버 코드는 작업 브랜치보다 새 것**: 브랜치 `2-feat-user-security-jwt`의 엔티티는 `users`·`refresh_tokens` 정도뿐이다. 테이블 구조는 로컬 브랜치 코드가 아니라 운영 DB나 최신 브랜치로 확인한다.
+- 공유용 페이지: https://claude.ai/artifact/CP5ibKGfaVnBFHWEhHYtis (생성 시 비공개, 팀원이 보려면 Share에서 범위 변경). 원본 DDL은 `/home/yunho/.config/orca/chat-scratch/aa3368d8fc361a24c02c9465217e57c3/jkymhs-prod-schema-2026-11-26.sql`(채팅용 임시 폴더라 오래 남는다는 보장은 없음 — Claude 보충).
+
 ## 나중 단계: view = 외부 스키마
 - AI는 Spring Boot 테이블을 직접 보지 않고 AI 스키마의 view만 본다. 3단계 스키마 구조(ANSI-SPARC)의 **외부 스키마**를 view로 구현하는 방식으로, 테이블이 바뀌어도 view 정의만 고치면 AI가 받는 모양이 유지된다.
 - 메인 데이터가 바로 필요하다면 원본 테이블 SELECT 권한을 주지 말고 처음부터 view를 몇 개 만든다. 직접 권한은 AI 코드를 엔티티 테이블 구조에 묶는다.
