@@ -1,6 +1,6 @@
 ---
 tags: [JKYMHS, 배포, xquare, systemd, Spring, Cloudflare, 프록시]
-updated: 2026-11-18
+updated: 2026-11-26
 ---
 # 생 컨테이너 직접 배포 — systemd·자동 배포·프록시 뒤 실제 IP
 
@@ -94,5 +94,21 @@ jkymhs.service (Spring Boot, 전용 리눅스 계정 jkymhs, 메모리 최대 1G
 - AI는 mock 모드(AI 담당의 배포 위치 답변 후 `AI_PROVIDER=http`, `AI_BASE_URL`). FE 도메인이 정해지면 `CORS_ALLOWED_ORIGINS`·`FRONTEND_BASE_URL`.
 - DB 백업 없음(컨테이너 디스크에만 존재), HTTP→HTTPS 리다이렉트 없음.
 
+## systemd 서비스란 (2026-11-26)
+- **systemd**는 리눅스에서 프로그램을 대신 켜고 지켜보는 관리자, 등록한 프로그램 하나가 "서비스". SSH에서 `java -jar`를 직접 치면 창을 닫을 때 같이 꺼질 수 있고, 죽거나 재부팅돼도 다시 켜지지 않는다.
+- `jkymhs.service`의 핵심 줄: `Requires=mysql.service redis-server.service`(의존), `User=jkymhs`(root 아닌 전용 계정), `EnvironmentFile=/etc/jkymhs/jkymhs.env`, `ExecStart=/usr/bin/java -Xms256m -Xmx1g -jar /opt/jkymhs/app.jar`, `Restart=on-failure`+`RestartSec=5`, `WantedBy=multi-user.target`(부팅 자동 실행).
+- (Claude 보충) `Requires=`만으로는 시작 순서가 정해지지 않는다. 순서는 `After=`가 정한다(실제 유닛의 `After=` 유무는 기록에 없음).
+- 명령: `systemctl status|restart|stop jkymhs`, 로그 `journalctl -u jkymhs -f`.
+
+## SSH 접속 ID와 팀원에게 접근 주기 (2026-11-26)
+- `ssh <ID>@xquare.xyz -p 2222`의 `@` 앞은 리눅스 계정이 아니라 **인스턴스 번호**다. 게이트웨이가 번호를 보고 그 인스턴스에 **root**로 연결한다(게이트웨이 구조: [[xquare-infra-frontend-v3/SSH-게이트웨이-VM-배포-결정과-self-hosted-runner]]).
+- 일반 서버는 `@` 앞이 계정 이름이라 `useradd` 후 그 이름으로 권한이 제한된 접속이 가능하지만, 여기서는 인스턴스 안에 계정을 만들어도 게이트웨이로 들어올 수 없다.
+- 접속 정보를 공유하면 팀원은 Spring 중지·삭제, `jkymhs.env`의 DB 비밀번호·JWT 키 열람, MySQL root로 회원 데이터 열람까지 가능하다.
+- 선택지: ① 믿는 팀원이면 **비밀번호를 새로 바꾼 뒤** root 정보 공유 ② xquare에 "root가 아닌 팀원용 SSH 접속을 추가할 수 있나" 문의(지원 여부 미확인) ③ 내가 대신 배포 ④ GitHub Actions 자동 배포(처음 설정 필요, 이후 서버 접속 불필요). 인스턴스 22번 포트 직접 접속은 내부망 주소로만 보여 막혀 있을 가능성이 크다(미확인).
+
+## 상충하는 정보
+- 위 "AI 서버는 DB 접근이 필요 없다"(PR #30 기준)와 달리, 2026-11-26에는 AI용 스키마 `jkymhs_ai`를 따로 두는 방향을 논의했다(미생성). 그러면 AI 서버가 다른 인스턴스에 있는 방안은 DB를 쓸 수 없다. 상세는 [[AI-스키마-분리와-view-데이터-계약]].
+
 ## 출처
 - Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/JKYMHS-Backend/develop-2)
+- Claude Code 세션 자동 캡처 (/work/code/project/JKYMHS-Backend)

@@ -41,6 +41,34 @@ GRANT ALL PRIVILEGES ON jkymhs_ai.* TO 'jkymhs_ai'@'%';
 - collation 기본값을 `utf8mb4_unicode_ci`로 통일
 - AI 결과가 회원과 연결되면 `user_id BIGINT`로 `users.id`와 타입을 맞추고, 스키마 간 FK는 걸지 않는 편이 낫다
 
+## 운영 서버에서 나눌 때 (2026-11-26, 인스턴스 접속 확인)
+- 운영은 인스턴스 하나에 Spring Boot(`jkymhs.service`)·MySQL 8.4·Redis가 함께 있다([[JKYMHS-Backend/생-컨테이너-직접-배포-systemd-자동배포-프록시-IP]]). 확인 시점의 DB는 `jkymhs` 하나(테이블 31개)이고, **`jkymhs_ai`는 아직 만들지 않았다**(팀원과 이야기한 뒤 진행).
+- 기존 계정 `jkymhs`의 권한은 `USAGE ON *.*`(로그인만) + `ALL PRIVILEGES ON jkymhs.*`라, 새 스키마를 만들어도 **Spring Boot 계정에는 보이지 않는다**. 손댈 것 없음.
+- 서버 root가 있으면 `mysql`로 바로 들어가 만들 수 있어 PaaS 운영진 요청은 필요 없다. 아래 SQL은 **실행하지 않았다**.
+
+```sql
+CREATE SCHEMA jkymhs_ai
+  DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE USER 'jkymhs_ai'@'localhost' IDENTIFIED BY '<새 비밀번호>';
+CREATE USER 'jkymhs_ai'@'127.0.0.1' IDENTIFIED BY '<새 비밀번호>';
+GRANT ALL PRIVILEGES ON jkymhs_ai.* TO 'jkymhs_ai'@'localhost';
+GRANT ALL PRIVILEGES ON jkymhs_ai.* TO 'jkymhs_ai'@'127.0.0.1';
+SHOW GRANTS FOR 'jkymhs_ai'@'localhost';
+```
+
+- 계정을 `localhost`·`127.0.0.1` 둘 다 만드는 것은 기존 `jkymhs` 계정과 맞추기 위해서다.
+
+### AI 전용 계정을 따로 두는 이유
+- 필수는 아니다(Spring 계정을 같이 써도 동작). 다만 같은 계정이면 AI 서버가 `users`·`refresh_tokens`를 읽고 지울 수 있어 **스키마를 나눈 의미가 없다**.
+- AI 코드 버그·마이그레이션 실수·LLM이 만든 SQL 실행이 `jkymhs_ai` 안에서 끝나고, AI 설정 파일이 유출돼도 메인 DB에 못 들어간다. 나중에 view만 읽도록 권한을 좁히기도 쉽다.
+- 이 분리는 **프로그램의 계정**을 막는 것이다. 사람에게 서버 root를 주면 그 사람 기준으로는 의미가 없다.
+
+### 역할 분담과 AI 서버 위치
+- 처음 한 번(서버 root 보유자): 빈 스키마·AI 계정, 이후 `jkymhs-ai.service`와 API 키용 환경변수 파일. 계속(AI 담당): 서버 코드, `jkymhs_ai` 안의 테이블. 코드 업데이트 배포 담당은 미정.
+- **지금 필요한 것은 빈 DB와 계정뿐**, 서버 작업은 AI 코드가 나온 뒤. 그 전까지 AI 담당은 로컬 Docker MySQL에 같은 스키마를 만들어 개발한다.
+- MySQL이 `127.0.0.1`에서만 받으므로, AI 서버가 이 DB를 쓰려면 **같은 인스턴스에서 돌아야 한다**(아니면 MySQL을 외부에 열어야 함).
+- AI는 외부 LLM API 키를 쓰는 방식 → 확인 시점 가용 메모리 약 2.9GB(2코어, GPU 없음)로 충분. Spring이 `127.0.0.1:8000`(예정)으로 호출하고 AI 서버는 외부에 열지 않는다. API 키는 채팅·레포가 아니라 서버 환경변수 파일에 직접 넣는다.
+
 ## 나중 단계: view = 외부 스키마
 - AI는 Spring Boot 테이블을 직접 보지 않고 AI 스키마의 view만 본다. 3단계 스키마 구조(ANSI-SPARC)의 **외부 스키마**를 view로 구현하는 방식으로, 테이블이 바뀌어도 view 정의만 고치면 AI가 받는 모양이 유지된다.
 - 메인 데이터가 바로 필요하다면 원본 테이블 SELECT 권한을 주지 말고 처음부터 view를 몇 개 만든다. 직접 권한은 AI 코드를 엔티티 테이블 구조에 묶는다.
@@ -82,6 +110,8 @@ FROM jkymhs.users u;
 ## 상충하는 정보
 - [[JKYMHS-Backend/생-컨테이너-직접-배포-systemd-자동배포-프록시-IP]]는 AI 추천을 "Spring이 후보를 요청에 담아 보내므로 AI 서버는 DB가 필요 없다"(PR #30 기준)고 정리했다. 이번 논의는 AI용 DB를 따로 두는 쪽이다. AI가 어떤 데이터를 언제부터 읽을지는 미정.
 - 이번 세션은 "배포 방식이 저장소에 정해져 있지 않다"고 답했지만, 위 페이지에는 생 컨테이너 직접 배포(MySQL apt 설치, Docker 아님)가 기록돼 있다. (Claude 보충) 그 서버에는 compose init 스크립트가 적용되지 않으므로 스키마·계정 SQL을 직접 실행해야 한다.
+- **(2026-11-26 확인)** 같은 날 뒤이어 인스턴스에 접속해 직접 배포 구조가 맞음을 확인했다. 앞서의 "DB는 앱 컨테이너 밖에 있다"는 설명은 틀린 추측이었다.
+- 새 스키마의 collation: 로컬 compose 예시는 `utf8mb4_unicode_ci`, 운영 서버 기본값은 `utf8mb4_0900_ai_ci`라 운영 SQL은 후자로 적었다. 로컬·운영을 하나로 맞출지는 미정(위 "미리 정할 것"의 `unicode_ci` 통일안과 다름).
 
 ## 관련
 - [[JKYMHS-Backend/프로젝트-현황]], [[MySQL-연동]]
