@@ -1,6 +1,6 @@
 ---
 tags: [claude-code, git, 설정]
-updated: 2026-10-07
+updated: 2026-11-28
 ---
 # Claude Code AI 표기(Co-Authored-By) 끄기
 
@@ -18,6 +18,10 @@ Claude Code가 커밋에 붙이는 `Co-Authored-By` 줄과 PR 본문의 `Generat
 - 예전 버전은 `attribution: false` 한 줄 형식을 거부하므로 **객체 형식**으로 쓴다. `includeCoAuthoredBy: false`는 구버전용.
 - 이 설정은 Claude Code만 읽는다. Codex 등 다른 도구는 `AGENTS.md`/규칙 문서에 "표기 줄 금지"를 문장으로 적어야 한다.
 - 개인 메모리에 "표기 넣지 않음"을 적어도 리마인더 지침이 표기를 붙이라고 하면 충돌하므로, 설정으로 끄는 쪽이 확실하다.
+
+## CodeRabbit 요약 블록 (2026-11-28)
+- 커밋·PR 본문에서 AI 문구를 빼도, 저장소의 CodeRabbit 봇이 PR 본문에 "Summary by CodeRabbit" 블록(coderabbit.ai 링크)을 자동으로 덧붙일 수 있다(bium-be #99). AI 흔적을 모두 없애려면 본문을 따로 편집해야 한다.
+- 출처: Claude Code 세션 자동 캡처 (/home/yunho/orca/workspaces/bium-be/tilapia)
 
 ## 관련
 - [[ToyVillage-Admin-FE/팀-작업-규칙-하네스-문서]] — 이 설정을 적용한 사례
